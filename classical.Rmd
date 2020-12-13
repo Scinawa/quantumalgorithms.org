@@ -1,0 +1,513 @@
+---
+title: "Classical machine learning"
+author: "scinawa"
+date: "12/2/2020"
+output: html_document
+---
+
+# Classical machine learning {#chap:machinelearning}
+
+Machine learning, also called narrow artificial intelligence, has been defined as ``the study of computer algorithms that allow computer programs to automatically improve through experience [@?WHICH?]. Machine learning is often divided into supervised and unsupervised methods. We use supervised learning when the dataset is supervised, i.e. when the dataset consist of paris of input objects (usually vectors) and a desired output value (called the supervised signal), which can be a label or a number. In case the output is a label the supervised problem is said to be called classification, and we call regression the other case. Supervised learning can be thought of as the task of learning a mapping or a function form pairs of input and output. When the dataset in unsupervised, the problem is called clustering, and consist in finding hidden structure of the process that has generated the dataset. Computationally, much of the machine learning algorithms can be described by operations on vectors and matrices. For instance, many machine learning algorithms are reduced to computing the eigenvectors of matrices obtained from the data. In the last 15 years machine learning has been applied in all the sectors of information technology. In this chapter, we review and introduce some classical machine learning. Special emphasis is put on formalizing the connection between the machine learning problems and their linear-algebraic formulation.
+
+## Supervised learning
+Supervised (or predictive) machine learning is the part of machine learning that deals with supervised datasets, i.e. data where each sample $x_i$ comes along with supervised information, i.e. a piece of data $y_i$. It helps the intuition thinking that the supervised information comes from a stochastic process that maps vectors $x_i$ to vectors $y_i$. The goal is to model the mapping on the whole input space $\mathcal{X}$ to the output space $\mathcal{Y}$ given a set of input-output pairs $D=\{(x_i, y_i) \}_{i=0}^n$. Usually, the input space is a subset of $\R^d$, and the output space is usually either $\R$ or a finite set $K$ of small cardinality. It is practical, for the sake of exposition to consider the training set organized into a matrix $X \in \R^{n \times d}$ and the matrix $Y \in R^n$ or $Y \in [K]^n$. The components of a vector $x_i$, i.e. a row of $X$ are called \emph{features, attributes, or covariates}. The matrix $X$ is called \emph{design matrix}, or simply the dataset. The vector $y_i$ is called the \emph{response variable}. If the response variable is categorical (or nominal), the problem is known as classification, or pattern recognition. If the response variable is real-valued we interpret this problem as learning a function $f : \R^d \mapsto \R$ and we call this problem regression. Different assumptions on the structure of $f$ lead to different machine learning models. Each model can be trained (or fitted) with different algorithms.
+
+## Unsupervised learning
+Unsupervised learning [@murphy2012machine], which sometimes goes under the name of knowledge discovery, is the part of machine learning that deals with understanding unlabeled data. In the dataset $D=\{x_i\}_{i=0}^n$ we don't have anymore any supervised information. In this case, it is common to understand the structure of the process generating the samples by formalizing a \emph{density estimation} problem: we want to learn the parameters $\theta$ of a function $p(x_i|\theta)$ that models the distribution of the process that has generated the samples. The importance of unsupervised learning lies in the stunning similarity with human and animal learning. Furthermore, most of the dataset that we have are unsupervised, as it is costly to provide supervised information from experts or humans. The most common example of unsupervised learning is clustering, where we want to partition into groups a given dataset. As an example, imagine having a set comprising of images of cats and dogs, without knowing which image is a cat or which is a dog. An unsupervised learning algorithm is supposed to learn how to split the dataset correctly, by understanding the characteristics and features that allows discriminating between images of different kinds. Just to name a few of the more concrete examples, in astronomy, clustering is often used to discover new kinds of stars, in biology, it is used to find new kinds of cells, in cybersecurity, to perform anomaly detection, and so on.
+
+We refer to the number of clusters in the dataset with a letter $K$. The first goal in clustering is to understand the right number of different groups in the data (which might not be known a-priori). The second goal is to estimate which cluster each point $x_i$ belongs to. We define $z_i$ for $z_i \in [K]$ as the cluster to which point $x_i$ is assigned to. The value of $z_i$ is often called \emph{hidden} or \emph{latent variable}. Unsupervised learning can be seen as the task of guessing the value of the hidden variable, by computing $z_i = \arg\max_k p(z_i = k| x_i, \theta)$. For this, an unsupervised learning algorithm has to model (implicitly or explicitly ) the joint probability distribution $p(x,y)$.
+
+While latent variables have extensive applications, in this thesis we will focus on the case where latent variables are used to represent a discrete latent state (as in clustering).
+
+
+## Generative and discriminative machine learning
+There is another insightful way of organizing machine learning models. They can either be \emph{generative} or \emph{discriminative}. A discriminative model learns just the mapping $p(y|x)$, and provides a way to classify points (i.e. infer the value of $y_i$), without actually knowing ``how'' the point $x_i$ has been generated. Examples of such models are: k-nearest neighbors, Logistic regression, Support Vector Machines, Decision Trees, Random Forest, Neural Networks, and so on. Examples of such models are the QFDC, QSFA in Chapter \@ref(section:qsfa) and \@ref(???). On the other way, generative models output a model for the joint probability distribution $p(x,y)$. This is similar to the unsupervised learning case, but in this cases the dependence on $y$ (which can be a hidden variable) is made explicit. In general, discriminative models make fewer assumptions, as generative models often need to do some assumption on the structure of $p(x)$. Such generative models are one of the most promising approaches to unsupervised problems. The goal of a generative model is to learn a probability distribution that is most likely to have generated the data collected in a training set. Fitting the model consists of learning the parameters of a probability distribution $p$ in a certain parameterized family, that best describes our vectors $x_i, y_i$. In case the data is unsupervised, generative models learn the probability distribution $p(x_i)$ assuming the existence of some hidden variables $z_i$. Examples of such models in this thesis are q-means and GMM, i.e. chapter \ref{chap:qmeans} and \ref{chap:qem}. A possible way to fit a generative model is to formulate the problem of finding the parameters of the family of distribution as an optimization problem. This is often done using the so-called maximum likelihood estimation (MLE). One can think of the \emph{likelihood} as the function that we use to measure how good a model is for explaining a given dataset. For a given machine learning model with parameters $\gamma$, the likelihood of our data set $X$ is the probability that the data have been generated by the model with parameters $\gamma$, assuming each point is independent and identically distributed. We think of the likelihood as a function of $\gamma$, holding the dataset $X$ fixed. For $p(x_i|\gamma)$ the probability that a point $x_i$ comes from model $\gamma$, the likelihood is defined as:
+
+\begin{equation}\label{eq:likelihood}
+	L(\gamma;X) := \prod_{i =1}^n p(x_i | \gamma)
+\end{equation}
+
+From this formula, we can see that in order to find the best parameters $\gamma^*$ of our model we need to solve an optimization problem. For numerical and analytical reasons, instead of maximizing the likelihood $L$, it is common practice to find the best model by maximizing the _log-likelihood_ function $\ell(\gamma;X) = \log L(\gamma;X) = \sum_{i=1}^n \log p(x_i|\gamma).$ In this context, we want to find the model that maximizes the log-likelihood: 
+\begin{equation}
+\gamma^*_{ML} := \argmax_{\gamma}  \sum_{i=1}^n \log p(x_i|\gamma).
+\end{equation}
+
+The procedure to calculate the log-likelihood depends on the specific algorithm used to model the data. A possible solution would be to use a gradient-based optimization algorithm on $\ell$. It is often the case that, due to the indented landscape of the likelihood function, gradient-based techniques often do not perform well. Therefore, it is common to find other strategies to find do maximum likelihood estimation. One of which is the Expectation-Maximization (EM) algorithm, detailed in chapter \@ref(chap:qem).
+
+## Dimensionality reduction
+ Dimensionality reduction (DR), a technique used both in supervised and unsupervised learning, refers to the procedure by which the dimension of the input data is reduced while retaining most of the meaningful information contained therein. It is often a necessary step when trying to solve practical problems in machine learning and there are many techniques for performing it. For instance, it is used to decrease the variance of a model, since it can lead to models with a fewer number of parameters, and it might just reduce the noise in the data. It is also necessary when the runtime of the algorithm has polynomial dependence on the number of features, as it is often the case for nowadays datasets. In the context of big data analysis, by removing features that carry low information (like features that are strictly proportional to other features, or features for which the data contains too little information), it is possible to optimize the storage space. It can be also used for data visualization. Most importantly, supervised algorithms often suffer from the \emph{curse of dimensionality}: by allowing large dimensionality of data, the informative power of the data points in the training set decreases, thus leading to a degradation in classification performances. One solution to improve the accuracy would be to increase the number of elements in the training set, but this is not always possible nor desirable, so the common route is to decrease the dimension of the data.  Mathematically, the idea of the dimensionality reduction algorithms is to map vectors from a high dimensional space $\mathcal{X}$ to a low dimensional space  $\mathcal{Y}$, such that the most meaningful information (according to some criteria) is preserved. Of course, understanding which criterion to use is far from trivial.
+
+The choice of the right DR algorithm depends on the nature of the data as well as on the type of algorithm that will be applied after the dimensionality reduction.  A very well-known DR algorithm is the Principal Component Analysis (PCA), which projects the data points onto the subspace spanned by the eigenvectors associated to the $k$ largest eigenvalues of the covariance matrix of the data. In this way, the projection holds ``most of the information'' of the dataset. It is possible to show [@murphy2012machine] that for a subspace of dimension $k$, this choice of eigenvectors minimizes the reconstruction error, i.e. the distance between the original and the projected vectors. However, PCA is not always the best choice of dimensionality reduction. PCA projects the data into the subspace along which the data has more variance. This does not take into consideration the information that different points might belong to different classes, and there are cases in which PCA can worsen the performance of the classifier. Other methods, like Fisher Linear Discriminant and Slow Feature Analysis take into account the variance of every single class of points. Indeed, FLD projects the data in a subspace trying to maximize the distance between points belonging to different clusters and minimizing the distance between points belonging to the same cluster, thus preserving or increasing the accuracy.
+
+
+## Eigenvalue problems and generalized eigenvalue problems in Machine Learning 
+Here we review the connection between the so-called Generalized Eigenvalue Problem (GEP) and some models in machine learning. In classical literature, this is a well-known subject [@ghojogh2019eigenvalue], [@de2005eigenproblems], [@borga1997unified].
+
+```{definition, gep, name="Generalized Eigenvalue Problem"}
+Generalized Eigenvalue Problem]\label{gep}
+ Let $A,B \in \mathbb{R}^{d \times d}$ be two SPD matrices. The GEP is defined as:
+$$AW = BW\Lambda$$
+The columns $w_i \in \mathbb{R}^d$ of $W$ and the values $\lambda_i = \Lambda_{ii} \in \mathbb{R}$ of the diagonal matrix $\Lambda$ are the so-called generalized eigenvector and eigenvalues.
+```
+
+The generalized eigenvalue problem is denoted by $(A,B)$  (note that the order in the pair matters). As is evident, the canonical eigenvalue problem is a special case of the GEP where $B=I$. In this work, we will often consider the case when matrices $A$ and $B$ consist of expectation values from stochastic processes, that is, these are covariance matrices of some sort. Furthermore, while $A$ can be symmetric semi-positive definite, we require $B$ to be invertible, and thus symmetric positive definite. The GEP is related to the so-called \emph{Raylight quotient}: a variational extremum problem related to the ratio of two quadratic forms involving matrix $A$ and $B$:
+
+
+\begin{equation}
+\rho(w):=\frac{w^TAw}{w^TBw}
+(\#eq:raylight)
+\end{equation}
+
+There many different optimization problems that can be reduced to a GEP, which we report here for completeness [@de2005eigenproblems], [@ghojogh2019eigenvalue]. One can see that the norm of $w$ does not change the value of the optimization problem. Therefore, we can impose an additional constraint on $w$. In this way, we can reformulate the problem as a constrained optimization problem, without losing any solution. This constraint is $w^TBw=1$. We now describe the relation between Equation \@ref(eq:raylight) and Equation in definition \@ref(eq:gep).
+
+<!-- \paragraph{Optimization Form 1 (Vector form)} -->
+<!-- For $\phi \in \R^d$ -->
+
+<!-- \begin{subequations}\label{eq:opt1} -->
+<!--     \begin{alignat}{2} -->
+<!--     &\!\max_{\phi}        &\qquad& w^TAw\\ -->
+<!--     &\text{subject to} &      &w^TBw =1 -->
+<!--     \end{alignat} -->
+<!--     \end{subequations} -->
+
+<!-- We can reduce the optimization problem \ref{eq:opt1} to the GEP using Lagrangian multipliers. The Lagrangian equation associated to this optimization problem is $\mathcal{L} = w^TAw - \lambda (w^TBw - 1)$. Equating the derivative of the Lagrangian to $0$ gives:  -->
+
+<!-- \begin{align} -->
+<!--     \frac{\partial \mathcal{L}}{\partial w} = 2Aw - 2\lambda B w = 0  -->
+<!--     \mapsto 2Aw = 2\lambda Bw \mapsto Aw = \lambda Bw.  -->
+<!-- \end{align} -->
+
+<!-- This can be generalized to multiple vectors $w_i$, and expressed in Matrix form, as follows: -->
+
+<!-- \paragraph{Optimization Form 1 (Matrix form)} -->
+<!-- For $W \in \R^{d \times d}$.  -->
+
+<!-- \begin{subequations}\label{eq:opt2} -->
+<!--     \begin{alignat}{2} -->
+<!--     &\!\max_{w}        &\qquad& Tr[W^TAW]\\ -->
+<!--     &\text{subject to} &      &W^TBW =  I -->
+<!--     \end{alignat} -->
+<!--     \end{subequations} -->
+
+<!-- There is a dual formulation to this problem, that consists in minimizing the Frobenius norm of a matrix. This formulation occurs often as the dual formulation of the previous optimization problems. For instance, instead of maximizing correlation, one would like to minimize some error.  -->
+
+<!-- \paragraph{Optimization Form 2 (Vector Form)} -->
+
+<!-- For $w \in \R^d$, and a matrix $X\in\R^{d \times n}$.  -->
+
+<!-- \begin{subequations}\label{eq:opt2a} -->
+<!--     \begin{alignat}{2} -->
+<!--     &\!\min_{w}        &\qquad& \|X - w w^TX\|^2_F = Tr[X^TX - XX^Tww^T]\\ -->
+<!--     &\text{subject to} &      &w^TBw =1  -->
+<!--     \end{alignat} -->
+<!--     \end{subequations} -->
+<!--  This is the GEP $(XX^T, B)$. -->
+
+
+<!--  \paragraph{Optimization Form 2 (Matrix Form)} -->
+
+<!--  For $w \in \R^d$, and a matrix $X\in\R^{d \times n}$. -->
+
+<!--  \begin{subequations}\label{eq:opt2b} -->
+<!--      \begin{alignat}{2} -->
+<!--      &\!\min_{W}        &\qquad& \|X - W WTX\|^2_F = Tr[X^TX - XX^TWW^T]\\ -->
+<!--      &\text{subject to} &      &W^TBW =1 -->
+<!--      \end{alignat} -->
+<!--      \end{subequations} -->
+<!--   This is the GEP $(XX^T, B)$. -->
+
+
+<!--   \paragraph{Classical algorithms} -->
+<!--   Computationally, fast algorithms for solving the GEP have been proposed through the years \cite{ge2016efficient,sun2009least,borga1997unified}. In general, a simple-but-dirty solution would be to left multiply both sides of Equation \ref{eq:gep} by $B^{-1}$, and re-conduct this to the canonical eigenvalue problem. Unfortunately, this solution suffers often from problems of numerical instability and is rarely the preferred solution. It is well-known that symmetric eigenvalue problems are more stable to numerical errors. For this, a slightly more intricate solution, but computationally more expensive, consist of making the matrix $A$ symmetric: more stable to perturbations and numerical errors \cite{generalizeeigenvalueproblem}. Other classical randomized algorithms for solving the GEP exist. Among the best classical algorithms, we cite \cite{ge2016efficient}, where they propose an algorithm to extract the top $k$ solutions of a GEP in time $O(\frac{kz\sqrt{\kappa}}{\rho}\log(1/\epsilon)\log(k\kappa/\rho)))$ -->
+<!--   where $z$ is $\|A\|_0 + \|B\|_0$, $\kappa$ is the biggest condition number between $\kappa(A)$ and $\kappa(B)$, and $\rho$ is the relative eigenvalue gap, i.e. $1-\frac{|\lambda_k+1|}{|\lambda_{k}|}$. These algorithms might not give the best possible runtime in all the machine learning models described below. In fact, according to the definition of the matrices $A$ and $B$, other algorithms for extracting the generalized eigenvectors might be used instead. We will see that quantum computers might lead to better runtimes, by removing the dependence on the size of the two matrices (it becomes polylogarithmic), albeit with a worsening in the other parameters. For this kind of runtimes, the price that we have to pay is a preprocessing step, detailed in the previous chapter. We conclude this section with a useful observation from classical literature.  -->
+
+<!--   \begin{lemma}[\cite{ge2016efficient}]\label{lemma:geptrick} -->
+<!-- Let $(w_i, \sigma_i)$, be an eigenpairs of the symmetric matrix  $B^{-1/2}AB^{-1/2}$. Then $B^{-1/2}w_i$ is an eigenvector of $B^{-1}A$ with eigenvalue $\sigma_i$. -->
+<!-- \end{lemma} -->
+<!-- \begin{proof} -->
+<!-- The proof follows from noting that: -->
+<!-- $$B^{-1}A(B^{-1/2}w_i) = B^{-1/2}(B^{-1/2}AB^{-1/2})w_i = \sigma_iB^{-1/2}w_i$$ -->
+<!-- \end{proof} -->
+
+
+<!-- % \subsection{Kerenl Supervised PCA} -->
+
+<!-- % Kernel Supervised PCA \cite{barshan2011supervised} is.. -->
+
+
+<!-- % The optimization problem underlying SPCA is the following: -->
+
+<!-- % \begin{subequations} -->
+<!-- %     \begin{alignat}{2} -->
+<!-- %     &\!\max_{x}        &\qquad& Tr[W^TK_xHK_yHK_xW]\\ -->
+<!-- %     &\text{subject to} &      & W^TK_x W = I  -->
+<!-- %     \end{alignat} -->
+<!-- %     \end{subequations} -->
+
+<!-- % In this case, the matrix $K_x$ and $K_y$ is defined as ... \ale{TODO}. -->
+<!-- % The matrix $H=I-(1/n)11^T$ is the centering matrix, and the columns of $W$ span the kernel SPCA subspace.  -->
+
+<!-- % Following the Optimization Form 2, i.e. Eq. \ref{eq:opt2}, the solution to this  optimization problem is given the following GEP: -->
+<!-- % \be -->
+<!-- % K_xHK_yHK_xW = K_xW\Lambda -->
+<!-- % \ee -->
+<!-- % which we know is the GEP $(K_xHK_yHK_xW, K_x)$. The solutions to the GEP are the columns of $W$.  -->
+
+
+<!-- \subsection{Slow Feature Analysis - SFA} -->
+<!-- SFA is a dimensionality reduction algorithm, better detailed in chapter \ref{chap:qsfa}. Here, for consistency, we report the definition of the optimization problem, as stated in [@Berkes2005pattern]. -->
+<!-- For a dataset consisting in a set of $n$ different $d$-dimensional vectors represented by the matrix  $X^{n\times d}$, along with their labels $l_i \in [k]$, stored in a matrix $L \in [K]^{n}$. Given a training set $X,L$ of $k$ different classes, we expect to learn $k-1$ functions $g_j(x_i)$ with $j \in [k-1]$ whose output $ y_i = [g_1(x(i)) \cdots g_{k-1}(x_i) ]$ is constant and similar for the training samples of the same class. More formally, for $a$ a the normalization factor defined as:  $\sum_{k=1}^{K} {\binom{ T_k }{2}}.$ we want to minimize for all $j$:  -->
+<!-- \begin{equation} -->
+<!-- \Delta_j = \Delta(y_j) =  \frac{1}{a} \sum_{k=1}^K \sum_{\substack{s,t \in T_k \\ s<t}} (g_j(\bm x^{(k)}(s)) - g_j(\bm x^{(k)}(t)) )^2  -->
+<!-- \end{equation}  -->
+<!-- with  the following constraints:  -->
+<!-- \begin{enumerate} -->
+<!-- \item $\frac{1}{N} \sum_{k=1}^{K}\sum_{i=1}^{T_k} g_j(\bm x^{(k)}(i)) = 0 \quad  \forall j \in [K-1] $ -->
+<!-- \item $\frac{1}{N} \sum_{k=1}^{K}\sum_{i=1}^{T_k} g_j(\bm x^{(k)}(i))^2 = 1 \quad  \forall j \in [K-1]$ -->
+<!-- \item $ \frac{1}{N} \sum_{k=1}^{K}\sum_{i=1}^{T_k} g_j(\bm x(i)^{(k)})g_v(\bm x(i)^{(k)}) = 0 \quad \forall v < j \in [K-1]  $ -->
+<!-- \end{enumerate} -->
+
+
+<!-- Define $B=X^TX$ as the covariance matrix and $A=\dot{X}^T\dot{X}$ is the derivative covariance matrix. This matrix $\dot{X}\in \mathbb{R}^{m \times d}$ is obtained by taking the pairwise difference between vectors that belongs to \emph{the same} class. This is a kind of "derivative" between random pairs of elements in the dataset. The solution consist in  computing the $K-1$ eigenvector of the Generalized Eigenvalue Problem (GEP): -->
+<!-- \begin{equation}\label{eq:gepsfa} -->
+<!--     AW=BW\Lambda -->
+<!-- \end{equation}  -->
+<!-- The objective function that we want to minimize in this case is given by: -->
+
+<!-- \begin{equation}\label{objfunctionsfa} -->
+<!--     \min J_{SFA}(w) := \frac{w^TAw}{w^TBw} -->
+<!-- \end{equation}  -->
+
+
+<!--  Solving this problem consists in making the matrix $B$ the identity, i.e. whitening the data. A dataset is said to be whitened when the covariance matrix of the data is the identity. In practice we multiplied by $X^{-1/2}$ and redefined $A$ accordingly, by computing the covariance matrices of the whitened derivatives vectors.  -->
+
+<!-- While the original formulation of SFA is about finding vectors that represent the directions of slowly varying features, in the context of supervised learning these vectors represent the subspace that maximally separates different clusters. It has been shown that solving the optimization problem upon which SFA is based is equivalent to other dimensionality reduction algorithms, like Laplacian Eigenmaps [@sprekeler2011relation] and Fisher Linear  Discriminant [@klampfl2009replacing], thus a quantum algorithm for SFA also provides algorithms for Laplacian Eigenmaps and Fisher Linear Discriminant.  -->
+
+<!-- \subsection{Linear Discriminant Analysis - LDA} -->
+<!-- Linear Discriminant Analysis is an unsupervised dimensionality reduction algorithm. LDA is known to be optimal in the sense that it projects the data in the subspace that minimize the distance between points of the same cluster and maximize the distance between points that belongs to different clusters. Sometimes the name LDA is used as a synonym for Fisher Discriminant Analysis, but we reserve the name FDA for the case when there are only two classes. \\ -->
+
+<!-- For $n$ labeled points $(x_i, y_i)$ for $x_i \in \mathbb{R}^d$ and $y_i \in [K]$ we defined $\mu_j = \frac{1}{|S_j|}\sum_{i\in S_j}x_i$ and $\mu = \frac{1}{n}\sum_{i\in X}x_i $ -->
+<!-- The matrix $S_W$ is the so called within class covariance matrix, and the matrix $S_B$ is the between-class covariance matrix. They are defined as: -->
+
+<!-- \begin{align} -->
+<!--     S_W:= \sum_{j \in [K]} \sum_{i \in [|S_j|]} (x-\mu_c)(x-\mu_c)^T \\ -->
+<!-- S_B := \sum_{j\in [K]} |S_j|(\mu_c - \mu)(\mu_c - \mu)^T -->
+<!-- \end{align} -->
+
+
+<!-- The optimization problem that we are trying to solve with LDA is: -->
+
+<!-- \begin{equation}\label{objfunctionlda} -->
+<!--  \max J_{FLD}(w) := \frac{w^TS_Bw}{w^TS_Ww} -->
+<!-- \end{equation}  -->
+
+
+<!-- Note that for very small $\alpha$, the contribution of $S_B$ to $A$ can be neglected, making $A \approx \frac{2}{N} S_W$. The GEP formulation of LDA is therefore -->
+
+
+<!-- $$ S_b w = \lambda S_w  w$$ -->
+<!-- but instead of taking the smallest eigenvalues, we select the eigenvectors corresponding to the biggest eigenvalues. -->
+
+
+<!-- \subsection{Canonical Correlation Analysis - CCA} -->
+<!-- Canonical Correlation Analysis (CCA) is an algorithm for  finding correlations between two different representations of the same data. Geometrically, the problem of finding correlations can be reduced to the problem of finding basis vectors for two sets of variables such that the correlation between the projections of the variables into the new basis vectors is mutually maximized [@hardoon2004canonical]. A tutorial on CCA can be found in [@wang2018finding]. The input of the CCA problem is a dataset that consists of tuples of vectors $\{ (x_i, y_i) \}_{i=0}^n$ where $x_i \in \mathbb{R}^{d_1}$ and $y_i \in \mathbb{R}^{d_2}$. Assuming the data is normalized in order to have zero mean and unit variance on each component, the sample covariance matrices of the data are $\Sigma_X = \frac{1}{n}X^TX$ and $\Sigma_Y=\frac{1}{n}Y^TY$. We define the cross-covariance matrix $\Sigma_{XY}$ as $X^TY$, and analogously $\Sigma_{YX}$ as $Y^TX$ (sometimes these matrices are called in literature cross-scatter matrix).  -->
+
+<!-- The problem solved by CCA is the problem of finding the features $w_x,w_y$ such that the directions $Xw_x$ and $Yw_y$ in the column space of $X$ and $Y$ have a minimal angle between each other:  -->
+
+<!-- $${w_x, w_y} =\arg\max_{w_x, w_y} cos((Xw_x, Yw_y)) $$ -->
+<!-- $$= \arg\max_{w_x, w_y} \frac{(Xw_x)^T(Yw_y)}{\sqrt{(Xw_x)^T(Xw_x)}\sqrt{(Yw_y)(Yw_y)}} $$ -->
+<!-- % $$= \arg\max_{w_x, w_y} \frac{w^T_x S_{XY}w_y}{\sqrt{w_x^\Sigma_Xw_x}\sqrt{w_y^T\Sigma_Yw_y}} $$ -->
+
+<!-- $$ = \arg\max_{w_x, w_y} \frac{w_x^T \Sigma_{XY} w_y}{\sqrt{w^T_x S_{XX}w_x}\sqrt{w_y^TS_{YY}w_y}} $$ -->
+
+<!-- Again, we can see that the solution is independent on the norm of the weight vectors $w_x,w_y$. Thus, we can solve the optimization problem with a constraint on the value of the norms of the weight vectors, i.e that $w_x^T\Sigma_{XX}w_x=1$ and $w_y^T\Sigma_{YY}w_y=1$.  We thus have formulated a constraint optimization problem:  -->
+
+<!-- \be -->
+<!-- {w_x, w_y} = \arg\max_{w_x, w_y} \norm{Xw_w, Yw_y}^2   -->
+<!-- \text{such that} \norm{Xw_x}^2 = \norm{Yw_y}^2 = 1 -->
+<!-- \ee -->
+
+<!-- We reformulate this optimiation problem using Lagrangian multipliers:  -->
+<!-- $$ \mathcal{L}(w_x, w_y, \lambda_x, \lambda_y) = w_x^T\Sigma_{XY}w_y - \lambda_xw^T_x\Sigma_{XX}w_x - \lambda_yw_y^T\Sigma_{YY}w_y $$  -->
+
+<!-- Taking derivatives with respect to $w_x$ and $w_y$, and setting the equations to $0$ gives the following systems of equations: -->
+
+<!-- $$ -->
+<!-- \begin{cases} -->
+<!--     \Sigma_{XY}w_y = \lambda_x \Sigma_{XX}w_x\\ -->
+<!--     \Sigma_{YX}w_x = \lambda_y \Sigma_{YY}w_y\\ -->
+<!--   \end{cases}    -->
+<!-- $$ -->
+
+<!-- As $\lambda_xw^T_x\Sigma_{XX}w_x = w_x^T\Sigma_{XY}w_y = w^T_y\Sigma_{YX}w_x = \lambda_yw_y^T\Sigma_{YY}w_y$, and as $w_x^T\Sigma_{XX}w_x=w^T_y\Sigma_{YY}w_y = 1$ we can observe that the two eigenvalues $\lambda_x$ and $\lambda_y$ are identical, and we denote them just with $\lambda$. -->
+
+<!-- \be -->
+<!-- \begin{cases}\label{eq:systemCCA} -->
+<!--     \Sigma_{XY}w_y = \lambda \Sigma_{XX}w_x\\ -->
+<!--     \Sigma_{YX}w_x = \lambda \Sigma_{YY}w_y\\ -->
+<!--   \end{cases}    -->
+<!-- \ee -->
+
+<!-- These system of equation represent the following GEP [@de2005eigenproblems], [@hardoon2004canonical}, in a form that makes explicit both $w_x$ and $w_y$ in a single equation: -->
+
+<!-- \be\label{gep:cca} -->
+<!-- \begin{pmatrix} -->
+<!--     0 & \Sigma_{XY}\\ -->
+<!--     \Sigma_{YX} & 0 -->
+<!--     \end{pmatrix} -->
+<!--     \begin{pmatrix} -->
+<!--         w_x\\ -->
+<!--         w_y -->
+<!--         \end{pmatrix} = \lambda \begin{pmatrix} -->
+<!--             \Sigma_{XX} & 0\\ -->
+<!--             0 & \Sigma_{YY} -->
+<!--             \end{pmatrix}\begin{pmatrix} -->
+<!--                 w_x\\ -->
+<!--                 w_y -->
+<!--                 \end{pmatrix}  -->
+<!-- \ee -->
+
+<!-- As we know, this GEP can be restated as a canonical eigenvalue problem: -->
+
+<!-- \be -->
+<!-- \begin{pmatrix}\label{gep:cca-canonical} -->
+<!--     0 & \Sigma_{XX}^{-1}\Sigma_{XY}\\ -->
+<!--     \Sigma_{YY}^{-1}\Sigma_{YX} & 0 -->
+<!--     \end{pmatrix} -->
+<!--     \begin{pmatrix} -->
+<!--         w_x\\ -->
+<!--         w_y -->
+<!--         \end{pmatrix} = \lambda \begin{pmatrix} -->
+<!--                 w_x\\ -->
+<!--                 w_y -->
+<!--                 \end{pmatrix}  -->
+<!-- \ee -->
+
+<!-- This can be made symmetric by setting the vectors $v_x = \Sigma_{XX}^{1/2}w_x$ and $v_y = \Sigma_{YY}^{1/2}w_y$ -->
+
+<!-- \be -->
+<!-- \begin{pmatrix} -->
+<!--     0 & \Sigma_{XX}^{-1/2}\Sigma_{XY}\Sigma_{YY}^{1/2}\\ -->
+<!--     \Sigma_{YY}^{-1/2}\Sigma_{YX}\Sigma_{XX}^{-1/2} & 0 -->
+<!--     \end{pmatrix} -->
+<!--     \begin{pmatrix} -->
+<!--         v_x\\ -->
+<!--         v_y -->
+<!--         \end{pmatrix} = \lambda \begin{pmatrix} -->
+<!--                 v_x\\ -->
+<!--                 v_y -->
+<!--                 \end{pmatrix}  -->
+<!-- \ee -->
+
+
+<!-- There is an alternative formulation of the GEP for CCA. Recalling that we assume the matrix $\Sigma_{YY}^{-1}$ is invertible, we can express $w_y$ in the first equation of the system of equations \ref{eq:systemCCA} as  -->
+<!-- \be -->
+<!-- \label{eq:findw_y} -->
+<!--  w_y = \frac{\Sigma_{YY}^{-1}\Sigma_{YX}w_x}{\lambda} -->
+<!--  \ee -->
+
+<!-- Via substitution in the linear system, i.e. in Equation \ref{eq:systemCCA}, we can express the singular vectors $w_x$ as solutions of the following GEP: -->
+
+<!-- \be\label{eq:gepCCA-real} -->
+<!-- \Sigma_{XY}\Sigma_{YY}^{-1}\Sigma_{YX}w_x = \lambda^2\Sigma_{XX}w_x -->
+<!-- \ee -->
+
+<!-- Then, we are able to use Equation \ref{eq:findw_y} to find the corresponding $w_y$. Again, using the fact that $\Sigma_{XX}$ is invertible, we can reconduct this GEP to a symmetric eigenvalue problem by recalling that we can define $\Sigma_{XX}$ as  $\Sigma_{XX}=\Sigma_{XX}^{1/2}\Sigma_{XX}^{1/2}$. This is the approach preferred in [@hardoon2004canonical], [@bach2005probabilistic]. The solution of the CCA can be also expressed using SVD, as discovered Halay in 1957 [@healy1957rotation], and suggested again Ewerbring and others in 1990 [@ewerbring1990canonical]. First, we consider the SVD of -->
+<!-- \be -->
+<!-- \Sigma_{XX}\Sigma_{XY}^{-1}\Sigma_{YY} = U\Sigma V^T -->
+<!-- \ee  -->
+<!-- The singular values of $\Sigma$ correspond to the canonical correlation. The matrices of canonical correlation $W_x$ and $W_y$ are obtained as: -->
+<!-- $$ W_x = \Sigma_{XX}^{-1/2}U \:\:\:\text{and}\:\: W_y = \Sigma_{YY}^{-1/2}V$$.  -->
+
+
+
+<!-- % We might want to compute $\sum_{i\in [k]} \sigma_i$ where $\sigma_i$ are the canonical correlations. We can do this by... -->
+
+
+<!-- % \subsection{Laplacian Eigenmaps} -->
+
+
+<!-- % \subsection{Indipendent Component Analysis} -->
+
+
+
+<!-- \subsection{Gaussian Information Bottleneck Method - GIBM} -->
+<!-- The Information Bottleneck Method (IBM) is a general and powerful model of learning, that has its foundation in information theory. The IBM has been originally proposed as a way to extract the relevant information from a random variable $\mathcal{X}$, with respect to another random variable $\mathcal{Y}$, while compressing $\mathcal{X}$ as much as possible. With such a broad formulation, the IBM can be applied to both supervised and unsupervised problems (as the $\mathcal{Y}$ can be just thought as being a hidden variable for the unsupervised case). -->
+<!-- The compressed representation that we extract from $\mathcal{X}$ can be thought as of another random variable, that we can call $T$. It can be shown that $T$ is an approximation of a minimal sufficient statistic of $\mathcal{X}$ w.r.t. $\mathcal{Y}$.  -->
+
+<!-- \begin{definition}[Sufficient Statistics \cite{fisher1922mathematical, hafez2019information}].\label{def:suffstat} -->
+<!-- Let $Y\in \mathcal{Y}$ be an unknown parameter and $X\in \mathcal{X}$ be a random variable with conditional probability distribution function $p(x|y)$. Given a function $f:\mathcal{X} \to \mathcal{S}$, the random variable $S=f(X)$  -->
+<!-- is called a sufficient statistic for $Y$ if: -->
+<!-- % -->
+<!-- \begin{equation} -->
+<!-- \begin{split} -->
+<!-- \forall & x \in \mathcal{X},y \in \mathcal{Y}: \\ &P(X=x|Y=y,S=s)=P(X=x|S=s). -->
+<!-- \end{split} -->
+<!-- \end{equation} -->
+
+<!-- \end{definition} -->
+<!-- The meaning of definition \ref{def:suffstat} is that $S$ captures all the information about $Y$ that is available in $X$. As a consequence, we can state the following theorem: -->
+
+<!-- \begin{theorem}\label{thm:suffstat} -->
+<!-- Let $S$ be a probabilistic function of $X$. Then $S$ is a sufficient statistic for $Y$ if and only if: -->
+<!-- $$I(S;Y) = I(X;Y)$$ -->
+
+<!-- \end{theorem} -->
+<!-- Here, $I(X;Y)$ denotes the mutual information between the random variable $X$ and the random variable $Y$. It is simple to note that, according to this definition, the identity function makes the random variable $X$ a sufficient statistic for $Y$. To make something useful out of this definition, we should introduce a way of compressing information contained in $X$. For this, comes to our aid the definition of minimal sufficient statistic.  -->
+
+
+<!-- \begin{definition} -->
+<!-- (Minimal Sufficient Statistic) A sufficient statistic $S$ is said to be minimal if it is a function of all other sufficient statistics, i.e.: -->
+<!-- \begin{equation} -->
+<!-- \forall T;\: T\: \text{is sufficient statistic}\: \Rightarrow \exists\: g; S=g(T). -->
+<!-- \end{equation} -->
+<!-- \end{definition} -->
+
+<!-- The relation between minimal sufficient statistics and information theory is stated in the following theorem:  -->
+
+<!-- \begin{theorem}[\cite{hafez2019information}] -->
+<!-- Let $X$ be a sample drawn from a distribution function that is determined by the random variable $Y$. The statistic $S$ is an MSS for $Y$ if and only if it is a solution of the optimization process -->
+<!-- \begin{equation} -->
+<!-- \label{eq:MSS_IT_Formulation} -->
+<!-- \min_{T: \text{is sufficient statistic}} I(X;T). -->
+<!-- \end{equation} -->
+<!-- Using theorem \ref{thm:suffstat} we can restate the previous optimization problem as  -->
+<!-- \begin{equation} -->
+<!-- \label{eq:MSS_IT2} -->
+<!-- \min_{T: I(T;Y) = I(X;Y)} I(X;T). -->
+<!-- \end{equation} -->
+
+<!-- \end{theorem}  -->
+
+
+
+<!-- The goal of the IBM is to find a compressed representation of $X$ that preserves as much information as possible about the random variable $Y$. In this sense, $T$ is a minimal sufficient statistic for random variable $X$ and $Y$. The trade-off is obtained using a Lagrangian multiplier which we call $\beta$. Note that we are interested in the stochastic maps from $X$ to $T$ and $T$ to $Y$. -->
+<!-- Using theorem \ref{thm:suffstat}, we can restate the previous theorem as:  -->
+
+
+<!-- \begin{definition}[Information Bottleneck] -->
+<!-- \begin{equation} -->
+<!--     \min_{p(\tilde{x}|x)} I(\tilde{X}; X) - \beta I(\tilde{X} ; Y) -->
+<!-- \end{equation} -->
+<!-- \end{definition} -->
+<!-- The first term is meant to measure the compression, and the second term is meant to measure the relevance of the sufficient statistic $T$ with respect to $Y$. In the IBM, $T$ is meant to be a representation of $X$ in a ``meaningful semantic space''. The Lagrangian multiplier $\beta \in [0, \infty)$ decides the trade-off representation and compression.  Surprisingly enough, the parameter $\beta$ allows one to train models that are explicit with respect to the bias/variance trade-off. This optimization problem is closely related to the Rate-Distortion theorem of Shannon, which described the trade-off between compression and resilience to errors in a channel. For further information, we refer to \cite{tishby2000information,slonim2002information}. Far from being just a theoretical tool to analyze learning, the IBM has been used to solve a stack of problems in machine learning \cite{hsu2006video, slonim2000document}. According to the problem under consideration, the IB can be computed via a plethora of different algorithms \cite{slonim2002information,}. -->
+<!-- There is one case where the solution of the IB can be computed analytically: under the assumption that the random variables $X,Y$ are jointly multivariate Gaussian distributions. Let the cross-covariance matrices be defined as usual, i.e. $\Sigma_{XY}:=X^TY$ and $\Sigma_{YX}:=Y^TX$, where we assume that the matrices $X$ and $Y$ are scaled to have features with zero means and unit variance. We also define the conditional covariance, or canonical correlation matrix as: $\Sigma_{X|Y} = \Sigma_X - \Sigma_{XY}\Sigma_Y^{-1}\Sigma_{YX}$. In the Gaussian Information Bottleneck, we need to access the left singular vectors of: -->
+<!-- $$A = \Sigma_{X|Y}\Sigma_X^{-1} $$ -->
+<!-- The number of eigenvectors to extract is a function specified by a trade-off parameter $\beta$.  -->
+
+<!-- It is straightforward to see that GIB and CCA are two ways of looking at the same problem. Recall the GEP problem of CCA  in Equation \ref{eq:gepCCA-real} is: -->
+
+<!-- \be\label{eq:gepCCA-real2} -->
+<!-- \Sigma_{XY}\Sigma_{YY}^{-1}\Sigma_{YX}w_x = \lambda^2\Sigma_{XX}w_x -->
+<!-- \ee -->
+
+<!-- The matrix $A$ is defined as $I - \Sigma_{XY}\Sigma_Y^{-1}\Sigma_{YX}\Sigma_{XX}^{-1}$. Adding or removing the identity matrix from another matrix will only shift its spectrum, so we can consider the left singular vectors of  $\Sigma_{XY}\Sigma_Y^{-1}\Sigma_{YX}\Sigma_{XX}^{-1}$. Taking the transpose of this matrix, we see that this is exactly the same matrix of the GEP in Equation \ref{eq:gepCCA-real2}.  -->
+
+
+
+<!-- % \begin{align} -->
+<!-- %     \beta_i = \frac{1}{(1-\lambda_i)} \\ -->
+<!-- %     a_i = \sqrt{\frac{\beta_i^c(1-\lambda_i)-1}{\lambda_i r_i}} \\ -->
+<!-- %     r_i = v_i^T\Sigma_Xv_i  -->
+<!-- % \end{align} -->
+
+
+<!-- % Remarkably, even under assumption of gaussinity it is possible to .. -->
+<!-- % \begin{theorem} -->
+
+<!-- % \end{theorem} -->
+
+<!-- % \subsubsection{Robust Information Bottleneck} -->
+
+<!-- % In the excellent work of Pensia et al. \cite{pensia2019extracting}, the authors proposed a formulation of GIBM Robust to adversarial attacks.  -->
+
+<!-- % \textcolor{red}{And \href{https://users.cecs.anu.edu.au/~sgould/papers/argmin-TR-2016.pdf}{here's} a paper that helps us get a smooth linear approximation to the argmin function.} -->
+
+<!-- % We will see that also with quantum algorithms you can fit a model that is resistant to adversarial attacks -->
+
+<!-- % For this, they defined \emph{relevance} using the \emph{statistical Fisher information}, which is defined as  -->
+
+<!-- % They chose to measure the sensitivity of the representation of $T$ to changes in $X$ using the (statistical) Fisher information $\Phi(T | X)$, given below:  -->
+<!-- % \begin{equation} -->
+<!-- % \Phi(T|X) = \int_{\cal X} \left( \int_{\cal T} \left\|\nabla_x \log p_{T|X}(t|x)\right\|_2^2 p_{T|X}(t|x) dt \right) p_X(x) dx := \int_{\cal X} \Phi(T | X = x) p_X(x) dx. -->
+<!-- % \end{equation} -->
+<!-- % The function $\Phi(T|X=x)$ should be read as the sensitivity of the distribution of $p_{T|X}(\cdot | x)$ to changes at the point $x$.  -->
+
+<!-- % For the case where the matrix $\Sigma_x$ is a multiple of the identity -->
+
+<!-- % \begin{theorem*} -->
+<!-- %     \label{ThmInfoId} -->
+<!-- %     Suppose $\Sigma_x = \sigma_x^2 I$. Let $B = (\Sigma_y - \Sigma_{yx} \Sigma_x^{-1} \Sigma_{xy})^{-1/2} \Sigma_{yx} \Sigma_x^{-1}$, and let $B = V \Lambda W^\top $ be the SVD. Let $\Lambda = \diag(\ell_1, \dots, \ell_k)$, where the diagonal elements are sorted in decreasing order. For each $i \le k$, define -->
+<!-- %     \begin{equation} -->
+<!-- %     \label{EqnUniv} -->
+<!-- %     d_i = \arg\min_{d \in [0,1]} \left\{\frac{1}{2} \log\left(\frac{\sigma_x^2 d}{\ell_i} + 1\right) - \frac{\gamma}{2} \log d + \frac{\beta}{\sigma_x^2 d}\right\}, -->
+<!-- %     \end{equation} -->
+<!-- %     and let $D = \diag(d_1, \dots, d_k)$. -->
+<!-- %     Let $\hat{U}$ be the permutation matrix which sorts the diagonal entries of $D$ in increasing order, and let $U = W \hat{U}^\top $. The optimal feature map is then given by $T = \frac{1}{\sigma_x} (D^{-1} - I)^{1/2} U^\top  X + \epsilon$, where $\epsilon \sim N(0, I_k)$. -->
+<!-- %     \end{theorem*} -->
+
+
+## How to evaluate a classifier
+
+
+Practitioners in quantum machine learning should not only build their skills in quantum algorithms, and having some basic notions of statistics and data science won’t hurt. In the following the see some
+ways to evaluate a classifier. What does it means in practice? Imagine you have a medical test that is able to tell if a patient is sick or not. You might want to consider the behavior of your classier with respect to the following parameters: the cost of identifying a sick patient as healthy is high, and the cost of identifying a healthy patient as sick. For example, if the patient is a zombie and it
+contaminates all the rest of the humanity you want to minimize the occurrences of the first case, while if the cure for “zombiness” is lethal for a human patient, you want to minimize the occurrences of the second case. With P and N we count the number of patients tested Positively or Negatively. This is formalized in the following definitions, which consists in statistics to be calculated on the test
+set of a data analysis.
+
+-   **TP True positives (statistical power)** : are those labeled as
+    sick that are actually sick.
+
+-   **FP False positives (type I error)**: are those labeled as sick but
+    that actually are healthy
+
+-   **FN False negatives (type II error)** : are those labeled as
+    healthy but that are actually sick.
+
+-   **TN True negative**: are those labeled as healthy that are healthy.
+
+Given this simple intuition, we can take a binary classifier and imagine
+to do an experiment over a data set. Then we can measure:
+
+-   **True Positive Rate (TPR) = Recall = Sensitivity**: is the ratio of
+    correctly identified elements among all the elements identified as
+    sick. It answer the question: “how are we good at detecting sick
+    people?”.
+    $$\frac{  TP }{ TP +  FN}  + \frac{TP }{P} \simeq  P(test=1|sick=1)$$
+    This is an estimator of the probability of a positive test given a
+    sick individual.
+
+-   **True Negative Rate (TNR) = Specificity** is a measure that tells
+    you how many are labeled as healthy but that are actually sick.
+    $$\frac{ TN }{ TN +  FP}  = p(test = 0 |  sick =0)$$ How many
+    healthy patients will test negatively to the test? How are we good
+    at avoiding false alarms?
+
+-   **False Positive Rate = Fallout**
+    $$FPR = \frac{  FP }{ FP +  TN }  = 1 - TNR$$
+
+-   **False Negative Rate = Miss Rate**
+    $$FNR = \frac{  FN }{ FN +  TP } = 1 - TPR$$
+
+-   **Precision, Positive Predictive Value (PPV)**:
+    $$\frac{ TP }{ TP + FP} \simeq p(sick=1 | positive=1)$$ How many
+    positive to the test are actually sick?
+
+-   **$F_1$ score** is a more compressed index of performance which is a
+    possible measure of performance of a binary classifier. Is simply
+    the harmonic mean of Precision and Sensitivity:
+    $$F_1 = 2\frac{Precision \times Sensitivity }{Precision + Sensitivity }$$
+
+-   **Receiver Operating Characteristic (ROC)** Evaluate the TRP and FPR
+    at all the scores returned by a classifier by changing a parameter.
+    It is a plot of the true positive rate against the false positive
+    rate for the different possible value (cutpoints) of a test or
+    experiment.
+
+-   The **confusion matrix** generalize these 4 combination of (TP TN FP
+    FN) to multiple classes: is a $l \times l$ where at row $i$ and
+    column $j$ you have the number of elements from the class$i$ that
+    have been classified as elements of class $j$.
+
+Other links:
+[here](https://uberpython.wordpress.com/2012/01/01/precision-recall-sensitivity-and-specificity/)

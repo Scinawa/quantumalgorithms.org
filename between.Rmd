@@ -1,0 +1,88 @@
+---
+title: "Between the algorithms and the hardware"
+author: "scinawa"
+date: "12/5/2020"
+output: html_document
+---
+
+# Between the software and the hardware TODO
+
+<!--
+# TODO Write chapter on developement, compilation, erro correction, and optimization of quantum circuits on real hardware. 
+# There is a lot going on between 
+# Somehow, it is pretty dounting to understand all the possibile process that can going
+# from the moment we finished writing our algorithm in a high level langauge
+# such as python and the moment when we execute our code on a platform. 
+# Here we shold give the high-level understanding of what is going on, so the practicioner in quantum algorithms 
+# can have an idea of all the layers of abstractions that are between the software and the hardware. 
+# labels: help wanted, good first issue
+--> 
+
+
+```{theorem, solovay-kitaev, name="Solovay-Kitaev Theorem"} 
+Fix two universal gate sets that are closed under inverses.  Then any t-gate circuit using one gate set can be implemented to precision $\epsilon$ using a circuit of $t poly(\log t )$ gates from other set (indeed, there is a classical algorithm for finding this circuit in time $t poly(\log \frac{t}{\epsilon})$).
+```
+
+
+
+<!-- ## Coding a quantum algorithm -->
+
+<!-- - ...  -->
+<!-- - ... -->
+
+<!-- ## Compilation and optimization -->
+
+<!-- - rewriting rules -->
+<!-- - ZX calcolus -->
+<!-- - library for optimization -->
+
+
+<!-- ## Error correction -->
+
+<!-- - the theory of error correction.. -->
+<!-- -  -->
+
+
+<!-- ## Putting all together: resource estimation -->
+
+<!-- - examples for QRAM (code for finding p) -->
+<!-- - the paper of ashley of backtracking.. -->
+
+
+
+
+
+<!-- - **Reception the data and preprocessing**. First you will receive the dataset $X \in \mathbb{R}^{n \times d}$ via a classical channel (i.e. an internet connection or a disk). This step cannot take less than $nd$. Here thus, you have a free "preprocessing" time that allows you to applly some function to the data. This can be an operation on the data, like a normalization of the rows of the matrix, or the scaling by a certain scalar. Often, a preprocessing of $nd\log nd$ time allows to build a circuit that will be used in the quantum algorithm (QRAM).  -->
+<!-- Obviously you want to encode you dataset in a data structure that can be easily updated, without requiring to preprocess the entire dataset at each update. -->
+
+<!-- - **Creation of the circuit**. Then, using specific libraries dedicated to quantum machine learning algorithms will be used to produce the quantum assemply to run the quantum algorithms. These library will generate the quantum assembly that implements some specification of quantum machine learning algorithms. These algorithms can be any machine learning algorithm, from QAOA to QRAM-based algos, to VQE, and so on. The output of these library is a quantum circuit.  -->
+
+
+<!-- - **Compilation**  -->
+<!-- Now the qasm is ready to be translated into the gate set accepted by the quantum architecture considered. -->
+<!-- This because we don't know yet which will be the accepting gateset accepted by the hardware we are using. Each of the various technologies that are currently tested to build a scalable quantum computer have a different universal gate set. It is thus paramount have efficient circuit to compile QASM code form one architecture to the other. Thanks to the Solovay-Kitaev Theorem we know that it can be done by circuit of size at most $O(\log(1/\epsilon))$ bigger than the original, but we hope to achieve way better results -->
+<!-- This is because the circuit our software generate offer a very conveniente gateset (i.e. all the higher level abstraction that a quantum programmer needs such as CNOTS, CSWASP and all the possible parametrized Pauli rotations). This is rarerly what the underlying hardware can accept, and thus we need to specify our circuit in the accepted gateset.  -->
+
+<!-- - **Optimization**. Then, the code generated needs to be optimized -->
+
+
+<!-- - **Application of error correcting code** -->
+<!-- Here you decide the error correcting code according to the error model of your hardware. For certain reason, the error correctin code most used are the surface code, but other error codes exists,  -->
+
+<!-- - **Topology adaptation** -->
+<!-- The connectivity of the quantum computer might prevent the execution of gates on two qubits physically distant. Practically, two qubits might be too much spatially separated to apply a CNOT. We need thus to introduce a series of swaps. This process is called nnization, and can add up to $XX$ percent of gates to the final circuit. -->
+
+
+<!-- - **Execution** the quantum algorithm is finally executed on the machine and a final state $\ket{\psi}$ is produced. -->
+
+<!-- The meaning of the final state of a qml algorithm might be of different nature.  -->
+
+<!-- - in some configuration they may act as the "transform" function of the sklearn objects: it will map a vector (or vectors in superpositions) from a feature space to another. These algorithms will have a runtime that is $O(\log nd)$. They can be used to recover "classically" the new dataset mapped in the new feature space by performing tomography, which inflates the cost of the procedure to $O(nd)$.   -->
+<!-- Some of these example are QSFA, [PCA](), [](), []().  -->
+<!-- Eventually, they can be used to map together the training set and a test vector in the feature space, where the classification decision is taken. As an example, imagine that for image classificaiton the algorithm outputs 0 if the test element is an image of a dog and 1 if the test image is a cat. In this configuration the runtime is expected to be logarithmic in the dataset, thus O(\log nd)$. But still, having a logarithmic dependence might be undesirable if we are expected to process a lot of new data. -->
+
+<!-- - In other configurations they will behave more as "fit", and output a description of the model that you have fit. The model is usually encoded with the amplitude encoding. It is thus reasonable to expect the running time of these class of algorithms to be at least $O(d)$, since usually the dimension of the model of a machine learning algorithm is proportional to the number of feature of the data. Among all the $O(d)$ algorithms, the ones that are expected to be more efficient are those that build the model in $\log nd$ time, such that the only step linear in the dimension of the dataset is the final tomography. -->
+
+<!-- In both cases, the algorithm will usually depent on some characteristics of the dataset. Some common function of $X$ are the sparsity, the Frobenius norm, the maximum $l_1$ norm of the rows of $X$, the rank of $X$, and so on. This might rule out the application of these algorithm to all the datasets, but it seems that these function scale well: less than $O(nd)$.  -->
+
+<!-- You might imagine to execute the gates as soon are generated by the library, but this would be non optimal in terms of the optimization of the final quantum algorithms. Most of the gate synthesys algorithms to compile one circuit in a specific architecture take as imput the whole algorithm as they arn't online.  -->

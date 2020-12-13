@@ -1,0 +1,9 @@
+---
+title: "q-Means"
+author: "scinawa"
+date: "12/11/2020"
+output: html_document
+---
+
+
+# q-means

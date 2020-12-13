@@ -1,0 +1,142 @@
+---
+title: "Virtual quantum labs"
+author: "scinawa"
+date: "12/12/2020"
+output: html_document
+---
+<style>
+.w3-button {
+  border: none;
+  display: inline-block;
+  padding: 8px 16px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.w3-disabled,.w3-btn:disabled,.w3-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+.w3-bar .w3-button {
+  white-space: normal;
+  width: 100%;
+}
+.w3-btn,.w3-button {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.mySlides {display:none;
+    }
+.w3-display-left {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(0%,-50%);
+  -ms-transform: translate(-0%,-50%);
+}
+.w3-display-right {
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  transform: translate(0%,-50%);
+  -ms-transform: translate(0%,-50%);
+}
+.w3-black,.w3-hover-black:hover {
+  color:  #03a127;
+  background-color:  #D7D7D7;
+opacity: 0.9;
+}
+.centrami{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+</style>
+
+
+
+
+# Virtual quantum labs
+
+Welcome to the virtual exhibition of quantum laboratory.
+
+
+*Do you want to appear here? Send me an email with some pictures at " scinwa - at - luongo - dot - pro ", I will be happy to add them here!*
+
+
+#### Pierre and Marie Curie (2018 ca) {-}
+
+
+
+<!-- <div class="centrami"> -->
+<!-- <div class="w3-content w3-section" style="width:333px" style="max-width:500px"> -->
+<!-- <img class="mySlides" src="/assets/esc2014_.jpg" style="width:100%"> -->
+<!-- <img class="mySlides" src="/assets/osday_.jpg" style="width:100%"> -->
+<!-- <img class="mySlides" src="/assets/diglove.jpg" style="width:100%"> -->
+<!-- <img class="mySlides" src="/assets/vl_.jpg" style="width:100%"> -->
+<!-- <img class="mySlides" src="/assets/berk.jpeg" style="width:100%"> -->
+<!-- </div> -->
+<!-- </div> -->
+
+<!--- <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+<button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+-->
+
+<script>
+var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+carousel();
+
+function carousel() {
+    var i;
+    var x = document.getElementsByClassName("mySlides");
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > x.length) {slideIndex = 1}
+    x[slideIndex-1].style.display = "block";
+    setTimeout(carousel, 4000); // Change image every 4 seconds
+}
+
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+  }
+  x[slideIndex-1].style.display = "block";
+}
+</script>
+
+
+<br>
+
+- **What**: quantum money and quantum key distributions 
+- 
+-
+
+
+#### Other
+
+- 
+- 
+- 

@@ -1,0 +1,23 @@
+book_filename: "quantumalgos"
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Chapter "
+rmd_files: ["index.Rmd", 
+"intro.Rmd",
+"classical.Rmd",
+"first-quantum-algorithms.Rmd",
+"between.Rmd",
+"dimensionality-reduction.Rmd",
+"q-means.Rmd",
+"qem.Rmd", 
+#"perceptrons.Rmd",
+# "variational-pro.Rmd", 
+# "variational-limitations.Rmd", 
+# "projective-simulation.Rmd", 
+"on-real-data.Rmd",
+"selected-works.Rmd",
+"virtual-quantum-labs.Rmd",
+"glossary.Rmd",
+"appendix.Rmd"
+]

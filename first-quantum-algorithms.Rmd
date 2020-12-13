@@ -1,0 +1,801 @@
+---
+title: "You first quantum algorithms"
+author: "scinawa"
+date: "12/2/2020"
+output: html_document
+---
+
+# You first quantum algorithms
+In this chapter, we will explore some introductive quantum algorithms. Some of them, are not particularly related to data analysis or machine learning, but given their high pedagogic potential, in order to better understand the model of quantum computation we adopt, that we decided it was important to report them here. Others will prove to be really useful subroutines for the quantum machine learning practitioner. 
+
+## Deutsch
+<!-- TODO -->
+
+## Simons
+<!-- TODO -->
+
+<!--
+# TODO Add notes and links on first quantum algorithms (Deutsch, and the likes)
+# It seems that there are plenty of resources to understand quantum algos like
+# Simon's, Grover, Deutsch, and so on, and this is not the scope of this website. 
+# Nevertheless, some brief description of the result (preferably in the form of a theorem)
+# can be a good exercise for a student. 
+# labels: help wanted, good first issue
+-->
+
+
+## Phase estimation {#section:phaseestimation}
+
+<!--
+# TODO Improve QFT part with other non-Fourier transform (wavelet, fourier on groups..)
+# It would be cool to have some non-trivial facts about the QFT 
+# (like how to see it as a mapping between elements of a group to a Hilbert space).
+# But also it would be even better to have more quantum transform, like the Wavelet transfrom.
+# This can be really helpful in the context of group-theoretical machine learning.
+# labels: good first issue, help wanted, enhancement
+-->
+
+
+```{theorem, phase-estimation, name="Phase estimation [@Kitaev1995QuantumProblem]"}
+Let $U$ be a unitary operator, with eigenvectors $\ket{v_j}$ and eigenvalues $e^{\iota \theta_j}$ for $\theta_j \in [-\pi, \pi]$, i.e. we have $U\ket{v_j} = e^{\iota \theta_j}\ket{v_j}$ for $j \in [n]$. For a precision parameter $\epsilon > 0$, there exists a quantum algorithm that runs in time $O(T(U) log n/\varepsilon)$ and with probability $1 - 1/poly(n)$ maps a state $\ket{\phi_i} = \sum_{j \in [n]} \alpha_j\ket{v_j} $  to the state $\sum_{j \in [n]} \alpha_j \ket{v_j}\ket{\bar{\theta_j}}$ such that $\bar{\theta}_j \in \theta_j \pm \varepsilon$ for all $j \in [n]$.
+```
+
+While the standard implementation of phase estimation is based on the quantum Fourier transform (QFT) circuit \cite{NC02}, there have been various improvements \cite{ahmadi2010quantum} which try to soften the dependence on the QFT circuit, while retaining the accuracy guarantees offered by the QFT in estimating the angles $\theta_j$.
+\paragraph{Remark.} Note that the same algorithm described by theorem \ref{th:phase_estimation} can be made ``consistent'', as in the sense of \cite{ta2013inverting}. While in the original formulation of phase estimation two different runs might return different estimate for $\overline{\theta}_j$, with a consistent phase estimation this estimate is fixed, with high probability. It means that the error, between two different runs of phase estimation, is almost deterministic.
+
+
+
+## Amplitude amplification and amplitude estimation
+Amplitude amplification and amplitude estimation are two of the workhorses of quantum algorithms. In this section, we report both the original statement of the theorem, and a simpler version, which is better suited for the context of our algorithms.
+
+```{theorem, thm-ampest-orig, name="Amplitude estimation, [@BHMT00]"}
+Given a quantum algorithm $$A:\ket{0} \to \sqrt{p}\ket{y,1} + \sqrt{1-p}\ket{G,0}$$ where $\ket{G}$ is some garbage state, then for any positive integer $P$, the amplitude estimation algorithm outputs $\tilde{p}$ $(0 \le \tilde p \le 1)$ such that
+	$$
+	|\tilde{p}-p|\le 2\pi \frac{\sqrt{p(1-p)}}{P}+\left(\frac{\pi}{P}\right)^2
+	$$
+	with probability at least $8/\pi^2$. It uses exactly $P$ iterations of the algorithm $A$.
+	If $p=0$ then $\tilde{p}=0$ with certainty, and if $p=1$ and $P$ is even, then $\tilde{p}=1$ with certainty.
+```
+
+In the original amplitude amplification algorithm, we assume to know $P$, i.e. the correct number of iterations. Later on, a fixed-point version of amplitude amplification has been proposed  \cite{grover2005fixed}, which has been optimized in \cite{yoder2014fixed}. These versions do not require to know $P$ in advance. Recently, various researches worked on improvements of amplitude estimation by getting rid of the part of the original algorithm that performed the phase estimation (i.e. the Quantum Fourier Transform \cite{NC02}) \cite{grinko2019iterative, aaronson2020quantum}. Perhaps a simpler formulation, which hides the complexity of the low-level implementation of the algorithm, and is thus more suitable to be used in quantum algorithms for machine learning is the following.
+
+
+```{lemma, amp-amp-est-simple, name="Amplitude amplification and estimation [@kerenidis2017quantumsquares]" } 
+If there is unitary operator $U$ such that $U\ket{0}^{l}= \ket{\phi} = \sin(\theta) \ket{x, 0} + \cos(\theta) \ket{G, 0^\bot}$ then  $\sin^{2}(\theta)$ can be estimated to multiplicative error $\eta$ in time $O(\frac{T(U)}{\eta \sin(\theta)})$ and $\ket{x}$ can be generated in expected time $O(\frac{T(U)}{\sin (\theta)})$ where $T(U)$ is the time to implement $U$.
+```
+
+
+## Finding the minimum {#subsec:findmin}
+
+
+<!--
+# TODO Write about quantum minimum finding subroutines
+# Amplitude amplification and estimation has been generalized to minimum finding procedure
+# where they retain the quadratic speedup of the original technique. 
+# It would be good to have those subroutine included here, with a general expaination of the 
+# idea of the proof used behind the algorithm
+# labels: good first issue, help wanted
+-->
+
+
+## Quantum linear algebra {#subsec:linearalgebra} 
+
+In our algorithms, we will also use subroutines for quantum linear algebra. From the first work of \cite{HarrowHassidim2009HHL} (known in the literature as HHL algorithm) that proposed a quantum algorithm for matrix inversion, a lot of progress has been made. In this section, we briefly recall some of the results in quantum linear algebra. We conclude by citing the state-of-the art techniques for performing not only matrix inversion and matrix multiplication, but also for applying a certain class of functions to the singular values of a matrix. A notable result after HHL was the ability to perform a quantum version of the singular value decomposition. This idea is detailed in the following theorem.
+
+
+```{theorem, sve-theorem, name="Singular Value Estimation [@kerenidis2017quantumsquares]"}
+Let $M \in \mathbb{R}^{n \times d}$  be a matrix with singular value decomposition $M =\sum_{i} \sigma_i u_i v_i^T$ for which we have quantum access. Let $\varepsilon > 0$ the precision parameter. There is an algorithm with running time $\tilde{O}(\mu(M)/\varepsilon)$ that performs the mapping $\sum_{i} \alpha_i \ket{v_i} \to \sum_{i}\alpha_i \ket{v_i}  \ket{\tilde{\sigma}_i}$, where $\tilde{\sigma_i} - \sigma_i | \leq \varepsilon$ for all $i$ with probability at least $1-1/poly(n)$.
+```
+
+Recall that quantum access to a matrix is defined in theorem \@ref(def:KP-trees), and the parameter $\mu$ is defined in definition \@ref(def:mu).
+The relevance of theorem \@ref(thm:sve-theorem) for quantum machine learning is the following: if we are able to estimate the singular values of a matrix, then we can perform a conditional rotation controlled by these singular values and hence perform a variety of linear algebraic operations, including matrix inversion, matrix multiplication or projection onto a subspace. Based on this result, quantum linear algebra was done using the theorem stated below.
+
+``` {theorem, thm-matrix-algebra-sve, nome="(OLD) Quantum linear algebra"}
+Let $M := \sum_{i} \sigma_iu_iv_i^T \in \mathbb{R}^{d \times d}$ such that $\norm{M}_2 = 1$, and a vector $x \in \mathbb{R}^d$ for which we have quantum access. There exist quantum algorithms that with probability at least $1-1/poly(d)$ return
+
+- a state $\ket{z}$ such that $| \ket{z} - \ket{Mx}| \leq \epsilon$ in time $\tilde{O}(\kappa^2(M)\mu(M)/\epsilon)$
+- a state $\ket{z}$ such that $|\ket{z} - \ket{M^{-1}x}| \leq \epsilon$ in time $\tilde{O}(\kappa^2(M)\mu(M)/\epsilon)$
+- a state $\ket{M_{\leq \theta, \delta}^+M_{\leq \theta, \delta}x}$  in time $\tilde{O}(\frac{ \mu(M) \norm{x}}{\delta \theta \norm{M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta}x}})$
+  
+One can also get estimates of the norms with multiplicative error $\eta$ by increasing the running time by a factor $1/\eta$.
+```
+
+<!--
+# TODO Finalize draft of algorithm and proof for linear algebra with SVE
+# It commented - but its there - the original latex coming from the paper of gradient descent
+# for the algo and the proof of the linear system of equation. 
+# It should be integrated with the proof of projection is subspace.
+# I have already an algorithm encompassing all the three cases in my notes.
+# label: 
+-->
+
+<!-- \begin{algorithm}[H] -->
+<!-- \caption{Quantum matrix multiplication/linear systems.} \label{qmat} -->
+<!-- \begin{algorithmic}[1] -->
+<!-- \REQUIRE Matrix $A \in \R^{n\times n}$ stored in the data structure in Theorem \ref{optqds}, such that eigenvalues of  -->
+<!-- $A$ lie in $[1/\kappa, 1]$. Input state $\ket{x}=\sum_{i} \beta_{i} \ket{v_{i}}\in \R^{n}$, where $v_{i}$ are right singular vectors for $A$.  -->
+<!-- \STATE Perform singular value estimation with precision $\epsilon_{1}$ for $A$ on $\ket{x}$ to obtain $\sum_{i} \beta_{i} \ket{v_{i}} \ket{\overline{\lambda}_{i}}$.  -->
+<!-- \STATE Perform a conditional rotation and uncompute the $SVE$ register to obtain the state: \nl  -->
+<!-- (i)  $\sum_{i} \beta_{i} \ket{v_{i}} ( \overline{\lambda_{i}}  \ket{0} + \gamma \ket{1})$ for matrix multiplication.  \nl  -->
+<!-- (ii) $\sum_{i} \beta_{i} \ket{v_{i}} ( \frac{1} {\kappa \overline{\lambda_{i}} }  \ket{0} + \gamma \ket{1})$ for linear systems. \nl  -->
+<!-- \STATE Perform Amplitude Amplification with the unitary $V$ implementing steps $1$ and $2$, to obtain (i) $\ket{z} = \sum_{i} \beta_{i} \overline{\lambda_{i}}  \ket{v_{i}}$ or (ii) $\ket{z} = \sum_{i} \beta_{i} \frac{1}{\overline{\lambda_{i}}} \ket{v_{i}} $. \nl  -->
+<!-- \end{algorithmic} -->
+<!-- \end{algorithm} -->
+
+<!-- \noindent  -->
+<!-- We next analyze the correctness and provide the running time for the above algorithm.   -->
+<!-- \begin{theorem} \label{lqmat} -->
+<!-- Parts (i) and (ii) of Algorithm \ref{qmat} produce as output a -->
+<!-- state $\ket{z}$ such that  -->
+<!--  $\norm{ \ket{\mathcal{A}x} - \ket{z}} \leq \delta$ in expected time -->
+<!--   $\widetilde{O}(\frac{\kappa^{2}(A) \mu(A)}{ \delta }  )$ for $\mathcal{A}= A$ and $\mathcal{A}= A^{-1}$ respectively.  -->
+<!--   \end{theorem} -->
+
+
+<!-- {proof} -->
+<!-- We first analyze matrix multiplication. The unnormalized solution state is $Ax= \sum_{i} \beta_{i} \lambda_{i} v_{i}$, while the unnormalized output of step 1 of the algorithm which performs SVE to precision $\epsilon_{1}$ is $z= \sum_{i} ( \lambda_{i} \pm  \widetilde{\epsilon}_{i}) \beta_{i} v_{i}$ such that $|\widetilde{\epsilon}_{i}| \leq \epsilon_{1}$ for all $i$. As the $v_{i}$ are orthonormal, we have  -->
+<!--   $\norm{ Ax - z} \leq \epsilon_{1} \norm{x}$ and by Claim  \ref{unnorm}, we have $\norm{ \ket{Ax} - \ket{z}} \leq \frac{\sqrt{2}\epsilon_{1}\norm{x}}{\norm{Ax}}\leq \sqrt{2} \epsilon_{1} \kappa(A)$.  -->
+
+
+
+<!-- We next analyze linear systems. The unnormalized solution state is $A^{-1}x= \sum_{i} \frac{\beta_{i}}{\lambda_{i}} v_{i}$. %where $\norm{\beta}=1$.  -->
+<!-- The unnormalized output is $z= \sum_{i} \frac{\beta_{i}}{\lambda_{i} \pm \tilde{\epsilon}_{i}} v_{i}$ for $|\widetilde{\epsilon}_{i}| \leq \epsilon_{1}$. We have -->
+<!-- the bound   -->
+<!-- \begin{eqnarray*} -->
+<!-- \norm{ A^{-1} x - z}^{2} & \leq  & \sum_{i} \beta_{i}^{2} \en{ \frac{1}{\lambda_{i}} - \frac{1}{ \lambda_{i} \pm \tilde{\epsilon}_{i}} }^{2} \leq \epsilon_{1}^{2} \sum_{i} \frac{\beta_{i}^{2}}{\lambda_{i}^{2} (\lambda_{i} - \epsilon_{1})^{2} } \leq \frac{\epsilon_{1}^{2} \kappa^{2}(A) \norm{A^{-1} x}^{2}}{ (1-\kappa(A) \epsilon_{1})^{2}} \\ -->
+<!-- & \leq & 4\epsilon_{1}^{2} \kappa^{2}(A) \norm{A^{-1} x}^{2} -->
+<!-- \end{eqnarray*} -->
+<!-- assuming  -->
+<!-- that $\kappa(A) \epsilon_{1} \leq 1/2$.  Applying Claim  \ref{unnorm} we obtain $\norm{ \ket{A^{-1} x} -\ket{ z}} \leq  2\sqrt{2}\kappa(A) \epsilon_{1}$ for $\kappa(A) \epsilon_{1} \leq 1/2$.  -->
+
+<!-- We can therefore use the SVE algorithm with precision $\epsilon_{1} = \frac{\delta} { \kappa(A)} $ for both cases to obtain a solution state $\norm{ \ket{\mathcal{A}x} - \ket{z}} \leq \delta$. The success probability for step 2 of the algorithm is $\frac{1}{\kappa^{2}(A)}$ for both matrix multiplication and matrix inversion. We apply Amplitude Amplification as in Theorem \ref{tampa} with the unitary $V$ that represents the first two steps of the algorithm to obtain an expected running time $\widetilde{O}(\frac{\kappa^2 (A) \mu(A)}{ \delta } )$.  -->
+<!-- ``` -->
+
+<!-- #### Algorithm:  -->
+<!--  - **Require**:  -->
+<!--     - QRAM acces to rows of $M$ and $\mathbb{R}^{n \times d}$, and $\ket{x} \in \mathbb{R}^d$ -->
+<!--     - A threshold $\theta$ and an error parameter $\delta > 0$. -->
+<!--  - **Ensure**:  -->
+<!--     - Our output register is in state $\ket{Mx}, \ket{M^{-1}x}$ or $\ket{M^{+}\_{\theta,\delta}M\_{\theta,\delta}x}$ -->
+
+<!-- 1. Create the state: $\ket{x} = \sum_{i} \alpha_i\ket{v_i} $ using the QRAM. -->
+<!-- 2. Perform SVE on $M$ with precision $\epsilon / \kappa(M)$ for matrix multiplication and inversion and with precision $\delta\theta$ for matrix projection. This step creates the state: $ \sum_{i} \alpha_i\ket{v_i}\ket{\overline{\sigma}_i} $ -->
+<!-- 3. Perform a conditional operation on an ancilla qubit to get  -->
+<!--   -  for matrix multiplication: $ \sum\limits_{i=1}^d \alpha_i\ket{v_i}\ket{\overline{\sigma}_i}\Big(\overline{\sigma}_i\ket{0} + \sqrt{1 - \overline{\sigma}^2_i}\ket{1}\Big) $ -->
+<!--   -  for matrix inversion: $ \sum\limits_{i=1}^d \alpha\_i\ket{v\_i}\ket{\overline{\sigma\_i}} \left(\frac{\overline{\sigma}\_{min}}{	\overline{\sigma}\_i}\ket{0} + \sqrt{1- \left(\frac{\overline{\sigma}\_{min}}{\overline{\sigma}\_i}\right)^2}\ket{1} \right)$ -->
+<!--   -  for projecting in the subspace spanned by singular values smaller than $\theta$, map $\ket{\overline{\sigma}_j}\ket{0} \to \ket{\overline{\sigma}_i}\ket{0}$ if $\overline{\sigma_i }< (1+\delta) \theta$ and to $\ket{\overline{\sigma}_i}\ket{1}$ otherwise. -->
+<!-- 4. Uncompute the SVE to get the following states: -->
+<!--   - for matrix multiplication: $ \sum\limits\_{i=1}^d \alpha_i \overline{\sigma}_i \ket{v_i}  \ket{0} + \ket{G}\ket{1} $ -->
+<!--   -  for matrix inversion: $ \overline{\sigma}\_{min} \sum\limits_{i=1}^d { \frac{\alpha\_i}{\overline{\sigma}\_i}}  \ket{v\_i}  \ket{0}  -->
+<!-- +\ket{G} \ket{1} $ -->
+<!--   -  for projection in a subspace: $ \sum\limits\_{j \in S}  \alpha\_j \ket{v\_j}\ket{0}  + \sum\limits\_{j \in \bar{S}}  \alpha\_j\ket{v\_j}\ket{1}$ where $S$ is the set of $j$'s such that $\sigma_j \leq \theta$ and some $j$'s such that $\sigma_j \leq [\theta, (1+\delta)\theta)$, and $\bar{S}$ is the complement of $S$. -->
+
+<!-- 5. Perform amplitude **amplification*** on the register $\ket{0}$ with the unitary $U$ implementing steps 1 to 4, to obtain: -->
+<!--   - for matrix multiplication: $\ket{z}$ such that $| \ket{z}-\ket{Mx}| \leq \epsilon$, using  -->
+<!-- $O(\kappa(M))$ iterations -->
+<!--   -  for matrix inversion: $\ket{z}$ such that $\|\ket{z} - \ket{M^{-1}x} \| < \epsilon $, using $O(\kappa(M))$ iterations -->
+<!--   -  for projection in a subspace: $\ket{M^{+}\_{\theta, \delta}M\_{\theta, \delta} x}$, using -->
+<!--  $O(\frac{ \norm{x}}{\norm{M^{+}\_{\leq \theta, \delta}M\_{\leq \theta, \delta}x}})$ iterations -->
+
+
+<!-- 6. Perform amplitude **estimation** on the register $\ket{0}$ with the unitary $U$ implementing steps 1 to 4, to obtain -->
+<!--   -  for matrix multiplication: $\overline{\norm{Mx}}$ such that $\|\overline{\norm{Mx}} - \norm{Mx} \| \leq \eta \norm{Mx} $, using $O(\kappa(M)/\eta)$ iterations -->
+
+<!--  - for matrix inversion: $\overline{\norm{M^{-1}x}	}$ such that $\|\overline{\norm{M^{-1}x} }  - \norm{M^{-1}x} \| \leq \eta \norm{M^{-1}x} $, using $O(\kappa(M)/\eta)$ iterations -->
+
+<!--   -  for projection in a subspace: $\overline{ \norm{M^{+}\_{\theta, \delta}M\_{\theta, \delta} x}}$ such that $\| \overline{ \norm{M^{+}\_{\theta, \delta}M\_{\theta, \delta} x}}-  \norm{M^{+}\_{\theta, \delta}M\_{\theta, \delta} x} \| \leq \eta \norm{M^{+}\_{\theta, \delta}M\_{\theta, \delta} x}$, using $O(\frac{ \norm{x}}{\eta \norm{M^{+}\_{\leq \theta, \delta}M\_{\leq \theta, \delta}x}})$ iterations -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+For a symmetric matrix $M \in \mathbb{R}^{d\times d}$ with spectral norm $\|M\|=1$ for which we have quantum access, the running time of these algorithms depends on the condition number $\kappa(M)$ of the matrix, that can be replaced by $\kappa_\tau(M)$, a condition threshold where we keep only the singular values bigger than $\tau$, and the parameter $\mu(M)$, a matrix dependent parameter defined in definition \@ref(def:mu).  The running time also depends logarithmically on the relative error $\epsilon$ of the final outcome state. Recall that these linear algebra procedures above can also be applied to any rectangular matrix $V \in \mathbb{R}^{n \times d}$ by considering instead the symmetric matrix 
+
+$$ \overline{V} = \left ( \begin{matrix}
+0  &V \\
+V^{T} &0 \\
+\end{matrix}  \right ).$$
+
+
+## Linear combination of unitaries, normal forms, and singular value transformations {#subsec:svt}
+
+We continue our journey in quantum linear algebra by discussing the state-of-the-art technique beneath quantum linear algebra, called singular value transformation.
+
+The research of quantum algorithms for machine learning has always used techniques developed in other areas of quantum algorithms. Among the many, we cite quantum algorithms for Hamiltonian simulation and quantum random walks. In fact, using quantum random walks, it is possible to decrease the dependence on the error parameter, from polynomial to $\text{polylog}(1/\epsilon)$ [@childs2012hamiltonian]. Stemming from the research in Hamiltonian simulation [@berry2015hamiltonian], [@low2019hamiltonian], [@berry2015simulating], [@low2017hamiltonian],[@subramanian2019implementing], these techniques have been further optimized, pushing them to the limit of almost optimal time and query complexity. Significant progress in the direction of quantum algorithms for linear algebra was the so-called LCU, or linear combination of unitaries [@childs2012hamiltonian], which again was developed in the context of the Hamiltonian simulation problem.
+
+
+```{lemma, lcu, name="Linear combination of unitaries [@Childs2015]"}
+Let $M = \sum_{i} \alpha_i U_i$ be a linear combination of unitaries $U_i$ with $\alpha_i >0$ for all $i$. Let $V$ be any operator that satisfies  $V|0^m\> := \frac{1}{\sqrt{\alpha}}\sum_i \sqrt{\alpha_i}|i\>$, where $\alpha := \sum_i \alpha_i$.
+Then $W := V^{\dagger}UV$ satisfies
+\begin{equation}
+W\ket{0^{\otimes m}}\ket{\psi} =\frac{1}{\alpha}\ket{0^{\otimes m}}M\ket{\psi} + \ket{\Psi^\perp}
+\end{equation}
+for all states $\ket{\psi}$, where $U := \sum_i \ket{i}\bra{i} \otimes U_i$ and $(\ket{0^{\otimes m}}\bra{0^{\otimes m}} \otimes I)\ket{\Psi^\perp}=0$.
+```
+
+
+
+In recent years a new framework for performing operations on matrices with a quantum computer was developed, which can be found in works [@CGJ18], [@gilyen2019quantum]. We now briefly go through the machinery behind these results, as it will be used throughout this thesis.
+
+```{definition, def-block-encoding, name="Block encoding of a matrix"}
+Let $A\in \mathbb{C}^{2^s \times 2^s}$. We say that a unitary $U \in \mathbb{C}^{(s+a)\times(s+a)}$ is a ($\alpha, a, \epsilon)$ block encoding of $A$ if:
+$$\norm{A - \alpha (\bra{0}^a \otimes I )U( \ket{0}^a \otimes I)  } \leq \epsilon$$ 
+```
+
+We will see that having quantum access to a matrix $A\in\mathbb{C}^{2^w \times 2^w}$, as described in the setting of theorem \ref{qram}, it is possible to implement a $(\mu(A), w+2, \text{polylog}(\epsilon))$ block-encoding of $A$ \footnote{This $\text{polylog}(\epsilon)$ in the block encoding is due to approximation error that one commits when creating quantum access to the classical data structures, i.e. is the approximation that derives from truncating a number $n \in \mathbb{R}$ (which rerepsent an entry of the matrix) up to a certain precision $\epsilon$ \cite[lemma 25]{CGJ18}.}. Given matrix $U$ which is a $(\alpha, a, \delta)$ block encoding of $A$, and a matrix $V$ which is a $(\beta, b, \epsilon)$ block encoding of $B$, it is simple to obtain a $(\alpha\beta, a+b, \alpha\epsilon+\beta\delta)$ block encoding of $AB$.
+
+For practical purposes, having a block encoding of a matrix $A$, allows one to manipulate its spectra using polynomial approximation of analytic functions.
+In the following theorem, the notation $P_{\Re}(A)$ means that we apply the polynomial $P$ to the singular values of the matrix $A$, i.e. $P_{\Re}(A) = \sum_i^r P(\sigma_i)u_iv_i^T$.
+
+<!-- TODO -->
+<!-- explain better why we have a $ -->
+
+
+```{theorem, SVT, name="Polynomial eigenvalue transformation of arbitrary parity [@gilyen2019quantum]"}
+Suppose that $U$ is an $(\alpha,a,\epsilon)$-block encoding of the Hermitian matrix $A$. If $\delta\geq 0$ and $P_{\Re}\in\mathbb{R}[x]$ is a degree-$d$ polynomial satisfying that:
+
+-  for all $x\in[-1,1]$, $| P_{\Re}(x)|\leq \frac{1}{2}$.
+
+Then there is a quantum circuit $\tilde{U}$, which is an $(1,a+2,4d\sqrt{\epsilon/\alpha}+\delta)$-encoding of 	$P_{\mathcal{R}}(A/\alpha)$, and consists of $d$ applications of $U$ and $U^\dagger$ gates, a single application of controlled-$U$ and $O((a+1)d)$ other one- and two-qubit gates. Moreover we can compute a description of such a circuit with a classical computer in time $O(\text{poly}d,\log(1/\delta))$.
+```
+
+
+For instance, matrix inversion can be seen as the problem of implementing the singular value transformation of $x \mapsto 1/x$. For this, one needs to get a polynomial approximation of the function $1/x$. While this might seem a simple task, there are small complications. First, one usually does not consider the whole interval $[-1, 1]$. In practice, one excludes the subset of the domain where the function has singularities (i.e. for $1/x$ is around zero). Then, it is preferable to pick a polynomial of a small degree (and small coefficients), as the depth of the circuit depends linearly on the degree of the polynomial.
+
+Given a $(\alpha, a, \epsilon)$-block encoding for a matrix $A$ and a quantum state $\ket{b}$, we can obtain a good approximation of $A\ket{b}/\norm{Ab}$ by first creating the state $\ket{0^a,b}$ and then applying the block encoding of $A$ to it. Then, we can amplify the part of the subspace associated with the state $\ket{0}^{\otimes a}A\ket{b}$. Differently, one might use advanced amplification techniques and reach a similar result. This concept is detailed in the following lemma.
+
+```{lemma, applicationBE, name="Applying a block-encoded matrix to a quantum state [@CGJ18]"}
+Fix any $\varepsilon \in (0,1/2)$. Let $A \in \mathbb{C}^{N \times N}$ such that $\norm{A}\leq 1$ and $\ket{b}$ a normalized vector in $\mathbb{C}^N$, such that $\norm{A\ket{b}} \geq \gamma$. Suppose that $\ket{b}$ can be generated in complexity $T_b$ and there is a $(\alpha, a, \epsilon)$-block encoding of $A$ for some $\alpha \geq 1$, with $\epsilon \leq \varepsilon\gamma/2$, that can be implemented in cost $T_A$. Then there is a quantum algorithm with complexity
+$$O\left(min(\frac{\alpha(T_A + T_b)}{\gamma}, \frac{\alpha T_A\log(1/\epsilon)+T_B}{\gamma})\right) $$
+that terminates with success probability at least $2/3$, and upon success generates the state $A\ket{b}/\norm{A\ket{b}}$ to precision $\varepsilon$.
+```
+
+For sake of completeness, we briefly discuss how to prove the first upper bound. Generating $\ket{b}$ and applying the block encoding of $A$ to it, we create a state that is $(\epsilon/\alpha)$-close to:
+$$\ket{0}^{\otimes a}(\frac{1}{\alpha}A\ket{b}) + \ket{0^\perp} $$
+From the hypothesis, we know that $\norm{\frac{1}{\alpha}A\ket{b} } \geq \gamma/\alpha$. We can use $O(\alpha/\gamma)$ calls to amplitude amplification on the initial register being $\ket{0}^{\otimes a}$, to get $\frac{\epsilon}{\gamma}$ close to $\ket{0}^{\otimes a}\frac{A\ket{b}}{\norm{A}\ket{b}}$. The second upper bound is shown by other techniques based on amplitude amplification of singular values of block encoded matrices (i.e. \cite[lemma 47]{CGJ18}, \cite[theorem 2,8]{low2017hamiltonian}).
+
+Regarding the usage of block-encodings for solving with a quantum computer a linear system of equations (i.e. multiplying a quantum state by the inverse of a matrix, and creating a state $\ket{x}$ proportional to $A^{-1}\ket{b}$) we can proceed in an analogous way. First, we need to create block encoding access to $A^{-1}$. Using the following lemma, (where they denoted with $\kappa$ the condition number of $A$) we can implement negative powers of Hermitian matrices.
+
+
+```{lemma, negative-powers, name="Implementing negative powers of Hermitian matrices [@CGJ18] Lemma 9" }
+Let $c \in (0,\infty), \kappa \geq 2$, and let $A$ be an Hermitian matrix such that $I/\kappa \leq A \leq I$. Suppose that $\delta = o(\epsilon/( \kappa^{1+c}(1+c) \log^3\frac{k^{1+c}}{\epsilon}))$ and $U$ is an $(\alpha,a,\delta)$-block encoding of $A$ that can be implemented using $T_U$ gates. Then, for any $\epsilon$, we can implement a unitary $\tilde{U}$ that is a $(2\kappa^c, a, \epsilon)$-block encoding of $H^{-c}$ in cost:
+	$$O\left(\alpha \kappa(a+T_U)(1+c)\log^2(\frac{k^{1+c}}{\epsilon})\right)$$
+```
+  
+
+
+Nevertheless, the algorithm that emerges by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2010variable]. Hence, we can restate the theorem  \ref{matrix_algebra}, with the improved runtimes, as follows.
+
+  
+```{theorem, qla, name="Quantum linear algebra [@CGJ18],[@gilyen2019quantum]"}
+Let $M := \sum_{i} \sigma_iu_iv_i^T \in \mathbb{R}^{d \times d}$ such that $\norm{M}_2 =1$, and a vector $x \in \mathbb{R}^d$ for which we have quantum access in time $T_\chi$. There exist quantum algorithms that with probability at least $1-1/poly(d)$ return
+	
+- a state $\ket{z}$ such that $| \ket{z} - \ket{Mx}| \leq \epsilon$ in time $\tilde{O}(\kappa(M)(\mu(M)+T_\chi)\log(1/\epsilon))$
+- a state $\ket{z}$ such that $|\ket{z} - \ket{M^{-1}x}| \leq \epsilon$ in time $\tilde{O}(\kappa(M)(\mu(M)+T_\chi)\log(1/\epsilon))$
+- a state $\ket{M_{\leq \theta, \delta}^+M_{\leq \theta, \delta}x}$  in time $\tilde{O}(T_\chi \frac{ \mu(M) \norm{x}}{\delta \theta \norm{M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta}x}})$
+
+One can also get estimates of the norms with multiplicative error $\eta$ by increasing the running time by a factor $1/\eta$.
+```
+
+Another important advantage of the new methods is that it provides easy ways to manipulate sums or products of matrices.
+
+```{theorem, qlap, name="Quantum linear algebra for products [@CGJ18],[@gilyen2019quantum]"}
+Let $M_1, M_2 \in \mathbb{R}^{d \times d}$ such that $\norm{M_1}_2= \norm{M_2}_2 =1$, $M=M_1M_2$,
+	 and a vector $x \in \mathbb{R}^d$ for which we have quantum access. There exist quantum algorithms that with probability at least $1-1/poly(d)$ return
+
+- a state $\ket{z}$ such that $| \ket{z} - \ket{Mx}| \leq \epsilon$ in time $\tilde{O}(\kappa(M)(\mu(M_1)+\mu(M_2))\log(1/\epsilon))$
+- a state $\ket{z}$ such that $|\ket{z} - \ket{M^{-1}x}| \leq \epsilon$ in time $\tilde{O}(\kappa(M)(\mu(M_1)+\mu(M_2))\log(1/\epsilon))$
+-  a state $\ket{M_{\leq \theta, \delta}^+M_{\leq \theta, \delta}x}$  in time $\tilde{O}(\frac{ (\mu(M_1)+\mu(M_2)) \norm{x}}{\delta \theta \norm{M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta}x}})$
+
+One can also get estimates of the norms with multiplicative error $\eta$ by increasing the running time by a factor $1/\eta$.
+```
+
+More generally, applying a matrix $M$ which is the product of $k$ matrices, i.e. $M=M_1\dots M_k$ will result in a runtime of $\kappa(M)(\sum_i^k \mu(M_i) )\log(1/\epsilon)$ factors in the runtime.
+
+
+## Distance estimations and quadratic form estimation {#sub:distances}
+
+
+In this section, we report two lemmas that can be used to estimate the inner products, distances, and quadratic forms between vectors. The lemma \ref{th:innerproductestimation} has been developed in the work \cite{kerenidis2019qmeans,luongo2019spectral}. 
+
+We can rephrase this theorem saying that we have quantum access to the matrices, but here we keep the original formulation of it. 
+```{lemma, innerproductestimation, name="Distance and Inner Products Estimation [@kerenidis2019qmeans]"}
+Assume for a matrix $V \in \mathbb{R}^{n \times d}$ and a matrix $C \in \mathbb{R}^{k \times d}$ that the following unitaries
+$\ket{i}\ket{0} \mapsto \ket{i}\ket{v_i}$, and $\ket{j}\ket{0} \mapsto \ket{j}\ket{c_j}$ 
+can be performed in time $T$ and the norms of the vectors are known. For any $\Delta > 0$ and $\epsilon>0$, there exists a quantum algorithm that  computes
+
+- $\ket{i}\ket{j}\ket{0}  \mapsto   \ket{i}\ket{j}\ket{\overline{d^2(v_i,c_j)}}$ where $|\overline{d^{2}(v_i,c_j)}-d^{2}(v_i,c_j)| \leqslant  \epsilon$ w.p. $\geq 1-2\Delta$
+- $\ket{i}\ket{j}\ket{0}  \mapsto   \ket{i}\ket{j}\ket{\overline{(v_i,c_j)}}$ where  $|\overline{(v_i,c_j)}-(v_i,c_j)| \leqslant  \epsilon$ w.p. $\geq  1-2\Delta$
+  
+in time $\widetilde{O}\left(\frac{ \norm{v_i}\norm{c_j} T \log(1/\Delta)}{ \epsilon}\right)$.
+```
+
+
+
+```{proof}
+Let us start by describing a procedure to estimate the square $\ell_2$ distance between the normalized vectors $\ket{v_i}$ and $\ket{c_j}$. We start with the initial state
+ $$
+ \ket{\phi_{ij}} := \ket{i} \ket{j} \frac{1}{\sqrt{2}}(\ket{0}+	\ket{1})\ket{0}
+ $$
+
+ Then, we query the state preparation oracle controlled on the third register to perform the mappings
+ $\ket{i}\ket{j}\ket{0}\ket{0} \mapsto \ket{i}\ket{j}\ket{0}\ket{v_i}$ and $\ket{i}\ket{j}\ket{1}\ket{0} \mapsto \ket{i}\ket{j}\ket{1}\ket{c_j}$.
+ The state after this is given by,
+$$
+ \frac{1}{\sqrt{2}}\left( \ket{i}\ket{j}\ket{0}\ket{v_i} + \ket{i}\ket{j}\ket{1}\ket{c_j}\right)
+$$
+Finally, we apply an Hadamard gate on the the third register to obtain,
+$$\ket{i}\ket{j}\left( \frac{1}{2}\ket{0}\left(\ket{v_i} + \ket{c_j}\right) + \frac{1}{2}\ket{1}\left(\ket{v_i} -\ket{c_j}\right)\right)$$
+The probability of obtaining $\ket{1}$ when the third register is measured is,
+$$ p_{ij} =  \frac{1}{4}(2 - 2\braket{v_i}{c_j}) =  \frac{1}{4} d^2(\ket{v_i}, \ket{c_j}) =  \frac{1 - \langle v_i | c_j\rangle}{2}$$
+which is proportional to the square distance between the two normalized vectors.
+
+We can rewrite $\ket{1}\left(\ket{v_i} - \ket{c_j}\right)$ as $\ket{y_{ij},1}$ (by swapping the registers), and hence we have the final mapping
+$$
+ A: \ket{i}\ket{j} \ket{0} \mapsto \ket{i}\ket{j}(\sqrt{p_{ij}}\ket{y_{ij},1}+\sqrt{1-p_{ij}}\ket{G_{ij},0})
+ (eq:QDE)
+$$
+ where the probability $p_{ij}$ is proportional to the square distance between the normalized vectors and $G_{ij}$ is a garbage state. Note that the running time of $A$ is $T_A=\tilde{O}(T)$.
+
+Now that we know how to apply the transformation described in Equation \@ref(eq:QDE), we can use known techniques to perform the centroid distance estimation as defined in theorem \@ref(dist) within additive error $\epsilon$ with high probability. The method uses two tools, amplitude estimation, and the median evaluation lemma \@ref(lem:median) from [@wiebe2018quantum].
+
+First, using amplitude estimation (theorem \@ref(thm:amplitudeestimation)) with the unitary $A$ defined in Equation \ref{QDE}, we can create a unitary operation that maps
+$$
+% \mathcal{U}: \ket{i}\ket{j}  \ket{0} \mapsto \ket{i}\ket{j} \left( \sqrt{\alpha}  \ket{ \overline{p_{ij}}, G, 1} + \sqrt{ (1-\alpha ) }\ket{G', 0}  \right)
+$$
+ where $G, G'$ are garbage registers, $|\overline{p_{ij}} - p_{ij}  |  \leq \epsilon$ and $\alpha \geq 8/\pi^2$.
+ The unitary $\mathcal{U}$ requires $P$ iterations of $A$ with $P=O(1/\epsilon)$. Amplitude estimation thus takes time $T_{\mathcal{U}} = \widetilde{O}(T/\epsilon)$. We can now apply theorem \ref{lemma:median} for the unitary $\mathcal{U}$ to obtain a quantum state $\ket{\Psi_{ij}}$ such that,
+ 
+$$\|\ket{\Psi_{ij}}-\ket{0}^{\otimes L}\ket{\overline{p_{ij}}, G}\|_2\le \sqrt{2\Delta}$$
+
+The running time of the procedure is $O( T_{\mathcal{U}} \ln(1/\Delta)) = \widetilde{O}( \frac{T }{\epsilon}\log (1/\Delta)  )$.
+
+Note that we can easily multiply the value $\overline{p_{ij}}$ by 4 in order to have the estimator of the square distance of the normalized vectors or compute $1-2\overline{p_{ij}}$ for the normalized inner product. Last, the garbage state does not cause any problem in calculating the minimum in the next step, after which this step is uncomputed.
+The running time of the procedure is thus
+$O( T_{\mathcal{U}} \ln(1/\Delta)) = O( \frac{T }{\epsilon}\log (1/\Delta)  )$.
+The last step is to show how to estimate the square distance or the inner product of the unnormalized vectors. Since we know the norms of the vectors, we can simply multiply the estimator of the normalized inner product with the product of the two norms to get an estimate for the inner product of the unnormalized vectors and a similar calculation works for the distance. Note that the absolute error $\epsilon$ now becomes $\epsilon \norm{v_i}\norm{c_j}$ and hence if we want to have in the end an absolute error $\epsilon$ this will incur a factor of $\norm{v_i}\norm{c_j}$ in the running time. This concludes the proof of the lemma.
+```
+
+
+
+
+It is relatively simple to extend the previous algorithm to one that computes an estimate of a quadratic form. We will consider the case where we have quantum access to a matrix $A$ and compute the quadratic forms $v^TAv$ and $v^TA^{-1}v$. The extension to the case when we have two different vectors, i.e. $v^TAu$ and $v^TA^{-1}u$ is trivial.
+
+
+
+```{lemma, quadratic-forms, name="Estimation of quadratic forms"}
+Assume to have quantum access to a symmetric positive definite matrix $A \in \mathbb{R}^{n \times n}$ such that $\norm{A}\leq 1$, and to a matrix $V \in \mathbb{R}^{n \times d}$. For $\epsilon > 0$, there is a quantum algorithm that performs the mapping $\ket{i}\ket{0} \mapsto \ket{i}\ket{\overline{s_i}}$, for $|s_i - \overline{s_i}| \leq \epsilon$, where $s_i$ is either:
+
+- $(\ket{v_i},A\ket{v_i})$ in time $O(\frac{\mu(A)}{\epsilon})$
+-  $(\ket{v_i},A^{-1}\ket{v_i})$ in time $O(\frac{\mu(A)\kappa(A)}{\epsilon})$
+
+The algorithm can return an estimate of $\overline{(v_i, Av_i)}$ such that $\overline{(v_i, Av_i)} - (v_i, Av_i) \leq \epsilon$ using quantum access to the norm of the rows of $V$ by increasing the runtime by a factor of $\norm{v_i}^2$.
+```
+
+```{proof}
+We analyze first the case where we want to compute the quadratic form with $A$, and after the case for $A^{-1}$. Recall that the matrix $A$ can be decomposed in an orthonormal basis $\ket{u_i}$. We can use theorem \ref{th:qla} to perform the following mapping:
+
+\begin{align}
+	\ket{i}\ket{v_i}\ket{0} = \ket{i}\frac{1}{N_i}\sum_j^n \alpha_{ij}\ket{u_j}\ket{0} \mapsto \ket{i}\frac{1}{N_i} \sum_i^n \Big(\lambda_i\alpha_{ij}\ket{u_i,0}+ \sqrt{1-\gamma^2}\ket{G,1} \Big) =\\
+	\ket{i} \Big(\norm{Av_i}\ket{Av_i,0}+\sqrt{1-\gamma^2}\ket{G,1} \Big)
+	=\ket{i}\ket{\psi_i},
+\end{align}
+
+
+
+where $N_i = \sqrt{\sum_j^n \alpha_{ij}^2}$.
+We define $\ket{\phi_i} = \ket{v_i,0}$. Using controlled operations, we can then create the state:
+
+\begin{equation}\label{eq:quadatic A}
+\frac{1}{2}\ket{i}\left(\ket{0}(\ket{\phi_i}+\ket{\psi_i}) + \ket{1}(\ket{\phi_i}-\ket{\psi_i})   \right)
+\end{equation}
+
+
+
+It is simple to check that, for a given register $\ket{i}$, the probability of measuring $0$ is:
+$$p_i(0) = \frac{1+\norm{Av_i}\braket{Av_i|v_i}}{2}$$
+
+We analyze the case where we want to compute the quadratic form for $A^{-1}$. For a $C = O(1/\kappa(A))$, we create instead the state:
+\begin{align}\label{eq:quadatic A minus 1}
+\ket{i}\frac{1}{\sqrt{\sum_i^n \alpha_i^2}} \sum_i^n \Big(\frac{C}{\lambda_i}\alpha_i\ket{v_i,0} + \sqrt{1-\gamma^2}\ket{G,1} \Big) = \ket{i}\ket{\psi_i}
+\end{align}
+
+
+\begin{equation}
+U_2 \ket{i}\ket{0} \mapsto \frac{1}{2}\ket{i} \left(\sqrt{\alpha}\ket{p_i(0),y_i,0} + \sqrt{1-\alpha}\ket{G'_i,1} \right)
+\end{equation}
+
+and estimate $p_i(0)$ such that $|p_i(0) - \overline{p_i(0)}| < \epsilon$ for the case of $v_i^TAv_i$ and we choose a precision $\epsilon/C$ for the case of $v_i^TA^{-1}v_i$ to get the same accuracy. Amplitude estimation theorem, i.e. theorem \ref{thm:ampest_orig} fails with probability $\leq \frac{8}{\pi^2}$. The runtime of this procedure is given by combining the runtime of creating the state $\ket{\psi_i}$, amplitude estimation, and the median lemma. Since the error in the matrix multiplication step is negligible, and assuming quantum access to the vectors is polylogarithmic, the final runtime is $O(\log(1/\delta)\mu(A)\log(1/\epsilon_2) / \epsilon)$, with an additional factor $\kappa(A)$ for the case of the quadratic form of $A^{-1}$.
+		
+		
+Note that if we want to estimate a quadratic form of two unnormalized vectors, we can just multiply this result by their norms. Note also that the absolute error $\epsilon$ now becomes relative w.r.t the norms, i.e. $\epsilon \norm{v_i}^2$.  If we want to obtain an absolute error $\epsilon'$, as in the case with normalized unit vectors, we have to run amplitude estimation with precision $\epsilon'=O(\epsilon/\norm{v_i}^2)$.
+		To conclude, this subroutine succeeds with probability $1-\gamma$ and requires time $O(\frac{\mu(A) \log (1/\gamma) \log (1/\epsilon_?)}{\epsilon_1})$, with an additional factor of $\kappa(A)$ if we were to consider the quadratic form for $A^{-1}$, and an additional factor of $\norm{v_i}^2$ if we were to consider the non-normalized vectors $v_i$. This concludes the proof of the lemma.
+```
+<!--
+# TODO Fix and check epsilons in the proof for quandratic forms
+# (it was epsilonmult) what is the correct epsilon to put in the log? 
+-->
+
+
+Note that this algorithm can be extended by using another index register to query for other vectors from another matrix $W$, for which we have quantum access. This extends the capabilities to estimating inner products in the form $\ket{i}\ket{j}\ket{w_i^TA v_i}$.
+
+
+
+
+
+## SVE-based quantum algorithms
+
+In the following section, we will cover some quantum algorithms based on singular value estimation. Some of them are here just because they are simple enough to have a good pedagogical value, while some of them we believe will be really useful in performing data analysis. 
+
+
+### Log-determinant
+This is not the fastest algorithm for estimating the log-determinant, but it's worth mentioning here because it perhaps the first thing one would try to do in order to estimate this quantity. 
+
+<!-- \begin{algorithm} -->
+<!-- \label{algo:logdet-sve} -->
+<!-- \begin{algorithmic}[1] -->
+<!-- \Require  -->
+<!-- Quantum access to the SPD matrix $A \in \mathbb{R}^{n \times n}$ such that $\|A\|\leq1$. Choose $\epsilon \in (0,1)$, -->
+<!-- $\epsilon_1=\epsilon/\kappa\log \kappa$ -->
+<!-- and $\epsilon_2=\epsilon/\kappa^2\log \kappa$. -->
+<!-- \Ensure  -->
+<!-- An estimate $|\overline{\log\det(A)}-\log\det(A)| \leq n\epsilon$.  -->
+<!-- \State Prepare -->
+<!-- \bes -->
+<!-- |A\rangle = \frac{1}{\|A\|_F} \sum_{i,j=1}^n a_{ij}|i,j\rangle. -->
+<!-- \ees -->
+<!-- \State Perform SVE by Lemma \ref{sveplus1} up to precision $\epsilon_1$ and do control rotations to prepare -->
+<!-- \bes -->
+<!--  \frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle|\tilde{\sigma}_j\rangle -->
+<!-- \left(C\frac{\sqrt{|\log \tilde{\sigma}_j}|}{\tilde{\sigma}_j} |0\rangle + |\bot\rangle\right), -->
+<!-- \ees -->
+<!-- where -->
+<!-- $C=\min_j \tilde{\sigma}_j/\sqrt{|\log \tilde{\sigma}_j|} \approx \sigma_{\min}/\sqrt{|\log \sigma_{\min}|} -->
+<!-- =1/\kappa\sqrt{\log \kappa}$. -->
+<!-- \State Apply  amplitude estimation to estimate the probability -->
+<!-- of $|0\rangle$ to precision -->
+<!-- $\epsilon_2$. Set the result as $P$. -->
+<!-- \State  Return $\overline{\log\det(A)}=-\kappa^2(\log \kappa)\|A\|_F^2P$. -->
+<!-- \end{algorithmic} -->
+<!-- \end{algorithm} -->
+
+
+```{theorem, logdet-sve, name="SVE based algorithm for log-determinant"}
+Under assumption \ref{assumption}, algorithm \ref{algo:logdet-sve} returns
+$\overline{\log\det(A)}$ such that $|\overline{\log\det(A)} - \log\det(A)| < \epsilon |\log\det(A)|$ in time 
+$\widetilde{O}(\mu \kappa^3/\epsilon^2).$
+```
+
+
+<!-- ```{proof} -->
+<!-- We can rewrite the quantum state encoding the representation of $A$ (which we can create with quantum access to $A$) as follow: -->
+<!-- \bes -->
+<!-- |A\rangle = \frac{1}{\|A\|_F} \sum_{i,j=1}^n a_{ij}|i,j\rangle = \frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle. -->
+<!-- \ees -->
+<!-- Starting from the state $\ket{A}$, we can apply SVE (see Lemma  \ref{sveplus1}) to $\ket{A}$ up to precision $\epsilon_1$ to obtain -->
+<!-- $$ -->
+<!-- \frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle  -->
+<!-- |\tilde{\sigma}_j\rangle, -->
+<!-- $$ -->
+<!-- where $|\tilde{\sigma}_j-\sigma_j|\leq \epsilon_1$. -->
+<!-- Since $\norm{A} \leq 1$, using controlled operations, we can prepare -->
+<!-- \begin{align}\label{eqtrace} -->
+<!-- \frac{1}{\|A\|_F} \sum_{i=1}^n \sigma_j |u_j\rangle|u_j\rangle  -->
+<!-- \ket{\tilde{\sigma}_j}  -->
+<!-- \left(  -->
+<!-- C\frac{\sqrt{-\log \tilde{\sigma}_j}}{\tilde{\sigma}_j}\ket{0} -->
+<!-- + \ket{0^\bot} -->
+<!-- \right), -->
+<!-- \end{align} -->
+<!-- where $C=\min_j \tilde{\sigma}_j/\sqrt{|\log \tilde{\sigma}_j|} \approx \sigma_{\min}/\sqrt{|\log \sigma_{\min}|} -->
+<!-- =1/\kappa\sqrt{\log \kappa}$. -->
+<!-- The probability of $|0\rangle$ is -->
+<!-- \bes -->
+<!-- P = -\frac{C^2}{\|A\|_F^2} \sum_{j=1}^n  \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log \tilde{\sigma}_j. -->
+<!-- \ees -->
+
+
+<!-- First, we do the error analysis. -->
+<!-- Note that -->
+<!-- \beas -->
+<!-- \left| \sum_{j=1}^n  \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log \tilde{\sigma}_j - \sum_{j=1}^n \log \sigma_j \right| -->
+<!-- &\leq& \left|\sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log \tilde{\sigma}_j - \sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2}\log \sigma_j \right|    -->
+<!-- + \left|\sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log\sigma_j - \sum_{j=1}^n \log \sigma_j \right| \\ -->
+<!-- &\leq& -->
+<!-- \sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2} |\log \tilde{\sigma}_j - \log \sigma_j | +  \sum_{j=1}^n \frac{|\sigma_j^2-\tilde{\sigma}_j^2|}{\tilde{\sigma}_j^2}  |\log \sigma_j |  \\ -->
+<!-- &\leq& \sum_{j=1}^n (1 + \frac{\epsilon_1}{\tilde{\sigma}_j})^2 (\frac{\epsilon_1}{\tilde{\sigma}_j}+O(\frac{\epsilon_1^2}{\tilde{\sigma}_j^2})) + (2\kappa\epsilon_1 +\kappa^2\epsilon_1^2) -->
+<!-- |\log\det(A)| \\ -->
+<!-- &\leq& n  (\kappa\epsilon_1+O(\kappa^2\epsilon_1^2)) + (2\kappa\epsilon_1 +\kappa^2\epsilon_1^2) |\log \det(A)| \\ -->
+<!-- &=& (n+2|\log \det(A)|) (\kappa\epsilon_1+O(\kappa^2\epsilon_1^2)). -->
+<!-- \eeas -->
+<!-- In the third inequality, we use the result -->
+<!-- that $\sigma_j\leq \tilde{\sigma}_j+\epsilon_1$. -->
+
+<!-- Denote $P'$ as the $\epsilon_2$-approximation of $P$ obtained by amplitude estimation, then the above analysis shows that -->
+<!-- $-\|A\|_F^2P'/C^2$ is an  -->
+<!-- $(n+2|\log \det(A)|) (\kappa \epsilon_1 + -->
+<!-- O(\kappa^2 \epsilon_1^2)) -->
+<!-- +\epsilon_2\|A\|_F^2/C^2$  -->
+<!-- approximation of $\log\det(A)$. Note that -->
+<!-- \beas -->
+<!-- && (n+2|\log \det(A)|) (\kappa \epsilon_1 + -->
+<!-- O(\kappa^2 \epsilon_1^2)) -->
+<!-- +\epsilon_2\|A\|_F^2/C^2 \\ -->
+<!-- &=&  -->
+<!-- (n+2|\log \det(A)|) (\kappa \epsilon_1 + -->
+<!-- O(\kappa^2 \epsilon_1^2)) -->
+<!-- +\epsilon_2 \|A\|_F^2  \kappa^2\log \kappa \\ -->
+<!-- &\leq&  -->
+<!-- (n+2n\log \kappa) (\kappa \epsilon_1 + -->
+<!-- O(\kappa^2 \epsilon_1^2)) -->
+<!-- +n\epsilon_2 \kappa^2\log \kappa \\ -->
+<!-- &=& O(n\epsilon_1\kappa\log \kappa+n\epsilon_2\kappa^2\log \kappa). -->
+<!-- \eeas -->
+<!-- To make sure the above error is bounded by $n\epsilon$ it suffcies to choose -->
+<!-- $\epsilon_1=\epsilon/\kappa\log \kappa$ -->
+<!-- and $\epsilon_2=\epsilon/\kappa^2\log \kappa$. -->
+
+<!-- Now we do the runtime analysis. -->
+<!-- The runtime of the algorithm mainly -->
+<!-- comes from the using of SVE and the performing of amplitude estimation on the state in  (\ref{eqtrace}). -->
+<!-- By Lemma \ref{sveplus1}, the complexity to obtain the state -->
+<!-- (\ref{eqtrace}) is $\widetilde{O}(\mu /\epsilon_1)$. -->
+<!-- The complexity to perform amplitude estimation  is  -->
+<!-- $\widetilde{O}(\mu /\epsilon_1\epsilon_2) -->
+<!-- =\widetilde{O}(\mu \kappa^3(\log \kappa)^2/\epsilon^2)$. -->
+<!-- ``` -->
+
+### SVE-based linear algebra
+
+
+
+
+### Estimation of the spectral norm and the condition number
+
+<!-- 
+# TODO Estimation of spectral norm and condition number from quantum access
+# Let's understand properly the procedure from quantum gradient descent paper 
+# labels: help wanted,
+-->
+
+### Explained variance
+
+<!-- 
+# TODO Add algos for estimating variance 
+# From Armando's thesis!
+# labels: help wanted, enhancement
+-->
+
+
+
+#### Singular value estimation of a product of two matrices 
+This is an example of an algorithm that has been superseded by recent development in singular value transformation. Nevertheless, it is a non-trivial way of using SVE, which a nice mathematical error analysis. 
+
+
+```{theorem, sve-product, name="SVE of product of matrices"}
+Assume to have quantum access to matrices $P \in \mathbb{R}^{d\times d}$ and $Q \in \mathbb{R}^{d \times d}$. Define $W=PQ = U\Sigma V^T$  and $\epsilon > 0$ an error parameter. There is a quantum algorithm that with probability at least $1-poly(d)$ performs the mapping $\sum_{i}\alpha\ket{v_i} \to \sum_{i}\alpha_i\ket{v_i}\ket{\overline{\sigma_i}}$ where $\overline{\sigma_i}$	is an approximation of the eigenvalues $\sigma_i$ of $W$ such that $|\sigma_i - \overline{\sigma}_i | \leq \epsilon$, in time $\tilde{O}\left(\frac{ ( \kappa(P) + \kappa(Q) ) (\mu(P)+\mu(Q))}{\varepsilon}\right)$.
+```
+
+```{proof}
+We start by noting that for each singular value $\sigma_{i}$ of $W$ there is a corresponding eigenvalue  $e^{-i\sigma_i}$ of the unitary matrix $e^{-iW}$. Also, we note that we know how to multiply by $W$ by applying theorem \@ref(matrix_algebra) sequentially with $Q$ and $P$. This will allow us to approximately apply the unitary $U=e^{-iW}$. The last step will consist of the application of phase estimation to estimate the eigenvalues of $U$ and hence the singular values of $W$. Note that we need $W$ to be a symmetric matrix because of the Hamiltonian simulation part. In case $W$ is not symmetric, we redefine it as
+$$
+W  =
+\begin{bmatrix}
+    0 & PQ\\
+    (PQ)^T & 0
+\end{bmatrix}
+$$
+Note we have $W=M_1M_2$ for the matrices $M_1, M_2$ stored in QRAM and defined as
+
+$$
+M_1 = \begin{bmatrix}
+    P & 0\\
+    0 & Q^T
+\end{bmatrix},
+M_2 = \begin{bmatrix}
+    0 & Q\\
+    P^T & 0
+\end{bmatrix}.
+$$
+
+
+We now show how to approximately apply $U=e^{-iW}$ efficiently. Note that for a symmetric matrix $W$ we have $W=V\Sigma V^T$ and using the Taylor expansion of the exponential function we have
+
+$$U = e^{-iW} = \sum_{j=0}^{\infty} \frac{(-iW)^j}{j!} =   V \sum_{j=0}^{\infty} \frac{(-i\Sigma)^j}{j!} V^T$$
+
+With $\widetilde{U}$ we denote our first approximation of $U$, where we truncate the sum after $\ell$ terms.
+
+$$\widetilde{U} = \sum_{j=0}^{\ell} \frac{(-iW)^j}{j!} =   V \sum_{j=0}^{\ell} \frac{(-i\Sigma)^j}{j!} V^T$$
+
+We want to chose $\ell$ such that $\norm{U - \widetilde{U}} < \epsilon/4$. We have:
+
+\begin{eqnarray*}
+\norm{U - \widetilde{U}} & \leq & || \sum_{j=0}^{\infty} \frac{(-iW)^j}{j!} - \sum_{j=0}^{\ell} \frac{(-iW)^j}{j!}   ||  \leq
+|| \sum_{j={\ell+1}}^{\infty} \frac{(-iW)^j}{j!} || \leq \sum_{j={\ell+1}}^{\infty}  || \frac{(-iW)^j}{j!} || \leq \sum_{j={\ell+1}}^{\infty}  \frac{1}{j!} \\
+& \leq & \sum_{j={\ell+1}}^{\infty}  \frac{1}{2^{j-1}} \leq 2^{-\ell +1}
+\end{eqnarray*}
+
+where we used triangle inequality and that $\norm{W^j}\leq 1$. Choosing $\ell = O(\log 1/ \varepsilon)$ makes the error less than $\epsilon/4$.
+%We can approximate a positive series where the term $a_n$ satisfy the following two conditions: $0 \leq a_n \leq Kr^n$ with $K>0, 0<r<1$ by expressing the error as the geometric series $\frac{Kr^{N+1}}{1-r}$. In our case $K=1$ and $r=1/2$. For a given $\epsilon$ we have to find $\ell$ such that $\frac{(\frac{1}{2})^{\ell+1}}{1-(\frac{1}{2})} \leq \epsilon$. By taking $\ell = O(\log 1/\epsilon)$ we can easily satisfy the error guarantee.
+
+In fact, we cannot apply $\widetilde{U}$ exactly but only approximately, since we need to multiply with the matrices $W^j, j\in[\ell]$ and we do so by using the matrix multiplication algorithm for the matrices $M_1$ and $M_2$. For each of these matrices, we use an error of $\frac{\epsilon}{8 \ell}$ which gives an error for $W$ of $\frac{\epsilon}{4 \ell}$ and an error for $W^j$ of at most $\frac{\epsilon}{4}$. The running time for multiplying with each $W^j$ is at most $O(\ell ( \kappa(M_1)\mu(M_1) \log( 8\ell/\epsilon) + \kappa(M_2)\mu(M_2) \log( 8\ell/\epsilon)  ))$ by multiplying sequentially. Hence, we will try to apply the unitary ${U}$ by using the Taylor expansion up to level $\ell$ and approximating each $W^j, j\in [\ell]$ in the sum through our matrix multiplication procedure that gives error at most $\frac{\epsilon}{4}$.
+
+
+In order to apply $U$ on a state $\ket{x} = \sum_{i} \alpha_i \ket{v_i}$, let's assume $\ell+1$ is a power of two and define $N_l = \sum_{j=0}^l (\frac{(-i)^j}{j!})^2$. We start with the state
+$$\frac{1}{\sqrt{N_l}}\sum_{j=0}^l \frac{-i^j}{j!}\ket{j}\ket{x}$$
+
+Controlled on the first register we use our matrix multiplication procedure to multiply with the corresponding power of $W$ and get a state at most $\epsilon/4$ away from the state
+
+%$$\frac{1}{N_l} \sum_{j=0}^l \frac{-i^j}{j!}e^{\theta}\ket{j}\ket{W^jx}$$
+
+$$\frac{1}{\sqrt{N_l}}\sum_{j=0}^l \frac{-i^j}{j!}\ket{j}\ket{W^jx}.$$
+
+We then perform a Hadamard on the first register and get a state  $\epsilon/4$ away from the state
+
+$$\frac{1}{\sqrt{\ell}} \ket{0} \left( \frac{1}{\sqrt{N'}} \sum_{j=0}^l \frac{-i^j}{j!} \ket{W^jx}\right) + \ket{0^\bot} \ket{G}$$
+
+
+where $N'$ just normalizes the state in the parenthesis. Note that after the Hadamard on the first register, the amplitude corresponding to each $\ket{i}$ is the first register is the same. We use this procedure inside an amplitude amplification procedure to increase the amplitude $1/\sqrt{\ell}$ of $\ket{0}$ to be close to 1, by incurring a factor $\sqrt{\ell}$ in the running time. The outcome will be a state  $\epsilon/4$ away from the state
+
+$$\left( \frac{1}{\sqrt{N'}} \sum_{j=0}^l \frac{-i^j}{j!} \ket{W^jx}\right) = \ket{\tilde{U}x}$$
+which is the application of $\widetilde{U}$. Since $\norm{U - \widetilde{U}} \leq \epsilon/4$, we have that the above procedure applies a unitary $\overline{U}$ such that $\norm{U - \overline{U}} \leq \epsilon/2$. Note that the running time of this procedure is given by the amplitude amplification and the time to multiply with $W^j$, hence we have that the running time is
+
+$$O(\ell^{3/2} ( \kappa(M_1)\mu(M_1) \log( 8\ell/\epsilon) + \kappa(M_2)\mu(M_2) \log( 8\ell/\epsilon)  )$$
+
+Now that we know how to apply $\overline{U}$, we can perform phase estimation on it with error $\epsilon/2$. This provides an algorithm for estimating the singular values of $W$ with overall error of $\epsilon$. The final running time is
+
+$$O(\frac{\ell^{3/2}}{\epsilon} ( \kappa(M_1)\mu(M_1) \log( 8\ell/\epsilon) + \kappa(M_2)\mu(M_2) \log( 8\ell/\epsilon)  )$$
+
+
+We have $\mu(M_1)=\mu(M_2)= \mu(P)+\mu(Q)$ and $\kappa(M_1)=\kappa(M_2) = \frac{max \{ \lambda^{P}_{max}, \lambda^{Q}_{max}  \}}{ min \{ \lambda^{P}_{min}, \lambda^{Q}_{min}  \}} \leq \kappa(P)+\kappa(Q)$, and since $\ell=O(\log 1/\epsilon)$the running time can be simplified to
+
+
+$$\tilde{O}(\frac{ ( \kappa(P) + \kappa(Q))(\mu(P)+\mu(Q))}{\epsilon} ).$$
+```
+
+## Estimating average and variance of a function
+
+Albeit the ideas treated in this post are somehow well-digested in the mind of many quantum algorithms developers, I  decided to write this page inspired by [@woerner2019quantum].  Here I want to describe just the main technique employed by their algorithm (namely, how to use amplitude estimation to get useful information out of a function). 
+
+Suppose we have a random variable $X$ described by a certain probability distribution over $N$ different outcomes, and a function $f: \{0,\cdots N\} \to \{0,1\}$ defined over this distribution. How can we use quantum computers to evaluate some properties of $f$ such as expected value and variance faster than classical computers?
+
+Let's start by translating into the quantum realm these two mathematical objects. The probability distribution is (surprise surprise) represented in our quantum computer by a quantum state over $n=\lceil \log N \rceil$ qubits. 
+$$\ket{\psi} = \sum_{i=0}^{N-1} \sqrt{p_i} \ket{i} $$
+where the probability of measuring the state $\ket{i}$ is $p_i,$ for $p_i \in [0, 1]$. Basically, each bases of the Hilbert space represent an outcome of the random variable. 
+
+The quantization of the function $f$ is represented by a linear operator $F$ acting on a new ancilla qubit  (here on the right) as:
+
+$$ F: \ket{i}\ket{0} \to \ket{i}\left(\sqrt{1-f(i)}\ket{0} + \sqrt{f(i)}\ket{1}\right) $$
+
+If we apply $F$ with $\ket{\psi}$ as input state we get:
+
+$$ \sum_{i=0}^{N-1} \sqrt{1-f(i)}\sqrt{p_i}\ket{i}\ket{0} + \sum_{i=0}^{N-1} \sqrt{f(i)}\sqrt{p_i}\ket{i}\ket{1} $$
+
+Observe that the probability of measuring $\ket{1}$ in the ancilla qubit is $\sum_{i=0}^{N-1}p_if(i)$, which is $E[f(X)]$. 
+By sampling the ancilla qubit we won't get any speedup compared to a classical randomized algorithm with oracle access to the function, but applying [amplitude estimation](https://arxiv.org/abs/quant-ph/0005055) [@brassard2002quantum %] to the ancilla qubit on the right, we can get an estimate of $E[F(X)]$ with precision $\epsilon$, quadratically faster than a classical computer: in only $O(\frac{1}{\epsilon})$ queries to $f$.
+
+Finally, observe that:
+
+-  if we chose $f(i)=\frac{i}{N-1}$ we are able to estimate $E[\frac{X}{N-1}]$ (which, since we know $N$ gives us an estimate of the expected value $E[X]$)
+- if we chose $f(i)=\frac{i^2}{(N-1)^2}$ instead, we can estimate $E[X^2]$ and using this along with the previous choice of $f$ we can estimate the variance of $X$: $E[X^2] - E[X]^2$.
+
+
+
+
+
+
+## Hamiltonian simulation
+
+These notes based on Childs' [Lecture notes](https://www.cs.umd.edu/~amchilds/qa/), i.e. [@ChildsLectureNotes], Section 5
+
+### Introduction to Hamiltonians
+
+The only way possible to start a chapter on Hamiltonian simulation would 
+be to start from the work of Feynman, who had the first intuition on the
+power of quantum mechanics for simulating physics with computers. We
+know that the Hamiltonian dynamics of a closed quantum system, weather
+its evolution changes with time or not is given by the
+Schr<span>ö</span>dinger equation:
+
+$$\frac{d}{dt}\ket{\psi(t)} = H(t)\ket{\psi(t)}$$
+
+Given the initial conditions of the system (i.e. $\ket{\psi(0)}$ ) is
+it possible to know the state of the system at time $t: \ket{\psi(t)} = e^{-i (H_1t/m)}\ket{\psi(0)}$.
+
+As you can imagine, classical computers are supposed to struggle to simulate the process that builds $\ket{\psi(t)}$, since this equation describes the dynamics of any quantum system, and we don’t think classical computers can simulate that efficiently for any general Hamiltonian $H$. But we understood that quantum computers can help to simulate the dynamics of another quantum system. 
+
+Why we might want to do that?
+
+An example would be the following. Imagine you are a quantum machine learning scientist, and you have just found a new mapping between an optimization problem and an Hamiltonian
+dynamics, and you want to use quantum computer to perform the optimization [@otterbach2017unsupervised]. You expect a quantum computers to run the Hamiltonian simulation for you, and then sample useful information from the resulting quantum sate. This result might be fed again into your classical algorithm to perform ML related task, in a virtuous cycle of hybrid quantum-classical computation, which we will discuss more in another chapter. 
+
+Another example, perhaps more akin to the original scope of Hamiltonian simulation, is related to quantum chemistry. Imagine that are a chemist, and you have developed a hypothesis for the Hamiltonian dynamics of a chemical compound. Now you want to run some experiments to see if the formula behaves according to the experiments (and you cannot simulate numerically the experiment). Or maybe you are testing the properties of complex compounds you don’t want to synthesize. 
+
+We can formulate the problem of Hamiltonian simulation in this way:
+
+```{definition, ham-sim-problem, name="Hamiltonian simulation problem"}
+Given a state $\ket{\psi(0)}$ and an Hamiltonian $H$, obtain a state $\overline{\ket{\psi(t)}}$ such that $\|\overline{\ket{\psi(t)}}-e^{-iHt}\ket{\psi(0)}\| \leq \epsilon$ in some norm.
+```
+(Note that also this problem can be reformulated in the context of density matrices, where usually the trace norm is used as a distance between quantum states).
+
+
+This leads us to the definition of efficiently simulable Hamiltonian:
+
+
+```{definition, ham-sim-def, name="Hamiltonian simulation"}
+Given a state $\ket{\psi(0)}$ and an Hamiltonian $H$ acting on $n$ qubits, we say $H$ can be efficiently simulated if, $\forall t \geq 0, \forall \epsilon \geq 0$ there is a quantum circuit $U$ such that $ \| U - e^{-iHt}\| < \epsilon$ using a number of gates that is polynomial in $n,t, 1/\epsilon$.
+```
+
+<!-- In the following, we suppose to have a quantum computer and quantum -->
+<!-- access to the Hamiltonian $H$. Te importance of this problem might not -->
+<!-- be immediately clear to a computer scientist. But if we think that every -->
+<!-- quantum circuit is described by an Hamiltonian dynamic, being able to -->
+<!-- simulate an Hamiltonian is like being able to run virtual machines in -->
+<!-- our computer (This example actually came from a talk at IHP by Toby -->
+<!-- Cubitt!). Remember that there’s a Theorem (No Fast-forward Theorem) that says that for an -->
+<!-- Hamiltonian simulation problem, the number of gates is $\omega{t}$. -->
+<!-- But concretely? What does it means to simulate an Hamiltonian of a -->
+<!-- physical system? Let’s take the Hamiltonian of a particle in a -->
+<!-- potential: $$H = \frac{p^2}{2m} + V(x)$$ We want to know the position of -->
+<!-- the particle at time $t$ and therefore we have to compute -->
+<!-- $e^{-iHt}\ket{\psi(0)}$ -->
+
+<!-- ### Some Hamiltonians we know to simulate efficiently -->
+
+<!-- -   Hamiltonians that represent the dynamic of a quantum circuits (more -->
+<!--     formally, where you only admit local interactions between a constant -->
+<!--     number of qubits). This result is due to the famous Solovay-Kitaev Theorem (more about it before the References in this page). -->
+
+<!-- -   Suppose you know how to efficiently change base of reference with a unitary $U$. Then, if the Hamiltonian can be efficiently applied that base, also -->
+<!--     $UHU$ can be efficiently applied. Proof: -->
+<!--     $e^{-iUHU^\dagger t} = Ue^{-iH t}U^\dagger $. -->
+
+<!-- -   If $H$ is diagonal in the computational basis and we can compute -->
+<!--     efficiently $\braket{a||H|a}$ for a basis element $a$. By linearity: -->
+<!--     $$\ket{a,0} \to \ket{a, d(a)} \to e^{-itd(a)} \otimes I \ket{a,d(a)t} \to e^{-itd(a)}\ket{a,0} = e^{-itH}\ket{a,0}$$ -->
+
+<!--     (In general: if we know how to calculate the eigenvalues, we can -->
+<!--     apply an Hamiltonian efficiently.) -->
+
+<!-- -   The sum of two efficiently simulable Hamiltonians is efficiently -->
+<!--     simulable using Lie product formula -->
+<!--     $$e^{-i (H_1 + H_2) t} = lim_{m \to \infty} ( e^{-i (H_1t/m)} + e^{-i (H_2t/m) t}   )^m$$ -->
+<!--     We chose $m$ such that -->
+<!--     $$|| e^{-i (H_1 + H_2) t} - ( e^{-i (H_1t/m)} + e^{-i (H_2t/m) t}   )^m || \leq$$ -->
+<!--     and this gives $m=(vt^2/\varepsilon)$ and -->
+<!--     $v=\max{ ||H_1||, ||H_2||}$. Using higher order approximation is -->
+<!--     possible to reduce the dependency on $t$ to $O(t^1+\delta)$ for a -->
+<!--     chosen $\delta$. (wtf!) -->
+
+<!-- -   This facts can be used to show that the sum of polynomially many -->
+<!--     efficiently simulable Hamiltonians is simulable efficiently. -->
+
+<!-- -   The commutator $[H_1, H_2]$ of two efficiently simulable Hamiltonian -->
+<!--     can be computed efficiently because: -->
+<!--     $$e^{-i[H_1, H_2]t} = lim_{m\to \infty} (e^{-iH_1\sqrt[]{t/m}}e^{-iH_2\sqrt[]{t/m}}e^{H_1\sqrt[]{t/m}}e^{H_1\sqrt[]{t/m}})^m$$ -->
+<!--     which we believe, without having idea on how to check it. :/ -->
+
+<!-- -   If the Hamiltonian is sparse, it can be efficiently simulated. The -->
+<!--     idea is to pre-compute a edge-coloring of the graph represented by -->
+<!--     the adjacency matrix of the sparse Hamiltonian. (For each $H$ you -->
+<!--     can consider a graph $G=(V, E)$ such that its adjacency matrix $A$ -->
+<!--     is $a_{ij}=1$ if $H_{ij} \neq 0$ ). -->
+
+<!-- Recalling the example of a particle in a potential energy: its momentum -->
+<!-- $$\frac{p^2}{2m}$$ is diagonal in the fourier basis (and we know how to -->
+<!-- do a QFT), and the potential $V(x)$ is diagonal in the computational -->
+<!-- basis, thus this Hamiltonian is easy to simulate. -->
+
+<!-- *Exercise/open problem*: do we know any algorithm that might benefit the -->
+<!-- efficient simulation of $[H_1, H_2]$? Childs in Childs (n.d.) claims he -->
+<!-- is not aware of any algorithm that uses that. -->
+

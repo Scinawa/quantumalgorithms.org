@@ -1,0 +1,463 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Introduction to quantum information
+In this chapter we will introduce the notation used in this manuscript. For further mathematical introduction, please refer to the appendix. 
+
+<!-- 
+# TODO Write a small introduction on Schroedinger equation
+# The best introduction on quantum mechanics is the first lecture of Susskind on youtube. 
+# As usual, I already started taking some notes that I can share. 
+# labels: help wanted, good first issue
+-->
+
+
+
+## Preliminaries and notation {#section:notation}
+
+For all matrices $A \in \mathbb{R}^{n \times d}$, we recall the definition of singular value decomposition. The matrix $A$ can be written as:
+
+$$A=(U, U_0)\begin{pmatrix}
+	\Sigma & 0 \\
+	0 & 0
+	\end{pmatrix} (V, V_0)^T.$$
+The matrix $\Sigma$ is a diagonal matrix with $\Sigma_{ii}=\sigma_i$ being the singular values (which we assume to be sorted $\sigma_1 \geq \dots \geq \sigma_n$). The matrices $(U, U_0)$ and $(V, V_0)$ are orthogonal matrices, which contain a basis for the column and the row space (respectively $U$ and $V$) and the left null-space and null-space (respectively $U_0$ and $V_0$). Oftentimes, it is simpler to define the SVD of a matrix by simply discarding the left and right null spaces, as $A=U\Sigma V^T$, where $U,V$ are orthogonal matrices and
+$\Sigma \in \mathbb{R}^{r \times r}$ is a diagonal matrix with real elements, where $r$ is the rank of the matrix. It is well known, but important to remark, that the matrices $AA^T=U\Sigma^2 U^T$ and $A^TA=V\Sigma^2V^T$ are symmetric. The dimension of the null-space is the number of linearly-dependent columns. For a rank $k$ matrix, the Moore-Penrose pseudo-inverse is defined as $\sum_{i}^k \frac{1}{\sigma_i}u_i v_i^T$. Another relevant property of SVD is that the nonzero singular values and the corresponding singular vectors are the nonzero eigenvalues and eigenvectors of the matrix
+$\begin{pmatrix}
+	0 & A \\
+	A^T & 0
+	\end{pmatrix}$:
+
+$$ \begin{pmatrix}
+	0 & A \\
+	A^T & 0
+	\end{pmatrix} \begin{pmatrix}
+	u_i \\
+	v_i
+	\end{pmatrix} .
+	= s_i \begin{pmatrix}
+	u_i \\
+	v_i
+	\end{pmatrix}
+	$$
+
+We will use the following matrix norms:
+
+-  $\|A\|_0$ as the number of non-zero elements of the matrix $A$,
+- $\|A\|_1 = \max\limits_{1 \leq j \leq n} \sum_{i=0}^n |a_{ij}|$ is the maximum among the sum of the absolute value along the columns of the matrix, 
+-  $\|A\|_2 = \|A\| = \sigma_1$ is the biggest singular value of the matrix,
+- $\|A\|_\infty = \max\limits_{1 \leq i \leq m} \sum_{j=0}^n  |a_{ij}|$ is the maximum among the sum of the absolute values along the rows of the matrix,
+- $\norm{A}_{\max}$ is the maximal element of the matrix in absolute value.
+
+Note that for symmetric matrices, $\|A\|_\infty = \|A\|_1$. With $s$ we denote the sparsity, that is, the maximum number of non-zero elements of the rows. The dataset that we manipulate in this work are represented by a matrix $V \in \mathbb{R}^{n \times d}$, i.e. each row can be thought as a vector $v_i \in \mathbb{R}^{d}$ for $i \in [n]$ that represents a single data point. We denote as $V_k$ the optimal rank $k$ approximation of $V$, that is  $V_{k} = \sum_{i=0}^k \sigma_i u_i v_i^T$, where $u_i, v_i$ are the row and column singular vectors respectively and the sum is over the largest $k$ singular values $\sigma_{i}$.  We denote as $V_{\geq \tau}$ the matrix  $\sum_{i=0}^\ell \sigma_i u_i v_i^T$ where $\sigma_\ell$ is the smallest singular value which is greater than $ \tau$.
+ For a matrix $M$ and a vector $x$, we define as $M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta} x $ the projection of $x$ onto the space spanned by the singular vectors of $M$ whose corresponding singular values are smaller than $\theta$, and some subset of singular vectors whose corresponding singular values are in the interval $[\theta, (1+\delta)\theta]$. We use a standard notation of $\tilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms.
+
+
+
+
+## Quantum Information
+
+The standard formalism used in Quantum Information is the Dirac's ``bra-ket'' notation, which we will introduce in this section. We also recall here the postulates of quantum mechanics, and take this opportunity to settle the rest of the notation and preliminaries used in this thesis. For the postulates, we follow the standard formulation in [@NC02].
+
+### Axioms of quantum mechanics 
+```{proposition, name="Postulate 1"}
+Associated to any isolated physical system is a complex vector space with inner product (that is, a Hilbert space) known as the state space of the system. The system is completely described by its state vector, which is a unit vector in the system's state space.
+```
+
+
+
+As quantum states are described by unit vectors, we write $\ket{\psi}$ for a unit vector $\psi \in \mathcal{H}^n$. So for a non-normalized vector $x \in \R^n$, the normalized quantum state is represented as $\ket{x} = \norm{x}^{-1}x = \frac{1}{\norm{x}}\sum_{i=0}^n x_i\ket{i}$. We denote as $\{\ket{i}\}_{i\in[d]}$ the canonical (also called computational) basis for the $d$ dimensional Hilbert space $\mathcal{H}$.  The transpose-conjugate of $\ket{x}$ is defined as $\bra{x}$. We can think of $\ket{x}$ as a column vector, while $\bra{x}$ is a row vector, whose entries have been conjugated. In Dirac's notation, we denote the inner product between two vector as $\braket{x|y}$.
+Their outer product is denoted as $\ket{x}\bra{y} = \sum_{i,j \in [d]}x_i y_j \ket{i}\bra{j} \in \mathcal{H}^d\otimes \mathcal{H}^d$. The smallest quantum system is called a qubit, and is a 2 dimensional unit vector  in $\mathbb{C}^2$. A base for this vector space in quantum notation is denoted as $\ket{0}$ and $\ket{1}$. In this case, the vector $\ket{\varphi} = \alpha\ket{0}+\beta\ket{1}$ for $\alpha,\beta\in \mathbb{C}$ represent a valid quantum state as long as $|\alpha|^2 + |\beta|^2 = 1$.
+
+
+```{proposition, name="Postulate 2"}
+The evolution of a closed quantum system is described by a unitary transformation. That is, the state $\ket{\psi}$  of the system at time $t_1$ is related to the state $\ket{\psi}$  of the system at time $t_2$ by a unitary operator $U$ which depends only on the times $t_1$ and $t_2$.
+```
+
+
+A matrix $U\in \mathbb{C}^{d \times d}$ is said to be unitary if $UU^\dagger = U^\dagger U = I$, that is, if the inverse of $U$ equal to its conjugate transpose. From this fact it follows that unitary matrices are norm-preserving, and thus can be used as suitable mathematical description of a pure quantum evolution. It is a standard exercise to see that the following are all equivalent definition of unitary matrices [@DeWolf]:
+
+- $\braket{Av, Aw} = \braket{v,w}$ for all $v,w$.
+- $\norm{Av} = \norm{v}$ for all $v$
+- $\norm{Av} = 1$ if $\norm{v}=1$.
+- $U$ is a normal matrix with eigenvalues lying on the unit circle
+- $|\det(U)|=1$
+- The columns and the rows of $U$ form an orthonormal basis of $\mathcal{C}^d$
+- $U$ can be written as $e^{iH}$ for some Hermitian operator $H$.
+
+<!-- TODO -->
+```{exercise, name="Exercise"} 
+Convince me that the 2x2 diagonal matrix $A$ with entries $10$ and $1/10$ is unitary because the determinant is 1. 
+```
+
+
+It will be useful to recall that if we have a unitary that perform the mapping $\ket{a_i} \mapsto \ket{b_i}$, we can have the "matrix" form of the opertaor as $\sum_i \ket{b_i}\bra{a_i}$. 
+Recall also that the Pauli matrices are both unitary *and* Hermitian, and this fact will be useful in many places throughout this text. 
+
+
+
+<!--
+# TODO Introduce more information about quantum gates
+# Below Postulate 3 there are some examples of things that would be pedagogically good to have in this place. 
+# labels: good first issue, help wanted
+-->
+<!-- $$H = \frac{X + X}{\sqrt{2}}$$ -->
+<!-- Phase gate: $$S = \frac{1}{\sqrt{2}} \begin{pmatrix} -->
+<!-- 	1 & 0 \\ -->
+<!-- 	0 & i -->
+<!-- 	\end{pmatrix} = \frac{1}{\sqrt{2}} (\ket{0}\bra{0} + i\ket{1}\bra{1})$$ -->
+
+<!-- T gate, also called as "$\pi$-over-8" gate:  -->
+<!-- $$T = \begin{pmatrix} -->
+<!-- 	1 & 0 \\ -->
+<!-- 	0 & e^{i \frac{\pi}{4}} -->
+<!-- 	\end{pmatrix} = e^{i\frac{\pi}{8}}\begin{pmatrix} -->
+<!-- 	e^{-i\frac{\pi}{8}} & 0 \\ -->
+<!-- 	0 & e^{i \frac{\pi}{8}} -->
+<!-- 	\end{pmatrix}$$ -->
+
+
+<!-- $$H = \frac{1}{\sqrt{2}}[ \bra{+}\ket{0}+ \bra{-}\ket{1} ] $$ -->
+<!-- $$H \ket{x} = \frac{1}{\sqrt{2}} [ \ket{0} + (-1)^x \ket{1}] $$ -->
+
+<!-- TOCHECK -->
+<!-- $$\frac{1}{\sqrt{2^n}} \sum_{x,y \in \{0,1\}^n} (-1)^{xy} \ket{y}\bra{x}  $$ -->
+
+
+<!--
+# TODO Write paragraph on controlled rotation on ancilla qubits
+# In many machine learning algorithms (like HHL), we perform a controlled rotation,
+# controlled on the qubits of an acilla register, that holds the binary expansion of a number
+#  between 0 and 1. Each of the qubits control a rotation of $\pi \times 2^{-j}$where $j$ is the j-th qubit in the register.
+# It would be good to have that written formally. (A nice introduction can be found in the thesis of Gribling Sander)
+# labels: good first issue, help wanted, code
+-->
+
+
+```{proposition, name="Postulate 3"}
+Quantum measurements are described by a collection $\{M_m\}$ of measurement operators. These are operators acting on the state space of the system being measured. The index $m$ refers to the measurement outcomes that may occur in the experiment. If the state of the quantum system is
+$\ket{\psi}$ immediately before the measurement, then the probability that the result $m$ occurs is given by
+$$
+p(m) = \bra{\psi}M^\dagger_m M_m \ket{\psi}
+$$
+and the state of the system after the measurement is
+$$
+\frac{M_m\ket{\psi}}{\sqrt{\braket{\psi|M_m^\dagger M_m|\psi}}}
+$$
+The measurement operators satisfy the \emph{completeness equation}
+$$
+\sum_m M^\dagger _m M_m = I
+$$
+```
+
+
+In practice, we will mostly perform projective measurements (also called von Neumann measurements). A projective measurement is described by an _observable_: an Hermitian operator $M$ on the state space of the system being observed. The observable has a spectral decomposition:
+$$ M = \sum_m mP_m  $$
+Where $P_m$ is a projector into the eigenspace of $M$ associated with the eigenvalue $m$. This means that the measurement operator will satisfy the following properties:
+
+* $P_m$ is positive definite
+* $P_m$ is Hermitian
+* $\sum_m P_m = I$
+* $(P_m)(P_n) = \delta_{mn}(P_m)$ are orthogonal projections.
+
+
+
+Recall that an orthogonal projector $P$ has the properties that $P=P^{\dagger}$ and $P^2 = P$. Note that the second property derives from the first: all positive definite operators on $\mathbb{C}$ are Hermitian (this is not always the case for positive definite operators on $\mathbb{R}$, as it is simple to find positive definite matrices that are not symmetric). Projective measurements can be understood as a special case of Postulate 3: in addition to satisfy the completeness relation $\sum_m M_m^\dagger M_m = I$ they also are orthogonal projectors. Given a state $\ket{\psi}$, the probability of measuring outcome $m$ is given by:
+$$ p(m) = \bra{\psi}P_m\ket{\psi}.$$
+If we were to measure outcome $m$, then the state of the quantum system after the measurement would be:
+$$\frac{P_m\ket{\psi}}{\sqrt{p(m)}} .$$
+
+They have some useful properties. Just to cite one, the average value of a projective measurement in a state $\ket{\psi}$ is define as:
+\begin{align}
+	E(M)&  = \sum_m p(m)\\
+& = \sum_m m \bra{\psi}P_m\ket{\psi}\\
+& \bra{\psi}(\sum_m mP_m)\ket{\psi}\\
+& \bra{\psi}M\ket{\psi}
+\end{align}
+In practice, our projective operators will be projectors in the computational basis, i.e. $P_m = \sum_{m \in [d]} \ket{m}\bra{m}$. From these rules, it is simple to see that the probability that a measurement on a state $\ket{x} = \frac{1}{\norm{x}}\sum_i x_i\ket{i}$ gives outcome $i$ is $|x_i|^2/\norm{x}^2$.
+
+
+ ```{proposition, name="Postulate 4"}
+The state space of a composite physical system is the tensor product of the state spaces of the component physical systems. Moreover, if we have systems numbered from 1 through $n$, and each state is described as $\ket{\psi_i}$, the join state of the total system is $\bigotimes_{j=1}^n \ket{\psi_i}=\ket{\psi_1}\ket{\psi_2}\dots \ket{\psi_n}$.
+```
+
+
+A quantum state that cannot be expressed as tensor product of two quantum state is said to be entangled. To describe together two different quantum system we use the tensor product.
+The tensor product between two vectors $\ket{y} \in \mathbb{R}^{d_1}$ and $\ket{y} \in \mathbb{R}^{d_2}$ is a vector $\ket{z} \in \mathbb{R}^{d_1 \times d_2}$.
+We can use the tensor operation to describe the joint evolution of separate quantum system.
+TODO FIXME
+
+Let $U_1$ be the evolution of a quantum state $\ket{x}$ and $U_2$ the evolution of a quantum state $\ket{y}$, $U_1 \otimes U_2$ describe the evolution of the quantum system $\ket{x}\ket{y}$. Note that to build a state in $\ket{v} \in \mathcal{H}^n$ we need $\lceil \log n\rceil$ qubits.
+
+There are various way to measure the complexity of a quantum algorithm.  We denote with $T(U)$ the time complexity needed to implement $U$, measured in terms of depth of the circuit, which is roughly the number of time steps (or ``clock time'') we need, in order to executed the gates of the quantum circuit $U$.  If we just care about the **relativized** complexity, we might limit ourselvs to compare two algorithms that solves the same problem in terms of the number of queries to a given oracle, we might observe that one is faster than the other. This is a **relativized** speedup. The oppositive is an **absolute** speedup, i.e. when we also take into account the complexity of the operations that are **not** queries to an oracle. In the case of quantum algorithms, these might simply be the gate depth of the circuit. 
+
+
+
+
+### Data representation
+
+What does it mean to represent or store data as a quantum state? This question is of paramount importance, because knowing what is the best way of encoding data in a quantum computer might pave the way for intuitions in solving our problems. On the contrary, using the wrong encoding might prevent you from reasoning about the right algorithm design, and obtaining the desired advantages in the implementation of your algorithm. Indeed, in [@schuld2015introduction], Schuld and others wrote: _In order to use the strengths of quantum mechanics without being confined by classical ideas of data encoding, finding “genuinely quantum” ways of representing and extracting information could become vital for the future of quantum machine learning_.
+
+Here, we focus on accessing purely classical data. In this context, we usually assume to have access to a unitary operator $U$ that performs a query to a data structure that does the following:
+$$U\ket{i}\ket{0}\to \ket{i}\ket{x_i}$$
+
+As a convention (which is not always), we often use Greek letters inside kets to represent generically quantum states, and use Latin letters to represent quantum registers holding classical data.
+The first is called the *index* register, and the second is the *target* register, which after the query to a certain oracle is storing the information you want.
+Fundamentally, there are just two ways of encoding the information: the *amplitude* encoding and the *binary* encoding. In amplitude encoding you store your data in the amplitudes of a quantum state, therefore you can encode $n$ real values (up to some digits of precision) using $\log n$ qubits. In the binary or digital encoding you store a bit in each qubit. You'll need to chose the appropriate strategy to process the data for each of chosen encoding.
+
+
+#### Scalars: $\mathbb{Z}$, $\mathbb{Q}$, $\mathbb{R}$
+
+In general, these values are encoded using the binary encoding.
+Let’s start with the most simple scalar: an integer. Let
+$m \in \mathbb{N}$. We consider the binary expansion of $m$ encoded in $n$ qubits.  As example,
+if your number’s binary expansion is $0100\cdots0111$ we can create the
+state:
+$\ket{x} =  \ket{0}\otimes \ket{1} \otimes \ket{0} \otimes \ket{0} \cdots \ket{0} \otimes \ket{1} \otimes \ket{1} \otimes \ket{1}$.
+Formally, given $m$:
+
+$$\ket{m} = \bigotimes_{i=0}^{n} \ket{m_i}$$
+
+Using superposition of states like these we might create things like
+$\frac{1}{\sqrt{2}} (\ket{5}+\ket{9})$ or more involved convex
+combination of states. If we need to store negative integers, we could use one extra qubit for the sign, and invent some other tricks.
+
+When programming quantum machine learning algorithms, it is common to use subroutines to perform arithmetic on real numbers. The numbers might come from other quantum procedures (like phase estimation or amplitude amplification) or might come directly from the memory (i.e.  like the norm of a vector). These numbers are simply encoded as m-bit binary expansion.
+
+This encoding can be used to get speedup in the number of query to an oracle, like in [@kapoor2016quantum]. There, the authors encoded a real value representing each of the feature of a machine learning dataset with this encoding. In general, you can easily use this encoding if you aim at getting a speedup in oracle complexity using amplitude amplification and similar techniques, or in an intermediate step of your algorithm where you want to perform arithmetic on some values. As we said in the introduction, the oracle complexity is a measure of the complexity of an algorithm that counts the number of times a given oracle $O$ (which in our case is just a unitary) is called. Obviously, the precision you get in storing a number is given by the number of qubits you use in a quantum register. 
+
+
+#### Binary vectors: $\{0,1\}^n$
+
+Let $\vec{b} \in \{0,1\}^n$. We can imagine three options here. As for the encoding the integers, we can use $n$ qubits with a digital encoding:
+
+$$\ket{b} = \bigotimes_{i=0}^{n} \ket{b_i}$$
+
+As an example, suppose you want to encode the vector
+$[1,0,1,0,1,0] \in \{0,1\}^6$, which is $42$ in decimal. This will
+correspond to the $42$-th base of the Hilbert space where our qubits
+will live. Note that, in some sense, we are not "fully" using the $C^{2^{n}}$
+Hilbert space: we are mapping our list of binary vector in vectors of the canonical base.
+base. As a consequence, Euclidean distances between points in the new space are
+different.
+
+Our second encoding is the following. For instance we can map a $0$ into
+$1$ and $1$ as $-1$, and build:
+
+$$\ket{v} = \frac{1} {\sqrt{2^n}} \sum_{i \in \{0,1\}^n} (-1)^{b_i} \ket{i}$$.
+
+Or analogously:
+
+$$\ket{b} = \frac{1}{\sqrt{\sum_{i=0}^n}1} \sum_{i=0}^n b_i\ket{i} $$
+
+
+####  Vectors and matrices: $\mathbb{R}^n$, $\mathbb{R}^{n \times d}$
+
+Here is an example of amplitude encoding, a powerful approach in quantum machine learning algorithms for encoding the dataset. For a vector
+$\vec{x} \in \mathbb{R}^{2^n}$, we can build:
+
+$$\ket{x} = \frac{1}{{\left \lVert x \right \rVert}}\sum_{i=0}^{N}\vec{x}_i\ket{i} = |\vec{x}|^{-1}\vec{x}$$
+
+Note that to span a space of dimension $N=2^n$, you just need $n$
+qubits: we encode each component of the classical vector in the
+amplitudes of a state vector. Being able to build this family of states enable us to load matrices in memory.
+
+Let
+$X \in \mathbb{R}^{n \times d}$, a matrix of $n$ vectors of $d$
+components. We will encode them using $log(d)+log(n)$ qubits as the
+states:
+
+$$\frac{1}{\sqrt{\sum_{i=0}^n {\left \lVert x(i) \right \rVert}^2 }} \sum_{i=0}^n {\left \lVert x(i) \right \rVert}\ket{i}\ket{x(i)}$$
+
+Or, put it another way:
+
+$$\frac{1}{\sqrt{\sum_{i,j=0}^n,d {\left \lVert X_{ij} \right \rVert}^2}} \sum_{i,j} X_{ij}\ket{i}\ket{j}$$
+
+We will see that, if we have a classical description of this vector, and we are allowed to perform some preprocessing before running our algorithm, we can create this state using a \@ref(def:qram), which we will see better in the next section. In short, a QRAM gives us quantum access to two things: the norm of the rows of a matrix and the rows itself. Formally, we assume to have access to $\ket{i}\mapsto \ket{i}\ket{x(i)}$ and $\ket{i} \mapsto \ket{i}\ket{\norm{x(i)}}$. Using these unitaries, we can do the following mapping:
+
+$$\sum_{i=0}^{n} \ket{i} \ket{0} \to  \sum_{i=0}^n {\left \lVert  x(i)  \right \rVert}\ket{i}\ket{x(i)}$$
+
+Many example of this encoding can be found in literature, and this text is mostly based on this representation.
+
+#### Graphs
+
+
+For some kind of problems we can even change the computational model (i.e.
+we can switch from the gate model to something else). For instance, a graph $G=(V,E)$ be encoded as a quantum state $\ket{G}$ such that:
+$$K_G^V\ket{G} = \ket{G} \forall v \in V$$ where
+$K_G^v = X_v\prod_{u \in N(v)}Z_u$, and $X_u$ and $Z_u$ are the Pauli
+operators on $u$. Here is the way of picturing this encoding: Take as many
+qubits in state $\ket{+}$ as nodes in the graph, and apply controlled
+$Z$ rotation between qubits representing adjacent nodes. There are some
+algorithms that use this state as input. For a more detailed description, look at [@zhao2016fast], which also gives very nice algorithms that might be useful in some graph problem.
+
+#### Remarks on data representation
+
+The precision that we can use for specifying the amplitude of a quantum state might be limited - in practice -  by the precision of our quantum computer in manipulating quantum states (i.e. development in techniques
+in quantum metrology and sensing). Techniques that use a certain precision in the amplitude of a state might suffer of initial technical limitations of the hardware. The precision in the manipulation can be measured by the fidelity. At an intuitive level, you can think of the precision in manipulating quantum state as the 16, 32 or 64 bits of precision in our classical CPUs.
+
+
+
+### Loading the data: quantum memory models
+
+Along with a fully fledged quantum computer, we also assume to have access to a quantum memory, i.e. a classical data structure that store classical information, but that is able to answer queries in quantum superposition. This model is commonly called the \emph{QRAM model}. As we will see in greater details soon, the task of building the data structure classically requires time that is linear (up to polylogarithmic factors) in the dimension of the data. This observation is better detailed in definition \@ref(def:QRAM-model). For instance, if we want to have quantum  access to a dense matrix $M \in \mathbb{R}^{n \times d}$ the preprocessing runtime will be $O(nd \log (nd))$. To stress more the fact that we are linear in the effective number of elements contained in the matrix (which can often be sparse) can write $\tilde{O}(\norm{A}_0)$. The name QRAM is meant to evoke the way classical RAM address the data in memory using a tree structure. In the data structure one can write down the real entries $m_{ij}$ with some precision $\delta$ using $\log 1/\delta$ bits.
+
+Note that sometimes, QRAM goes under the name of QROM, as actually it is not something that can be written during the runtime of the quantum algorithm, but just queried, i.e. read.  Furthermore, a QRAM is said to be \emph{efficient} if can be updated by adding, deleting, or modifying an entry in polylogarithmic time w.r.t the size of the data it is storing. Using the following definition, we can better define the computational model we are working with.
+
+
+```{definition, QRAM-model, name="QRAM model"}
+An algorithm in the QRAM data structure model that processes a data-set of size $m$ has two steps:
+
+ * A pre-processing step with complexity $\widetilde{O}(m)$ that constructs efficient QRAM data structures for storing the data.
+ * A computational step where the quantum algorithm has access to the QRAM data structures constructed in step 1.
+
+The complexity of the algorithm in this model is measured by the cost for step 2.
+```
+
+
+```{definition, oracular, name="Oracular access - Folklore"}
+Let $V \in \mathbb{R}^{n \times d}$. There is a data structure to store $V$ such that, a quantum algorithm with access to the data structure can perform $\ket{i}\ket{j} \to \ket{i}\ket{j}\ket{v_{ij}}$ for $i,j \in [n]$ in time $T=O(\log^{2}n)$.
+```
+
+
+
+Equipped with this data structure, we are allowed to perform the following operation in a quantum computer. [@giovannetti2008quantum, kerenidis2017quantumsquares]. 
+
+```{definition, qram, name="Quantum Random Access Memory"}
+A quantum random access memory is a device that stores indexed data $(i,x_i)$ for $i \in [n]$ and $x_i \in \R$ (eventually truncated with some bits of precision). It allows query in the form $\ket{i}\ket{0}\mapsto \ket{i}\ket{x_i}$, and has circuit depth $O(polylog(n))$.
+```
+
+
+We say that a dataset is efficiently loaded in the QRAM, if the size of the data structure is linear in the dimension and number of data points and the time to enter/update/delete an element is polylogarithmic in the dimension and number of data points. A direct application of this model is what is commonly assumed in quantum algorithms to access sparse matrices. This is often useful when dealing with graphs, or simply with sparse Hamiltonians.
+
+```{definition, oracleaccess-adjacencymatrix, name="Oracle access in adjacency matrix model"}
+Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform the following mapping $\ket{j,k,z} \mapsto \ket{j,k,z \oplus V_{jk}}$
+```
+
+
+
+```{definition, oracleaccess-adjacencylist,  name="Oracle access in adjacency list model"}
+	Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform the: mapping $\ket{i}\mapsto\ket{i}\ket{d(i)}$ where $d(i)$ is the number of entries in row $i$, and $\ket{j,l}\mapsto\ket{j,\nu(j,l)}$, where $\nu(j,l)$ is the $l$-th nonzero entry of the $j$-th column of $V$.
+```
+
+
+In the PhD thesis of [@Prakash:EECS-2014-211], he leveraged the definition of \@ref(def:qram) to allow us to efficiently create superpositions corresponding to the rows of the matrices, i.e. encoding the values of the components of a matrix' row in the amplitudes of a quantum state. Note that this data structure, which sometimes goes under the name KP-trees [@rebentrost2018quantum], assumes and extends definition \@ref(def:qram). In practice, both are called QRAM, and both rely on two (different) tree data structure for its construction. One is a hardware tree that allows to perform the mapping in \@ref(def:qram), the other is a tree that stores the partial norms of the rows of the matrix, which we will discuss later. 
+
+
+```{definition, KP-trees,  name="Quantum access to matrices using KP-trees [@KP16]"}
+Let $V \in \mathbb{R}^{n \times d}$, there is a data structure - called KP-trees - to store the rows of $V$ such that,
+
+-  The time to insert, update or delete a single entry $v_{ij}$ is $O(\log^{2}(n))$.
+- A quantum algorithm with access to the data structure can perform the following unitaries in time $T=O(\log^{2}n)$.
+  $$\ket{i}\ket{0} \to \ket{i}\ket{v_{i}}  \forall i \in [n].$$
+ 	$$\ket{0} \to \sum_{i \in [n]} \norm{v_{i}}\ket{i}.$$
+
+```
+
+We report what our QRAM data structure looks like for an input matrix $X$ according to the original definitions in [@Prakash:EECS-2014-211,KP16]. Each row of the matrix of the dataset is encoded as a tree, where the leaves correspond to the squared values of the matrix elements (along with their sign), while the intermediate nodes store the sum of the sub-tree rooted in each node.  Then, in the quantum algorithm we assume to have quantum access to all the nodes of the tree. In ML is common to pre-process the data, with either a polynomial expansion, normalization or scaling of the components, for instance in a way such that each feature has unit variance and zero mean. These model suits perfectly these needs, as these operations can be done before storing the data in the quantum accessible data structure.
+
+Recently, the data structure has been extended to allow space for some improvements in the algorithms. In fact, let $A/\mu = P \circ Q$ a decomposition of the matrix $A$, where the norm of the rows of $P$ and the columns of $Q$ are at most $1$, and the symbol $\circ$ is the Hadamard product.  In the original formulation, the factorization chosen corresponded to a choice of $\mu=\|A\|_F$. If there is a quantum circuit allowing creation of quantum states proportional to the rows and the columns of $P$ and $Q$, the runtime of the quantum algorithms based on this improved QRAM data structure can become a function of $\mu$, which can be smaller than the Frobenius norm of $A$.
+In [@kerenidis2017quantumsquares], they provided such efficient factorization for various choices of $\mu$. In the following we explicitly define a class of functions $\mu$, parameterized by $p \in [0,1]$, that will prove to be very useful in governing the runtime of the quantum algorithms.
+
+```{definition, mu,  name="Possible parameterization of μ for the KP-trees"}
+For $s_{p}(A) = \max_{i \in [n]} \sum_{j \in [d]} A_{ij}^{p}$, we chose $\mu_p(A)$ to be:
+$$\mu_p(A)=\min_{p\in [0,1]} (\norm{A}_{F}, \sqrt{s_{2p}(A)s_{(1-2p)}(A^{T})}).$$
+```
+
+
+The original definition of QRAM, where $\mu(A)=\|A\|_F$ corresponds to the factorization $A/\|A\|_F = P \circ Q$ where we have $p_{ij} = \frac{a_{ij}}{\norm{a_i}}$ and $q_{ij}=\frac{\norm{a_i}}{\norm{A}_F}$. For the generalized choice of $\mu$ in definition \@ref(def:mu), it is necessary to store two quantum accessible data structures, that respectively store the rows and the columns of a function of $A$. Instead of storing $a_{ij}$ (along with the sign, which is stored separately), we store $sgn(a_{ij})a_{ij}^p$ and $a^{1-p}_{ij}$. The different terms in the minimum in the definition of $\mu(A)$ correspond to different choices for the data structure for storing $A$.  Note that in the worst case, $\mu(A) \leq \norm{A}_{F} \leq \sqrt{d}$ as we assume that $\norm{A}=1$. Having a small value for $\mu(A)$ is very important, as this value will appear in the runtime of the quantum algorithms. In this thesis we always assume to have quantum access to matrices which are normalized such that $\norm{A} \leq 1$.
+
+
+For details on how to use quantum access to this data structure and proving theorem \@ref(KP-trees), the reader is referred to [@KP16] (Appendix) for the original proof, [@kerenidis2017quantumsquares] (theorem 4.4) for details on the choices of $\mu(A)$. More explicit proofs for the creation of quantum states with choices of $\mu$ different than the Frobenius norm can be found in [@CGJ18] (Lemma 25) and  [@gilyen2019quantum].
+
+
+To grasp the importance of this model we discuss the hurdles and bottlenecks of doing data analysis on massive datasets. When the data that needs to be processed surpass the size of the available memory, the dataset can only be analyzed with algorithms whose runtime is linear (or at most quadratic) with respect to the size of the dataset. Super-linear computations (like most algorithms based on linear-algebra) are too computationally expensive, as the size of the data is too big to fit in live memory.
+
+
+Under this settings, quantum computers can offer  significant advantages. In fact, the runtime of the whole process of performing a data analysis using quantum computers is given by the time of the preprocessing and constructing quantum access, plus the runtime of the quantum procedure. In practice, we want to write algorithms with a total computational complexity of  $\tilde{O}(\norm{A}_0) + \tilde{O}(poly(\kappa(A), \mu(A), 1/\epsilon,\log(n), \Gamma ))$, where $\kappa(A)$, is the condition number of the matrix, $\epsilon$ the error in the approximation of the calculations, and $\Gamma$ might represent some other parameters that depends on the data, but not on its size. This represents an improvement compared to the runtime of the best classical algorithms in machine learning, which is $O(poly(\norm{A}_0) \times poly(\kappa(A),1/\epsilon))$.  Note that without resorting to randomized linear algebra (as in the case of the dequantizations), these runtimes are lower bounded by the runtime for matrix multiplication and matrix inversion. As the QRAM preparation is computationally easy to implement, (it requires a single or few passes over the dataset, that we can do when we receive it, and it is can be made in parallel) a quantum data analysis can be considerably faster than the classical one. It is clear that, even if the scaling of the quantum algorithm is sub-linear in the data (it is often in fact polylogarithmic in $n$), if we consider in the runtime of the algorithms also the time to build quantum access we ``lose'' the exponential gap between the classical and the quantum runtime. Nevertheless, the overall computational cost can still largely favour the quantum procedure, as we expect the final runtime of the quantum algorithm to be comparable to the preprocessing time. Moreover, the preprocessing can be made once, when the data is received. For the choice of the data structure that leads to a value of $\mu$ equal to the Frobenius norm of the matrix under consideration, this can be done even on the fly, i.e. while receiving each of the rows of the matrix. For the choice of $\mu$ related to a $p$ norm, the construction of the data structure needs only a few passes over the dataset.
+
+
+### Retrieving data
+In order to retrieve information from a quantum computer, we are going to use some efficient procedures that allow to reconstruct classically the information stored in a quantum state. These procedures can be thought of as cleaver ways of sampling a state $\ket{x}$. The idea for an efficient quantum tomography is that we want to minimize the number of times that the sate $\ket{x}$ is created, and consequently, the number of times we call the process that creates $\ket{x}$.
+
+
+Much of the current literature in quantum tomography is directed towards reconstructing a classical description of density matrices.
+
+
+```{theorem, efficientquantumtomography,  name="Efficient quantum tomography [@o2016efficient]"}
+An unknown rank-r mixed state $\rho \in \mathbb{C}^{d \times d}$ can be estimated to error $\epsilon$ in Frobenius distance using $n = O(d/\epsilon^2)$ copies, or to error $\epsilon$ in trace distance using $n=O(rd/\epsilon^2)$ copies. 
+```
+
+The quantum algorithms described in this document usually work with pure quantum states. Moreover we assume to have access to the unitary that creates the quantum state that we would like to retrieve, and that we have access to the unitary that creates the state (and that we can control it). Under these conditions, the process of performing tomography is greatly simplified. According to the different error guarantees that we require, we can chose among two procedures.
+
+ ```{theorem, tomelle2, name="Vector state tomography with L2 guarantees [@KP18]"}
+ Given access to unitary $U$ such that $U\ket{0} = \ket{x}$ and its controlled version in time $T(U)$, there is a tomography algorithm with time complexity $O(T(U) \frac{ d \log d  }{\epsilon^{2}})$ that produces unit vector $\widetilde{x} \in \R^{d}$ such that $\norm{\widetilde{x}  - \ket{x} }_{2} \leq \epsilon$ with probability at least $(1-1/poly(d))$.
+ ```
+<!-- 
+# TODO Find a way to have latex theorems' names
+# Now, we cannot have latex in the titles of theorems, so we are forced to do the following
+# ```{theorem, tomellinfinity, name="Vector state tomography with L∞ guarantees [@jonal2019convolutional]"}
+# labels: todo
+-->
+
+ ```{theorem, tomellinfinity, name="Vector state tomography with L∞ guarantees [@jonal2019convolutional]"}
+ Given access to unitary $U$ such that $U\ket{0} = \ket{x}$ and its controlled version in time $T(U)$, there is a tomography algorithm with time complexity $O(T(U) \frac{ \log d  }{\epsilon^{2}})$ that produces unit vector $\widetilde{x} \in \R^{d}$ such that $\norm{\widetilde{x}  - \ket{x} }_{\ell_\infty} \leq \epsilon$ with probability at least $(1-1/poly(d))$.
+```
+
+Note that in both kinds of tomography, dependence on the error in the denominator is quadratic, and this is because of the Hoeffding inequality, i.e. lemma \@ref(lem:Hoeffding).
+Another remark on the hypothesis of the algorithms for tomography is that they require a unitary $U$ such that $U\ket{0}\mapsto\ket{x}$ for the $\ket{x}$ in question. Oftentimes, due to the random error in the quantum subroutines used inside the algorithms, this state $\ket{x}$ might slightly change every time. We will see that in this thesis the variance on the state $\ket{x}$ is due to errors in mostly due to the phase estimation procedures. In Section \@ref(section:phaseestimation) we discuss ways of making phase estimation algorithms almost deterministic. 
+
+
+More advanced techniques have been recently developed in [@zhang2020efficient]. There, the authors used the assumption on doing tomography on a state $\ket{x}$ that is in the row space of a rank $r$ matrix $A$ for which we have quantum access. They propose an algorithm to obtain the classical description of the coefficients $x_i$ in the base spanned by the rows $\{A_{i}\}_{i=0}^r$of $A$, so that $\ket{x} = \sum_i^r x_i \ket{A_i}$. This requires $\tilde O(poly(r))$ copies of the output states and $\tilde{O}(poly(r), \kappa^r)$ queries to input oracles. While this procedure has the benefit of not being linear in the output dimension of the final state, the high dependence on the rank might hide the advantages compared to the previous quantum tomography procedures. For completeness, the result is as follows.
+
+```{theorem, tomography-trick, name="Smart quantum tomography [@zhang2020efficient]"}
+For the state $\ket{v}$ lies in the row space of a matrix $A \in \R^{n \times d}$ with rank $r$ and condition number $\kappa(A)$, the classical form of $\ket{v}$ can be obtained by using $O(r^3\epsilon^2)$ queries to the state $\ket{v}$, $O(r^{11}\kappa^{5r}\epsilon^{-2}\log(1/\delta))$ queries to QRAM oracles of $A$ and $O(r^2)$ additional inner product operations between rows, such that the $\ell_2$ norm error is bounded in $\epsilon$ with probability at least $1-\delta$.
+```
+
+
+
+
+
+Other strategies to output data from a quantum computer can be sampling, or (if the output of the computation is just a scalar) amplitude estimation. These techniques can be employed when the output of the computation is a scalar.
+
+
+### Useful quantum subroutines and results
+
+We will often make use of a tool developed in [@wiebe2018quantum]. It is standard technique in classical computer science to boost the success probability of a randomized algorithm by repeating it and computing some statistics in the results. For the case of quantum algorithms, in high level, we take multiple copies of the output of the amplitude estimation procedure, compute the median, and reverse the circuit in order to get rid of the garbage.
+
+
+```{lemma, lemma-median, name="Median evaluation [@wiebe2018quantum]"} 
+Let $\mathcal{U}$ be a unitary operation that maps
+$$\mathcal{U}:\ket{0^{\otimes n}}\mapsto \sqrt{a}\ket{x,1}+\sqrt{1-a} \ket{G,0}$$
+for some $1/2 < a \le 1$ in time $T$. Then there exists a quantum algorithm that, for any $\Delta>0$ and for any $1/2<a_0 \le a$, produces a state $\ket{\Psi}$ such that $\|\ket{\Psi}-\ket{0^{\otimes nL}}\ket{x}\|\le \sqrt{2\Delta}$ for some integer $L$, in time
+$$
+2T\left\lceil\frac{\ln(1/\Delta)}{2\left(|a_0|-\frac{1}{2} \right)^2}\right\rceil.
+$$
+```
+
+
+We will also use some simple statements from previous literature.
+
+
+
+```{lemma, quattrocinque, name="[@kerenidis2019qmeans]"}
+Let $\epsilon_b$ be the error we commit in estimating $\ket{c}$ such that $\norm{ \ket{c} - \ket{\overline{c}}} < \epsilon_b$, and $\epsilon_a$ the error we commit in the estimating the norms,  $|\norm{c} - \overline{\norm{c}}| \leq \epsilon_a \norm{c}$. Then $\norm{\overline{c} - c} \leq \sqrt{\eta} (\epsilon_a +  \epsilon_b)$.
+```
+
+```{lemma, kereclaim, name="[@kerenidis2017quantumsquares]"}
+Let $\theta$ be the angle between vectors $x,y$, and assume that $\theta < \pi/2$. 
+Then, $\norm{x-y} \leq \epsilon$ implies $\norm{\ket{x} - \ket{y}} \leq \frac{\sqrt{2}\epsilon}{\norm{x}}$. Where $\ket{x}$ and $\ket{y}$ are two unit vectors in $\ell_2$ norm.
+```
+
+
+
+## Exercises
+
+
+<!--
+# TODO Add (already solved) exercise on rewriting the swap test 
+# It's done in the draft/distances.Rmd but the images needs to be worked out properly. 
+# labels: good first issue, help wanted
+-->

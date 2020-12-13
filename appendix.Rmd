@@ -1,0 +1,603 @@
+---
+title: "appendix"
+author: "scinawa"
+date: "12/8/2020"
+output: html_document
+---
+
+
+# (APPENDIX) Appendix {-} 
+
+# Linear algebra and math
+
+
+
+<!--
+# TODO Finish introductory part on linear algebra in appendix
+# I think we need an introduction on inner products, linearty, vector na matrix norms,
+# trigonometry, identities, and so on.. 
+# labels: todo, help wanted, good first issue
+-->
+
+<!-- ## Complex numbers -->
+<!-- - $z\overline{z} = a^2 + b^2= |z|$ -->
+<!-- - $\frac{1}{z} = \frac{\overline{z}}{\overline{z}z} $ -->
+<!-- - Conjugation (reflection over "horizontal axis"): $z \mapsto \overline{z} = (a-ib) = e^{ix}$ -->
+
+<!-- \begin{itemize} -->
+<!--     \item Linarity:  -->
+<!--     $$f(a+b) = f(a) + f(b)$$ -->
+<!--     $$f(\alpha a) = \alpha f(a) $$ -->
+<!-- maybe add this: \url{http://www-math.mit.edu/~djk/calculus_beginners/chapter03/section03.html} -->
+<!--     \item Cauchy-Schwarz -->
+<!--     $$|(x,y)| \leq \|x\| \|y\| = (x,y)^2 \leq (x,x)(y,y) $$ -->
+<!--     \begin{proof} -->
+<!--     Substitute $(x,y)=\|x\| \|y\| cos(\theta)$: -->
+<!--     $$| \|x\|\|y\| cos(\theta) | \leq \|x\|\|y\|$$ -->
+<!--     $$|cos(\theta)| \leq 1$$ -->
+<!--     \end{proof} -->
+
+<!-- \end{itemize} -->
+<!-- \paragraph{Inner products} -->
+<!-- \begin{itemize} -->
+<!--     \item $(a,b+c) = (a,b)+(a,c)  $ -->
+<!--     \item $(a,\alpha b) = \alpha (a,b)  $ -->
+<!-- \end{itemize} -->
+
+<!-- \paragraph{Norms} -->
+<!-- \begin{itemize} -->
+<!--     \item $ \|x + y\| \leq \|x\| + \|y\|$ (triangle inequality) -->
+
+<!-- \end{itemize} -->
+
+<!-- \paragraph{Matrix norms} -->
+<!-- \begin{itemize} -->
+<!--     \item All properties of vector norms .. -->
+<!-- \item Submultiplicativity -->
+<!--     \item  -->
+<!-- \end{itemize} -->
+
+
+```{remark}
+It is simple to see - using Cauchy-Schwarz - that for a vector $x$ we have that:
+$$\|x\|_1 \leq \sqrt{n} \|x\|_2 $$
+```
+
+
+
+
+
+### Distances 
+
+- $d(x,y) \geq 0$
+- $d(x,y) = 0$ iif $x=y$
+- $d(x,y)=d(y,x)$
+- $d(x,z) \leq d(x,y) + d(y+z)$
+
+### Properties of the trace operator
+
+- $Tr[A+B] = Tr[A] = Tr[B]$
+- $Tr[A\otimes B] = Tr[A]Tr[B]$
+- $Tr_1[A\otimes B] = Tr[A]B$
+- $Tr[\ket{a}\bra{b}] = \braket{a|b}$
+- $Tr[AB] = \langle A, B \rangle$
+
+where inner product between matrices is basically defined pointwise as $\sum_{ij}a_{ij}b_{ij}$
+
+```{exercise}
+ Can you show that the last identity is true?
+```
+
+### Properties of tensor product
+
+- $\alpha v \otimes w = v \otimes \alpha w = \alpha(v \otimes w)$
+- $( v_1 + v_2) \otimes w = (v_1 \otimes w) + (v_2 \otimes w)$ (and the symmetric of it)
+
+
+## Trigonometry
+Always have in mind that
+
+$$e^{x} = \sum_{k=0}^\infty \frac{x^k}{k!}$$
+$$e^{\pm ix}= cos (x) \pm i sin(x) $$
+Nunzio's version of Euler's identity 
+$$e^{i\tau} = 1 $$
+where $\tau = 2\pi$. 
+
+
+Because of this, we can rewrite $\sin$ and $\cos$ as:
+$$\cos(x) = \frac{e^{ix} + e^{-ix}}{2}$$
+$$\sin(x)= \frac{e^{ix} - e^{-ix}}{2i}$$
+
+
+### Useful equalities
+
+$$sin(a)cos(b) =  \frac{1}{2}(sin(a+b)+sin(a-b) = 1/2(sin(a+b)-sin(b-a) )$$
+
+```{exercise, name="Derivation of $cos(a+b)$"}
+```
+```{proof}
+$$ e^x = cos(x)+isin(x) $$
+$$e^{A+B} = cos(a+b)+isin(a+b) = e^Ae^B = (cos(a)+isin(a))(cos(b)+isin(b))  $$
+$$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)+isin(b)+isin(a)cos(b) - sin(b)sin(a) $$
+$$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a) $$
+```
+
+# Series
+
+<!-- 
+# TODO Finish section on series (geometric, telescopic, and so on.. )
+# This should be a straight-to-the point section on series, with specific focus on CS. 
+# These series pops up very often in the analysis of algorithms so having them here is really helpful. 
+# Ask scinawa the notes he already have on this. 
+# labels: good first issue, help wanted 
+-->
+
+<!-- The geometric series is a series with a constant ratio between successive terms. The term $r$ is called the *common ratio* and the term $a$ is the first element of the series.  -->
+
+<!-- The sum of the geometric series is a power series for the function $f(x)=\frac{1}{1-x}$. In sum notation we can write $\frac{1}{1-x}=\sum_{n=0}^\infty x^n$.  -->
+
+<!-- Note that this equal symbol is valid only under certain conditions, i.e. that $x$ is within the convergence ratio of the series expansion.  -->
+
+<!-- ```{theorem} -->
+<!-- \textcolor{red}{when $|x|\leq 1$?}. Let $|x|\leq 1$. Then,  -->
+<!-- $$s= \sum_{k=0}^{n-1} ax^k = a\frac{1-x^{n}}{1-x} $$  -->
+<!-- ``` -->
+
+<!-- ```{proof} -->
+<!-- \begin{itemize} -->
+<!-- \item Start:  -->
+<!--     $$s = a+ax+ax^2\dots ax^{n} $$ -->
+<!--     \item Multiply by $x$ on both sides: -->
+<!--     $$xs = ax+ax^2 \dots ax^{n+1} $$ -->
+<!--     \item Subtract $xs$ from $s$: -->
+<!--     $$s - xs = a- ax^n $$ -->
+<!--     $$ s(1-x) = (a-ax^n) $$ -->
+<!--     \item Conclude that: -->
+<!--     $$ s = \frac{(a-ax^n)}{(1-x)} = a(\frac{1-x^n}{1-x})$$ -->
+<!-- \end{itemize} -->
+<!-- ``` -->
+
+<!-- \textbf{Remark} -->
+<!-- If $n \to \infty$ than $x^n = 0$ and ...  we have the most common version of  -->
+<!-- $$\frac{1}{1-x} $$ -->
+
+<!-- Also, TOADD: $\frac{1}{x-a} = ?$ -->
+
+<!-- <!-- Perhaps include the beautiful image of wikipedia of the geometric series! --> -->
+
+<!-- So, if we wanted to find the Taylor series of $\frac{1}{x}$ we would only need to find some way of representing the new function via the old one. This can be done by changing $x$ to $(1-x)$ in the sum. So our new series is $\frac{1}{1-(1-x)}=\frac{1}{x}=\sum_{n=0}^\infty (1-x)^n$. -->
+
+
+<!-- - $\frac{1}{x} = \sum_n^\infty (-1)^n (-1 + x)^n$ -->
+<!-- - $\frac{1}{x-1} = -1 -x -x^2 -x^3 = \sum_n^\infty -x^n$ -->
+<!-- - $\frac{1}{x+1} = 1 -x + x^2 - x^3 + x^4  =$ -->
+<!-- - $\frac{1}{1-x} = \sum_n x^n$ -->
+<!-- - $\frac{1}{1+x} = 1 - x + x^2 \dots = t\sum_n (-1)^n x^n$ -->
+
+
+<!-- #### Telescopic series -->
+
+
+
+# Probability
+
+<!-- - Joint probability of two events $P(a \cap b) = P(a,b) = P(a|b|)P(a)$ -->
+<!-- - Marginal probability $p(a) = \sum_b p(a,b) = \sum_b p(a|b)p(b)$ -->
+<!-- - Union of two events $p(a \cup b)$ -->
+<!-- - Sum rule -->
+<!-- - Rule of total probability  -->
+<!-- - Conditional probability -->
+<!-- - Bayes' Theorem: $$ p(A=a | B=b) = \frac{p(A=a|B=b)}{p(B=b)} = \frac{p(A=a)p(B=b|A=a)}{\sum_{a'} p(A=a')p(B=b|A=a')}$$ -->
+
+
+<!-- ```{theorem, unionbound, name="Union bound"} -->
+<!-- ... -->
+<!-- ``` -->
+
+
+
+
+```{definition, variance, name="Variance"}
+\begin{align}
+\operatorname{Var}(X) &= \operatorname{E}\left[(X - \operatorname{E}[X])^2\right] \\[4pt]
+&= \operatorname{E}\left[X^2 - 2X\operatorname{E}[X] + \operatorname{E}[X]^2\right] \\[4pt]
+&= \operatorname{E}\left[X^2\right] - 2\operatorname{E}[X]\operatorname{E}[X] + \operatorname{E}[X]^2 \\[4pt]
+&= \operatorname{E}\left[X^2 \right] - \operatorname{E}[X]^2
+\end{align}
+```
+
+```{exercise}
+How can we express the variance as expectation of quantum states? What quantum algorithm might we run to estimate the variance of a random variable $M$?
+  $$\braket{\psi|M^2|\psi} - (\braket{\psi|M|\psi})^2 $$ 
+  Discuss. 
+```
+
+#### Bias-variance tradeoff
+[Here](http://fourier.eng.hmc.edu/e176/lectures/probability/node9.html) is a nice reference to understand the bias-variance tradeoff
+
+
+
+```{definition, expofamily, name="Exponential Family [@murphy2012machine]"}
+A probability density function or probability mass function $p(v|\nu)$ for $v = (v_1, \cdots, v_m) \in \mathcal{V}^m$, where $\mathcal{V} \subseteq \mathbb{R}$, is a $\sigma$-algebra over a set $X$ 	$\nu \in \mathbb{R}^p$ is said to be in the exponential family if it can be written as:
+ $$p(v|\nu) := 	h(v)\exp \{ o(\nu)^TT(v) - A(\nu) \}$$
+ where:
+  
+- $\nu \in \mathbb{R}^p$ is called the \emph{canonical or natural} parameter of the family,
+- $o(\nu)$ is a function of $\nu$  (which often is just the identity function),
+- $T(v)$  is the vector of sufficient statistics: a function that holds all the information the data $v$ holds with respect to the unknown parameters,
+- $A(\nu)$ is the cumulant generating function, or log-partition function, which acts as a normalization factor,
+- $h(v) > 0$ is the \emph{base measure} which is a non-informative prior and de-facto is scaling constant.
+
+```
+
+
+### Boosting probabilities with median lemma 
+
+<!-- Suppose the following Lemma: -->
+<!-- ```{theorem} -->
+<!-- There exist an algorithm $A$ output $\overline{\mu}$ that estimates $\mu$ with probability $1/16$ with error $\epsilon m$. That is: -->
+<!-- $$P[ |\mu - \overline{\mu} | \leq m \epsilon ] \geq \frac{1}{16}  $$ -->
+<!-- ``` -->
+
+<!-- Using the median trick, we can boost the probablity of success like this: -->
+<!-- ```{theorem, name="[@betterupperboundSDP"} -->
+<!-- There exist an algorithm $A'$ that estimates $\mu$ with probability $1-\delta$ with error $\epsilon m$. It is obtained by repeating $O(\log(1/\delta)$ the algorithm $A$.  -->
+<!-- ``` -->
+
+<!-- ``` -->
+<!-- Let's pick the median of $K=O(\log(1/\delta)$ repetitions. Let's $F_i$ for $i \in [K]$ the output of previous algorithm. Let $z_K$ denote the median.  -->
+<!-- $$Pr(|z_k - \mu| \geq \epsilon m) = Pr(z_k - \geq \epsilon m + \mu ) + Pr(z_k  \leq  \mu - \epsilon m )$$ -->
+
+<!-- We can upper bound the first term as: \textcolor{red}{detail better why first passage} -->
+<!-- \begin{align*} -->
+<!--   (*) &\leq  \sum_{I \subseteq [K]: |I| \geq K/2} \prod_{i \in I} \mathrm{Pr}\big( (F)_i \geq \epsilon m + \mu \big) \\ -->
+<!--       &\leq  (|\{I \subseteq [K]: |I| \geq K/2 \}| ) \left(\frac{1}{16}\right)^{K/2} \\ -->
+<!--       &=  2^{K-1}\left(\frac{1}{4}\right)^K \\ -->
+<!--       &\leq \frac{1}{2}\textcolor{red}{\left(\frac{1}{2}\right)^{\log_2(1/\delta)}} = \frac{1}{2} \delta. -->
+<!-- \end{align*} -->
+<!-- Analogously, one can show that $Pr\big( z_K \leq   - \epsilon m  + \mu \big) \leq \frac{1}{2} \delta$. Hence -->
+<!-- \[\mathrm{Pr}\big(|z_K - \mu| \geq \epsilon m\big) \leq \delta. \] -->
+<!-- ``` -->
+
+
+## Distributions
+
+<!-- ### Binomial -->
+<!-- The binomial distribution with parameters n and p is the discrete probability distribution of the number of successes in a sequence of n independent experiments, each asking a ``yes and no'' question, and each with its own boolean-valued outcome: success/yes/true/one (with probability $p$) or failure/no/false/zero (with probability $q=1-p$). -->
+
+<!-- The binomial distribution is frequently used to model the number of successes in a sample of size n drawn with replacement from a population of size N. If the sampling is carried out without replacement, the draws are not independent and so the resulting distribution is a hypergeometric distribution, not a binomial one. -->
+
+
+
+<!-- ### Geometric  -->
+<!-- When is the geometric distribution an appropriate model?\cite{wikipedia-geometric} -->
+<!-- \begin{itemize} -->
+<!-- \item     The phenomenon being modeled is a sequence of independent trials. -->
+<!-- \item     There are only two possible outcomes for each trial, often designated success or failure. -->
+<!-- \item The probability of success, p, is the same for every trial. -->
+<!--     \end{itemize} -->
+
+<!-- ### and many others! -->
+
+## Concentration inequalities
+
+
+<!-- 
+# TODO Finish section on concentration inequalities
+# I would like to have a proper part on these concentration inequalities. 
+# This is very important in computer science and in algorithms analysiss because the runtimes and the errors are 
+# bounded using tools like these. 
+# labels: good first issue, help wanted
+-->
+
+### Markov inequality 
+The Markov inequality is an *upper bound for the probability that a non-negative function of a random variable*, that is greater than or equal to a positive constant. Especially in analysis, refer to it as Chebyshev's inequality (sometimes, calling it the *first* Chebyshev inequality, while referring to the "normal" Chebyshev's inequality as the second Chebyshev inequality) or Bienaym{\'e}'s inequality.  \cite{chebyshevwikipedia}
+
+```{theorem, markov, name="Markov inequality"}
+For all non-negative random variable, and $a > 0$,  we have that
+$$Pr(X  \geq a) \leq \frac{E[X]}{a} $$
+$$Pr(X  \geq aE[X]) \leq \frac{1}{a} $$
+```
+
+```{proof}
+Observe that :
+$$E[X] = P(X < a) \cdot E[X|X<a] +  P(X > a) \cdot E[X|X>a]$$ 
+As both of these expected values are bigger than zero, (using the nonnegativity hypothesis) we have that
+$$E[X] \geq P(X > a) \dot E[X|X>a] $$
+
+Now is easy to observe that $E[X|X>a]$ is at least $a$, and by rearranging we obtain that:
+$$ \frac{E[X]}{a} \geq P(X > a) $$
+
+The second statement of the theorem follows from substitution, i.e. setting $b=aE[X]$ and using the previous statement. 
+```
+
+```{theorem, coro-markov, name="Corollary of Markov inequality"}
+Let $f$ be a monotone increasing (or noll) function on a space $I$, and define the random variable on $Y$. 
+$$ P(Y \geq b) \leq \frac{E[f(Y)]}{f(b)} $$
+```
+
+
+
+### Chebyshev inequality
+(Sometimes called Chebyshev's Second Inequality). 
+
+```{theorem, chebyshev, name="Chebyshev inequality"}
+Two formulations:
+- $Pr[|X - E[X]| \geq k\sigma]  \leq \frac{1}{k^2}$
+Replacing $k\sigma$ with $\epsilon$, where $k = \epsilon /\sigma$, we have the second formulation:
+- $Pr[|X - E[X]| \geq \epsilon]\leq \frac{\sigma^2}{\epsilon^2}$
+```
+
+
+### Hoeffding inequality
+
+```{lemma, Hoeffding, name="Hoeffding inequality"}
+	Let $X_1,\ldots,X_k$ be independent random variables bounded by the interval $[a, b]$. Define the empirical mean of these variables by $\overline{X} = \frac{1}{k} (X_1+\cdots+X_k)$, then
+	$$
+	Pr(|\overline{X} - \mathbb{E}[X]|\leq \epsilon) \geq 1-2
+	\exp\left(-\frac{2k\epsilon^2}{b-a} \right).
+	$$
+	Consequently, if $k\geq (b-a)\epsilon^{-2}\log(2/\eta)$, then
+	$\overline{X}$ provides an $\epsilon$-approximation of $\mathbb{E}[X]$
+	with probability at least $1-\eta$.
+```
+
+
+# Polynomial approximations of useful functions
+
+```{lemma, poly-approx-ln, name="Polynomial approximations of logarithm [@distributional]"}
+		Let $\beta\in(0,1]$, $\eta\in(0,\frac{1}{2}]$ and $t\geq 1$. There exists a polynomial $\tilde{S}$ such that
+		$\forall x\in [\beta,1]$, $|\tilde{S}(x)-\frac{\ln(1/x)}{2\ln(2/\beta)}|\leq\eta$,	and $\,\forall x\in[-1,1]\colon -1\leq\tilde{S}(x)=\tilde{S}(-x)\leq 1$. Moreover $\text{deg}(\tilde{S})=O({\frac{1}{\beta}\log (\frac{1}{\eta} )})$.
+```
+
+
+<!-- 
+# TODO Add explaination on how to do the polynomial approximation of 1/x 
+# It mightbe cool to have the polynomial approximatoin used for ridge regression. Can we do it?
+# labels: help wanted, enhancement
+-->
+
+
+
+# Error propagation and approximation
+
+<!-- 
+# TODO Finish notes on error propagation
+# It would be very clarifying to understand the error propagation from the point of view of theoretical computer science. 
+# There are many places on the internet that discuss tihs, but from the point of view of physicists that needs to run an experiment. 
+# This is not really helpful sometimes, and require further "processing" to be understood and used in algorithms. 
+# Moreover, I have some notes to share (here in the repository, commented in the code) as I am half-way through this part. 
+# labels: todo, good first issue, 
+-->
+
+This part is based on many different sources, like [@hogan2006combine], [@ku1966notes].
+
+```{definition, absolute-error, name="Absolute error"}
+$$|A - \overline{A} | = \epsilon_{Abs}$$
+```
+
+
+```{definition, relative-error, name="Relative error"}
+$$\frac{| A - \overline{A}| }{A}  = \epsilon_R \text{ or equivalently}$$
+$$ A(1-\epsilon_{R}) \leq  \overline{A} \leq A(1+\epsilon_{R})$$
+```
+
+Thus observe that:
+
+- If (and only if) $|A| < 1$, then, $\epsilon_{Abs} \leq \epsilon_{R}$
+- If (and only if) $|A| > 1$, then, $\epsilon_{Abs} \geq \epsilon_{R}$
+
+We will study the relation between the two errors, often leveraging the idea of seeing what happen when we set $\epsilon_{Abs} = \epsilon_R A$.
+
+
+
+Let's imagine an algorithm $\mathcal{A}$ that estimates a quantity $A$ in time $O(\text{poly}(\epsilon^{-1}))$. We would like to move from a relative to absolute precision, or vice versa. 
+
+##### From absolute to relative precision
+
+Suppose that we have an algorithm that in time $O(f(\frac{1}{\epsilon_{Abs}}))$ gives us $|A-\overline{A}  | \leq \epsilon_{Abs}$ for $\epsilon_{Abs} \in (0, 1]$ and we want a relative error $\epsilon_R > 0$:
+
+- If $|A| < 1$, then we need to set $\epsilon_{Abs} = \epsilon_R A$. For this, we need to have a lower bound $\lambda^{-1}$ on $A$. If we have it, we can just set $\epsilon_{Abs} = \epsilon_R \lambda^{-1}$ and run our algorithm in time  $O(f(\frac{\lambda}{\epsilon_{Abs}}))$
+
+- If $|A| > 1$, If we want a relative error $\epsilon_R$, then by running the algorithm with $\epsilon_{Abs}=\epsilon_R$ we have already a relative error bound, as $\frac{|A- \overline{A}|}{A} \leq |A- \overline{A}| \leq \epsilon_{Abs}$Note that we $\epsilon_{Abs}$ is meant to stay $\in (0,1]$ as it wouldn't make sense to have a runtime of $O(\frac{1}{\epsilon_{abs}})$ for $\epsilon_{abs} > 1$. 
+
+<!-- TODO  -->
+<!-- - Are there cases of algorithms with $\epsilon_{abs} > 1$? -->
+<!-- - find examples! -->
+
+
+
+##### From relative to absolute precision
+If we have an algorithm that in time $O(f(\frac{1}{\epsilon_{R}}))$ gives us $|A-\overline{A}  | \leq A\epsilon_{R}$ and we want an absolute $\epsilon_{Abs}$:
+
+
+<!-- - IF $A \leq 1$, $$|A- \overline{A} | \leq \epsilon_R A \Rightarrow |A- \overline{A} | \leq \epsilon_{R} $$ because absolute error is an upper bound of the relative error. So if we use an algorithm to get a relative error estimate $\epsilon_R$ we automatically have an absolute error estimate $\epsilon_{Abs} = \epsilon_R$. If we have a lower bound $\lambda$ on $A$, than we can set the error of the algorithm $\epsilon_R = \epsilon_{Abs}$, to get the absolute precision we require. In case we have a lower bound on $A$, and we don't need a significantly precise estimate of $A$, we can speedup the algorithm by requiring  less ``dependence'' on $\epsilon_R$. We want to find $\epsilon_R' \leq \epsilon_{Abs}/A$. As we don't have an estimate for $A$ yet, we need a lower bound for $A$.  \textcolor{red}{check if true that is lower!} -->
+
+
+<!--         \emph{Example:} Amplitude estimation output a scalar $0 \leq \widetilde{p}\leq 1$ which equal some probability $p$, such that $|p-\widetilde{p}| \leq \epsilon p$ in time $O \left(\frac{1}{\epsilon p}\right)$. We have directly an absolute error of $\epsilon$ in this estimate (which we will rarely use, as we like to multiply this estimate ad make the error scale proportionately).  -->
+
+
+
+<!-- -  IF $A > 1$,  -->
+<!--         $$|A- \overline{A} | \leq \epsilon_R A $$ -->
+<!--         we want   -->
+<!--          $$|A- \overline{A} | \leq \epsilon_{Abs} \text{by setting  } \epsilon_R = \frac{\epsilon_{Abs}}{\overline{A}}$$  -->
+<!--         By running algorithm $\mathcal{A}$ with error $\epsilon'=\frac{\epsilon}{A}$, i.e. we run it once with $\epsilon_R =1/4$ error, and than. -->
+<!--         We run it again with the improved $\epsilon_R=\frac{1}{\lambda}$, and we have a runtime of $O( \text{f}(\frac{A}{\epsilon^{-1}}))$. -->
+
+<!--         \emph{Example:} We use an algorithm that gives the log-determinant (of a  matrix with spectral norm smaller than 1) with relative error $\frac{1}{4}$, so $\log\det(1-\frac{1}{4}) \leq \overline{\log\det} \leq \log\det(1+\frac{1}{4}) \Rightarrow \frac{3}{4}\leq \frac{\overline{\log\det}}{\log\det} \leq \frac{5}{4}$. Now we run it with error $\epsilon'_R =  \frac{\epsilon_{Abs}}{4\overline{\log\det}}$.  -->
+<!--         \textcolor{red}{maybe lo devo far correre anche all'inizio con $\epsilon=\epsilon_{abs}$ invece che 1/4?} -->
+<!--     \end{itemize} -->
+
+<!-- \textbf{Exercies} -->
+<!-- This comes from \cite[trace estimation]{sanderthesis}\cite{van2020quantum} -->
+<!-- $$|A-B| \leq \epsilon_1 $$ -->
+<!-- $$|C-B| \leq \epsilon_2C $$ -->
+<!-- Can you prove that:  -->
+<!-- $$|C-A| \leq \epsilon_2(C+\epsilon_1) + \epsilon_1 $$ -->
+
+
+
+### Propagation of error in functions of one variable
+
+<!-- - https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Supplemental_Modules_(Analytical_Chemistry)/Quantifying_Nature/Significant_Digits/Propagation_of_Error -->
+<!-- - https://foothill.edu/psme/daley/tutorials_files/10.%20Error%20Propagation.pdf -->
+<!-- - math.jacobs-university.de/oliver/teaching/jacobs/fall2015/esm106/handouts/error-propagation.pdf -->
+<!-- - and also \cite{hogan2006combine}. -->
+
+
+<!-- In the following, $\Delta A$ is an absolute error.  -->
+
+<!-- -  $A=\lambda B \Rightarrow \Delta A = |\lambda | \Delta B$ -->
+<!-- -  $A = \lambda/B \Rightarrow  \Delta A =  |\lambda /B^2| \Delta B = (substitute) = |A/B|\Delta B $  -->
+<!-- -  $A = \lambda B^\mu \Rightarrow \Delta A = |\mu \lambda B^{\mu^{-1}}|\Delta B = (substitute)= |\mu A /B | \Delta B$  -->
+<!-- -  $A = \lambda e^{\mu B} \Rightarrow \Delta A = |\mu A| \Delta B$ (where is $\lambda$?)  -->
+<!--     This because if  -->
+<!--     $$A = \lambda e^{\mu B}$$ -->
+<!--     The relative error is  -->
+<!--     $$\frac{\Delta A }{A} = \frac{\lambda \mu e^{ \mu B} \Delta B }{\lambda e^{\mu B}} = |\mu|\Delta B$$ -->
+<!--     so the absolute error follows from multiplying this quantity by $A$.  -->
+
+<!-- -  $A = \kambda \ln (\mu B) \Rightarrow \Delta A = |\lambda/B|\Delta B$  -->
+
+
+<!-- #### Propagation of error in function of more variables -->
+
+<!-- ##### Linear combination of absolute error -->
+<!-- Imagine we have a derived quantity based on some measures: -->
+<!-- $$y = a+b+c $$ -->
+
+<!-- We split this analysis in two cases: -->
+
+<!-- If we don't have information on the nature of the error (i.e. we don't know the sign but only the magnitude. If $y = \sum_i (x_i + \epsilon_i)$, then  -->
+<!-- $$ \delta y = \delta a+\delta b+\delta c $$ -->
+<!-- $$ \delta y = \sum_i \left| \epsilon_i \right| = n\epsilon_{max} $$ -->
+
+<!-- If we know that the error is Gaussian (i.e. maybe we have to prove something about mean and variance), and we can show than somehow they cancel each other, then: -->
+
+<!-- $$\delta y=  \sqrt{\sum_i^n \epsilon_i^2} = \sqrt{n}\epsilon_{max}$$ -->
+
+<!-- This often called the \emph{root mean squared error}. If these errors have a Gaussian distribution, than approx $68\%$ of the individual will lie between $y-\delta y$ and  $y+\delta y$ and $95\%$ of the individual will lie between $y-2\delta y$ and  $y+3\delta y$ -->
+
+
+<!-- \subsection{Inverse of relative error \textcolor{blue}{[ok: - reread]} } -->
+<!-- \begin{itemize} -->
+<!--     \item $|A-\overline A | \leq \epsilon A$ -->
+<!--     \end{itemize} -->
+<!--      $$|\frac{1}{A} - \frac{1}{\overline{A}}| =| \frac{A(1+\epsilon) - A}{A^2(1+\epsilon)} | = |\frac{A\epsilon}{A^2(1+\epsilon)}| = \frac{\epsilon}{A}\frac{1}{(1+\epsilon)} \leq  \frac{\epsilon}{A}   $$ -->
+
+<!-- \subsection{Inverse of absolute error} -->
+<!-- \begin{itemize} -->
+<!--     \item $|A-\overline A | \leq \epsilon $ -->
+<!--     \end{itemize} -->
+
+<!--     $$| \frac{1}{A} - \frac{1}{\overline{A}}| = | \frac{\overline{A} - A}{A\overline{A}} |  = |\frac{A + \epsilon - A}{A\overline{A}}|  = |\frac{\epsilon}{A(A+\epsilon)}| = |\frac{\epsilon}{A}  \frac{1}{\overline{A}} | $$ -->
+<!--     \begin{itemize} -->
+<!--         \item     If $A > 1$. Then:  -->
+<!--         $$\leq | {\epsilon \over A\overline{A}}|  \leq |\frac{\epsilon}{A}| $$ -->
+<!--         \item If $A \leq 1$. Then: -->
+<!-- $$ \textcolor{red}{?} $$ -->
+<!--     \end{itemize} -->
+
+<!-- \textcolor{red}{check passages because they give the same result of relative error} -->
+
+
+<!-- \subsection{Relative error of product of relative errors \textcolor{blue}{[ok: - reread]}} -->
+<!-- \begin{itemize} -->
+<!--     \item $|A-\overline A | \leq \epsilon_1 A$ -->
+<!-- \item $|B-\overline B | \leq \epsilon_2 B$ -->
+<!-- \end{itemize} -->
+
+<!-- $$|AB - \overline{AB}| = |AB - AB(1+\epsilon_1)(1+\epsilon_2) | = $$ -->
+<!-- $$|AB - AB + AB\epsilon_1 + AB\epsilon_2 +AB\epsilon_1\epsilon_2 | = AB(\epsilon_1+\epsilon_2)  $$ -->
+
+
+<!-- \subsection{Relative error of product of absolute error \textcolor{blue}{[ok: - reread]}} -->
+<!-- \begin{itemize} -->
+<!--     \item $|A-\overline A | \leq \epsilon_1$ -->
+<!-- \item $|B-\overline B | \leq \epsilon_2$ -->
+<!-- \end{itemize} -->
+
+<!-- $$\frac{|AB - \overline{AB}|}{AB} \leq ? $$  -->
+<!-- $$|AB- (A+\epsilon_1)(B+\epsilon_2)| = | AB - AB-A\epsilon_2 -B\epsilon_1 - \epsilon_1\epsilon_2| = |-A\epsilon_2 - B\epsilon_1 + O(\epsilon_1 \epsilon_2) | \Rightarrow$$ -->
+<!-- $$\frac{A\epsilon_2 + B\epsilon_1}{AB} = \frac{\epsilon_2}{B} + \frac{\epsilon_1}{A} $$  -->
+
+<!-- \subsection{Ratio of absolute errors} -->
+<!-- \begin{itemize} -->
+<!--     \item $|A-\overline A | \leq \epsilon_1$ -->
+<!-- \item $|B-\overline B | \leq \epsilon_2$ -->
+<!-- \end{itemize} -->
+
+<!-- $$ \frac{A/B - \overline{A}/\overline{B} }{A/B} $$ -->
+
+<!-- \subsection{Ratio of relative errors \textcolor{blue}{[ok: - reread]}} -->
+<!-- \begin{itemize} -->
+<!--     \item $|A-\overline A | \leq A\epsilon_1$ -->
+<!-- \item $|B-\overline B | \leq B\epsilon_2$ -->
+<!-- \end{itemize} -->
+
+<!-- $$\frac{\overline{A}}{\overline{B}} = \frac{A(1+\epsilon_1)}{B(1+\epsilon_2)} = \frac{A}{B} (1+\epsilon_1) \frac{1}{(1+\epsilon_2)} $$ -->
+
+<!-- We use Taylor approx of $\frac{1}{(1+\epsilon_2)} = 1-\epsilon_2 + \epsilon_2^2 $. Therefore,  -->
+
+
+<!-- $$ \frac{\overline{A}}{\overline{B}} = \frac{A}{B}(1+\epsilon_1)(1-\epsilon_2)  $$  -->
+<!-- so -->
+<!-- $$|\frac{A}{B} - \frac{\overline{A}}{\overline{B}}|  = \frac{A}{B}|(\epsilon_1+\epsilon_2)|  \leq \frac{A}{B}(\epsilon_1+\epsilon_2) $$ -->
+
+<!-- This is a better formalization and proof.  -->
+
+<!-- ```{theorem, name="[@betteruperandlowerboundSDP] [@sanderthesis]"} -->
+<!-- Let $0 \leq \theta \leq 1$ and let $\alpha, \beta, \tilde{\alpha}, \tilde{\beta}$ be positive real numbers, such that $|\alpha - \tilde{\alpha}| \leq \alpha\theta/3$, and  $|\beta - \tilde{\beta}| \leq \beta\theta/3$. Then: -->
+<!-- $$\left|\frac{\alpha}{\beta} - \frac{\tilde{\alpha}}{\tilde{\beta}} \right| \leq \theta \frac{\alpha}{\beta}$$ -->
+<!-- ``` -->
+
+<!-- ``` -->
+<!-- $$\left|\frac{\alpha}{\beta} - \frac{\tilde{\alpha}}{\tilde{\beta}} \right|  = \left| \frac{\alpha\tilde{\beta}- \tilde{\alpha}\beta}{\beta\tilde{\beta}}  \right| = \left| \frac{\alpha\tilde{\beta}- \tilde{\alpha}\beta+\alpha\beta - \alpha\beta}{\beta\tilde{\beta}}  \right| =$$  -->
+<!-- $$\left|\frac{\alpha\beta-\tilde{\alpha}\beta}{\beta\tilde{\beta}} \right| + \alpha\left| \frac{\beta -\tilde{\beta}}{\beta\tilde{\beta}} \right| \leq$$ -->
+
+<!-- $$\left|\frac{\alpha -\tilde \alpha}{\tilde \beta} \right| + \frac{\alpha}{\tilde\beta}\theta/3$$  -->
+<!-- Using the hypotesis on $|\alpha-\widetilde{\alpha}|\leq \alpha \theta/3$,  -->
+<!-- $$\leq \left|\frac{1}{\tilde{\beta}} \right|\frac{\alpha\theta}{3} + \frac{\alpha}{\tilde\beta}\theta/3$$ -->
+<!-- Now we can use the fact that $\tilde \beta \geq \frac{2}{3}\beta$. This comes from the fact that if we have a relative error on $\beta$, we know that $|\tilde{\beta}| \leq \beta (1+\theta)$. In our case, $\beta(1-\frac{2}{3}\theta) \leq \tilde{\beta} \leq \theta (1+\frac{1}{3}\theta)$, so in the worst case, for $\theta=1$, we can simply see that $\tilde \beta \geq \frac{2}{3}\beta$. Now can put the lower bound on the denominator, and get:  -->
+<!-- $$\leq \left|\frac{\alpha\theta}{3\tilde{\beta}} \right| + \frac{\alpha}{\tilde\beta}\theta/3$$ -->
+
+<!-- ``` -->
+
+
+
+<!-- #### General case -->
+
+<!-- ```{theorem, name="mean value theorem"} -->
+<!-- $$|f(x)- f(y)| \leq c |x-y|$$ -->
+<!-- ``` -->
+
+
+
+<!-- - \url{https://math.stackexchange.com/questions/302177/proving-the-relative-error-of-division} -->
+<!-- - \url{https://math.stackexchange.com/questions/1153476/how-to-show-the-relative-error-of-fracx-ay-a?rq=1} -->
+<!-- - \url{https://math.stackexchange.com/questions/3000501/relative-error-of-division/3001050#3001050} -->
+
+
+
+
+
+
+
+# License and citation
+
+<p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#" class="license-text">The website <a rel="cc:attributionURL" property="dct:title" href="https://quantumalgorithms.org">quantumalgorithms.org</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://luongo.pro">Alessandro Luongo</a> is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" /><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" /><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" /><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" /></a></p>
+
+To cite this work:
+```
+  @misc{quantumalgorithms,
+   title={Quantum algorithms for data analysis},
+   author={Luongo, A.},
+   url={https://quantumalgorithms.org},
+   year={2020}
+  }
+```
+
+
+
+# References
