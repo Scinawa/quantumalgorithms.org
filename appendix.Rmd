@@ -95,14 +95,19 @@ where inner product between matrices is basically defined pointwise as $\sum_{ij
 
 
 ## Trigonometry
-Always have in mind that
+Always have in mind the following Taylor expansion:
 
+```{theorem}
 $$e^{x} = \sum_{k=0}^\infty \frac{x^k}{k!}$$
-$$e^{\pm ix}= cos (x) \pm i sin(x) $$
-Nunzio's version of Euler's identity 
-$$e^{i\tau} = 1 $$
-where $\tau = 2\pi$. 
+```
 
+From that, it is easy to derive that: 
+$$e^{\pm ix}= cos (x) \pm i sin(x) $$
+```{theorem, name="Nunzio's version of Euler's identity"} 
+For $\tau = 2\pi$, 
+
+$$e^{i\tau} = 1 $$
+```
 
 Because of this, we can rewrite $\sin$ and $\cos$ as:
 $$\cos(x) = \frac{e^{ix} + e^{-ix}}{2}$$
@@ -113,13 +118,15 @@ $$\sin(x)= \frac{e^{ix} - e^{-ix}}{2i}$$
 
 $$sin(a)cos(b) =  \frac{1}{2}(sin(a+b)+sin(a-b) = 1/2(sin(a+b)-sin(b-a) )$$
 
-```{exercise, name="Derivation of $cos(a+b)$"}
+```{exercise}
+Derive an expression for $\cos(a+b)$.
 ```
 ```{proof}
-$$ e^x = cos(x)+isin(x) $$
-$$e^{A+B} = cos(a+b)+isin(a+b) = e^Ae^B = (cos(a)+isin(a))(cos(b)+isin(b))  $$
-$$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)+isin(b)+isin(a)cos(b) - sin(b)sin(a) $$
-$$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a) $$
+Recall that $e^x = cos(x)+isin(x)$,
+$$e^{A+B} = cos(a+b)+isin(a+b) = e^Ae^B = (cos(a)+isin(a))(cos(b)+isin(b))$$
+$$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)+isin(b)+isin(a)cos(b) - sin(b)sin(a)$$
+$$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)$$
+  From this, it follows 
 ```
 
 # Series
