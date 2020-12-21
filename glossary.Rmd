@@ -41,6 +41,9 @@ $$\braket{\psi | M_1 M_2 |\psi } \neq \braket{\psi | M_1  |\psi } \braket{\psi |
 <!-- Merlin is the prover: all-powerful and untrusted who gives the poor Arthur a solution (witness) to Merlin: a honest verifier with limited computational power. It plays the same role of NP for classical computers because if Merlin has to send a witness to Arthur of a NP complete problem, we know such witness will always exists, and that Arthur should be able to check in polynomial time that the witness is correct. {% cite jordanis2018merlin %} -->
 
 
+<!-- - **Online algorithm**:  -->
+<!-- - **Streaming algorithm**:  -->
+<!-- It seems to me that there is a slight difference between online and streaming algorithm, where the straming algorithm can defer action over time, and the stress is on the limited amount of memory they have, online algorithms are required to take an action as soon as the input is entered.-->
 
 
 
