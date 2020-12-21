@@ -27,6 +27,12 @@ $$\braket{\psi | M_1 M_2 |\psi } \neq \braket{\psi | M_1  |\psi } \braket{\psi |
 
 - **Second order quantization**
 
+- **Unbiased estimator**: An estimator $\widehat{\theta} = \mathcal{E}[f(X)]$ for a parameter $\theta$ is said to be unbiased if $\widehat{\theta}- \theta= 0$
+
+- **Consistent estimator**:
+
+- **Efficient estimator**:
+
 <!-- - **[QMA - Quantum Merlin-Arthur]()**. Is a complexity class for decision problem. A language is in QMA if in polynomial time a verifier $V$ : -->
 <!--  - $\forall x \in L$ there exists a quantum state over a polynomial number of qubits $\ket{\psi}$  -->
 <!--  - $\forall x \notin L$ there exist a quantum state (the $\ket{\psi}$ plays the same role as the whitness in NP problems)  -->
