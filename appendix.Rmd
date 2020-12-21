@@ -197,10 +197,25 @@ $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)
 <!-- - Bayes' Theorem: $$ p(A=a | B=b) = \frac{p(A=a|B=b)}{p(B=b)} = \frac{p(A=a)p(B=b|A=a)}{\sum_{a'} p(A=a')p(B=b|A=a')}$$ -->
 
 
-<!-- ```{theorem, unionbound, name="Union bound"} -->
-<!-- ... -->
+The union bound is used to show that the probability of union fo some finte or countable set of events is less than some value.
+
+```{theorem, unionbound, name="Union bound"}
+$\forall$ event $A_1 \dots A_n$ 
+$$P(\cup_{i=1}^n A_i) \leq \sum_{i=1}^n P(A_i)$$
+```
+
+
+<!-- ```{proof} -->
+<!-- It would be nice to have a proof by induction here, which is the standard proof for showing the union bound, based on the axioms of probability theory.  -->
 <!-- ``` -->
 
+```{exercise}
+In Erdős–Rényi graphs $G(n,p)$, (that is, a graph with $n$ nodes with probability $p$ that each of the two nodes are connected). We define the event $B_n$ as the event where a graph $G(n,p)$ has at least one isolated node. Show that $P(B_n) \leq n(1-p)^{n-1}$. 
+```
+```{proof}
+Let $A_i, i\in[n]$ the event that node $i$ is isoldated. Its probability, from the definition of $G(n,p)$ is $(1-p)^{n-1}$, because there might be an edge with probability $p$ with other $n-1$ nods. From this, applying directly the union bonund we obtain an upper bound on the probability that there is at least one isoldated node is in the graph:
+$$P(B_n) = P(\cup_{i=1}^n A_i) \leq \sum_i P(A_i) \leq nP(A_i) = n(1-p)^{n-1}$$
+```
 
 
 
