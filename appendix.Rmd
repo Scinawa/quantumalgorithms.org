@@ -9,15 +9,15 @@ output: html_document
 # (APPENDIX) Appendix {-} 
 
 # Linear algebra and math
-
-
-
 <!--
 # TODO Finish introductory part on linear algebra in appendix
 # I think we need an introduction on inner products, linearty, vector na matrix norms,
 # trigonometry, identities, and so on.. 
 # labels: todo, help wanted, good first issue
 -->
+
+Take a look at [this](https://www.math.usm.edu/lambers/mat610/sum10/lecture2.pdf). 
+
 
 <!-- ## Complex numbers -->
 <!-- - $z\overline{z} = a^2 + b^2= |z|$ -->
@@ -29,13 +29,6 @@ output: html_document
 <!--     $$f(a+b) = f(a) + f(b)$$ -->
 <!--     $$f(\alpha a) = \alpha f(a) $$ -->
 <!-- maybe add this: \url{http://www-math.mit.edu/~djk/calculus_beginners/chapter03/section03.html} -->
-<!--     \item Cauchy-Schwarz -->
-<!--     $$|(x,y)| \leq \|x\| \|y\| = (x,y)^2 \leq (x,x)(y,y) $$ -->
-<!--     \begin{proof} -->
-<!--     Substitute $(x,y)=\|x\| \|y\| cos(\theta)$: -->
-<!--     $$| \|x\|\|y\| cos(\theta) | \leq \|x\|\|y\|$$ -->
-<!--     $$|cos(\theta)| \leq 1$$ -->
-<!--     \end{proof} -->
 
 <!-- \end{itemize} -->
 <!-- \paragraph{Inner products} -->
@@ -44,11 +37,26 @@ output: html_document
 <!--     \item $(a,\alpha b) = \alpha (a,b)  $ -->
 <!-- \end{itemize} -->
 
-<!-- \paragraph{Norms} -->
-<!-- \begin{itemize} -->
-<!--     \item $ \|x + y\| \leq \|x\| + \|y\|$ (triangle inequality) -->
 
-<!-- \end{itemize} -->
+
+```{definition, name="Norm"}
+A function $f : \mathbb{R}^d \mapsto \mathbb{R}$ is called a norm if:
+
+- $\|x\| \geq 0 \forall x \in \mathbb{R}^{d}$ 
+- $\|\alpha x\| = \alpha \|x\| \forall x \in \mathbb{R}^{d}$ and $\forall \alpha \in \mathbb{R}$
+- $\|x\|-\|y\| \leq  \|x + y\| \leq \|x\| + \|y\|$ (triangle inequality)
+
+```
+
+```{theorem, name="Cauchy(-Bunyakovsky)-Schwarz"}
+$$|(x,y)| \leq \|x\| \|y\|$$
+```
+```{proof}
+Note that by taking the square on both sides we get: $(x,y)^2 \leq (x,x)(y,y)$.
+Substituting $(x,y)=\|x\| \|y\| cos(\theta)$, we get:
+$$|\|x\|^2\|y\|^2 cos^2(\theta) | \leq (x,x)(y,y)$$
+The inequality follows from noting that $|cos(\theta)|$ is always $\leq 1$. 
+```
 
 <!-- \paragraph{Matrix norms} -->
 <!-- \begin{itemize} -->
@@ -64,17 +72,33 @@ $$\|x\|_1 \leq \sqrt{n} \|x\|_2 $$
 ```
 
 
+<!-- from dequantization of qsfa -->
+```{exercise, name="bound error on product of matrices"}
+Suppose that $\|A - \overline{A}\|_F \leq \epsilon \|A\|_F$. 
+Bound $\|A^TA - \overline{A}^T\overline{A}\|_F\|$
+```
+
+<!-- ```{proof} -->
+<!-- $$A^TA + \overline{A}^TA - \overline{A}^TA  - \overline{A}^T\overline{A}=$$ -->
+<!-- $$( A^TA + \overline{A}^TA - \overline{A}^TA  - \overline{A}^T\overline{A}=$$ -->
+<!-- ``` -->
 
 
 
-### Distances 
+
+
+
+```{definition, name="Distance"}
+A function $f : \mathbb{R}^d \times \mathbb{R}^d \mapsto \mathbb{R}$ is called a distance if:
 
 - $d(x,y) \geq 0$
 - $d(x,y) = 0$ iif $x=y$
 - $d(x,y)=d(y,x)$
 - $d(x,z) \leq d(x,y) + d(y+z)$
 
-### Properties of the trace operator
+```
+  
+#### Properties of the trace operator
 
 - $Tr[A+B] = Tr[A] = Tr[B]$
 - $Tr[A\otimes B] = Tr[A]Tr[B]$
