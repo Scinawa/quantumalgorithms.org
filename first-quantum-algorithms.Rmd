@@ -305,7 +305,7 @@ More generally, applying a matrix $M$ which is the product of $k$ matrices, i.e.
 ## Distance estimations and quadratic form estimation {#sub:distances}
 
 
-In this section, we report two lemmas that can be used to estimate the inner products, distances, and quadratic forms between vectors. The lemma \ref{th:innerproductestimation} has been developed in the work \cite{kerenidis2019qmeans,luongo2019spectral}. 
+In this section, we report two lemmas that can be used to estimate the inner products, distances, and quadratic forms between vectors. The lemma \@ref(lem:innerproductestimation) has been developed in the work [@kerenidis2019qmeans].
 
 We can rephrase this theorem saying that we have quantum access to the matrices, but here we keep the original formulation of it. 
 ```{lemma, innerproductestimation, name="Distance and Inner Products Estimation [@kerenidis2019qmeans]"}
