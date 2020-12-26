@@ -112,7 +112,7 @@ where inner product between matrices is basically defined pointwise as $\sum_{ij
  Can you show that the last identity is true?
 ```
 
-### Properties of tensor product
+#### Properties of tensor product
 
 - $\alpha v \otimes w = v \otimes \alpha w = \alpha(v \otimes w)$
 - $( v_1 + v_2) \otimes w = (v_1 \otimes w) + (v_2 \otimes w)$ (and the symmetric of it)
@@ -258,10 +258,6 @@ How can we express the variance as expectation of quantum states? What quantum a
   Discuss. 
 ```
 
-#### Bias-variance tradeoff
-[Here](http://fourier.eng.hmc.edu/e176/lectures/probability/node9.html) is a nice reference to understand the bias-variance tradeoff
-
-
 
 ```{definition, expofamily, name="Exponential Family [@murphy2012machine]"}
 A probability density function or probability mass function $p(v|\nu)$ for $v = (v_1, \cdots, v_m) \in \mathcal{V}^m$, where $\mathcal{V} \subseteq \mathbb{R}$, is a $\sigma$-algebra over a set $X$ 	$\nu \in \mathbb{R}^p$ is said to be in the exponential family if it can be written as:
@@ -277,7 +273,21 @@ A probability density function or probability mass function $p(v|\nu)$ for $v = 
 ```
 
 
-### Boosting probabilities with median lemma 
+#### Bias-variance tradeoff
+[Here](http://fourier.eng.hmc.edu/e176/lectures/probability/node9.html) is a nice reference to understand the bias-variance tradeoff
+
+
+
+
+
+### Boosting probabilities with "median lemma" (or powering lemma )
+
+In this section we discuss the following, widely known result in CS. It's used not only in writing algorithms, but also in complexity theory. 
+
+```{lemma, name="Powering lemma [@jerrum1986random]"} 
+Let $\mathcal{A}$ be a quantum or classical algorithm which aims to estimate some quantity $\mu$, and whose output $\widetilde{\mu}$ satisfies $|\mu-\widetilde{\mu} \leq \epsilon$ except with probability $\gamma$, for some fixed $\gamma \leq 1/2$. Then, for any $\gamma > 0$ it suffices to repeat $\mathcal{A}$ $O(\log 1/\delta)$ times and take the median to obtain an estimate which is accurate to within $\epsilon$ with probability at least $1-\delta$. 
+```
+
 
 <!-- Suppose the following Lemma: -->
 <!-- ```{theorem} -->
@@ -337,7 +347,7 @@ A probability density function or probability mass function $p(v|\nu)$ for $v = 
 -->
 
 ### Markov inequality 
-The Markov inequality is an *upper bound for the probability that a non-negative function of a random variable*, that is greater than or equal to a positive constant. Especially in analysis, refer to it as Chebyshev's inequality (sometimes, calling it the *first* Chebyshev inequality, while referring to the "normal" Chebyshev's inequality as the second Chebyshev inequality) or Bienaym{\'e}'s inequality.  \cite{chebyshevwikipedia}
+The Markov inequality is an *upper bound for the probability that a non-negative function of a random variable*, that is greater than or equal to a positive constant. Especially in analysis, refer to it as Chebyshev's inequality (sometimes, calling it the *first* Chebyshev inequality, while referring to the "normal" Chebyshev's inequality as the second Chebyshev inequality) or Bienaym{\'e}'s inequality.  \@ref(chebyshevwikipedia). 
 
 ```{theorem, markov, name="Markov inequality"}
 For all non-negative random variable, and $a > 0$,  we have that
@@ -369,10 +379,48 @@ $$ P(Y \geq b) \leq \frac{E[f(Y)]}{f(b)} $$
 
 ```{theorem, chebyshev, name="Chebyshev inequality"}
 Two formulations:
+  
 - $Pr[|X - E[X]| \geq k\sigma]  \leq \frac{1}{k^2}$
+
+
 Replacing $k\sigma$ with $\epsilon$, where $k = \epsilon /\sigma$, we have the second formulation:
+
 - $Pr[|X - E[X]| \geq \epsilon]\leq \frac{\sigma^2}{\epsilon^2}$
+
+
 ```
+
+### Chernoff bound
+<!-- From [here](https://math.mit.edu/~goemans/18310S15/chernoff-notes.pdf) and [here](http://www.stat.cmu.edu/~arinaldo/Teaching/36709/S19/Scribed_Lectures/Jan29_Tudor.pdf). -->
+
+<!-- We now consider a more restricted class of random variables, i.e. the case when our random variable is obtained as the sum of *indipendent* other random variables.  -->
+<!-- Central limit theorem says that, as $n \to \infty$, the value $\frac{X-\mu}{\sigma}$ approaches the standard normal distribution $N(0,1)$. Hoewver, it does not tell any information on the rate of convergence. -->
+<!-- <!-- (Expand more on this..) --> -->
+<!-- Chernoff bound is useful because some random variable are not efficiently bounded from Markov and Chebyshev.  -->
+<!-- Note: to apply the Chernoff bound we require our random variable to be a sum of *indipendent* random variables.  -->
+
+
+```{theorem, chernoff-bound, name="Chernoff bound"}
+Let $X=\sum_i^n X_i$ where $X_i =1$ with probability $p_i$ and $X_i=0$ with probability $(1-p_i)$, and all $X_i$ are independent. Let $\mu=E[X] = \sum_i^n p_i$. Then:
+  
+- *Upper tail*: $P(X \geq (1+\delta)\mu) \leq e^-\frac{\delta^2}{2+\delta}\mu$ for all $\delta > 0$
+- *Lower tail*: $P(X \leq (1-\delta)\mu) \leq e^{\mu\delta^2/2}$ for all $0 \leq \delta \leq 1$
+
+
+```
+
+<!-- ```{theorem, chernoff-bound-multiplicative, name="Chernoff bound multiplicative form"} -->
+
+<!-- ``` -->
+
+
+<!-- *Trick:* if not all random variables are between $0$ and $1$, we can define $Y_i=X_i/max(X_i)$ -->
+<!-- <!-- (Expand more on this..) --> -->
+
+<!-- # ```{exercise} -->
+<!-- # estimate number of 
+<!-- # ``` -->
+
 
 
 ### Hoeffding inequality
