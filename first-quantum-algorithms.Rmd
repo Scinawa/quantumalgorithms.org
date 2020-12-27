@@ -666,7 +666,7 @@ $$\tilde{O}(\frac{ ( \kappa(P) + \kappa(Q))(\mu(P)+\mu(Q))}{\epsilon} ).$$
 
 Albeit the ideas treated in this post are somehow well-digested in the mind of many quantum algorithms developers, I  decided to write this page inspired by [@woerner2019quantum].  Here I want to describe just the main technique employed by their algorithm (namely, how to use amplitude estimation to get useful information out of a function). 
 
-Suppose we have a random variable $X$ described by a certain probability distribution over $N$ different outcomes, and a function $f: \{0,\cdots N\} \to \{0,1\}$ defined over this distribution. How can we use quantum computers to evaluate some properties of $f$ such as expected value and variance faster than classical computers?
+Suppose we have a random variable $X$ described by a certain probability distribution over $N$ different outcomes, and a function $f: \{0,\cdots N\} \to [0,1]$ defined over this distribution. How can we use quantum computers to evaluate some properties of $f$ such as expected value and variance faster than classical computers?
 
 Let's start by translating into the quantum realm these two mathematical objects. The probability distribution is (surprise surprise) represented in our quantum computer by a quantum state over $n=\lceil \log N \rceil$ qubits. 
 $$\ket{\psi} = \sum_{i=0}^{N-1} \sqrt{p_i} \ket{i} $$
