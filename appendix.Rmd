@@ -8,7 +8,7 @@ output: html_document
 
 # (APPENDIX) Appendix {-} 
 
-# Linear algebra and math
+# Math and linear algebra
 <!--
 # TODO Finish introductory part on linear algebra in appendix
 # I think we need an introduction on inner products, linearty, vector na matrix norms,
@@ -118,7 +118,7 @@ where inner product between matrices is basically defined pointwise as $\sum_{ij
 - $( v_1 + v_2) \otimes w = (v_1 \otimes w) + (v_2 \otimes w)$ (and the symmetric of it)
 
 
-## Trigonometry
+### Trigonometry
 Always have in mind the following Taylor expansion:
 
 ```{theorem}
@@ -138,7 +138,7 @@ $$\cos(x) = \frac{e^{ix} + e^{-ix}}{2}$$
 $$\sin(x)= \frac{e^{ix} - e^{-ix}}{2i}$$
 
 
-### Useful equalities
+#### Useful equalities in trigonometry
 
 $$sin(a)cos(b) =  \frac{1}{2}(sin(a+b)+sin(a-b) = 1/2(sin(a+b)-sin(b-a) )$$
 
