@@ -11,13 +11,15 @@ output: html_document
 
 #### 2020 {-}
 
-- ..
-- ..
+- [Variational Quantum Algorithms](https://scirate.com/arxiv/2012.09265) `#review`
+- [Circuit-centric Quantum Classifier](https://arxiv.org/pdf/1804.00633)
+- 
 
 #### 2019 {-}
 
 - [Quantum Language Processing](https://arxiv.org/pdf/1902.05162.pdf) `#NLP`
-
+- [A Quantum Search Decoder for Natural Language Processing](https://arxiv.org/pdf/1909.05023.pdf) `#NLP`
+- 
 
 #### 2018 {-}
 
