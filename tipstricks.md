@@ -5,9 +5,14 @@
 - itemize made with - should start and end with a newline
 - the way to number equation is the following: (\#eq:raylight)
 - This is the templtae to use to create an issue automatically using the github action
+- always use thm, lem, cor, in references: \@ref(thm:qla). 
+- grep "\`{lemma" * to have the list of all lemmas (or theorems) so after we can check if they are used correctly with \@ref() and there are no wrong \ref{}. 
+- the correct way of doing todo is:
 <!-- 
 # TODO 
 # labels: 
 -->
 
+
+- 
 
