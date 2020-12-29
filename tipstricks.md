@@ -13,6 +13,5 @@
 # labels: 
 -->
 
-
+- If you need a fast way for translating citation from latex \cite{ciao} to markdown [@ciao], you can use \\cite{(.*?)} -----> [@$1]
 - 
-
