@@ -21,4 +21,6 @@ There are some open issues here, roughly organized as follows:
 
 In any case, if you want to help, [drop me a line](mailto://scinawa@luongo.pro)!
 
+## Algorithms file
+The text of the pseudocode of the algorithm is in the folder /algpseudocode/
 
