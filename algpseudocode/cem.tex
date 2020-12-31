@@ -1,0 +1,47 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\begin{document}
+\pagestyle{empty} 
+\begin{algorithm}[ht]
+	\caption{Expectation-Maximization for GMM} \label{GMMEM}
+	\begin{algorithmic}[1]
+
+		\Require  Dataset $V$, tolerance $\tau >0$.
+		\Ensure A GMM $\gamma^t= (\theta^t, \vec \mu^t, \vec \Sigma^t )$ that maximizes locally the likelihood $\ell(\gamma;V)$ up to tolerance $\tau$.
+		\vspace{10pt}
+		\Statex Select $\gamma^0=(\theta^0, \vec \mu^{0}, \vec \Sigma^{0} )$ using some initialization strategies. 
+		\State $t=0$
+		\Repeat %from $t=0$ to
+		\State \textbf{ Expectation}\\
+		$\forall i,j$, calculate the responsibilities as:
+		\begin{equation}\label{responsibility}
+			r_{ij}^t = \frac{\theta^t_j \phi(v_i; \mu^t_j, \Sigma^t_j )}{\sum_{l=1}^k \theta^t_l \phi(v_i; \mu^t_l, \Sigma^t_l)}
+		\end{equation}
+
+		\State \textbf{ Maximization}\\
+		Update the parameters of the model as:
+		\begin{equation}
+			\theta_j^{t+1} \leftarrow \frac{1}{n}\sum_{i=1}^n r^{t}_{ij}
+		\end{equation}
+
+		\begin{equation}
+			\mu_j^{t+1} \leftarrow \frac{\sum_{i=1}^n r^{t}_{ij} v_i }{ \sum_{i=1}^n r^{t}_{ij}}
+		\end{equation}
+
+		\begin{equation}
+			\Sigma_j^{t+1} \leftarrow \frac{\sum_{i=1}^n r^{t}_{ij} (v_i - \mu_j^{t+1})(v_i - \mu_j^{t+1})^T }{ \sum_{i=1}^n r^{t}_{ij}}
+		\end{equation}
+
+
+		\State t=t+1
+		\Until {$\: $}
+		\State \begin{equation} | \ell(\gamma^{t-1};V) - \ell(\gamma^t;V) | < \tau \end{equation}
+
+			\State Return $\gamma^{t}=(\theta^t, \vec \mu^t, \vec \Sigma^t )$
+	\end{algorithmic}
+\end{algorithm}
+
+\end{document}

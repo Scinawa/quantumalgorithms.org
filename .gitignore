@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+quantumalgos.Rproj
+quantumalgos.log
+compile.R
+quantumalgorithms.sh
+book/
+quantumalgos.*
+algpseudocode/*.aux
+algpseudocode/*.fls
+algpseudocode/*.log
+algpseudocode/*.pdf
+algpseudocode/*.fdb_latexmk
+algpseudocode/TEMPLATE.png
