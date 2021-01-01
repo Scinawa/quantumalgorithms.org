@@ -5,9 +5,9 @@ date: "12/11/2020"
 output: html_document
 ---
 
-# Selected works in QML
+# Selected works in QML 
 
-
+This is a work in progress, as the vast majority of works are not present here, yet. 
 
 #### 2020 {-}
 
@@ -43,11 +43,7 @@ The PhD thesis of Zhao! With focus on Gaussian Processes, Quantum Bayesian Deep 
 Is a self-autocritic of the ML community on the way they are doing science now. I think this might be relevant as well for the QML practicioner.
 
 - [Quantum machine learning for data scientits](https://arxiv.org/pdf/1804.10068.pdf) `#review`  `#tutorial`
-This is a very nice review of some of the most known qml algorithms. I wish I had this when I started studying QML.  
-
-- [Image classification of MNIST dataset using quantum slow feature analysis]() `#algo`  
-This is my first work in quantum machine learning. Here we show 2 new algorithms 
-The idea is to give evidence that QRAM based algorithms can obtain a speedup w.r.t classical algorithm in QML *on real data*.
+This is a very nice review of some of the most known qml algorithms. 
 
 - [Quantum algorithm implementations for beginners](https://arxiv.org/pdf/1804.03719.pdf) `#review` `#tutorial`  
 
