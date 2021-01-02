@@ -1,0 +1,32 @@
+---
+title: "lemma 8 childs"
+author: "scinawa"
+date: "1/2/2021"
+output: html_document
+---
+
+<!--
+TODO Write properly Lemma 8 form the paper "exponential improvements" of childs et al. 
+This can become a nice exericse and can go directly in the introductory part, or near phase estimation
+labels: good first issue
+-->
+
+
+```{lemma, name = "Lemma 8 of exponential improvements of childs"}
+Let $U=\sum_i^N \ket{i}\bra{i}\otimes Y^i$ where $Y$ is a unitary with gate complexity $G$. Let the gate complexity of $Y^{2^j} = 2^j G$
+Then, the gate complexity of $U$ is $O(\sum_j^{\lceil \log N\rceil}G_J) = O(NG)$
+```
+
+```{proof}
+Let $n = \lceil \log N \rceil$. Consider $Y^{2^J}$ for $j \in [n]$, with gate complexity $G_j \leq 2^j G$. 
+
+The controlled version of $Y^{2^j}$ (which we call $c-Y^{2^j}$) is controlled by a single qubit, and has gate complexity $O(G_j)$ as well. 
+
+The unitary $U$ can be implemented by a circuit that performs $n$ controlled operations, i.e. that performs $c-Y^{2^j}$ $\forall j \in [n]$. 
+
+We now observe that the binary decomposition of the first register can be helpful for analyzing the complexity of this claim:
+If the first register is in state $\ket{i}$, we have to perform $c-Y^i$. But we can rewrite $i$ as $i=i_n^2^n + i_{n-1}2^{n-1}+i_{n-2}2^{n-2} + \dots + i_12+ i_0$
+The gate complexity of performing these operations, starting from the state
+$\sum_i^n \ket{i}\ket{\psi_0}$ is
+$$O\left( \sum_j^n G_j \right) = O\left( \sum_j^n 2^j G \right) = O(NG)$$ 
+```
