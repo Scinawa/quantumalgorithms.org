@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+
+\begin{document}
+\pagestyle{empty} 
+
+
+\begin{algorithm}[ht]
+	\caption{QEM for GMM  } \label{qGMMEM}
+	\begin{algorithmic}[1]
+
+			\Require Quantum access to a GMM model, precision parameters $\delta_\theta, \delta_\mu,$ and threshold $\epsilon_\tau$.
+			\Ensure  A GMM $\overline{\gamma}^t$ that maximizes locally the likelihood $\ell(\gamma;V)$, up to tolerance $\epsilon_\tau$.
+			\vspace{10pt}
+			\State Use a heuristic (like lemma \ref{$q$-means++} in Chapter \ref{chap:qmeans}) to determine the initial guess  $\gamma^0=(\theta^0, \vec \mu^0, \vec \Sigma^0)$, and build quantum access as in definition \ref{def:quantumaccess-GMM} those parameters.
+			\State Use lemma \ref{lemma: absolute error logdet} to estimate the log determinant of the matrices $\{ \Sigma_j^0 \}_{j=1}^k$.
+			\State t=0
+			\Repeat
+			 \State \textbf{Step 1:} Get an estimate of $\theta^{t+1}$ using lemma \ref{lemma:theta} such that
+			 $\norm{\overline{\theta}^{t+1} - \theta^{t+1}} \leq\delta_\theta. $ % to create the state:
+			% $$\sum_{j \in [k]}\sqrt{\theta_j^{t+1}}\ket{j}\ket{G_j}$$
+			% where $G_j$ is garbage. \note{I meant the garbage appears inside lemma \ref{lemma:theta}, can we use just the statement of this lemma?}
+			\State \textbf{Step 2:} Get an estimate $\{ \overline{\mu_j}^{t+1} \}_{j=1}^k$ by using lemma \ref{lemma:centroids} to estimate  each $\norm{\mu_j^{t+1}} $ and $\ket{\mu_j^{t+1}}$ such that
+			$\norm{\mu_j^{t+1} - \overline{\mu_j}^{t+1}} \leq \delta_\mu $.
+
+			\State \textbf{Step 3:} Get an estimate $\{ \overline{\Sigma_j}^{t+1} \}_{j=1}^k$ by using lemma \ref{lemma:sigma} to estimate $\norm{\Sigma_j^{t+1}}_F$ and $\ket{\Sigma_j^{t+1}}$ such that
+			$ \norm{\Sigma_j^{t+1} - \overline{\Sigma_j}^{t+1} } \leq \delta_{\mu} \sqrt{\eta} $.
+			\State \textbf{Step 4:} Estimate $\mathbb{E}[ \overline{p(v_i;\gamma^{t+1})}]$  up to error $\epsilon_\tau/2$ using theorem \ref{lemma:likelihoodestimation}.
+			\State \textbf{Step 5:} Build quantum access to $\gamma^{t+1}$, and use lemma \ref{lemma: absolute error logdet} to estimate the determinants $\{ \overline{\log det(\Sigma_j^{t+1})} \}_{j=0}^k$.
+			\State $t=t+1$
+			%\STATE .
+			\Until
+			$$| \mathbb{E}[ \overline{p(v_i;\gamma^{t})}] - \mathbb{E}[\overline{p(v_i;\gamma^{t-1})}] | < \epsilon_\tau$$
+			\State Return $\overline{\gamma}^{t}=(\overline{\theta}^t, \overline{\vec \mu}^t, \overline{\vec \Sigma}^t )$
+	\end{algorithmic}
+\end{algorithm}
+
+\end{document}
