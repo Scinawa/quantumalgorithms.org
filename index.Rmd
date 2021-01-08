@@ -61,8 +61,8 @@ These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalg
 
 The contributors to the project are:
 
-- 
-- 
+- Alessandro 'Scinawa' Luongo
+- Armando 'ikiga1' Bellante
 - 
 
 <!-- 
