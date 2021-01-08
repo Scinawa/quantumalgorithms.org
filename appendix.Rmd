@@ -100,7 +100,7 @@ A function $f : \mathbb{R}^d \times \mathbb{R}^d \mapsto \mathbb{R}$ is called a
   
 #### Properties of the trace operator
 
-- $Tr[A+B] = Tr[A] = Tr[B]$
+- $Tr[A+B] = Tr[A] + Tr[B]$
 - $Tr[A\otimes B] = Tr[A]Tr[B]$
 - $Tr_1[A\otimes B] = Tr[A]B$
 - $Tr[\ket{a}\bra{b}] = \braket{a|b}$
@@ -116,6 +116,8 @@ where inner product between matrices is basically defined pointwise as $\sum_{ij
 
 - $\alpha v \otimes w = v \otimes \alpha w = \alpha(v \otimes w)$
 - $( v_1 + v_2) \otimes w = (v_1 \otimes w) + (v_2 \otimes w)$ (and the symmetric of it)
+- $\ket{\psi_1}\bra{\phi_1} \otimes \ket{\psi_2}\bra{\phi_2} = \ket{\psi_1}\ket{\psi_2} \otimes \bra{\phi_1}\bra{\phi_2}$ <!-- improve, check.. --> 
+
 
 
 ### Trigonometry
