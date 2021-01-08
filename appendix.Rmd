@@ -117,6 +117,178 @@ where inner product between matrices is basically defined pointwise as $\sum_{ij
 - $\alpha v \otimes w = v \otimes \alpha w = \alpha(v \otimes w)$
 - $( v_1 + v_2) \otimes w = (v_1 \otimes w) + (v_2 \otimes w)$ (and the symmetric of it)
 
+### Eigenvalues, eigenvectors and eigendecomposition of a matrix
+<!-- 
+# TODO Adjust citations and labels
+-->
+Real matrices are important tools in Machine Learning as they allow to comfortably represent data and describe the operations to perform during an algorithm. Eigenvectors and Eigenvalues are fundamental linear algebra concepts that provide important information about a matrix. 
+
+```{definition, name="Eigenvalues and Eigenvectors"}
+\cite[Section 6.1 page 289]{linearalgebragilbert}
+Let $A$ be a $\mathbb{R}^{n\times n}$ square matrix, $q \in \mathbb{R}^{n}$ a non-zero vector and $\lambda$ a scalar. If the following equation is satisfied
+$$Aq = \lambda q,$$
+then $q$ is said to be an eigenvector of matrix $A$ and $\lambda$ is its associated eigenvalue.
+```
+
+To have a geometric insight into what eigenvectors and eigenvalues are, we can think of any matrix as a linear transformation in the $\mathbb{R}^n$ space. Under this light, we can say that the eigenvectors of a matrix are those vectors of the space that, after the transformation, lie on their original direction and only get their magnitude scaled by a certain factor: the eigenvalue.
+
+The eigenvalues reveal interesting properties of a matrix. For example, the trace of a matrix (i.e. the sum of the element along the main diagonal of a square matrix) is the sum of its eigenvalues
+$$Tr[A] = \sum_i^{n}\lambda_i,$$
+and its determinant is equal to the product of the eigenvalues \cite[Section 6.1 page 294]{linearalgebragilbert}
+$$det(A) = \prod_i^{n}\lambda_i.$$
+
+Moreover, a matrix $A$ with  eigenvalues $\{\lambda_1, ..., \lambda_k\}$ has an inverse only if all the eigenvalues are not zero. The inverse has eigenvalues $\{\frac{1}{\lambda_1}, ..., \frac{1}{\lambda_k}\}$.
+
+Generally, one eigenvalue can be associated with multiple eigenvectors. There might be a set of vectors $E(\lambda) \subseteq \mathbb{R}^n$ such that for all those vectors $q \in E(\lambda): Aq = \lambda q$. That is why for each eigenvalue we talk about an eigenspace. 
+
+```{definition, name="Eigenspace"}
+\cite[Definition 7.1.5 page 108]{scapellato}
+Let $A$ be a $\mathbb{R}^{n\times n}$ square matrix and $\lambda$ be an eigenvalue of $A$. The eigenspace of $A$ related to $\lambda$ is the space defined over the set of vectors $E(\lambda) = \{ x: Ax = \lambda x\}$.
+```
+
+For each eigenspace, through the Gram-Schmidt procedure, starting from linearly independent vectors it is possible to identify a set of orthogonal eigenvectors that constitute a basis for the space. The basis that spans the space where all the eigenvectors of a matrix lie is called eigenbasis.
+
+```{definition, name="Eigenbasis"}
+A basis for the space where all the eigenvectors of a matrix lie is called eigenbasis.
+```
+
+An important result is that vectors in different eigenspaces are linearly independent.
+
+```{lemma, name="Linear independence of eigenvectors"}
+\cite[Lemma 7.2.3 page 112]{scapellato}
+The set of vectors obtained by the union of the bases of the eigenspaces of a matrix is linearly independent.
+```
+This means that if the sum of the dimensions of the eigenspaces $\sum_i dim(E(\lambda_i))$ equals $n$, it is possible to find $n$ eigenvectors of $A$ that form a basis for the $\mathbb{R}^n$ space. If that is the case, each vector that lies in $\mathbb{R}^n$ can be written as a linear combination of the eigenvectors of $A$.
+Interestingly, matrices that have $n$ linearly independent eigenvectors can be decomposed in terms of their eigenvalues and eigenvectors.
+
+```{theorem, name="Eigendecomposition or Diagonalization"}
+\cite[Section 6.2 page 304]{linearalgebragilbert}
+Let $A \in \mathbb{R}^{n \times n}$ be a square matrix with $n$ linearly independent eigenvectors. Then, it is possible to decompose the matrix as
+$$A = Q\Lambda Q^{-1}.$$
+Where $Q \in \mathbb{R}^{n\times n}$ is an square matrix and $\Lambda \in \mathbb{R}^{n\times n}$ is a diagonal matrix. In particular, each $i^{th}$ column of $Q$ is an eigenvector of $A$ and the $i^{th}$ entry of $\Lambda$ is its associated eigenvalue.
+```
+
+The matrices that can be eigendecomposed are also said diagonalizable, as in practice the theorem above states that such matrices are similar to diagonal matrices. Unfortunately, not all the square matrices have enough independent eigenvectors to be diagonalized. The Spectral Theorem provides us with a set of matrices that can always be eigendecomposed.
+
+```{theorem, name="Spectral theorem"}
+\cite[Spectral Theorem page 339]{linearalgebragilbert}
+Every symmetric matrix is diagonalizable $A = Q\Lambda Q^{-1}$. Furthermore, its eigenvalues are real and it is possible to choose the columns of $Q$ so that it is an orthogonal matrix.
+```
+Recall that a matrix $Q$ is said to be orthogonal if $QQ^T=Q^TQ = \mathbb{I}$, therefore $Q^{-1} = Q^T$.
+The Spectral theorem, together with the fact that matrices like $A^TA$ and $AA^T$ are symmetric, will come in handy in later discussions.
+
+Being able to eigendecompose a matrix allows performing some computations faster than otherwise. Some examples of operations that gain speed-ups from the eigendecomposed representation are matrix inversion and matrix exponentiation. Indeed, if we have a matrix $A=Q\Lambda Q^{-1}$ its inverse can be computed as $A^{-1}=Q\Lambda^{-1}Q^{-1}$ 
+where $\Lambda^{-1} = diag([\frac{1}{\lambda_1}, ... \frac{1}{\lambda_n}])$. It is easy to check that this matrix is the inverse of $A$:
+$$AA^{-1} = (Q\Lambda Q^{-1})(Q\Lambda^{-1}Q^{-1}) = Q\Lambda\Lambda^{-1}Q^{-1} = QQ^{-1} = \mathbb{I}$$
+$$A^{-1}A = (Q\Lambda^{-1}Q^{-1})(Q\Lambda Q^{-1}) = Q\Lambda^{-1}\Lambda Q^{-1} = QQ^{-1} = \mathbb{I}.$$
+At the same time, the eigendecomposition of a matrix allows performing matrix exponentiation much faster than through the usual matrix multiplication. In fact, it is true that $A^p = Q\Lambda^pQ^{-1}$.
+For instance, 
+$$A^3 = (Q\Lambda Q^{-1})(Q\Lambda Q^{-1})(Q\Lambda Q^{-1}) = Q\Lambda(Q^{-1}Q)\Lambda(Q^{-1}Q)\Lambda Q^{-1} = Q\Lambda\Lambda\Lambda Q^{-1} = Q\Lambda^3Q^{-1}.$$
+Computing big matrix powers such as $A^{100}$, with its eigendecomposed representation, only takes two matrix multiplications instead of a hundred.
+
+Traditionally, the computational effort of performing the eigendecomposition of a $\mathbb{R}^{n \times n}$ matrix is in the order of $O(n^3)$ and may become prohibitive for large matrices \cite{partridge1997fastpca}.
+
+
+### Singular value decomposition
+<!-- 
+# TODO Adjust citations and labels
+-->
+Eigenvalues and eigenvectors can be computed only on square matrices. Moreover, not all matrices can be eigendecomposed. For this reason, we introduce the concepts of singular values and singular vectors, that are closely related to the ones of eigenvalues and eigenvectors, and offer a decomposition for all the kind of matrices.
+
+```{theorem, name="Singular Value Decomposition"} 
+\cite[Sections 7.1, 7.2]{linearalgebragilbert}
+Any matrix $A \in \mathbb{R}^{n \times n}$ can be decomposed as
+$$A = U\Sigma V^T$$
+where $U \in \mathbb{R}^{n\times r}$ and $V \in \mathbb{R}^{m\times r}$ are orthogonal matrices and $\Sigma  \in \mathbb{R}^{r\times r}$ is a diagonal matrix. In particular, each $i^{th}$ column of $U$ and $V$ are respectively called left and right singular vectors of $A$ and the $i^{th}$ entry of $\Sigma$ is their associated singular value. Furthermore, $r$ is a natural number smaller then $m$ and $n$.
+```
+
+Similarly to how eigenvalues and eigenvectors have been defined previously, for each pair of left-right singular vector, and the associated singular value, the following equation stands:
+$$Av = \sigma u.$$
+
+If we consider the Singular Value Decomposition (SVD) under a geometric perspective, we can see any linear transformation as the result of a rotation, a scaling, and another rotation. Indeed, if we compute the product between a matrix $A \in \mathbb{R}^{n\times m}$ and a vector $x \in \mathbb{R}^m$ 
+$$Ax = U\Sigma V^Tx = (U(\Sigma (V^Tx))).$$
+$U$ and $V^T$, being orthogonal matrices, only rotate the vector without changing its magnitude, while $\Sigma$, being a diagonal matrix, alters its length.
+
+
+It is interesting to note that the singular values of $A$ - denoted as $\{\sigma_1,..., \sigma_r\}$ - are the square roots $\{\sqrt{\lambda_1},..., \sqrt{\lambda_r}\}$ of the eigenvalues of $AA^T$ (or $A^TA$) and that the left and right singular vectors of $A$ - denoted as $\{u_1, ..., u_r\}$ and $\{v_1, ..., v_r\}$ - are respectively the eigenvectors of $AA^T$ and $A^TA$.   
+
+The fact that each matrix can be decomposed in terms of its singular vectors and singular values, as in the theorem above, makes the relationship between singular values - singular vectors of a matrix and eigenvalues - eigenvectors of its products with the transpose clearer:
+$$AA^T = (U\Sigma V^T)(U\Sigma V^T)^T = U\Sigma V^TV\Sigma U^T = U\Sigma ^2U^T;$$
+$$A^TA =
+(U\Sigma V^T)^T(U\Sigma V^T) =
+V\Sigma U^TU\Sigma V^T = V\Sigma ^2V^T.$$
+
+Note that the matrices $AA^T$ and $A^TA$ are symmetric matrices and so, for the Spectral theorem, they can always be decomposed. Moreover, note that they have positive eigenvalues: being the square roots of real positive eigenvalues, the singular values of a real matrix are always real positive numbers.
+
+As the left and right singular vectors are eigenvectors of symmetric matrices, they can be chosen to be orthogonal as well. In particular, the left singular vectors of a matrix span the row space of the matrix, and the right singular vectors span the column space.
+
+```{definition, name="Column (Row) Space"} 
+ \cite[Definition 8.1 page 192]{schlesinger} \label{Def:column_row_space} Let $A$ be a $\mathbb{R}^{n\times m}$ matrix. The column (row) space of $A$ is the space spanned by the column (row) vectors of $A$. Its dimension is equal to the number of linearly independent columns (rows) of $A$.
+```
+
+The number $r$ of singular values and singular vectors of a matrix is its rank.
+```{definition, name="Rank of a matrix"} 
+ \cite[Definition 8.3, Proposition 8.4 page 193-194]{schlesinger} \label{Def:rank} The rank of a matrix is the number of linearly independent rows/columns of the matrix. If the matrix belongs to the $\mathbb{R}^{n\times m}$ space, the rank is less or equal than $min(n,m)$. A matrix is said to be full rank if its rank is equal to $min(n,m)$.
+```
+
+
+### Singular vectors for data representation
+<!-- 
+# TODO Adjust citations and labels
+-->
+Singular values and singular vectors provide important information about matrices and allow to speed up certain kind of calculations. Many data analysis algorithms, such as Principal Component Analysis, Correspondence Analysis, and Latent Semantic Analysis that will be further investigated in the following sections, are based on the singular value decomposition of a matrix. 
+
+To begin with, the SVD representation of a matrix allows us to fastly calculate some matrix norms, like the $l_2$ norm and the Frobenius norm.
+```{definition, name="$l_2$ (or Spectral) norm"}
+ \cite[Section 11.2 page 518]{linearalgebragilbert} \label{Def:spectral_norm} 
+ Let $A  \in \mathbb{R}^{n\times m}$ be a matrix. The $l_2$ norm of $A$ is defined as $||A ||_2 = max_{x }\frac{||A x ||}{||x ||}$.
+```
+
+
+It is pretty easy to see that 
+$$||A ||_2 = \sigma_{max}$$
+Where $\sigma_{max}$ is the greatest singular value of $A$. In particular, if we consider again the matrix $A =U \Sigma V ^T$ as a linear transformation, we see that $U$ and $V ^T$ only rotate vectors $||U x ||=||x ||$, $||V x ||=||x ||$ while $\Sigma$ changes their magnitude $||\Sigma x || \leq \sigma_{max}||x ||$. For this reason, the $l_2$ Norm of a matrix is also referred to as the Spectral Norm. During the rest of the work we will also use the notation $||A ||$ to refer to the Spectral Norm.  
+
+Another important matrix norm that benefits from SVD is the Frobenius norm, defined in the following way.
+```{definition, name="Frobenius norm"}
+
+ \cite[Section 11.2 page 518]{linearalgebragilbert} \label{Def:frobenius_norm} Let $A  \in \mathbb{R}^{n\times m}$ be a matrix. The Frobenius norm of $A$ is defined as $||A ||_F = \sqrt{\sum_i^n\sum_j^m a_{ij}^2}$.
+```
+
+
+
+It can be shown that also this norm is related to the singular values.
+```{proposition}
+\label{frobenius_singular_values} \label{Prop:frobenius_singular_values}
+The Frobenius norm of a matrix $A  \in \mathbb{R}^{n\times m}$ is equal to the square root of the sum of squares of its singular values.
+$$||A ||_F = \sqrt{\sum_i^r \sigma_{i}^2}$$
+```
+
+
+```{proof}
+$$||A ||_F = \sqrt{\sum_i^n\sum_j^na_{ij}^2} = \sqrt{Tr[A A ^T]} = \sqrt{Tr[(U \Sigma V ^T)(U \Sigma V )^T]} =$$ $$\sqrt{Tr[U \Sigma V ^TV \Sigma U ^T]} = \sqrt{Tr[U \Sigma \Sigma U ^T]} = \sqrt{Tr[U \Sigma ^2U ^T]} = \sqrt{\sum_{i=1}^{n}\sigma^2}$$
+From the cyclic property of the trace $Tr[A B ] = Tr[B A ]$ it follows that $Tr[U \Sigma ^2U ^T] = Tr[U ^TU \Sigma ^2] = Tr[\Sigma ^2]$, which is the sum of the squares of the singular values $\sum_{i=1}^{n}\sigma^2$.
+```
+
+
+
+Another interesting result about the SVD of a matrix is known as the Eckart–Young–Mirsky theorem. 
+```{theorem, name="Best F-Norm Low Rank Approximation"}
+ \cite{eckart1936approximation}\cite{mirsky1960symmetric} \label{Theo:eckart-young-mirsky}
+Let $A  \in \mathbb{R}^{n \times m}$ be a matrix of rank $r$ and singular value decomposition $A  = U \Sigma V ^T$. The matrix $A ^{(k)} = U ^{(k)}\Sigma ^{(k)}V ^{(k)T}$ of rank $k \leq r$, obtained by zeroing the smallest $r-k$ singular values of $A$, is the best rank-k approximation of $A$.  
+ Equivalently, $A _k = argmin_{B :rank(B )=k}(||A  - B  ||_F)$.  
+ Furthermore, $min_{B :rank(B )=k}(||A  - B  ||_F) = \sqrt{\sum_{i=k+1}^r{\sigma_i}}$.
+```
+
+
+To get a clearer understanding of this result, we could rewrite $A  = U \Sigma V ^T = \sum_i^r\sigma_iu _iv _i^T$ and notice that matrix $A$ is the sum of $r$ matrices $u _iv _i^T$ each scaled by a scalar $\sigma_i$. 
+
+In practice, SVD decomposes matrix $A$ in matrices of rank one, ordered by importance according to the magnitude of the singular values: the smaller the $\sigma_i$, the smaller is the contribution that the rank-1 matrix gives to the reconstruction of $A$. 
+When the smallest singular values are set to 0, we still reconstruct a big part of the original matrix, and in practical cases, we will see that matrices can be approximated with a relatively small number of singular values.
+
+
+Unfortunately though, calculating the singular vectors and singular values of a matrix is a computationally intensive task. Indeed, for a matrix $A  \in \mathbb{R}^{n\times m}$ the cost of the exact SVD is $O\left( min(n^2m, nm^2) \right)$. Recently, there have been developed approximate methods that compute the Eckart-Young-Mirsky approximations of matrices in 
+time $O(knm)$, where k is the rank of the output matrix \cite{partridge1997fastpca}, or in times that scale super-linearly on the desired rank and one dimension of the input matrix \cite{bhojanapalli2014tighter}. 
 
 ### Trigonometry
 Always have in mind the following Taylor expansion:
