@@ -1,0 +1,24 @@
+
+```{exercise, name="Distance between SPD matrices"}
+Assume to have quantum access to the matrices. Write a quantum algorithm to estimate 
+$$ d(\Sigma_1, \Sigma_2) = \| log(\Sigma_1^{1/2} \Sigma_2 \Sigma_1^{1/2} ) \|_F$$ 
+
+(maybe a hint: recall that the frobenius norm of the matrix is the Schatten-2 norm of the matrix)
+```
+
+```{exercise, name="Hadamard after KP-trees"}
+Cnsider the state after a quer to the KP-trees:
+$$\sum_\ket{i}\ket{x_i}$$
+what state you get after a Hadamard gate on the first register? What is the probability of measuring $p(0)$? What the state after measuring $\ket{0}$?
+```
+
+
+
+```{exercise}
+Exercise on tomography of a pure state having quantum access to a state that is $\epsilon$ close to the new state. 
+```
+
+
+```{exercise}
+Can you show that the definition of $\mu$ is a norm? Why? Why not? For which $p$?
+``` 

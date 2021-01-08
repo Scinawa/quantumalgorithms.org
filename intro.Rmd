@@ -4,7 +4,7 @@ output:
   html_document: default
 ---
 # Introduction to quantum information
-In this chapter we will introduce the notation used in this manuscript. For further mathematical introduction, please refer to the appendix. 
+In this chapter we will introduce the notation used in this manuscript. For further mathematical introduction, please refer to the appendix.
 
 <!-- 
 # TODO Write a small introduction on Schroedinger equation
@@ -45,14 +45,15 @@ $$ \begin{pmatrix}
 
 We will use the following matrix norms:
 
--  $\|A\|_0$ as the number of non-zero elements of the matrix $A$,
+- $\|A\|_0$ as the number of non-zero elements of the matrix $A$,
 - $\|A\|_1 = \max\limits_{1 \leq j \leq n} \sum_{i=0}^n |a_{ij}|$ is the maximum among the sum of the absolute value along the columns of the matrix, 
--  $\|A\|_2 = \|A\| = \sigma_1$ is the biggest singular value of the matrix,
+- $\|A\|_2 = \|A\| = \sigma_1$ is the biggest singular value of the matrix,
 - $\|A\|_\infty = \max\limits_{1 \leq i \leq m} \sum_{j=0}^n  |a_{ij}|$ is the maximum among the sum of the absolute values along the rows of the matrix,
 - $\norm{A}_{\max}$ is the maximal element of the matrix in absolute value.
+- $\norm{A}_F$ is the Frobenius norm of the matrix, defined as $\sqrt{\sum_{ij}a_{ij}^2}$
 
 Note that for symmetric matrices, $\|A\|_\infty = \|A\|_1$. With $s$ we denote the sparsity, that is, the maximum number of non-zero elements of the rows. The dataset that we manipulate in this work are represented by a matrix $V \in \mathbb{R}^{n \times d}$, i.e. each row can be thought as a vector $v_i \in \mathbb{R}^{d}$ for $i \in [n]$ that represents a single data point. We denote as $V_k$ the optimal rank $k$ approximation of $V$, that is  $V_{k} = \sum_{i=0}^k \sigma_i u_i v_i^T$, where $u_i, v_i$ are the row and column singular vectors respectively and the sum is over the largest $k$ singular values $\sigma_{i}$.  We denote as $V_{\geq \tau}$ the matrix  $\sum_{i=0}^\ell \sigma_i u_i v_i^T$ where $\sigma_\ell$ is the smallest singular value which is greater than $ \tau$.
- For a matrix $M$ and a vector $x$, we define as $M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta} x $ the projection of $x$ onto the space spanned by the singular vectors of $M$ whose corresponding singular values are smaller than $\theta$, and some subset of singular vectors whose corresponding singular values are in the interval $[\theta, (1+\delta)\theta]$. We use a standard notation of $\tilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms.
+ For a matrix $M$ and a vector $x$, we define as $M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta} x$ the projection of $x$ onto the space spanned by the singular vectors of $M$ whose corresponding singular values are smaller than $\theta$, and some subset of singular vectors whose corresponding singular values are in the interval $[\theta, (1+\delta)\theta]$. We use a standard notation of $\tilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms.
 
 
 
@@ -343,7 +344,7 @@ Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform t
 ```
 
 
-In the PhD thesis of [@Prakash:EECS-2014-211], he leveraged the definition of \@ref(def:qram) to allow us to efficiently create superpositions corresponding to the rows of the matrices, i.e. encoding the values of the components of a matrix' row in the amplitudes of a quantum state. Note that this data structure, which sometimes goes under the name KP-trees [@rebentrost2018quantum], assumes and extends definition \@ref(def:qram). In practice, both are called QRAM, and both rely on two (different) tree data structure for its construction. One is a hardware tree that allows to perform the mapping in \@ref(def:qram), the other is a tree that stores the partial norms of the rows of the matrix, which we will discuss later. 
+In the PhD thesis of [@Prakash:EECS-2014-211], he leveraged the definition of \@ref(def:qram) to allow us to efficiently create superpositions corresponding to the rows of the matrices, i.e. encoding the values of the components of a matrix' row in the amplitudes of a quantum state. Note that this data structure, which sometimes goes under the name KP-trees [@rebentrost2018quantum], assumes and extends definition \@ref(def:qram). In practice, both are called QRAM, and both rely on two (different) tree data structure for their construction. One is a hardware tree that allows to perform the mapping in \@ref(def:qram), the other is a tree that stores the partial norms of the rows of the matrix, which we will discuss later. We will use the following as definition, but this is actually a theorem. For the proof, we refer to [@Prakash:EECS-2014-211] and the appendix of [@KP16].
 
 
 ```{definition, KP-trees,  name="Quantum access to matrices using KP-trees [@KP16]"}
@@ -457,7 +458,7 @@ Then, $\norm{x-y} \leq \epsilon$ implies $\norm{\ket{x} - \ket{y}} \leq \frac{\s
 
 
 <!--
-# TODO Add (already solved) exercise on rewriting the swap test 
+# TODO Add exercise on rewriting the swap test 
 # It's done in the draft/distances.Rmd but the images needs to be worked out properly. 
 # labels: good first issue, help wanted
 -->
