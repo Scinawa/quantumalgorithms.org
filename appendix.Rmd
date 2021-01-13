@@ -118,6 +118,23 @@ where inner product between matrices is basically defined pointwise as $\sum_{ij
 - $( v_1 + v_2) \otimes w = (v_1 \otimes w) + (v_2 \otimes w)$ (and the symmetric of it)
 - $\ket{\psi_1}\bra{\phi_1} \otimes \ket{\psi_2}\bra{\phi_2} = \ket{\psi_1}\ket{\psi_2} \otimes \bra{\phi_1}\bra{\phi_2}$ <!-- improve, check.. --> 
 
+#### Useful inequalities 
+
+```{r, amgm-images, fig.cap="AMGM inequality from wikipedia and twitter", echo=FALSE}
+knitr::include_graphics("images/amgm1.png")
+knitr::include_graphics("images/amgm2.png")
+
+```
+
+```{theorem, jense, name="Jensen inequality"}
+Jensen inequality
+```
+
+
+```{theorem binomial-theorem, name="Binomial theorem"}
+$$(a+b)^n = \sum_{k=0}^n \choose{n, k}a^kb^{n-k}$$
+```
+
 
 ### Eigenvalues, eigenvectors and eigendecomposition of a matrix
 <!-- 
@@ -397,6 +414,8 @@ $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)
 
 The union bound is used to show that the probability of union fo some finte or countable set of events is less than some value.
 
+<span id="unionbound"> </span>
+
 ```{theorem, unionbound, name="Union bound"}
 $\forall$ event $A_1 \dots A_n$ 
 $$P(\cup_{i=1}^n A_i) \leq \sum_{i=1}^n P(A_i)$$
@@ -415,8 +434,23 @@ Let $A_i, i\in[n]$ the event that node $i$ is isoldated. Its probability, from t
 $$P(B_n) = P(\cup_{i=1}^n A_i) \leq \sum_i P(A_i) \leq nP(A_i) = n(1-p)^{n-1}$$
 ```
 
+```{exercise}
+Suppose we run 4 times a randomized algorithm, with success probability $1-\delta$. What is the probability that we never fail? 
+```
+
+```{proof}
+Let $f_i$ the event that we fail running our algorithm at time $i$. 
+We know that the failure probability $f_i$ is $\delta$ for all $i \in [4]$. Thanks to the union bound we can bound the probability that we fail at least once:
+$$P(\cup_i^k f_i ) \leq \sum_i^k \delta = 4\delta$.
+It follows that the have 4 success in a row is *lower* bounded by $1-4\delta$. 
+
+Note that we could have also bypassed the union bound and compute this quantity analitically, as the probability of getting 4 success in a row would be $(1-\delta)^4$, which we can compute with the \@ref(binomial-theorem). 
+```
 
 
+<!-- Maybe we can be more precise in this exercise, by saying the interpretation of the values of difference between the analytic formula and the bound. Also we should say that the union bound might give "probabilities" bigger than one (i.e. if $\delta < 1/4$ in this case). Overall, I'm not satisfied with the level of clarity of this example, but i think it's nice to have. -->
+
+<span id="variance"> </span>
 ```{definition, variance, name="Variance"}
 \begin{align}
 \operatorname{Var}(X) &= \operatorname{E}\left[(X - \operatorname{E}[X])^2\right] \\[4pt]
