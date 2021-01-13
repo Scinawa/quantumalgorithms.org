@@ -9,6 +9,12 @@ output: html_document
 
 This is a work in progress, as the vast majority of works are not present here, yet. 
 
+#### 2021 {-}
+
+- [Information-theoretic bounds on quantum advantage in machine learning](https://arxiv.org/abs/2101.02464) `#theory`
+- 
+- 
+
 #### 2020 {-}
 
 - [Variational Quantum Algorithms](https://scirate.com/arxiv/2012.09265) `#review`
