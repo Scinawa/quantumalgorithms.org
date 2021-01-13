@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\begin{document}
+\pagestyle{empty} 
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Require
+Quantum access to the SPD matrix $A \in \mathbb{R}^{n \times n}$ such that $\|A\| \leq 1$. Choose $\epsilon \in (0,1)$,
+$\epsilon_1=\epsilon/\kappa\log \kappa$
+and $\epsilon_2=\epsilon/\kappa^2\log \kappa$.
+\Ensure
+An estimate $|\overline{\log\det(A)}-\log\det(A)| \leq n\epsilon$.
+\State Prepare
+
+$$|A\rangle = \frac{1}{\|A\|_F} \sum_{i,j=1}^n a_{ij}|i,j\rangle.$$
+\State Perform SVE up to precision $\epsilon_1$ and do control rotations to prepare
+
+$$\frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle|\tilde{\sigma}_j\rangle
+\left(C\frac{\sqrt{|\log \tilde{\sigma}_j}|}{\tilde{\sigma}_j} |0\rangle + |\bot\rangle\right),$$
+
+where
+$C=\min_j \tilde{\sigma}_j/\sqrt{|\log \tilde{\sigma}_j|} \approx \sigma_{\min}/\sqrt{|\log \sigma_{\min}|}
+=1/\kappa\sqrt{\log \kappa}$.
+\State Apply  amplitude estimation to estimate the probability
+of $|0\rangle$ to precision
+$\epsilon_2$. Set the result as $P$.
+\State  Return $\overline{\log\det(A)}=-\kappa^2(\log \kappa)\|A\|_F^2P$.
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\end{document}
