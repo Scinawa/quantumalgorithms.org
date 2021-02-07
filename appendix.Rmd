@@ -31,22 +31,30 @@ Take a look at [this](https://www.math.usm.edu/lambers/mat610/sum10/lecture2.pdf
 <!-- maybe add this: \url{http://www-math.mit.edu/~djk/calculus_beginners/chapter03/section03.html} -->
 
 <!-- \end{itemize} -->
-<!-- \paragraph{Inner products} -->
-<!-- \begin{itemize} -->
-<!--     \item $(a,b+c) = (a,b)+(a,c)  $ -->
-<!--     \item $(a,\alpha b) = \alpha (a,b)  $ -->
-<!-- \end{itemize} -->
+
+
+```{definition, name="Inner product"}
+A function $f: A \times B \mapsto \mathbb{C}$ is called an inner product $(a,b) \mapsto z$ if:
+
+-  $(a,b+c) = (a,b)+(a,c)$ (and respectively for $(a+c,b)$ )
+-  $(a,\alpha b) = \alpha (a,b)$
+
+```
 
 
 
 ```{definition, name="Norm"}
 A function $f : \mathbb{R}^d \mapsto \mathbb{R}$ is called a norm if:
 
-- $\|x\| \geq 0 \forall x \in \mathbb{R}^{d}$ 
-- $\|\alpha x\| = \alpha \|x\| \forall x \in \mathbb{R}^{d}$ and $\forall \alpha \in \mathbb{R}$
-- $\|x\|-\|y\| \leq  \|x + y\| \leq \|x\| + \|y\|$ (triangle inequality)
+- $\|x\| \geq 0 \forall x \in \mathbb{R}^{d}$, also $\|x\|=0$ iif $x=0$ (positive definiteness)
+- $\|\alpha x\| = \alpha \|x\| \forall x \in \mathbb{R}^{d}$ and $\forall \alpha \in \mathbb{R}$ (positively homogeneous)
+- $\|x\|-\|y\| \leq  \|x + y\| \leq \|x\| + \|y\|$ (triangle inequality).
 
 ```
+
+The triangle inequality is basically the [subadditivity](https://en.wikipedia.org/wiki/Subadditivity) property of the norm. 
+
+
 
 ```{theorem, name="Cauchy(-Bunyakovsky)-Schwarz"}
 $$|(x,y)| \leq \|x\| \|y\|$$
@@ -257,7 +265,7 @@ The number $r$ of singular values and singular vectors of a matrix is its rank.
 -->
 Singular values and singular vectors provide important information about matrices and allow to speed up certain kind of calculations. Many data analysis algorithms, such as Principal Component Analysis, Correspondence Analysis, and Latent Semantic Analysis that will be further investigated in the following sections, are based on the singular value decomposition of a matrix. 
 
-To begin with, the SVD representation of a matrix allows us to fastly calculate some matrix norms, like the $l_2$ norm and the Frobenius norm.
+To begin with, the SVD representation of a matrix allows us to better understand some matrix norms, like the spectral norm and the Frobenius norm.
 ```{definition, name="$l_2$ (or Spectral) norm"}
  \cite[Section 11.2 page 518]{linearalgebragilbert} \label{Def:spectral_norm} 
  Let $A  \in \mathbb{R}^{n\times m}$ be a matrix. The $l_2$ norm of $A$ is defined as $||A ||_2 = max_{x }\frac{||A x ||}{||x ||}$.
@@ -543,7 +551,47 @@ Let $\mathcal{A}$ be a quantum or classical algorithm which aims to estimate som
 
 <!-- ### and many others! -->
 
-## Concentration inequalities
+
+
+
+## Inequalities and concentration inequalities
+
+<!--
+# TODO Formalize better inequalities
+# can these inequalities be formalized better? some examples are needed, and it would be nice to have different formulations, or something that gives intuition
+# labels: good first issue, help wanted
+-->
+
+```{theorem, bernoulli-inequality, name="Bernoulli inequality"}
+$$(1+x)^r \leq 1+rx$$
+```
+The proof is made by induction on $r$, (and can be found all over the internet and in Wikipedia)
+
+
+```{theorem, jensen, name="Jensen inequality"} 
+Let $X$ be a random variable with $\mathbb{E}|X| \leq \infty$ and $g : \mathbb{R}\to \mathbb{R}$ a real continious convex function. Then 
+$$g(\mathbb{E}[X] \leq \mathbb{E}[g(X)].$$ 
+
+```
+
+
+```{theorem, ljapunov, name="Ljapunov's inequality"}
+For any real $0 \leq p \leq q$ and any real random variable, $\|X\|_p \leq \|X\|_q$.
+```
+
+```{theorem, holder, name="Hölder's inequality"}
+Let $p,q>1$ that satisfy $\frac{1}{p} + \fac{1}{q} = 1$. If $\|X\|_p \leq \infty$ and $\|X\|_q$ then
+$$\mathbb{E}[|XY|] \leq \|X\|_p \dot \|X\|_q.$$
+
+```
+
+```{theorem, minkowski, name="Minkowski's inequality"} 
+Let $p>1$, $\|X\|_p \leq \infty$ and $\|Y\|_p \leq \infty$. Then:
+$$\|X+Y\|_p \leq \|X\|_p + \|Y\|_p.$$
+```
+
+<!-- add cite to bristol's lecture notes on martingales --> 
+
 
 
 <!-- 
