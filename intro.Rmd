@@ -137,6 +137,14 @@ Recall also that the Pauli matrices are both unitary *and* Hermitian, and this f
 -->
 
 
+<!-- From Near term quantum algorithms for linear systems of equations -->
+```{exercise, ntqls, name="From [@huang2019near]"}
+Let $k \in \{0,1\}^n$ be an arbitrary $n$-bitstring.
+Let $A=(\sigma_{x}^(1))^{k_1} \otimes \dots \otimes (\sigma_{x}^(n))^{k_n}$ and $\ket{b}=\ket{0^n}$.
+What is the solution to the quation $A\ket{x} =\ket{b}$
+```
+
+
 ```{proposition, name="Postulate 3"}
 Quantum measurements are described by a collection $\{M_m\}$ of measurement operators. These are operators acting on the state space of the system being measured. The index $m$ refers to the measurement outcomes that may occur in the experiment. If the state of the quantum system is
 $\ket{\psi}$ immediately before the measurement, then the probability that the result $m$ occurs is given by
@@ -429,7 +437,7 @@ Other strategies to output data from a quantum computer can be sampling, or (if 
 We will often make use of a tool developed in [@wiebe2018quantum]. It is standard technique in classical computer science to boost the success probability of a randomized algorithm by repeating it and computing some statistics in the results. For the case of quantum algorithms, in high level, we take multiple copies of the output of the amplitude estimation procedure, compute the median, and reverse the circuit in order to get rid of the garbage.
 
 
-```{lemma, lemma-median, name="Median evaluation [@wiebe2018quantum]"} 
+```{lemma, median, name="Median evaluation [@wiebe2018quantum]"} 
 Let $\mathcal{U}$ be a unitary operation that maps
 $$\mathcal{U}:\ket{0^{\otimes n}}\mapsto \sqrt{a}\ket{x,1}+\sqrt{1-a} \ket{G,0}$$
 for some $1/2 < a \le 1$ in time $T$. Then there exists a quantum algorithm that, for any $\Delta>0$ and for any $1/2<a_0 \le a$, produces a state $\ket{\Psi}$ such that $\|\ket{\Psi}-\ket{0^{\otimes nL}}\ket{x}\|\le \sqrt{2\Delta}$ for some integer $L$, in time
