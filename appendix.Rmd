@@ -52,8 +52,7 @@ A function $f : \mathbb{R}^d \mapsto \mathbb{R}$ is called a norm if:
 
 ```
 
-The triangle inequality is basically the [subadditivity](https://en.wikipedia.org/wiki/Subadditivity) property of the norm. 
-
+The triangle inequality is basically the [subadditivity](https://en.wikipedia.org/wiki/Subadditivity) property of the norm. It is simople to see that norms are **not** linear operators. 
 
 
 ```{theorem, name="Cauchy(-Bunyakovsky)-Schwarz"}
@@ -574,13 +573,15 @@ $$g(\mathbb{E}[X] \leq \mathbb{E}[g(X)].$$
 
 ```
 
+A [mnemonic trick](https://math.stackexchange.com/questions/2364116/how-to-remember-which-function-is-concave-and-which-one-is-convex) to remember the difference between convex and concave. Conv*EX* ends with *EX*, as the word *EX*ponential, [which is convex](https://math.stackexchange.com/questions/702241/how-to-prove-that-ex-is-convex). 
+
 
 ```{theorem, ljapunov, name="Ljapunov's inequality"}
 For any real $0 \leq p \leq q$ and any real random variable, $\|X\|_p \leq \|X\|_q$.
 ```
 
 ```{theorem, holder, name="Hölder's inequality"}
-Let $p,q>1$ that satisfy $\frac{1}{p} + \fac{1}{q} = 1$. If $\|X\|_p \leq \infty$ and $\|X\|_q$ then
+Let $p,q>1$ that satisfy $\frac{1}{p} + \frac{1}{q} = 1$. If $\|X\|_p \leq \infty$ and $\|X\|_q$ then
 $$\mathbb{E}[|XY|] \leq \|X\|_p \dot \|X\|_q.$$
 
 ```
@@ -645,6 +646,36 @@ Replacing $k\sigma$ with $\epsilon$, where $k = \epsilon /\sigma$, we have the s
 
 
 ```
+
+<!-- # check if linearly smaller is correct/not confusing here-->
+It is very useful to see what happen when we define a new random variable $Y$ as the sample mean of $X_1 \dots X_n$ other random variables (iid) indipendent and identically distributed: $Y= \frac{1}{n}\sum_i^n X_i$. The expected value of $Y$ is the same as the expected value of $X$, but the variance is now linearly smaller in the number of samples:
+
+$$E[Y] = \frac{1}{n} \sum_i^n E[X]$$
+$$Var[Y] = \frac{1}{n^2} \sum_i^n \text{Var}[X]$$
+
+This allows us to obtain the following bound:
+
+```{theorem, chebyshev-mean, name="Chebyshev inequality for sample mean"}
+Let $Y= \frac{1}{n}\sum_i^n X_i$. Then, 
+
+$$Pr[|Y - E[Y]| \geq \epsilon]\leq \frac{\sigma^2}{n\epsilon^2}$$
+```
+
+
+
+### (Weak) Law of large numbers
+
+```{theorem, wlln, name="(Weak) Llaw of large numbers"}
+Let $X_1, X_2, \dots, X_n$ be i.i.d random variables with a finite expected value $X[X_i]=\mu \leq \infty$. Then, for any $\epsilon > 0$, we have that:
+
+$$\lim_{n\to +\infty} P\left( |\overline{X} - \mu | \geq \epsilon   \right) = 0$$
+
+```
+
+
+
+
+
 
 ### Chernoff bound
 <!-- From [here](https://math.mit.edu/~goemans/18310S15/chernoff-notes.pdf) and [here](http://www.stat.cmu.edu/~arinaldo/Teaching/36709/S19/Scribed_Lectures/Jan29_Tudor.pdf). -->
@@ -895,24 +926,53 @@ If we have an algorithm that in time $O(f(\frac{1}{\epsilon_{R}}))$ gives us $|A
 <!-- so -->
 <!-- $$|\frac{A}{B} - \frac{\overline{A}}{\overline{B}}|  = \frac{A}{B}|(\epsilon_1+\epsilon_2)|  \leq \frac{A}{B}(\epsilon_1+\epsilon_2) $$ -->
 
-<!-- This is a better formalization and proof.  -->
 
-<!-- ```{theorem, name="[@betteruperandlowerboundSDP] [@sanderthesis]"} -->
-<!-- Let $0 \leq \theta \leq 1$ and let $\alpha, \beta, \tilde{\alpha}, \tilde{\beta}$ be positive real numbers, such that $|\alpha - \tilde{\alpha}| \leq \alpha\theta/3$, and  $|\beta - \tilde{\beta}| \leq \beta\theta/3$. Then: -->
-<!-- $$\left|\frac{\alpha}{\beta} - \frac{\tilde{\alpha}}{\tilde{\beta}} \right| \leq \theta \frac{\alpha}{\beta}$$ -->
-<!-- ``` -->
+This is a better formalization and proof.
 
-<!-- ``` -->
-<!-- $$\left|\frac{\alpha}{\beta} - \frac{\tilde{\alpha}}{\tilde{\beta}} \right|  = \left| \frac{\alpha\tilde{\beta}- \tilde{\alpha}\beta}{\beta\tilde{\beta}}  \right| = \left| \frac{\alpha\tilde{\beta}- \tilde{\alpha}\beta+\alpha\beta - \alpha\beta}{\beta\tilde{\beta}}  \right| =$$  -->
-<!-- $$\left|\frac{\alpha\beta-\tilde{\alpha}\beta}{\beta\tilde{\beta}} \right| + \alpha\left| \frac{\beta -\tilde{\beta}}{\beta\tilde{\beta}} \right| \leq$$ -->
+```{theorem, ratio-relative-simple, name="[@sanderthesis] [@van2020quantum]"}
+Let $0 \leq \theta \leq 1$ and let $\alpha, \beta, \tilde{\alpha}, \tilde{\beta}$ be positive real numbers, such that $|\alpha - \tilde{\alpha}| \leq \alpha\theta/3$, and  $|\beta - \tilde{\beta}| \leq \beta\theta/3$. Then:
+$$\left|\frac{\alpha}{\beta} - \frac{\tilde{\alpha}}{\tilde{\beta}} \right| \leq \theta \frac{\alpha}{\beta}$$
+```
 
-<!-- $$\left|\frac{\alpha -\tilde \alpha}{\tilde \beta} \right| + \frac{\alpha}{\tilde\beta}\theta/3$$  -->
-<!-- Using the hypotesis on $|\alpha-\widetilde{\alpha}|\leq \alpha \theta/3$,  -->
-<!-- $$\leq \left|\frac{1}{\tilde{\beta}} \right|\frac{\alpha\theta}{3} + \frac{\alpha}{\tilde\beta}\theta/3$$ -->
-<!-- Now we can use the fact that $\tilde \beta \geq \frac{2}{3}\beta$. This comes from the fact that if we have a relative error on $\beta$, we know that $|\tilde{\beta}| \leq \beta (1+\theta)$. In our case, $\beta(1-\frac{2}{3}\theta) \leq \tilde{\beta} \leq \theta (1+\frac{1}{3}\theta)$, so in the worst case, for $\theta=1$, we can simply see that $\tilde \beta \geq \frac{2}{3}\beta$. Now can put the lower bound on the denominator, and get:  -->
-<!-- $$\leq \left|\frac{\alpha\theta}{3\tilde{\beta}} \right| + \frac{\alpha}{\tilde\beta}\theta/3$$ -->
+```{proof}
+$$\left|\frac{\alpha}{\beta} - \frac{\tilde{\alpha}}{\tilde{\beta}} \right|  = \left| \frac{\alpha\tilde{\beta}- \tilde{\alpha}\beta}{\beta\tilde{\beta}}  \right| = \left| \frac{\alpha\tilde{\beta}- \tilde{\alpha}\beta+\alpha\beta - \alpha\beta}{\beta\tilde{\beta}}  \right| =$$
+$$\left|\frac{\alpha\beta-\tilde{\alpha}\beta}{\beta\tilde{\beta}} \right| + \alpha\left| \frac{\beta -\tilde{\beta}}{\beta\tilde{\beta}} \right| \leq$$
 
-<!-- ``` -->
+$$\left|\frac{\alpha -\tilde \alpha}{\tilde \beta} \right| + \frac{\alpha}{\tilde\beta}\theta/3$$
+Using the hypotesis on $|\alpha-\widetilde{\alpha}|\leq \alpha \theta/3$,
+$$\leq \left|\frac{1}{\tilde{\beta}} \right|\frac{\alpha\theta}{3} + \frac{\alpha}{\tilde\beta}\theta/3$$
+Now we can use the fact that $\tilde \beta \geq \frac{2}{3}\beta$. This comes from the fact that if we have a relative error on $\beta$, we know that $|\tilde{\beta}| \leq \beta (1+\theta)$. In our case, $\beta(1-\frac{2}{3}\theta) \leq \tilde{\beta} \leq \theta (1+\frac{1}{3}\theta)$, so in the worst case, for $\theta=1$, we can simply see that $\tilde \beta \geq \frac{2}{3}\beta$. Now can put the lower bound on the denominator, and get:
+$$\leq \left|\frac{\alpha\theta}{3\tilde{\beta}} \right| + \frac{\alpha}{\tilde\beta}\theta/3$$
+
+```
+
+
+We can have a more general version of the bound. 
+```{theorem, ratio-relative-general, name="[@hamoudi2020quantum]"}
+Let $\tilde a$ be an estimate of $a>0$ such that $\vert \tilde a- a \vert \leq \epsilon_a a$.
+with $\epsilon_a \in (0,1)$.
+Similarly, let $\tilde b$ be an estimate of $b>0$ and $\epsilon_b \in (0,1)$ such that
+$\vert \tilde b - b \vert \leq \epsilon_b b$.
+Then the ratio $a/b$ is estimated to relative error
+$\left \vert \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right\vert \leq \left ( \frac{\epsilon_a + \epsilon_b}{1-\epsilon_b} \right) \frac{a}{b}$.
+```
+
+The proof comes directly from their work
+```{proof}
+Note that
+$b -  \tilde{b} \leq \vert \tilde{b} - b\vert \leq \epsilon_b b$, so as we said before,
+deduce $\frac{1}{ \tilde b} \leq \frac{1}{ b (1-\epsilon_b)}$.
+
+Now we can combine the previous observation:
+\begin{align}
+\left| \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right| = & 
+  \left \vert \frac{\tilde a b - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a b - ab + ab - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a  - a}{\tilde b} + \frac{a}{\tilde b} \frac{b - \tilde b}{ b}  \right\vert   \\
+\leq & \left \vert \frac{\tilde a  - a}{\tilde b} \right\vert+  \frac{a}{\tilde b}  \left \vert \frac{b - \tilde b}{ b}  \right\vert \leq \frac{\epsilon_a a + \epsilon_b a }{\tilde b}   \leq  \frac{a}{b}\frac{\epsilon_a +\epsilon_b}{ (1-\epsilon_b)}.
+\end{align}
+
+
+```
+
 
 
 
