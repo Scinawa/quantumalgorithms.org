@@ -992,7 +992,21 @@ Now we can combine the previous observation:
 
 
 
+# Contributions and  acknowledgements
 
+These are my first lecture notes in Quantum Machine Learning (QML) and quantum algorithms. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. Thesis, and now are in this extended form with the hope to serve the future researchers in QML.
+
+If you want to give me any feedback, feel free to write me at "scinawa - at - luongo - dot - pro". Or contact me on [Twitter](https://twitter.com/scinawa).
+
+In sparse order, I would like to thank [Dong Ping Zhang](www.dongpingzhang.com), [Mehdi Mhalla](http://membres-lig.imag.fr/mhalla/) , [Simon Perdrix](https://members.loria.fr/SPerdrix/), [Tommaso Fontana](https://twitter.com/zommiommy), and [Nicola](https://www.linkedin.com/in/nvitucci/) [Vitucci](https://twitter.com/nvitucci) for the initial help with the previous version of this project, and the helpful words of encouragement.
+
+
+The contributors to the project are:
+
+- Alessandro ['Scinawa'](https://twitter.com/scinawa) Luongo
+- Armando 'ikiga1' Bellante
+- Patrick Rebentrost
+- 
 
 # License and citation
 
@@ -1002,12 +1016,22 @@ To cite this work:
 ```
   @misc{quantumalgorithms,
    title={Quantum algorithms for data analysis},
-   author={Luongo, A.},
+   author={Luongo, A. et al.},
    url={https://quantumalgorithms.org},
    year={2020}
   }
 ```
 
+
+
+<!--
+# TODO Add code to automatically add contributors in index.html
+# There should be a javscript that adds an iframe or something
+# with the list of contributors to quantumalgorithms.org
+# labels: enhancement, todo
+-->
+
+The CSS style file comes from [here](https://m-clark.github.io/data-processing-and-visualization/).
 
 
 # References
