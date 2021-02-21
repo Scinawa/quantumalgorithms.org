@@ -7,18 +7,18 @@ output: html_document
 
 # QML on real datasets
 
-In this chapter, we discuss how to have a better idea on the performance of our algorithms on real dataset. This is very important, as the runtime of the algorithms we discuss here depends on the characteristics of the dataset, which might scale badly by increasing the size of the dataset. It's our duty to see if this is the case. In the worst case, this might be due for each single dataset that we analyze. It this section we discuss two main approaches. We could either start by proving some properties of a dataset that we know is well-suitable to be analyzed by a certain algorithm. The idea is the following: if (quantum or classical) data analysis works well for a certain dataset, it might be because the 
-algorithms that exploits certain structure in the dataset possess. We can exploit this intuition to prove some properties of the dataset that are expected to be analyzed by that algorithm. For example, this is the case for section \@ref{qmeans-datasetassumption}, where we exploit the "cloud" structure of dataset that we often cluster using k-means (or q-means). 
+In this chapter, we discuss how to have a better idea on the performance of our algorithms on real dataset. This is very important, as the runtime of the algorithms we discuss here depends on the characteristics of the dataset, which might scale badly by increasing the size of the dataset. It's our duty to see if this is the case. In the worst case, this might be due for each single dataset that we analyze. It this section we discuss two main approaches. We could either start by proving some properties of a dataset that we know is well-suitable to be analyzed by a certain algorithm. The idea is the following: if (quantum or classical) data analysis works well for a certain dataset, it might be because the
+algorithms that exploits certain structure in the dataset possess. We can exploit this intuition to prove some properties of the dataset that are expected to be analyzed by that algorithm. For example, this is the case for section \@ref{qmeans-datasetassumption}, where we exploit the "cloud" structure of dataset that we often cluster using k-means (or q-means).
 
-Secondly, we might just verify experimentally that the scaling of these parameters is favourable (they are small, they don't grow by increasing the numbe of features and the number of samples, and so on..), and that the error introduced by the quantum procedures won't perturb the quality of the data anaysis (in fact we will see that some noise might help regularizing the model, improving the classification accuracy). 
+Secondly, we might just verify experimentally that the scaling of these parameters is favourable (they are small, they don't grow by increasing the numbe of features and the number of samples, and so on..), and that the error introduced by the quantum procedures won't perturb the quality of the data anaysis (in fact we will see that some noise might help regularizing the model, improving the classification accuracy).
 
 ## Theoretical considerations
 
 ### Modelling well-clusterable datasets {#qmeans-datasetassumption}
-In this section, we define a model for the dataset in order to provide a tight analysis on the running time of our clustering algorithm. 
-Thanks to this assumption, we can provide tighter bounds for its running time. Recall that for q-means we consider that the dataset $V$ is normalized so that for all $i \in [N]$, we have $1 \leq \norm{v_{i}}$, and we define the parameter $\eta = \max_i{\norm{v_i}^2}$. We will also assume that the number $k$ is the ``right'' number of clusters, meaning that we assume each cluster has at least some $\Omega(N/k)$ data points.
 
-We now introduce the notion of a *well-clusterable* dataset. The definition aims to capture some properties that we can expect from datasets that can be clustered efficiently using a k-means algorithm. This notion of a well-clusterable dataset shares some similarity with the assumptions made in [@drineas2002competitive], but there are also some differences specific to the clustering problem. 
+In this section, we define a model for the dataset in order to provide a tight analysis on the running time of our clustering algorithm. Thanks to this assumption, we can provide tighter bounds for its running time. Recall that for q-means we consider that the dataset $V$ is normalized so that for all $i \in [N]$, we have $1 \leq \norm{v_{i}}$, and we define the parameter $\eta = \max_i{\norm{v_i}^2}$. We will also assume that the number $k$ is the "right" number of clusters, meaning that we assume each cluster has at least some $\Omega(N/k)$ data points.
+
+We now introduce the notion of a *well-clusterable* dataset. The definition aims to capture some properties that we can expect from datasets that can be clustered efficiently using a k-means algorithm. This notion of a well-clusterable dataset shares some similarity with the assumptions made in [@drineas2002competitive], but there are also some differences specific to the clustering problem.
 
 
 ```{definition,  wcdataset, name="Well-clusterable dataset"}
@@ -36,90 +36,97 @@ Intuitively, the assumptions guarantee that most of the data can be easily assig
 
  We now show that a well-clusterable dataset has a good rank-$k$ approximation where $k$ is the number of clusters. This result will later be used for giving tight upper bounds on the running time of the quantum algorithm for well-clusterable datasets. As we said, one can easily construct such datasets by picking $k$ well separated vectors to serve as cluster centers and then each point in the cluster is sampled from a Gaussian distribution with small variance centered on the centroid of the cluster.
 
-<!-- \begin{claim}\label{low-rank} -->
-<!--  Let $V_{k}$ be the optimal $k$-rank approximation for a well-clusterable data matrix $V$, then $\norm{V-V_{k}}_{F}^2  \leq (  \lambda \beta^2 +(1-\lambda)4\eta)\norm{V}^2_F$. -->
-<!-- \end{claim} -->
 
-<!-- \begin{proof} -->
-<!-- Let $W \in \R^{\n\times d}$ be the matrix with row $w_{i} = c_{l(v_i)}$, where $c_{l(v_i)}$ is the centroid closest to $v_i$.  -->
-<!-- The matrix $W$ has rank at most $k$ as it has exactly $k$ distinct rows. As $V_k$ is the optimal  -->
-<!-- rank-$k$ approximation to $V$, we have $\norm{V-V_{k}}_{F}^{2} \leq \norm{V-W}_F^2$. It therefore suffices to upper bound $\norm{V-W}_F^2$.  -->
-<!-- Using the fact that $V$ is  well-clusterable, we have -->
-<!--     $$ \norm{V-W}_F^2 = \sum_{ij} (v_{ij} - w_{ij})^2 = \sum_{i} d(v_i, c_{l(v_i)})^2 \leq \lambda \n \beta^2 + (1-\lambda)\n4\eta,$$ -->
-<!-- where we used Definition \ref{wcdataset} to say that for a $\lambda N$ fraction of the  -->
-<!-- points $d(v_i, c_{l(v_i)})^2 \leq \beta^{2}$ and for the remaining points $d(v_i, c_{l(v_i)})^2 \leq 4\eta$.      -->
-<!-- Also, as all $v_{i}$ have norm at least $1$ we have $N \leq \norm{V}_F$, implying that  -->
-<!--   $\norm{V-V_k}^{2} \leq  \norm{V-W}_F^2 \leq ( \lambda \beta^2 +(1-\lambda)4\eta)\norm{V}_F^2$.  -->
+```{lemma, low-rank}
+Let $V_{k}$ be the optimal $k$-rank approximation for a well-clusterable data matrix $V$, then $\norm{V-V_{k}}_{F}^2  \leq (  \lambda \beta^2 +(1-\lambda)4\eta)\norm{V}^2_F$.
+```
 
-
-<!-- \end{proof} -->
-
-<!-- \noindent The running time of the quantum linear algebra routines for the data matrix $V$ in Theorem \ref{qla} depend on the parameters $\mu(V)$  -->
-<!-- and $\kappa(V)$. We establish bounds on both of these parameters using the fact that $V$ is well-clusterable -->
-<!-- \begin{claim}\label{mu} -->
-<!-- Let $V$ be a well-clusterable data matrix, then $\mu(V):= \frac{\norm{V}_{F}}{\norm{V}} = O(\sqrt{k})$.  -->
-<!-- \end{claim} -->
-<!-- \begin{proof}  -->
-<!-- We show that when we rescale $V$ so that $\norm{V} = 1$, then we have $\norm{V}_{F}= O(\sqrt{k})$ for the rescaled matrix.  -->
-<!-- From the triangle inequality we have that -->
-<!-- $\norm{V}_F \leq \norm{V-V_k}_F + \norm{V_k}_F$. -->
-<!-- Using the fact that $\norm{V_k}_F^2 = \sum_{i \in [k]} \sigma_i^2 \leq k$ and Claim \ref{low-rank}, we have,  -->
-<!-- $$\norm{V}_F \leq \sqrt{ (\lambda\beta^2+(1-\lambda)4\eta)} \norm{V}_F + \sqrt{k}$$ -->
-<!-- Rearranging, we have that -->
-<!-- $\norm{V}_F \leq \frac{\sqrt{k}}{1-\sqrt{(\lambda\beta^2+(1-\lambda)4\eta)}} = O(\sqrt{k})$.   -->
-<!-- \end{proof}  -->
-<!-- We next show that if we use a condition threshold $\kappa_\tau(V)$ instead of the true condition number $\kappa(V)$, that is we consider  -->
-<!-- the matrix $V_{\geq \tau} = \sum_{\sigma_{i} \geq \tau} \sigma_{i} u_{i} v_{i}^{T}$ by discarding the smaller singular values $\sigma_{i} < \tau$, the resulting matrix remains close to the original one, i.e. we have that $\norm{V - V_{\geq \tau}}_F$ is bounded.   -->
-
-<!-- \begin{claim}\label{kappa} -->
-<!-- Let $V$ be a matrix with a rank-$k$ approximation given by $\norm{V- V_{k}}_{F}\leq \epsilon' \norm{V}_{F}$ and let $\tau = \frac{\errkappa}{\sqrt{k}}\norm{V}_F$, then $\norm{V- V_{\geq \tau}}_{F}\leq (\epsilon' + \errkappa) \norm{V}_{F}$.  -->
-<!-- \end{claim} -->
-<!-- \begin{proof} -->
-<!-- Let $l$ be the smallest index such that $\sigma_{l} \geq \tau$, so that we have $\norm{V-V_{\geq \tau}}_F = \norm{V-V_l}_F$.  -->
-<!-- We split the argument into two cases depending on whether $l$ is smaller or greater than $k$.  -->
-<!-- \begin{itemize} -->
-<!-- 	\item If $l \geq k$ then $\norm{V-V_l}_F \leq \norm{V-V_k}_F \leq  \epsilon' \norm{V}_F$. -->
-<!-- 	\item If $l < k$ then, $\norm{V-V_l}_F \leq \norm{V-V_k}_F + \norm{V_k-V_l}_F \leq  \epsilon' \norm{V}_F + \sqrt{\sum_{i=l+1}^k \sigma_i^2}$.  -->
-
-<!-- 	As each $\sigma_{i} < \tau$ and the sum is over at most $k$ indices, we have the upper bound  $(\epsilon' + \errkappa) \norm{V}_F$. 	 -->
-<!-- \end{itemize} -->
-<!-- \end{proof} -->
+```{proof}
+Let $W \in \R^{n\times d}$ be the matrix with row $w_{i} = c_{l(v_i)}$, where $c_{l(v_i)}$ is the centroid closest to $v_i$.
+The matrix $W$ has rank at most $k$ as it has exactly $k$ distinct rows. As $V_k$ is the optimal
+rank-$k$ approximation to $V$, we have $\norm{V-V_{k}}_{F}^{2} \leq \norm{V-W}_F^2$. It therefore suffices to upper bound $\norm{V-W}_F^2$.
+Using the fact that $V$ is  well-clusterable, we have
+    $$\norm{V-W}_F^2 = \sum_{ij} (v_{ij} - w_{ij})^2 = \sum_{i} d(v_i, c_{l(v_i)})^2 \leq \lambda n \beta^2 + (1-\lambda)n4\eta,$$
+where we used Definition \@ref(def:wcdataset) to say that for a $\lambda n$ fraction of the
+points $d(v_i, c_{l(v_i)})^2 \leq \beta^{2}$ and for the remaining points $d(v_i, c_{l(v_i)})^2 \leq 4\eta$.
+Also, as all $v_{i}$ have norm at least $1$ we have $n \leq \norm{V}_F$, implying that
+$\norm{V-V_k}^{2} \leq  \norm{V-W}_F^2 \leq ( \lambda \beta^2 +(1-\lambda)4\eta)\norm{V}_F^2$.
+```
 
 
-<!-- \noindent -->
-<!-- The reason we defined the notion of well-clusterable dataset is to be able to provide some strong guarantees for the clustering of most points in the dataset. Note that the clustering problem in the worst case is NP-hard and we only expect to have good results for datasets that have some good property. Intuitively, we should only expect $k$-means to work when the dataset can actually be clusterd in $k$ clusters. We show next that for a well-clusterable dataset $V$, there is a constant $\delta$ that can be computed in terms of the parameters in Definition \ref{wcdataset} such that the $\delta$-$k$-means clusters correctly most of the data points.  -->
 
-<!-- \begin{claim}\label{distcentroid}  -->
-<!-- Let $V$ be a well-clusterable data matrix. Then, for at least $\lambda \n$ data points $v_i$, we have  -->
-<!-- $$\min_{j\neq \ell(i)}(d^2(v_i,c_j)-d^2(v_i,c_{\ell(i)}))\geq \xi^2 - 2\sqrt{\eta}\beta$$ -->
-<!-- which implies that a $\delta$-$k$-means algorithm with any $\delta < \xi^2 - 2\sqrt{\eta}\beta$ will cluster these points correctly. -->
-<!-- \end{claim} -->
-<!-- \begin{proof} -->
-<!--     By Definition \ref{wcdataset}, we know that for a well-clusterable dataset $V$,  -->
-<!--     we have that $d(v_i, c_{l(v_i)}) \leq \beta$ for at least $\lambda \n$ data points and where $c_{l(v_{i})}$ is the centroid closest to $v_{i}$.  -->
-<!--     Further, the distance between each pair of the $k$ centroids satisfies the bounds $2\sqrt{\eta} \geq d(c_i, c_j) \geq \xi$. By the triangle inequality, we have $d(v_i,c_j) \geq d(c_j,c_{\ell(i)})-d(v_i,c_{\ell(i)})$. Squaring both sides of the inequality and rearranging,  -->
+The running time of the quantum linear algebra routines for the data matrix $V$ in Theorem \@ref(thm:qla) depend on the parameters $\mu(V)$ and $\kappa(V)$. We establish bounds on both of these parameters using the fact that $V$ is well-clusterable
 
-<!--     $$d^2(v_i,c_j) - d^2(v_i,c_{\ell(i)})\geq d^2(c_j,c_{\ell(i)})  - 2d(c_j,c_{\ell(i)})d(v_i,c_{\ell(i)}))$$ -->
-<!-- Substituting the bounds on the distances implied by the well-clusterability assumption, we obtain $d^2(v_i,c_j)-d^2(v_i,c_{\ell(i)}) \geq \xi^2 - 2\sqrt{\eta} \beta$. This implies that as long as we pick $\delta <  \xi^2 - 2\sqrt{\eta}\beta$, these points are assigned to the correct cluster, since all other centroids are more than $\delta$ further away than the correct centroid.  -->
+```{lemma, mu-of-well-clusterable}
+Let $V$ be a well-clusterable data matrix, then $\mu(V):= \frac{\norm{V}_{F}}{\norm{V}} = O(\sqrt{k})$.
+```
 
-<!-- \end{proof} -->
+```{proof}
+We show that when we rescale $V$ so that $\norm{V} = 1$, then we have $\norm{V}_{F}= O(\sqrt{k})$ for the rescaled matrix.
+From the triangle inequality we have that
+$\norm{V}_F \leq \norm{V-V_k}_F + \norm{V_k}_F$.
+Using the fact that $\norm{V_k}_F^2 = \sum_{i \in [k]} \sigma_i^2 \leq k$ and Claim \@ref(low-rank), we have,
+$$\norm{V}_F \leq \sqrt{ (\lambda\beta^2+(1-\lambda)4\eta)} \norm{V}_F + \sqrt{k}$$
+Rearranging, we have that
+$\norm{V}_F \leq \frac{\sqrt{k}}{1-\sqrt{(\lambda\beta^2+(1-\lambda)4\eta)}} = O(\sqrt{k})$.
+```
+
+
+We next show that if we use a condition threshold $\kappa_\tau(V)$ instead of the true condition number $\kappa(V)$, that is we consider
+the matrix $V_{\geq \tau} = \sum_{\sigma_{i} \geq \tau} \sigma_{i} u_{i} v_{i}^{T}$ by discarding the smaller singular values $\sigma_{i} < \tau$, the resulting matrix remains close to the original one, i.e. we have that $\norm{V - V_{\geq \tau}}_F$ is bounded.
+
+```{lemma, kappa}
+Let $V$ be a matrix with a rank-$k$ approximation given by $\norm{V- V_{k}}_{F}\leq \epsilon' \norm{V}_{F}$ and let $\tau = \frac{\epsilon_{\tau}}{\sqrt{k}}\norm{V}_F$, then $\norm{V- V_{\geq \tau}}_{F}\leq (\epsilon' + \epsilon_{\tau}) \norm{V}_{F}$.
+```
+
+```{proof}
+Let $l$ be the smallest index such that $\sigma_{l} \geq \tau$, so that we have $\norm{V-V_{\geq \tau}}_F = \norm{V-V_l}_F$.
+We split the argument into two cases depending on whether $l$ is smaller or greater than $k$.
+
+-  If $l \geq k$ then $\norm{V-V_l}_F \leq \norm{V-V_k}_F \leq  \epsilon' \norm{V}_F$.
+-  If $l < k$ then, $\norm{V-V_l}_F \leq \norm{V-V_k}_F + \norm{V_k-V_l}_F \leq  \epsilon' \norm{V}_F + \sqrt{\sum_{i=l+1}^k \sigma_i^2}$. As each $\sigma_{i} < \tau$ and the sum is over at most $k$ indices, we have the upper bound  $(\epsilon' + \epsilon_{\tau}) \norm{V}_F$.
+
+```
+
+The reason the notion of well-clusterable dataset was defined, was to be able to provide some strong guarantees for the clustering of most points in the dataset. Note that the clustering problem in the worst case is NP-hard and we only expect to have good results for datasets that have some good property. Intuitively, we should only expect $k$-means to work when the dataset can actually be clusterd in $k$ clusters. We show next that for a well-clusterable dataset $V$, there is a constant $\delta$ that can be computed in terms of the parameters in Definition \@ref(def:wcdataset) such that the $\delta$-$k$-means clusters correctly most of the data points.
+
+```{lemma, distcentroid}
+Let $V$ be a well-clusterable data matrix. Then, for at least $\lambda n$ data points $v_i$, we have
+$$\min_{j\neq \ell(i)}(d^2(v_i,c_j)-d^2(v_i,c_{\ell(i)}))\geq \xi^2 - 2\sqrt{\eta}\beta$$
+which implies that a $\delta$-$k$-means algorithm with any $\delta < \xi^2 - 2\sqrt{\eta}\beta$ will cluster these points correctly.
+```
+
+```{proof}
+By Definition \@ref(def:wcdataset), we know that for a well-clusterable dataset $V$, we have that $d(v_i, c_{l(v_i)}) \leq \beta$ for at least $\lambda n$ data points and where $c_{l(v_{i})}$ is the centroid closest to $v_{i}$. Further, the distance between each pair of the $k$ centroids satisfies the bounds $2\sqrt{\eta} \geq d(c_i, c_j) \geq \xi$. By the triangle inequality, we have $d(v_i,c_j) \geq d(c_j,c_{\ell(i)})-d(v_i,c_{\ell(i)})$. Squaring both sides of the inequality and rearranging,
+$$d^2(v_i,c_j) - d^2(v_i,c_{\ell(i)})\geq d^2(c_j,c_{\ell(i)})  - 2d(c_j,c_{\ell(i)})d(v_i,c_{\ell(i)}))$$
+Substituting the bounds on the distances implied by the well-clusterability assumption, we obtain $d^2(v_i,c_j)-d^2(v_i,c_{\ell(i)}) \geq \xi^2 - 2\sqrt{\eta} \beta$. This implies that as long as we pick $\delta <  \xi^2 - 2\sqrt{\eta}\beta$, these points are assigned to the correct cluster, since all other centroids are more than $\delta$ further away than the correct centroid.
+```
 
 
 ## Experiments
+The experiments bypassed the construction of the quantum circuit and directly performed the noisy linear algebraic operations carried out by the quantum algorithm. The simulations are carried out on datasets that are considered the standard benchmark of new machine learning algorithms, inserting the same kind of errors that we expect to have in the real execution on the quantum hardware. In the experiments, we aim to study the robustness of data analysis to the noise introduced by the quantum algorithm, study the scaling of the runtime algorithm on real data and thus understand which datasets can be analyzed efficiently by quantum computers. The experiments are aimed at finding if the impact of noise in the quantum algorithms decreases significantly the accuracy in the data analysis, and if the impact of the error parameters in the runtime does prevent quantum speedups for large datasets.
+
+### Datasets
+
+#### MNIST dataset of handwritten digits
+
+The MNIST dataset is composed of $60.000$ handwritten digits as images of 28x28 pixels (784 dimensions).
+
+#### Fashon-MNIST
+
+#### VoxForge Dataset
 
 ### q-means
 
-<!-- \section{Simulations on real data}\label{experiment_section} -->
+<!-- We would like to assert the capability of the quantum algorithm to provide accurate classification results, by simulations on a number of datasets. However, since neither quantum simulators nor quantum computers large enough to test $q$-means are available currently, we tested the equivalent classical implementation of $\delta$-$k$-means. For implementing the $\delta$-$k$-means, we changed the assignment step of the $k$-means algorithm to select a random centroid among those that are $\delta$-close to the closest centroid and added $\delta/2$ error to the updated clusters. -->
 
-<!-- We would like to assert the capability of the quantum algorithm to provide accurate classification results, by simulations on a number of datasets. However, since neither quantum simulators nor quantum computers large enough to test $q$-means are available currently, we tested the equivalent classical implementation of $\delta$-$k$-means.  -->
-<!-- For implementing the $\delta$-$k$-means, we changed the assignment step of the $k$-means algorithm to select a random centroid among those that are $\delta$-close to the closest centroid and added $\delta/2$ error to the updated clusters.  -->
-
-<!-- We benchmarked our $q$-means algorithm on two datasets: a synthetic dataset of gaussian clusters, and the well known MNIST dataset of handwritten digits. To measure and compare the accuracy of our clustering algorithm, we ran the $k$-means and the $\delta$-$k$-means algorithms for different values of $\delta$ on a training dataset and then we compared the accuracy of the classification on a test set, containing data points on which the algorithms have not been trained, using a number of widely-used performance measures. -->
+<!-- We benchmarked our $q$-means algorithm on two datasets: a synthetic dataset of gaussian clusters, and the MNIST. To measure and compare the accuracy of our clustering algorithm, we ran the $k$-means and the $\delta$-$k$-means algorithms for different values of $\delta$ on a training dataset and then we compared the accuracy of the classification on a test set, containing data points on which the algorithms have not been trained, using a number of widely-used performance measures. -->
 
 
-<!-- \subsection{Gaussian clusters dataset} -->
-<!-- We describe numerical simulations of the $\delta$-$k$-means algorithm on a synthetic dataset made of several clusters formed by random gaussian distributions. These clusters are naturally well suited for clustering by construction, close to what we defined to be a well-clusterable dataset in Definition \ref{wcdataset} of Section \ref{datasetassumption}. Doing so, we can start by comparing $k$-means and $\delta$-$k$-means algorithms on high accuracy results, even though this may not be the case on real-world datasets. Without loss of generality, we preprocessed the data so that the minimum norm in the dataset is $1$, in which case $\eta = 4$. This is why we defined $\eta$ as a maximum instead of the ratio of the maximum over the minimum which is really the interesting quantity. Note that the running time basically depends on the ratio $\eta/\delta$. -->
-<!-- We present a simulation where $20.000$ points in a feature space of dimension $10$ form $4$ Gaussian clusters with standard deviation $2.5$, that we can see in Figure \ref{gaussian-cluster-1}.  The condition number of dataset is calculated to be $5.06$. We ran $k$-means and $\delta$-$k$-means for $7$ different values of $\delta$ to understand when the $\delta$-$k$-means becomes less accurate.  -->
+<!-- #### Gaussian clusters dataset -->
+<!-- We describe numerical simulations of the $\delta$-$k$-means algorithm on a synthetic dataset made of several clusters formed by random gaussian distributions. These clusters are naturally well suited for clustering by construction, close to what we defined to be a well-clusterable dataset in Definition \@ref(def:wcdataset) of Section \@ref(datasetassumption). Doing so, we can start by comparing $k$-means and $\delta$-$k$-means algorithms on high accuracy results, even though this may not be the case on real-world datasets. Without loss of generality, we preprocessed the data so that the minimum norm in the dataset is $1$, in which case $\eta = 4$. This is why we defined $\eta$ as a maximum instead of the ratio of the maximum over the minimum which is really the interesting quantity. Note that the running time basically depends on the ratio $\eta/\delta$. -->
+
+<!-- We present a simulation where $20.000$ points in a feature space of dimension $10$ form $4$ Gaussian clusters with standard deviation $2.5$, that we can see in Figure \ref{gaussian-cluster-1}.  The condition number of dataset is calculated to be $5.06$. We ran $k$-means and $\delta$-$k$-means for $7$ different values of $\delta$ to understand when the $\delta$-$k$-means becomes less accurate. -->
 
 
 
@@ -143,11 +150,10 @@ Intuitively, the assumptions guarantee that most of the data can be easily assig
 
 
 
-<!-- ### MNIST  -->
+#### MNIST
+From this raw data we first performed some dimensionality reduction processing, then we normalized the data such that the minimum norm is one. Note that, if we were doing $q$-means with a quantum computer, we could use efficient quantum procedures equivalent to Linear Discriminant Analysis, such as [@KL18], or other quantum dimensionality reduction algorithms like [@lloyd2014quantum] [@cong2015quantum].
 
-<!-- The MNIST dataset is composed of $60.000$ handwritten digits as images of 28x28 pixels (784 dimensions). From this raw data we first performed some dimensionality reduction processing, then we normalized the data such that the minimum norm is one. Note that, if we were doing $q$-means with a quantum computer, we could use efficient quantum procedures equivalent to Linear Discriminant Analysis, such as \cite{KL18}, or other quantum dimensionality reduction algorithms like \cite{lloyd2014quantum, cong2015quantum}.  -->
-
-<!-- As preprocessing of the data, we first performed a Principal Component Analysis (PCA), retaining data projected in a subspace of dimension 40. After normalization, the value of $\eta$ was 8.25 (maximum norm of 2.87), and the condition number was 4.53. Figure \ref{mnist-results-1} represents the evolution of the accuracy during the $k$-means and $\delta$-$k$-means for $4$ different values of $\delta$. In this numerical experiment, we can see that for values of the parameter $\eta/\delta$ of order 20, both $k$-means and $\delta$-$k$-means reached a similar, yet low accuracy in the classification in the same number of steps. It is important to notice that the MNIST dataset, without other preprocessing than dimensionality reduction, is known not to be well-clusterable under the $k$-means algorithm.   -->
+As preprocessing of the data, we first performed a Principal Component Analysis (PCA), retaining data projected in a subspace of dimension 40. After normalization, the value of $\eta$ was 8.25 (maximum norm of 2.87), and the condition number was 4.53. Figure \ref{mnist-results-1} represents the evolution of the accuracy during the $k$-means and $\delta$-$k$-means for $4$ different values of $\delta$. In this numerical experiment, we can see that for values of the parameter $\eta/\delta$ of order 20, both $k$-means and $\delta$-$k$-means reached a similar, yet low accuracy in the classification in the same number of steps. It is important to notice that the MNIST dataset, without other preprocessing than dimensionality reduction, is known not to be well-clusterable under the $k$-means algorithm.
 
 
 
@@ -160,7 +166,25 @@ Intuitively, the assumptions guarantee that most of the data can be easily assig
 
 
 
-<!-- On top of the accuracy measure (ACC), we also evaluated the performance of $q$-means against many other metrics, reported in Table \ref{tablecomparison}. More detailed information about these metrics can be found in \cite{scklearncompare, friedman2001elements}. We introduce a specific measure of error, the Root Mean Square Error of Centroids (RMSEC), which a direct comparison between the centroids predicted by the k-means algorithm and the ones predicted by the $\delta$-$k$-means. It is a way to know how far the centroids are predicted. Note that this metric can only be applied to the training set. For all these measures, except RMSEC, a bigger value is better. Our simulations show that $\delta$-$k$-means, and thus the $q$-means, even for values of $\delta$ (between $0.2-0.5$) achieves similar performance to $k$-means, and in most cases the difference is on the third decimal point.  -->
+<!-- On top of the accuracy measure (ACC), the authors of q-menas also evaluated the performance of $q$-means against many other metrics, reported in Table \@ref(tablecomparison). More detailed information about these metrics can be found in [@scklearncompare], [@friedman2001elements]. We introduce a specific measure of error, the Root Mean Square Error of Centroids (RMSEC), which a direct comparison between the centroids predicted by the k-means algorithm and the ones predicted by the $\delta$-$k$-means. It is a way to know how far the centroids are predicted. Note that this metric can only be applied to the training set. For all these measures, except RMSEC, a bigger value is better. Our simulations show that $\delta$-$k$-means, and thus the $q$-means, even for values of $\delta$ (between $0.2-0.5$) achieves similar performance to $k$-means, and in most cases the difference is on the third decimal point. -->
+
+
+Table: (\#tab:tablecomparison) A sample of results collected from the same experiments as in Figure \@ref(mnist-results-1). Different metrics are presented for the train set and the test set. ACC: accuracy. HOM: homogeneity. COMP: completeness. V-M: v-measure. AMI: adjusted mutual information. ARI: adjusted rand index. RMSEC: Root Mean Square Error of Centroids.
+
+| Algo                                              | Dataset | ACC   | HOM   | COMP  | V-M   | AMI   | ARI   | RMSEC |
+|---------------------------------------------------|---------|-------|-------|-------|-------|-------|-------|-------|
+| k-means                                           | Train   | 0.582 | 0.488 | 0.523 | 0.505 | 0.389 | 0.488 | 0     |
+|                                                   | Test    | 0.592 | 0.500 | 0.535 | 0.517 | 0.404 | 0.499 | -     |
+| $\delta$-$k$-means, $\delta=0.2$                  | Train   | 0.580 | 0.488 | 0.523 | 0.505 | 0.387 | 0.488 | 0.009 |
+|                                                   | Test    | 0.591 | 0.499 | 0.535 | 0.516 | 0.404 | 0.498 | -     |
+| $\delta$-$k$-means, $\delta=0.3$                  | Train   | 0.577 | 0.481 | 0.517 | 0.498 | 0.379 | 0.481 | 0.019 |
+|                                                   | Test    | 0.589 | 0.494 | 0.530 | 0.511 | 0.396 | 0.493 | -     |
+| $\delta$-$k$-means, $\delta=0.4$                  | Train   | 0.573 | 0.464 | 0.526 | 0.493 | 0.377 | 0.464 | 0.020 |
+|                                                   | Test    | 0.585 | 0.492 | 0.527 | 0.509 | 0.394 | 0.491 | -     |
+| $\delta$-$k$-means, $\delta=0.5$                  | Train   | 0.573 | 0.459 | 0.522 | 0.488 | 0.371 | 0.459 | 0.034 |
+|                                                   | Test    | 0.584 | 0.487 | 0.523 | 0.505 | 0.389 | 0.487 | -     |
+
+
 
 
 <!-- \begin{table}[H] -->
@@ -168,24 +192,32 @@ Intuitively, the assumptions guarantee that most of the data can be easily assig
 <!-- \begin{tabular}{|c|c|c|c|c|c|c|c|c|} -->
 <!-- \hline -->
 <!-- Algo                                  & Dataset & ACC   & HOM   & COMP  & V-M   & AMI   & ARI   & RMSEC \\ \hline -->
-<!-- \multirow{2}{*}{k-means}              & Train   & 0.582 & 0.488 & 0.523 & 0.505 & 0.389 & 0.488 & 0     \\ \cline{2-9}  -->
+<!-- \multirow{2}{*}{k-means}              & Train   & 0.582 & 0.488 & 0.523 & 0.505 & 0.389 & 0.488 & 0     \\ \cline{2-9} -->
 <!--                                       & Test    & 0.592 & 0.500 & 0.535 & 0.517 & 0.404 & 0.499 & -     \\ \hline -->
-<!-- \multirow{2}{*}{$\delta$-$k$-means, $\delta=0.2$} & Train   & 0.580 & 0.488 & 0.523 & 0.505 & 0.387 & 0.488 & 0.009 \\ \cline{2-9}  -->
+<!-- \multirow{2}{*}{$\delta$-$k$-means, $\delta=0.2$} & Train   & 0.580 & 0.488 & 0.523 & 0.505 & 0.387 & 0.488 & 0.009 \\ \cline{2-9} -->
 <!--                                       & Test    & 0.591 & 0.499 & 0.535 & 0.516 & 0.404 & 0.498 & -     \\ \hline -->
-<!-- \multirow{2}{*}{$\delta$-$k$-means, $\delta=0.3$} & Train   & 0.577 & 0.481 & 0.517 & 0.498 & 0.379 & 0.481 & 0.019 \\ \cline{2-9}  -->
+<!-- \multirow{2}{*}{$\delta$-$k$-means, $\delta=0.3$} & Train   & 0.577 & 0.481 & 0.517 & 0.498 & 0.379 & 0.481 & 0.019 \\ \cline{2-9} -->
 <!--                                       & Test    & 0.589 & 0.494 & 0.530 & 0.511 & 0.396 & 0.493 & -     \\ \hline -->
-<!-- \multirow{2}{*}{$\delta$-$k$-means, $\delta=0.4$} & Train   & 0.573 & 0.464 & 0.526 & 0.493 & 0.377 & 0.464 & 0.020 \\ \cline{2-9}  -->
+<!-- \multirow{2}{*}{$\delta$-$k$-means, $\delta=0.4$} & Train   & 0.573 & 0.464 & 0.526 & 0.493 & 0.377 & 0.464 & 0.020 \\ \cline{2-9} -->
 <!--                                       & Test    & 0.585 & 0.492 & 0.527 & 0.509 & 0.394 & 0.491 & -     \\ \hline -->
-<!-- \multirow{2}{*}{$\delta$-$k$-means, $\delta=0.5$} & Train   & 0.573 & 0.459 & 0.522 & 0.488 & 0.371 & 0.459 & 0.034 \\ \cline{2-9}  -->
+<!-- \multirow{2}{*}{$\delta$-$k$-means, $\delta=0.5$} & Train   & 0.573 & 0.459 & 0.522 & 0.488 & 0.371 & 0.459 & 0.034 \\ \cline{2-9} -->
 <!--                                       & Test    & 0.584 & 0.487 & 0.523 & 0.505 & 0.389 & 0.487 & -     \\ \hline -->
 <!-- \end{tabular} -->
-<!-- \caption{A sample of results collected from the same experiments as in Figure \ref{mnist-results-1}. Different metrics are presented for the train set and the test set. ACC: accuracy. HOM: homogeneity. COMP: completeness. V-M: v-measure. AMI: adjusted mutual information. ARI: adjusted rand index. RMSEC: Root Mean Square Error of Centroids.}  -->
+<!-- \caption{A sample of results collected from the same experiments as in Figure \ref{mnist-results-1}. Different metrics are presented for the train set and the test set. ACC: accuracy. HOM: homogeneity. COMP: completeness. V-M: v-measure. AMI: adjusted mutual information. ARI: adjusted rand index. RMSEC: Root Mean Square Error of Centroids.} -->
 <!-- \label{tablecomparison} -->
 <!-- \end{table} -->
 
 
 
-<!-- These experiments have been repeated several times and each of them presented a similar behavior despite the random initialization of the centroids.  -->
+<!-- These experiments have been repeated several times and each of them presented a similar behavior despite the random initialization of the centroids. -->
+
+
+<!-- ```{r, qmeans-pca, fig.cap="Classical Expectation-Maximization for Gaussian mixture models", echo=FALSE} -->
+<!-- knitr::include_graphics("images/mnistpca2.png") -->
+<!-- knitr::include_graphics("images/mnistpca3.png") -->
+<!-- knitr::include_graphics("images/mnistpca4.png") -->
+<!-- ``` -->
+
 
 <!-- \begin{figure}[htbp] -->
 <!-- \centering -->
@@ -238,14 +270,42 @@ Intuitively, the assumptions guarantee that most of the data can be easily assig
 <!-- \end{table} -->
 
 
+<!-- The authors remarked that the values of $\eta/\delta$ in their experiment remained between 3 and 20. Moreover, the parameter $\eta$, which is the maximum square norm of the points, provides a worst case guarantee for the algorithm, while one can expect that the running time in practice will scale with the average square norm of the points. For the MNIST dataset after PCA, this value is 2.65 whereas $\eta = 8.3$. -->
 
-<!-- Let us remark, that the values of $\eta/\delta$ in our experiment remained between 3 and 20. Moreover, the parameter $\eta$, which is the maximum square norm of the points, provides a worst case guarantee for the algorithm, while one can expect that the running time in practice will scale with the average square norm of the points. For the MNIST dataset after PCA, this value is 2.65 whereas $\eta = 8.3$.  -->
-
-<!-- In conclusion, our simulations show that the convergence of $\delta$-$k$-means is almost the same as the regular $k$-means algorithms for large enough values of $\delta$. This provides evidence that the $q$-means algorithm will have as good performance as the classical $k$-means, and its running time will be significantly lower for large datasets. -->
+<!-- In conclusion, the simulations show that the convergence of $\delta$-$k$-means is almost the same as the regular $k$-means algorithms for large enough values of $\delta$. This provides evidence that the $q$-means algorithm will have as good performance as the classical $k$-means, and its running time will be significantly lower for large datasets. -->
 
 
 ### QSFA
 
 ### QEM
+
+In this section, we discuss again Quantum Expectation-Maximization algorithm, and we present the results of some experiments on real datasets to estimate its runtime. We will also show some bound on the value of the parameters that governs it, like $\kappa(\Sigma)$, $\kappa(V)$, $\mu(\Sigma)$, $\mu(V)$, $\delta_\theta$, and $\delta_\mu$, and we give heuristic for dealing with the condition number. As we already have done, we can put a threshold on the condition number of the matrices $\Sigma_j$, by discarding singular values which are smaller than a certain threshold. This might decrease the runtime of the algorithm without impacting its performances. This is indeed done often in classical machine learning models, since discarding the eigenvalues smaller than a certain threshold might even improve upon the metric under consideration (i.e. often the accuracy), by acting as a form of regularization (look at Section 6.5 of [@murphy2012machine]). This in practice is equivalent to limiting the eccentricity of the Gaussians. We can do similar considerations for putting a threshold on the condition number of the dataset $\kappa(V)$. Recall that the value of the condition number of the matrix $V$ is approximately  $1/\min( \{\theta_1,\cdots, \theta_k\}\cup \{ d_{st}(\mathcal{N}(\mu_i, \Sigma_i), \mathcal{N}(\mu_j, \Sigma_j)) | i\neq j \in [k] \})$, where $d_{st}$ is the statistical distance between two Gaussian distributions [@kalai2012disentangling]. We have some choice in picking the definition for $\mu$: in previous experiments it has been found that choosing the maximum $\ell_1$ norm of the rows of $V$ lead to values of $\mu(V)$ around $10$ for the MNIST dataset, as we saw on the experiments of QSFA, PCA and q-means. Because of the way $\mu$ is defined, its value will not increase significantly as we add vectors to the training set. In case the matrix $V$ can be clustered with high-enough accuracy by distance-based algorithms like k-means, it has been showed that the Frobenius norm of the matrix is proportional to $\sqrt{k}$, that is, the rank of the matrix depends on the number of different classes contained in the data. Given that EM is just a more powerful extension of k-means, we can rely on similar observations too. Usually, the number of features $d$ is much more than the number of components in the mixture, i.e. $d \gg k$, so we expect $d^2$ to dominate the $k^{3.5}$ term in the cost needed to estimate the mixing weights, thus making $T_\Sigma$ the leading term in the runtime. We expect this cost to be be mitigated by using $\ell_\infty$ form of tomography but we defer further experiment for future research.
+
+As we said, the quantum running time saves the factor that depends on the number of samples and introduces a number of other parameters. Using our experimental results we can see that when the number of samples is large enough one can expect the quantum running time to be faster than the classical one.
+
+   To estimate the runtime of the algorithm, we need to gauge the value of the parameters $\delta_\mu$ and $\delta_\theta$, such that they are small enough so that the likelihood is perturbed less than $\epsilon_\tau$, but big enough to have a fast algorithm. We have reasons to believe that on well-clusterable data, the value of these parameters will be large enough, such as not to impact dramatically the runtime. A quantum version of k-means algorithm has already been simulated on the MNIST dataset under similar assumptions [@kerenidis2019qmeans]. The experiment concluded that, for datasets that are expected to be clustered nicely by this kind of clustering algorithms, the value of the parameters $\delta_\mu$ did not decrease by increasing the number of samples nor the number of features. There, the value of $\delta_\mu$ (which in their case was called just $\delta$) has been kept between $0.2$ and $0.5$, while retaining a classification accuracy comparable to the classical k-means algorithm. We expect similar behaviour in the GMM case, namely that for large datasets the impact on the runtime of the errors $(\delta_\mu, \delta_\theta)$ does not cancel out the exponential gain in the dependence on the number of samples, and we discuss more about this in the next paragraph. The value of $\epsilon_\tau$ is usually (for instance in scikit-learn [@scikit-learn] ) chosen to be $10^{-3}$. We will see that the value of $\eta$ has always been 10 on average, with a maximum of 105 in the experiments.
+
+<!--     \begin{table}[h] -->
+<!--         \centering -->
+
+<!--         \begin{tabular}{c|c|c|c|c|} -->
+<!--         \cline{2-5} -->
+<!--  & \multicolumn{2}{c|}{MAP}  & \multicolumn{2}{c|}{ML}   \\ \cline{2-5}  -->
+<!--      & avg          & max        & avg         & max         \\ \hline -->
+<!--         \multicolumn{1}{|c|}{$\norm{\Sigma}_2$}                & 0.22         & 2.45       & 1.31        & 3.44        \\ \hline -->
+<!--         \multicolumn{1}{|c|}{$|\log \det(\Sigma)|$}                                 & 58.56        & 70.08      & 14.56       & 92.3        \\ \hline -->
+<!--         \multicolumn{1}{|c|}{$\kappa^*(\Sigma)$} & 4.21         & 50         & 15.57       & 50          \\ \hline -->
+<!--         \multicolumn{1}{|c|}{$\mu(\Sigma)$}                       & 3.82         & 4.35       & 2.54        & 3.67        \\ \hline -->
+<!--         \multicolumn{1}{|c|}{$\mu(V)$}                                           & 2.14         & 2.79       & 2.14        & 2.79        \\ \hline -->
+<!--         \multicolumn{1}{|c|}{$\kappa(V)$}                                        & 23.82        & 40.38      & 23.82       & 40.38       \\ \hline -->
+<!--         \end{tabular} -->
+<!--             \caption{We estimate some of the parameters of the VoxForge [@voxforge] dataset.  Each model is the result of the best of 3 different initializations of the EM algorithm. The first and the second rows are the maximum singular values of all the covariance matrices, and the absolute value of the log-determinant. The column $\kappa^*(\Sigma)$ shows the condition number after the smallest singular values have been discarded.}        \label{tab:results} -->
+
+<!--         \end{table} -->
+
+
+
+
+
 
 ### QPCA
