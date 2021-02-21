@@ -41,40 +41,30 @@ description: "Lecture notes on quantum algorithms for information processing and
 \newcommand{\ee}{\end{equation}}
 \newcommand{\argmax}{\arg\max}
 
+\newcommand{\Ord}[1]{\mathcal{O}\left( #1 \right)}
+\newcommand{\tOrd}[1]{\widetilde{\mathcal{O}}\left( #1 \right)}
 
 
-# Preface
-
-These are my first lecture notes in Quantum Machine Learning (QML) and quantum algorithms. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. Thesis, and now are in this extended form with the hope to serve the future researchers in QML. 
-
-*I hope you can find here all the things that I would have liked to know when I started doing quantum algorithms. My aspiration is that they will help to close the gap between introductory material in quantum computation and high-level research material.* 
-
-If you want to give me any feedback, feel free to write me at "scinawa - at - luongo - dot - pro". Or contact me on [Twitter](https://twitter.com/scinawa). 
-
-This book is dedicated to all [**cypherpunks**](https://luongo.pro/cypherpunks/): *civil liberties through complex mathematics*. 
-
-## Contributions and acknowledgements
-
-In sparse order, I would like to thank [Dong Ping Zhang](www.dongpingzhang.com), [Mehdi Mhalla](http://membres-lig.imag.fr/mhalla/) , [Simon Perdrix](https://members.loria.fr/SPerdrix/), [Tommaso Fontana](https://twitter.com/zommiommy), and [Nicola](https://www.linkedin.com/in/nvitucci/) [Vitucci](https://twitter.com/nvitucci) for the initial help with the previous version of this project, and the helpful words of encouragement. 
+# Preface 
+I hope you can find here all the things that I would have liked to know when I started doing quantum algorithms. My aspiration is that they will help to close the gap between introductory material in quantum computation and high-level research material. 
 
 These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalgorithms.org/) easily accessible on GitHub. Fell free to help by sending a pull request to the previous url. There are a list of issues and enhancements that would ameliorate further these lecture notes, making them more accessible and covering more interesting and recent material that keeps popping up in quantum information. 
 
-The contributors to the project are:
-
-- Alessandro 'Scinawa' Luongo
-- Armando 'ikiga1' Bellante
-- 
+<p style="text-align:right">
+This book is dedicated to all [**cypherpunks**](https://luongo.pro/cypherpunks/): *civil liberties through complex mathematics*. </p>
 
 <!-- 
-# TODO Add code to automatically add contributors in index.html
-# There should be a javscript that adds an iframe or something 
-# with the list of contributors to quantumalgorithms.org 
-# labels: enhancement, todo
--->
+it would be nice to make just a preface, and put the text above this one without any heading..
+https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter-header  -->
 
-The CSS style file comes from [here](https://m-clark.github.io/data-processing-and-visualization/). 
+## Abstract
 
-## What are we doing here? 
+
+
+
+
+
+
 
 
 In these lecture notes, we explore how we can leverage quantum computers and quantum algorithms for information processing. It has long been known that quantum computation can offer computational advantages with respect to classical computers, and in this place, we explore more the consequences of this intuition in recent domains of computer sciences. 
@@ -87,4 +77,12 @@ The common thread of these algorithms is that the runtime depends only poly-loga
 
 We will see that, for a new QML algorithm, one often needs to make sure that the real performances of the quantum algorithms offer concrete advantages with respect to the effective runtime and the accuracy that is offered by the best classical algorithms. As we don't have access to big-enough quantum computers *yet*, we assessed the performance of these quantum algorithms via a classical simulation. 
 
-To conclude, these lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefits society and humankind, as soon as the hardware that supports this kind of computation will be ready. 
+These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefits society and humankind, as soon as the hardware that supports this kind of computation will be ready. 
+
+
+While reading these lecture notes you should always remember the good [**Simon Martiel**](https://scholar.google.fr/citations?user=upaq0vIAAAAJ&hl=en): 
+<p style="text-align:center">
+(quantum) Theoretical computer science is the fun part of mathematics. 
+</p>
+
+To all of you, happy reading. 
