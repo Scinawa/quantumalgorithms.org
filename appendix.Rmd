@@ -499,7 +499,7 @@ A probability density function or probability mass function $p(v|\nu)$ for $v = 
 
 In this section we discuss the following, widely known result in CS. It's used not only in writing algorithms, but also in complexity theory. 
 
-```{lemma, name="Powering lemma [@jerrum1986random]"} 
+```{lemma, powering-lemma, name="Powering lemma [@jerrum1986random]"} 
 Let $\mathcal{A}$ be a quantum or classical algorithm which aims to estimate some quantity $\mu$, and whose output $\widetilde{\mu}$ satisfies $|\mu-\widetilde{\mu} \leq \epsilon$ except with probability $\gamma$, for some fixed $\gamma \leq 1/2$. Then, for any $\gamma > 0$ it suffices to repeat $\mathcal{A}$ $O(\log 1/\delta)$ times and take the median to obtain an estimate which is accurate to within $\epsilon$ with probability at least $1-\delta$. 
 ```
 
@@ -948,7 +948,7 @@ $$\leq \left|\frac{\alpha\theta}{3\tilde{\beta}} \right| + \frac{\alpha}{\tilde\
 
 
 We can have a more general version of the bound. 
-```{theorem, ratio-relative-general, name="[@hamoudi2020quantum]"}
+```{lemma, ratio-relative-general, name="[@hamoudi2020quantum]"}
 Let $\tilde a$ be an estimate of $a>0$ such that $\vert \tilde a- a \vert \leq \epsilon_a a$.
 with $\epsilon_a \in (0,1)$.
 Similarly, let $\tilde b$ be an estimate of $b>0$ and $\epsilon_b \in (0,1)$ such that

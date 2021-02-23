@@ -82,7 +82,7 @@ These lecture notes should prepare the future quantum data analyst to understand
 
 While reading these lecture notes you should always remember the good [**Simon Martiel**](https://scholar.google.fr/citations?user=upaq0vIAAAAJ&hl=en): 
 <p style="text-align:center">
-(quantum) Theoretical computer science is the fun part of mathematics. 
+"(quantum) Theoretical computer science is the fun part of mathematics."
 </p>
 
 To all of you, happy reading. 
