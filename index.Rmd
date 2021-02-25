@@ -50,8 +50,11 @@ I hope you can find here all the things that I would have liked to know when I s
 
 These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalgorithms.org/) easily accessible on GitHub. Fell free to help by sending a pull request to the previous url. There are a list of issues and enhancements that would ameliorate further these lecture notes, making them more accessible and covering more interesting and recent material that keeps popping up in quantum information. 
 
-<p style="text-align:right">
-This book is dedicated to all [**cypherpunks**](https://luongo.pro/cypherpunks/): *civil liberties through complex mathematics*. </p>
+
+<!-- 
+to bringe back after grant's applications. 
+<p style="text-align:right"> -->
+<!-- This book is dedicated to all [**cypherpunks**](https://luongo.pro/cypherpunks/): *civil liberties through complex mathematics*. </p> -->
 
 <!-- 
 it would be nice to make just a preface, and put the text above this one without any heading..
