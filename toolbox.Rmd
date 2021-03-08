@@ -31,7 +31,7 @@ In our algorithms, we will also use subroutines for quantum linear algebra. From
 
 
 ```{theorem, sve-theorem, name="Singular Value Estimation [@kerenidis2017quantumsquares]"}
-Let $M \in \mathbb{R}^{n \times d}$  be a matrix with singular value decomposition $M =\sum_{i} \sigma_i u_i v_i^T$ for which we have quantum access. Let $\varepsilon > 0$ the precision parameter. There is an algorithm with running time $\tilde{O}(\mu(M)/\varepsilon)$ that performs the mapping $\sum_{i} \alpha_i \ket{v_i} \to \sum_{i}\alpha_i \ket{v_i}  \ket{\tilde{\sigma}_i}$, where $\tilde{\sigma_i} - \sigma_i | \leq \varepsilon$ for all $i$ with probability at least $1-1/poly(n)$.
+Let $M \in \mathbb{R}^{n \times d}$  be a matrix with singular value decomposition $M =\sum_{i} \sigma_i u_i v_i^T$ for which we have quantum access. Let $\varepsilon > 0$ the precision parameter. There is an algorithm with running time $\tilde{O}(\mu(M)/\varepsilon)$ that performs the mapping $\sum_{i} \alpha_i \ket{v_i} \to \sum_{i}\alpha_i \ket{v_i}  \ket{\tilde{\sigma}_i}$, where $| \tilde{\sigma_i} - \sigma_i | \leq \varepsilon$ for all $i$ with probability at least $1-1/poly(n)$.
 ```
 
 Recall that quantum access to a matrix is defined in theorem \@ref(def:KP-trees), and the parameter $\mu$ is defined in definition \@ref(def:mu).
@@ -161,7 +161,7 @@ The research of quantum algorithms for machine learning has always used techniqu
 
 
 ```{lemma, lcu, name="Linear combination of unitaries [@Childs2015]"}
-Let $M = \sum_{i} \alpha_i U_i$ be a linear combination of unitaries $U_i$ with $\alpha_i >0$ for all $i$. Let $V$ be any operator that satisfies  $V|0^m\> := \frac{1}{\sqrt{\alpha}}\sum_i \sqrt{\alpha_i}|i\>$, where $\alpha := \sum_i \alpha_i$.
+Let $M = \sum_{i} \alpha_i U_i$ be a linear combination of unitaries $U_i$ with $\alpha_i >0$ for all $i$. Let $V$ be any operator that satisfies $V\ket{0^{\otimes m}} := \frac{1}{\sqrt{\alpha}}\sum_i \sqrt{\alpha_i}\ket{i}$, where $\alpha := \sum_i \alpha_i$.
 Then $W := V^{\dagger}UV$ satisfies
 \begin{equation}
 W\ket{0^{\otimes m}}\ket{\psi} =\frac{1}{\alpha}\ket{0^{\otimes m}}M\ket{\psi} + \ket{\Psi^\perp}
