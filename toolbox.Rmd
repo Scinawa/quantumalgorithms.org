@@ -9,7 +9,7 @@ output: html_document
 
 ## Finding the minimum {#subsec:findmin}
 
-```{lemma, find-minimum-orig, name="Quanutum minimum finding [@durr1996quantum]"}
+```{lemma, find-minimum-orig, name="Quantum minimum finding [@durr1996quantum]"}
 Given quantum access to a vector $u \in [0,1]^N$ via the operation $\ket j \ket{\bar 0} \to \ket j \ket{ u_j}$ on $\Ord{\log N}$ qubits, where $u_j$ is encoded to additive accuracy $\Ord{1/N}$. Then, we can find the minimum $u_{\min} = \min_{j\in[N]}  u_j$ with success probability $1-\delta$ with $\Ord{\sqrt N \log \left (\frac{1}{\delta}\right) }$ queries and $\tOrd{\sqrt N  \log \left( \frac{1}{\delta}\right )}$ quantum gates.
 ```
 
@@ -23,6 +23,32 @@ Given quantum access to a vector $u \in [0,1]^N$ via the operation $\ket j \ket{
 # idea of the proof used behind the algorithm
 # labels: good first issue, help wanted
 -->
+
+
+This algorithm utilizes a subroutine called quantum exponential searching algorithm (QESA), which is again composed of amplitude amplification (Grover) and amplitude estimation. The goal is to find the minimum among $N$ unsorted values $u_{j\in[N]}$. For simplicity, we assume those values are distinct. The general idea is marking indices of values below a chosen threshold, returning and picking one of them as the new threshold with equal probability. After some iterations, it is expected to yield the lowest value. Note that the step of marking lower values is taken as an oracle with $\mathcal{O}(1)$. We first present to algorithm and keep the explanation for later.
+
+
+```{r, min-finding, fig.cap="Finding the minimum", echo=FALSE}
+knitr::include_graphics("algpseudocode/min-finding.png")
+```
+
+
+```{r, qesa, fig.cap="Quantum Exponential Searching Algorithm", echo=FALSE}
+knitr::include_graphics("algpseudocode/qesa.png")
+```
+
+
+In the basic Grover's algorithm with one solution, $m = CI\left(\frac{\pi}{4}\sqrt{N}\right)$ iterations give the true output with error probability at most $1/N$ for $N \gg 1$, where $CI(x)$ being the closest integer to $x$. The result can be generalized in the case of $t \ll N$ solutions that the error rate is reduced to at most $t/N$ after exactly $m = CI\left(\frac{\pi-2\arcsin{\sqrt{t/N}}}{4\arcsin{\sqrt{t/N}}}\right) = \left \lfloor \frac{\pi}{4\arcsin{\sqrt{t/N}}} \right \rfloor$ iterations (and thus oracle calls), with an upper bound $m \leq \frac{\pi}{4}\sqrt{\frac{N}{t}}$. However, a problem arises when we have to amplify amplitudes corresponding to values below the threshold. In practice, the number of candidates is unknown and varies for each threshold. QESA is a generalized algorithm to find a solution for unknown $t$ with probability at least $1/4$ in $\mathcal{O}(\sqrt{N/t})$, which is motivated by the following observation.
+
+
+```{lemma, qesa-observation, name="Quantum Exponential Searching Algorithm [@boyer1998tight]"}
+Let $t$ be the (unknown) number of solutions and let $\theta$ be such that $\sin^2{\theta} = t/N$. Let $m$ be an arbitrary positive integer. Let $k$ be an integer chosen at random according to the uniform distribution between $0$ and $m − 1$. If we observe the register after applying $k$ iterations of Grover’s algorithm starting from the initial state $\sum_{i}\frac{1}{\sqrt{N}}|i\rangle$, the probability of obtaining a solution is exactly $P_m = \frac{1}{2} - \frac{\sin{(4m\theta)}}{4m\sin{(2\theta)}}$.
+In particular, $P_m \geq 1/4$ when $m \geq 1/\sin{(2\theta)}$.
+```
+
+
+As QESA is expected to be done in $\mathcal{O}(\sqrt{N/t})$ queries, one can deduce that the expected number of queries for the minimum-finding algorithm with success probability at least $1/2$ is $\mathcal{O}(\sqrt{N})$. Repeating the algorithm $c$ times increases the success probability to $1-1/2^c$. In terms of quantum gates, the Grover part and the initialization part use $\mathcal{O}(\sqrt{N})$ and $\mathcal{O}(\log{N})$ respectively.
+
 
 
 ## Quantum linear algebra {#subsec:linearalgebra} 
