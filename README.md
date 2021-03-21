@@ -1,5 +1,8 @@
 # Welcome to the repository for quantumalgorithms.org
 
+[![Unitary Fund](https://img.shields.io/badge/Supported%20By-UNITARY%20FUND-brightgreen.svg?style=for-the-badge)](http://unitary.fund)
+
+
 This is the repository for [QuantumAlgorithms](https://quantumalgorithms.org). 
 
 This webiste is meant to be a lecture notes for the students of quantum machine learning. 

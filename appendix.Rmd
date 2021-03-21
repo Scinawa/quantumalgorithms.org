@@ -145,7 +145,7 @@ Jensen inequality
 
 
 ```{theorem binomial-theorem, name="Binomial theorem"}
-$$(a+b)^n = \sum_{k=0}^n \choose{n, k}a^kb^{n-k}$$
+$$(a+b)^n = \sum_{k=0}^n {n \choose k} a^kb^{n-k}$$
 ```
 
 

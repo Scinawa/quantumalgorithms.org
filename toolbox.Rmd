@@ -5,7 +5,7 @@ date: "2/21/2021"
 output: html_document
 ---
 
-# A useful toolbox
+# A useful toolbox {#chap:toolbox}
 
 ## Finding the minimum {#subsec:findmin}
 
@@ -403,9 +403,8 @@ $$\frac{1}{\sqrt{N}} \sum_{j=1}^N \ket {j} \ket {\bar 0} \to \frac{1}{\sqrt{N}} 
 
 For part 2, define a unitary $\mathcal U = U_\chi \left(\mathbb 1 - 2 \ket{\bar 0}\bra{\bar 0}\right) \left(U_\chi\right)^\dagger$, with $U_\chi$ from (i). Define another unitary by $\mathcal V = \mathbb 1-2 \mathbb 1 \otimes \ket{0} \bra{0}$.
  Using $K$ applications of $\mathcal U$ and $\mathcal V$, Amplitude Estimation \@ref(thm-ampest-orig) allows to provide an estimate $\tilde a$ of the quantity $a = \frac{\Vert u \Vert_1}{N}$  to accuracy 
-$\vert dio \vert$. 
- #$\vert \tilde{a} - a \vert \leq 2 \pi \frac{\sqrt{a(1-a)} }{K} + \frac{\pi^2}{K^2}$.  
-Following [@van2020quantum], take $K> \frac{6 \pi }{\epsilon} \sqrt{ N}$, which obtains
+$\vert \tilde{a} - a \vert \leq 2 \pi \frac{\sqrt{a(1-a)} }{K}+ \frac{\pi^2}{K^2}$. 
+Following the idea in [@van2020quantum], take $K> \frac{6 \pi }{\epsilon} \sqrt{ N}$, which obtains
   \begin{align}
  \left| \tilde a - a \right|
   &\leq& \frac{\pi}{K}\left( 2\sqrt{a}+ \frac{\pi}{K} \right)
@@ -833,7 +832,7 @@ Finally, observe that:
 
 These notes based on Childs' [Lecture notes](https://www.cs.umd.edu/~amchilds/qa/), i.e. [@ChildsLectureNotes], Section 5
 
-### Introduction to Hamiltonians
+### Introduction to Hamiltonians 
 
 The only way possible to start a chapter on Hamiltonian simulation would 
 be to start from the work of Feynman, who had the first intuition on the

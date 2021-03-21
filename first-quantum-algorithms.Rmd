@@ -8,20 +8,25 @@ output: html_document
 # Review of foundational quantum algorithms
 In this chapter, we will explore some introductive quantum algorithms. Some of them, are not particularly related to data analysis or machine learning, but given their high pedagogic potential, in order to better understand the model of quantum computation we adopt, that we decided it was important to report them here. Others will prove to be really useful subroutines for the quantum machine learning practitioner. 
 
-## Deutsch
-<!-- TODO -->
+```{definition, name="Constant function"}
+A function $f :\{0,1\}^n \mapsto \{0,1\}$ is constant if $f(x)=0$ or $f(x)$ =1 \forall x \in \{0,1\}$.
+```
+```{definition, name="Balanced function"}
+A function $f :\{0,1\}^n \mapsto \{0,1\}$ is constant if $f(x)=0$ or $f(x)$ =1 \forall x \in \{0,1\}$.
+```
 
-## Simons
-<!-- TODO -->
 
-<!--
-# TODO Add notes and links on first quantum algorithms (Deutsch, and the likes)
-# It seems that there are plenty of resources to understand quantum algos like
-# Simon's, Grover, Deutsch, and so on, and this is not the scope of this website. 
-# Nevertheless, some brief description of the result (preferably in the form of a theorem)
-# can be a good exercise for a student. 
-# labels: help wanted, good first issue
--->
+
+```{theorem, name="Deutsch-Josza"}
+Assume to have quantum access to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which is either constant or balanced. There is a quantum algorithm that decides which is the case, using $U_f$ only once with probabiliy $1$, and is using other $\log(n)$ other gates. 
+```
+
+
+```{theorem, name="Bernstein-Vazirani"}
+Assume to have quantum access to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f(x \cdot a) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$  There is a quantum algorithm that learn $a$ using $U_f$ only once with probabiliy $1$, and is using other $\log(n)$ other gates. 
+```
+
+
 
 
 ## Phase estimation {#section:phaseestimation}
@@ -37,8 +42,14 @@ In this chapter, we will explore some introductive quantum algorithms. Some of t
 
 
 ```{theorem, phase-estimation, name="Phase estimation [@Kitaev1995QuantumProblem]"}
-Let $U$ be a unitary operator, with eigenvectors $\ket{v_j}$ and eigenvalues $e^{\iota \theta_j}$ for $\theta_j \in [-\pi, \pi]$, i.e. we have $U\ket{v_j} = e^{\iota \theta_j}\ket{v_j}$ for $j \in [n]$. For a precision parameter $\epsilon > 0$, there exists a quantum algorithm that runs in time $O(T(U) log n/\varepsilon)$ and with probability $1 - 1/poly(n)$ maps a state $\ket{\phi_i} = \sum_{j \in [n]} \alpha_j\ket{v_j} $  to the state $\sum_{j \in [n]} \alpha_j \ket{v_j}\ket{\bar{\theta_j}}$ such that $\bar{\theta}_j \in \theta_j \pm \varepsilon$ for all $j \in [n]$.
+Let $U$ be a unitary operator, with eigenvectors $\ket{v_j}$ and eigenvalues $e^{\iota \theta_j}$ for $\theta_j \in [-\pi, \pi]$, i.e. we have $U\ket{v_j} = e^{\iota \theta_j}\ket{v_j}$ for $j \in [n]$. For a precision parameter $\epsilon > 0$, there exists a quantum algorithm that runs in time $O(T(U)\log(\frac{n}{\varepsilon}))$ and with probability $1 - 1/poly(n)$ maps a state $\ket{\phi_i} = \sum_{j \in [n]} \alpha_j\ket{v_j} $  to the state $\sum_{j \in [n]} \alpha_j \ket{v_j}\ket{\bar{\theta_j}}$ such that $\bar{\theta}_j \in \theta_j \pm \varepsilon$ for all $j \in [n]$.
 ```
+
+
+```{theorem, phase-estimation-errors, name="Error and probability of failure of phase estimation [@NC02] Section 5.2 and [@nannicini2019fast]"}
+Let $0.a=a_1, \dots a_q$ be the output of phase estimation when applied to an eigenstate with phase $\phi$. If we use $q+\lceil\log(2+\frac{1}{2\delta})\rceil$ qubits of precision, the first $q$ qubits of $a$ will be accurate with probability at least $1-\delta$, i.e. $$Pr[|\phi - \sum_{j=1}^q a_j2^{-j}| \leq 2^{-q}] \geq 1-\delta$$
+```
+
 
 While the standard implementation of phase estimation is based on the quantum Fourier transform (QFT) circuit [@NC02], there have been various improvements [@ahmadi2010quantum] which try to soften the dependence on the QFT circuit, while retaining the accuracy guarantees offered by the QFT in estimating the angles $\theta_j$.
 \paragraph{Remark.} Note that the same algorithm described by theorem \@ref(thm:phase_estimation) can be made ``consistent'', as in the sense of [@ta2013inverting]. While in the original formulation of phase estimation two different runs might return different estimate for $\overline{\theta}_j$, with a consistent phase estimation this estimate is fixed, with high probability. It means that the error, between two different runs of phase estimation, is almost deterministic.
@@ -57,11 +68,14 @@ Given a quantum algorithm $$A:\ket{0} \to \sqrt{p}\ket{y,1} + \sqrt{1-p}\ket{G,0
 	If $p=0$ then $\tilde{p}=0$ with certainty, and if $p=1$ and $P$ is even, then $\tilde{p}=1$ with certainty.
 ```
 
-In the original amplitude amplification algorithm, we assume to know $P$, i.e. the correct number of iterations. Later on, a fixed-point version of amplitude amplification has been proposed  \cite{grover2005fixed}, which has been optimized in \cite{yoder2014fixed}. These versions do not require to know $P$ in advance. Recently, various researches worked on improvements of amplitude estimation by getting rid of the part of the original algorithm that performed the phase estimation (i.e. the Quantum Fourier Transform \cite{NC02}) \cite{grinko2019iterative, aaronson2020quantum}. Perhaps a simpler formulation, which hides the complexity of the low-level implementation of the algorithm, and is thus more suitable to be used in quantum algorithms for machine learning is the following.
-
-```{theorem, thm-ampest-orig-precise, name="Amplitude estimation"} 
-There is a quantum algorithm called amplitude estimation which takes as input one copy of a quantum state $\ket{\psi}$, a unitary transformation $U$. 
+```{theorem, thm-ampest-orig-precise, name="Amplitude estimation [@brassard2002quantum] formulation of [@montanaro2015quantum]"} 
+There is a quantum algorithm called amplitude estimation which takes as input one copy of a quantum state $\ket{\psi}$, a unitary transformation $U=2\ket{\psi}\bra{\psi}-I$, a unitary transformation $V=I-2P$ for some projector $P$, and an integer $t$. The algorithm outputs $\tilde{a}$, an estimate of $a=\braket{\psi|P|\psi}$, such that: 
+  $$|\tilde{a}-a| \leq 2\pi\frac{\sqrt{a(1-a)}}{t} + \frac{\pi^2}{t^2}$$ 
+with probability at least $8/\pi^2$, using $U$ and $V$ $t$ times each. If $a=0$ then $\tilde{a}=0$ with certainty, and if $a=1$ and $M$ is even, then $\tilde{a}=1$ with certainty. 
 ```
+
+In the original amplitude amplification algorithm, we assume to know $P$, i.e. the correct number of iterations. Later on, a fixed-point version of amplitude amplification has been proposed  [@grover2005fixed], which has been optimized in [@yoder2014fixed]. These versions do not require to know $P$ in advance. Recently, various researches worked on improvements of amplitude estimation by getting rid of the part of the original algorithm that performed the phase estimation (i.e. the Quantum Fourier Transform [@NC02]) [@grinko2019iterative], [@aaronson2020quantum]. Perhaps a simpler formulation, which hides the complexity of the low-level implementation of the algorithm, and is thus more suitable to be used in quantum algorithms for machine learning is the following.
+
 
 
 

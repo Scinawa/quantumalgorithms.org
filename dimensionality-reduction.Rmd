@@ -5,6 +5,8 @@ date: "12/2/2020"
 output: html_document
 ---
 
+# (PART) Part (Quantum Machine Learning) {-} 
+
 # Dimensionality reduction
 
 

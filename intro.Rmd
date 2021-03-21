@@ -3,6 +3,8 @@ output:
   pdf_document: default
   html_document: default
 ---
+# (PART) Part (Bridging the gap) {-}
+
 # Introduction to quantum information
 In this chapter we will introduce the notation used in this manuscript. For further mathematical introduction, please refer to the appendix.
 
@@ -88,9 +90,8 @@ A matrix $U\in \mathbb{C}^{d \times d}$ is said to be unitary if $UU^\dagger = U
 - The columns and the rows of $U$ form an orthonormal basis of $\mathcal{C}^d$
 - $U$ can be written as $e^{iH}$ for some Hermitian operator $H$.
 
-<!-- TODO -->
-```{exercise, name="Exercise"} 
-Convince me that the 2x2 diagonal matrix $A$ with entries $10$ and $1/10$ is unitary because the determinant is 1. 
+```{example, name="Determinant = 1 is a necessary but not sufficient condition for being unitary."} 
+It is simple to see that any 2x2 diagonal matrix $A$ with entries $10$ and $1/10$ has determinant is 1, but it's not a unitary matrix: $A^\dagger A = AA^\dagger \neq I$. 
 ```
 
 
@@ -200,7 +201,27 @@ TODO FIXME
 
 Let $U_1$ be the evolution of a quantum state $\ket{x}$ and $U_2$ the evolution of a quantum state $\ket{y}$, $U_1 \otimes U_2$ describe the evolution of the quantum system $\ket{x}\ket{y}$. Note that to build a state in $\ket{v} \in \mathcal{H}^n$ we need $\lceil \log n\rceil$ qubits.
 
+
+### Measuring complexity of randomized and quantum algorithms
+
+
+TODO: improve section on query and circuit complexity of quanutm algorithms
+(pag 157 RDW)
+
+
 There are various way to measure the complexity of a quantum algorithm.  We denote with $T(U)$ the time complexity needed to implement $U$, measured in terms of depth of the circuit, which is roughly the number of time steps (or ``clock time'') we need, in order to executed the gates of the quantum circuit $U$.  If we just care about the **relativized** complexity, we might limit ourselvs to compare two algorithms that solves the same problem in terms of the number of queries to a given oracle, we might observe that one is faster than the other. This is a **relativized** speedup. The oppositive is an **absolute** speedup, i.e. when we also take into account the complexity of the operations that are **not** queries to an oracle. In the case of quantum algorithms, these might simply be the gate depth of the circuit. 
+
+
+<!-- ```{definition, query-complexity, name="Query complexity"} -->
+
+<!-- ``` -->
+
+
+<!-- ```{definition, circuit-complexity, name="Circuit complexity"} -->
+
+<!-- ``` -->
+
+
 
 
 
@@ -240,27 +261,33 @@ This encoding can be used to get speedup in the number of query to an oracle, li
 
 #### Binary vectors: $\{0,1\}^n$
 
-Let $\vec{b} \in \{0,1\}^n$. We can imagine three options here. As for the encoding the integers, we can use $n$ qubits with a digital encoding:
+Let $\vec{b} \in \{0,1\}^n$. We can imagine three options here. As for the encoding the integers, we can use $n$ qubits with a binary (or digital) encoding:
 
 $$\ket{b} = \bigotimes_{i=0}^{n} \ket{b_i}$$
 
 As an example, suppose you want to encode the vector
-$[1,0,1,0,1,0] \in \{0,1\}^6$, which is $42$ in decimal. This will
+$b=[1,0,1,0,1,0] \in \{0,1\}^6$, which is $42$ in decimal. This will
 correspond to the $42$-th base of the Hilbert space where our qubits
-will live. Note that, in some sense, we are not "fully" using the $C^{2^{n}}$
-Hilbert space: we are mapping our list of binary vector in vectors of the canonical base.
-base. As a consequence, Euclidean distances between points in the new space are
-different.
+are living. Note that, in some sense, we are not "fully" using the $2^n$ dimensional 
+Hilbert space $\mathbb{C}^{2^{n}}$: we are mapping our list of binary vector in vectors of the computational (i.e. canonical) base. As a consequence of this choice, Euclidean distances in the Hilbert space between points have a different meaning.
 
-Our second encoding is the following. For instance we can map a $0$ into
-$1$ and $1$ as $-1$, and build:
+```{remark, name="Difference between distances in this binary representation"}
+Consider again $v=[1,0,1,0,1,0]$ and $u=[1,1,1,0,1,1] \in \{0,1\}^6$. It is simple to see that 
+$d(u,v)=\|u-v\|_2= 2.236..$. But $\| \ket{42} - \ket{59} \|_2 = \sqrt{2}$.
+```
 
-$$\ket{v} = \frac{1} {\sqrt{2^n}} \sum_{i \in \{0,1\}^n} (-1)^{b_i} \ket{i}$$.
 
-Or analogously:
+Our second encoding that we can imagine is the following is an amplitude encoding. We can either map:
 
-$$\ket{b} = \frac{1}{\sqrt{\sum_{i=0}^n}1} \sum_{i=0}^n b_i\ket{i} $$
+- a $0$ into a $0$, and $1$ as $1$ (or $-1$)
+- a $0$ into a $1$, and $1$ as $1$ (or $-1$) 
 
+$$\ket{b} = \frac{1}{\sqrt{\sum_{i=0}^n(-1)^{b_i}}} \sum_{i \in \{0,1\}^n} (-1)^{b_i} \ket{i}$$.
+
+Or, eitherway:
+
+$$\ket{b} = \frac{1}{\sqrt{\sum_{i=0}^nb_i}} \sum_{i=0}^n b_i\ket{i} $$
+Note that these two last binary encodings are using the amplitudes, so we are using $\lceil \log n\rceil$ qubits. In the last two equations, the normalization factor is just the $\ell_2$ norm of the vector (which in this case is just the square root of the Hamming weight).
 
 ####  Vectors and matrices: $\mathbb{R}^n$, $\mathbb{R}^{n \times d}$
 
@@ -316,7 +343,7 @@ Along with a fully fledged quantum computer, we also assume to have access to a 
 Note that sometimes, QRAM goes under the name of QROM, as actually it is not something that can be written during the runtime of the quantum algorithm, but just queried, i.e. read.  Furthermore, a QRAM is said to be \emph{efficient} if can be updated by adding, deleting, or modifying an entry in polylogarithmic time w.r.t the size of the data it is storing. Using the following definition, we can better define the computational model we are working with.
 
 
-```{definition, QRAM-model, name="QRAM model"}
+```{definition, QRAM-model, name="QRAM model [@kerenidis2017quantumsquares]"}
 An algorithm in the QRAM data structure model that processes a data-set of size $m$ has two steps:
 
  * A pre-processing step with complexity $\widetilde{O}(m)$ that constructs efficient QRAM data structures for storing the data.
@@ -326,33 +353,35 @@ The complexity of the algorithm in this model is measured by the cost for step 2
 ```
 
 
-```{definition, oracular, name="Oracular access - Folklore"}
+```{definition, qram, name="Quantum Random Access Memory [@giovannetti2008quantum]"}
+A quantum random access memory is a device that stores indexed data $(i,x_i)$ for $i \in [n]$ and $x_i \in \R$ (eventually truncated with some bits of precision). It allows query in the form $\ket{i}\ket{0}\mapsto \ket{i}\ket{x_i}$, and has circuit depth $O(polylog(n))$.
+```
+We say that a dataset is efficiently loaded in the QRAM, if the size of the data structure is linear in the dimension and number of data points and the time to enter/update/delete an element is polylogarithmic in the dimension and number of data points. A direct application of this model is what is commonly assumed in quantum algorithms to access sparse matrices. This is often useful when dealing with graphs, or simply with sparse Hamiltonians. 
+
+Equipped with this data structure - which we have not discussed in depth yet, but it's discussed here [@giovannetti2008quantum] - allows us to do the following mappings. 
+
+<!-- TODO
+add here a little discussion on hardware and circuit for QRAM
+-->
+
+```{definition, oracle-access-vector, name="Query access to a vector"}
 Let $V \in \mathbb{R}^{n \times d}$. There is a data structure to store $V$ such that, a quantum algorithm with access to the data structure can perform $\ket{i}\ket{j} \to \ket{i}\ket{j}\ket{v_{ij}}$ for $i,j \in [n]$ in time $T=O(\log^{2}n)$.
 ```
 
 
-
-Equipped with this data structure, we are allowed to perform the following operation in a quantum computer. [@giovannetti2008quantum, kerenidis2017quantumsquares]. 
-
-```{definition, qram, name="Quantum Random Access Memory"}
-A quantum random access memory is a device that stores indexed data $(i,x_i)$ for $i \in [n]$ and $x_i \in \R$ (eventually truncated with some bits of precision). It allows query in the form $\ket{i}\ket{0}\mapsto \ket{i}\ket{x_i}$, and has circuit depth $O(polylog(n))$.
-```
-
-
-We say that a dataset is efficiently loaded in the QRAM, if the size of the data structure is linear in the dimension and number of data points and the time to enter/update/delete an element is polylogarithmic in the dimension and number of data points. A direct application of this model is what is commonly assumed in quantum algorithms to access sparse matrices. This is often useful when dealing with graphs, or simply with sparse Hamiltonians.
-
-```{definition, oracleaccess-adjacencymatrix, name="Oracle access in adjacency matrix model"}
+```{definition, oracle-access-adjacencymatrix, name="Oracle access in adjacency matrix model"}
 Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform the following mapping $\ket{j,k,z} \mapsto \ket{j,k,z \oplus V_{jk}}$
 ```
 
-
-
-```{definition, oracleaccess-adjacencylist,  name="Oracle access in adjacency list model"}
+```{definition, oracle-access-adjacencylist,  name="Oracle access in adjacency list model"}
 	Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform the: mapping $\ket{i}\mapsto\ket{i}\ket{d(i)}$ where $d(i)$ is the number of entries in row $i$, and $\ket{j,l}\mapsto\ket{j,\nu(j,l)}$, where $\nu(j,l)$ is the $l$-th nonzero entry of the $j$-th column of $V$.
 ```
 
+Note that the first is very similar to the definition of the Grover's oracle that you might know from previous courses in quantum information. It's important to remember that for Definition \ref(def:oracle-access-adjacencymatrix) and \ref{def:oracle-access-adjacencylist} we might **not** need a QRAM, as there might be other efficient circuit for performing those mapping. This is usually the case in all the literature for quantum algorithms for Hamiltonian simulation, that we will see better in Chapter \ref{chap:toolbox}.  These query models are sometimes called in literature "sparse access" to a matrix, as sparsity is often the key to obtain an efficient circuit for encoding such structures without a QRAM. 
 
-In the PhD thesis of [@Prakash:EECS-2014-211], he leveraged the definition of \@ref(def:qram) to allow us to efficiently create superpositions corresponding to the rows of the matrices, i.e. encoding the values of the components of a matrix' row in the amplitudes of a quantum state. Note that this data structure, which sometimes goes under the name KP-trees [@rebentrost2018quantum], assumes and extends definition \@ref(def:qram). In practice, both are called QRAM, and both rely on two (different) tree data structure for their construction. One is a hardware tree that allows to perform the mapping in \@ref(def:qram), the other is a tree that stores the partial norms of the rows of the matrix, which we will discuss later. We will use the following as definition, but this is actually a theorem. For the proof, we refer to [@Prakash:EECS-2014-211] and the appendix of [@KP16].
+
+
+In the PhD thesis of Prakash [@Prakash:EECS-2014-211], he leveraged the definition of \@ref(def:qram) to allow us to efficiently create superpositions corresponding to the rows of the matrices, i.e. encoding the values of the components of a matrix' row in the amplitudes of a quantum state. Note that this data structure, which sometimes goes under the name KP-trees [@rebentrost2018quantum], assumes and extends definition \@ref(def:qram). In practice, both are called QRAM, and both rely on two (different) tree data structure for their construction. One is a hardware tree that allows to perform the mapping in \@ref(def:qram), the other is a tree that stores the partial norms of the rows of the matrix, which we will discuss later. We will use the following as definition, but this is actually a theorem. For the proof, we refer to [@Prakash:EECS-2014-211] and the appendix of [@KP16].
 
 
 ```{definition, KP-trees,  name="Quantum access to matrices using KP-trees [@KP16]"}
