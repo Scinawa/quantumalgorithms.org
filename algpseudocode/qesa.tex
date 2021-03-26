@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\begin{document}
+\pagestyle{empty} 
+
+\begin{algorithm}[ht]
+	\caption{Quantum Exponential Searching Algorithm (QESA)}
+	\label{QESA}
+	\begin{algorithmic}[1]
+
+		\Require  Solution $x$, N-dimensional vector $u$.
+		\Ensure Find $i$ such that $u_i = x$ in $\mathcal{O}(\sqrt{N/t})$ expected time for $t \in [1,3N/4]$ being the unknown number of potential solutions. (If $t>3N/4$, classical sampling works in constant expected time.)
+		\vspace{10pt}
+		\State Initialize $m=1$ and set $\lambda = 6/5$ (or any $\lambda$ strictly between $1$ and $4/3$).
+		\State Choose $k$ uniformly random from the set of nonnegative integers smaller than $m$.
+		\State Apply $k$ iterations of Grover's algorithm starting from initial state $\sum_i \frac{1}{\sqrt{N}} |i\rangle$.
+		\State Measure the register to obtain some $i$.
+		\State If $u_i = x$, the problem is solved: \textbf{exit}.
+		\State Otherwise, set $m$ to $\min(\lambda m, \sqrt{N})$ and go back to step 2.
+	\end{algorithmic}
+\end{algorithm}
+
+\end{document
