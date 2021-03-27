@@ -1,8 +1,7 @@
 ---
-title: "03-dimensionalityreduction"
-author: "scinawa"
-date: "12/2/2020"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 # (PART) Part (Quantum Machine Learning) {-} 

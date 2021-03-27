@@ -11,8 +11,8 @@
 	\label{FindingMin}
 	\begin{algorithmic}[1]
 
-		\Require N-dimension vector $u$.
-		\Ensure Find the minimum value with probability at least $1/2$.
+		\Require Quantum access to a N-dimensional vector $u$.
+		\Ensure Find the index of the minimum value of $u$ with probability at least $1/2$.
 		\vspace{10pt}
 		\State Uniformly choose a threshold index $j$ from $0..N-1$.
 		\Repeat
@@ -22,7 +22,7 @@
 		\State Measure the index register. Suppose the output is $i'$.
 
 		Assign $j \leftarrow i'$ to be the new threshold index if $u_{i'} < u_j$.
-		\Until the running time is more than $22.5\sqrt{N} + 1.4\log^2{N}$.
+		\Until the queries to $U$ are more than $22.5\sqrt{N} + 1.4\log^2{N}$.
 		\State Return $j$.
 	\end{algorithmic}
 \end{algorithm}

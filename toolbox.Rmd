@@ -1,13 +1,15 @@
 ---
-title: "A useful toolbox"
-author: "scinawa"
-date: "2/21/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 # A useful toolbox {#chap:toolbox}
 
 ## Finding the minimum {#subsec:findmin}
+
+We now want to show an algorithm that finds the minimum among $N$ unsorted values $u_{j\in[N]}$. As the Grover's algorithm, we work in the oracle model, so we assume to have quantum access to a the vector $u$. Without loss of generality we can take $N=2^n$, but if the length of our list is not a power of 2, we can just pad the rest of the elements in the list with zeroes. The statement of the theorem is the following. 
+
 
 ```{lemma, find-minimum-orig, name="Quantum minimum finding [@durr1996quantum]"}
 Given quantum access to a vector $u \in [0,1]^N$ via the operation $\ket j \ket{\bar 0} \to \ket j \ket{ u_j}$ on $\Ord{\log N}$ qubits, where $u_j$ is encoded to additive accuracy $\Ord{1/N}$. Then, we can find the minimum $u_{\min} = \min_{j\in[N]}  u_j$ with success probability $1-\delta$ with $\Ord{\sqrt N \log \left (\frac{1}{\delta}\right) }$ queries and $\tOrd{\sqrt N  \log \left( \frac{1}{\delta}\right )}$ quantum gates.
