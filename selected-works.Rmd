@@ -1,8 +1,7 @@
 ---
-title: "Selected works in QML"
-author: "scinawa"
-date: "12/11/2020"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 # (PART) Part (other) {-} 
@@ -22,7 +21,8 @@ This is a work in progress, as the vast majority of works are not present here, 
 
 - [Variational Quantum Algorithms](https://scirate.com/arxiv/2012.09265) `#review`
 - [Circuit-centric Quantum Classifier](https://arxiv.org/pdf/1804.00633)
-- 
+
+- [The power of quantum neural networks](https://arxiv.org/abs/2011.00027) `#variational`
 
 #### 2019 {-}
 
@@ -35,9 +35,7 @@ This is a work in progress, as the vast majority of works are not present here, 
 - [Continuous-variable quantum neural networks](https://arxiv.org/pdf/1806.06871.pdf)  
 A work presented at TQC2018 that exploit deep similarities between the mathematical formulation of NN and photinics
 
-- [Quantum neural network]()   
-This paper is here just for the name. In the second page of the paper you can read " "
-Basically they are doing machine learning by classically optimizing a specifically parametrized network. 
+- [Classification with quantum neural networks on near term processors](https://arxiv.org/pdf/1802.06002.pdf)   `#variational`
 
 - [Artificial Quantum Neural Network: quantum neurons, logical elements and tests of convolutional nets.](https://arxiv.org/pdf/1806.09664.pdf)   
 A new approach to qnn \o/. This skips complitely the unitary and gate based quantum computation
@@ -46,7 +44,7 @@ Also here the model is mean to be trained by classical optimization.
 - [Optimizing quantum optimization algorithmsvia faster quantum gradient computation](https://arxiv.org/pdf/1711.00465.pdf) `#algo`
 
 - [Quantum Statistical Inference](https://arxiv.org/pdf/1812.04877.pdf) `#phdthesis, #algo`  
-The PhD thesis of Zhao! With focus on Gaussian Processes, Quantum Bayesian Deep Learning (and other resources about causality and correlations..).
+A PhD thesis on QML and other aspects of quantum information. With focus on Gaussian Processes, Quantum Bayesian Deep Learning (and other resources about causality and correlations..).
 
 - [Troubling Trends in Machine Learning Scholarship](https://arxiv.org/pdf/1807.03341.pdf) `#opinion-paper`  
 Is a self-autocritic of the ML community on the way they are doing science now. I think this might be relevant as well for the QML practicioner.
@@ -64,8 +62,9 @@ This is a very nice review of some of the most known qml algorithms.
 
 #### 2017 {-}
 
-- [Implementing a distance based classifier with a quantum interference circuit]()  `#algo`  
+- [Implementing a distance based classifier with a quantum interference circuit](https://arxiv.org/abs/1703.10793)  `#algo`  
 
+-[Quantum SDP solvers: Large speed-ups, optimality, and applications to quantum learning](https://arxiv.org/pdf/1710.02581) `#algo`
 
 - [Quantum machine learning for quantum anomaly detection](https://arxiv.org/abs/1710.07405) `#algo`  
 Here the authors used previous technique to perform anomaly detection. Basically they project the data on the 1-dimensional subspace of the covariance matrix of the data. In this way anomalies are supposed to lie furhter away from the rest of the dataset. 
@@ -77,11 +76,11 @@ In the paper the authors were able to implement a neuron based on a thing called
 
 
 #### 2016 {-}
-- [Quantum Discriminant Analysis for Dimensionality Reduction and Classification]()  `#algo`  
+- [Quantum Discriminant Analysis for Dimensionality Reduction and Classification](https://iopscience.iop.org/article/10.1088/1367-2630/18/7/073011)  `#algo`  
 Here the authors wrote two different algorithm, one for dimensionality reduction and the second for classification, with the same capabilities 
 
 
-- [Quantum Recommendation Systems]() `#algo`  
+- [Quantum Recommendation Systems](https://arxiv.org/pdf/1603.08675.pdf) `#algo`  
 It is where you can learn about QRAM and quantum singular value estimation. 
 
 #### 2015 {-}

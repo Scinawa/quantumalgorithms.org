@@ -1,11 +1,11 @@
 ---
-title: "Review of foundational quantum algorithms"
-author: "scinawa"
-date: "12/2/2020"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
-# Review of foundational quantum algorithms
+
+# Review of famous quantum algorithms
 In this chapter, we will explore some introductive quantum algorithms. Some of them, are not particularly related to data analysis or machine learning, but given their high pedagogic potential, in order to better understand the model of quantum computation we adopt, that we decided it was important to report them here. Others will prove to be really useful subroutines for the quantum machine learning practitioner. 
 
 ```{definition, name="Constant function"}
