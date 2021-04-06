@@ -18,12 +18,12 @@ A function $f :\{0,1\}^n \mapsto \{0,1\}$ is constant if $f(x)=0$ or $f(x)$ =1 \
 
 
 ```{theorem, name="Deutsch-Josza"}
-Assume to have quantum access to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which is either constant or balanced. There is a quantum algorithm that decides which is the case, using $U_f$ only once with probabiliy $1$, and is using other $\log(n)$ other gates. 
+Assume to have quantum access to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which is either constant or balanced. There is a quantum algorithm that decides which is the case, using $U_f$ only once with probabiliy $1$, and is using other $O(\log(n))$ other gates. 
 ```
 
 
 ```{theorem, name="Bernstein-Vazirani"}
-Assume to have quantum access to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f(x \cdot a) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$  There is a quantum algorithm that learn $a$ using $U_f$ only once with probabiliy $1$, and is using other $\log(n)$ other gates. 
+Assume to have quantum access to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f(x \cdot a) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$.  There is a quantum algorithm that learns $a$ using $U_f$ only once with probabiliy $1$, and is using other $O(\log(n))$ other gates. 
 ```
 
 
@@ -56,8 +56,38 @@ While the standard implementation of phase estimation is based on the quantum Fo
 
 
 
-## Amplitude amplification and amplitude estimation
-Amplitude amplification and amplitude estimation are two of the workhorses of quantum algorithms. In this section, we report both the original statement of the theorem, and a simpler version, which is better suited for the context of our algorithms.
+
+
+
+
+
+<!-- % We also describe another simple method of getting such consistent phase estimation, which is to combine phase estimation estimates that are obtained for two different precision values. Let us assume that the  -->
+<!-- % eigenvalues for the unitary $U$ are $e^{2\pi i \theta_{i}}$ for $\theta_{i} \in [0, 1]$. First, we perform phase estimation with precision $\frac{1}{N_{1}}$ where $N_{1}=2^{l}$ is a power  -->
+<!-- % of $2$. We repeat this procedure $O(\log N/\theta^{2})$ times and output the median estimate. If the value being estimated  -->
+<!-- % is $\frac{\lambda + \alpha }{2^{l}}$ for $\lambda \in \Z$ and $\alpha \in [0,1]$ and $|\alpha - 1/2 | \geq \theta'$ for an explicit constant $\theta'$ (depending on $\theta$) then  -->
+<!-- % with probability at least $1-1/\text{poly}(N)$ the median estimate will be unique and will equal to $1/2^{l}$ times the closest integer to $(\lambda+ \alpha)$.  -->
+<!-- % In order to also produce a consistent estimate for the eigenvalues for the cases where the above procedure fails, we perform a second phase estimation with precision $2/3N_{1}$.  -->
+<!-- % We repeat this procedure as above for $O(\log N/\theta^{2})$ iterations and taking the median estimate. The second procedure fails to produce a consistent estimate only  -->
+<!-- % for eigenvalues $\frac{\lambda + \alpha }{2^{l}}$ for $\lambda \in \Z$ and $\alpha \in [0,1]$ and $|\alpha - 1/3 | \leq \theta'$ or $|\alpha - 2/3 | \leq \theta'$ for a suitable constant  -->
+<!-- % $\theta'$. Since the cases where the two procedures fail are mutually exclusive, one of them succeeds with probability $1-1/\text{poly}(N)$. The estimate produced  -->
+<!-- % by the phase estimation procedure is therefore deterministic with very high probability. In order to complete this proof sketch, we would have to give explicit values of the constants $\theta$ and $\theta'$  -->
+<!-- % and the success probability, using the known distribution of outcomes for phase estimation.  -->
+
+
+## Grover's algorithm, amplitude amplification and amplitude estimation
+
+<!-- TODO: with high probability? how many other gates? -->
+
+```{theorem, grover, name="Grover's algorithm"}
+Let $N=2^n$ for $n>0$. 
+Given quantum oracle access $O_x: \ket{i}\mapsto\ket{i}\ket{x_i}$ to a vector $x=\{0,1\}^N$ where only one element of $x$ is 1, there is a quantum algorithm that finds the index of that element
+using $O_x$ only $O(\sqrt{N})$ times. 
+```
+
+This problem can be generalized to the case where there are multiple elements "marked" as good solutions. In the case that we know the number of solutions in advance, the algorithm can be modified such that if fails with 0 probability. 
+
+
+Amplitude amplification and amplitude estimation are two of the workhorses of quantum algorithms. 
 
 ```{theorem, thm-ampest-orig, name="Amplitude estimation, [@BHMT00]"}
 Given a quantum algorithm $$A:\ket{0} \to \sqrt{p}\ket{y,1} + \sqrt{1-p}\ket{G,0}$$ where $\ket{G}$ is some garbage state, then for any positive integer $P$, the amplitude estimation algorithm outputs $\tilde{p}$ $(0 \le \tilde p \le 1)$ such that
@@ -74,10 +104,13 @@ There is a quantum algorithm called amplitude estimation which takes as input on
 with probability at least $8/\pi^2$, using $U$ and $V$ $t$ times each. If $a=0$ then $\tilde{a}=0$ with certainty, and if $a=1$ and $M$ is even, then $\tilde{a}=1$ with certainty. 
 ```
 
-In the original amplitude amplification algorithm, we assume to know $P$, i.e. the correct number of iterations. Later on, a fixed-point version of amplitude amplification has been proposed  [@grover2005fixed], which has been optimized in [@yoder2014fixed]. These versions do not require to know $P$ in advance. Recently, various researches worked on improvements of amplitude estimation by getting rid of the part of the original algorithm that performed the phase estimation (i.e. the Quantum Fourier Transform [@NC02]) [@grinko2019iterative], [@aaronson2020quantum]. Perhaps a simpler formulation, which hides the complexity of the low-level implementation of the algorithm, and is thus more suitable to be used in quantum algorithms for machine learning is the following.
+In the original version of the Grover's algorithm we assume to know the number of marked elements, and therefore we can derive $P$: the correct number of iterations. Later on, a fixed-point version of amplitude amplification has been proposed [@brassard2002quantum]  [@grover2005fixed], which has been optimized in [@yoder2014fixed]. These versions do not require to know $P$ in advance. These results foundamentally leverage the observation reprted in Proposition \@ref(qesa-observation). 
+
+Quite recently, various researches worked on improvements of amplitude estimation by getting rid of the part of the original algorithm that performed the phase estimation (i.e. the Quantum Fourier Transform [@NC02]) [@grinko2019iterative], [@aaronson2020quantum]. As it's well known that the QFT is a non-NISQ subroutine, these results might bring more hope into seeing these algorithms applied in useful scenarios in the first quantum computers. 
 
 
 
+Perhaps a simpler formulation, which hides the complexity of the low-level implementation of the algorithm, and is thus more suitable to be used in quantum algorithms for machine learning is the following.
 
 ```{lemma, amp-amp-est-simple, name="Amplitude amplification and estimation [@kerenidis2017quantumsquares]" } 
 If there is unitary operator $U$ such that $U\ket{0}^{l}= \ket{\phi} = \sin(\theta) \ket{x, 0} + \cos(\theta) \ket{G, 0^\bot}$ then  $\sin^{2}(\theta)$ can be estimated to multiplicative error $\eta$ in time $O(\frac{T(U)}{\eta \sin(\theta)})$ and $\ket{x}$ can be generated in expected time $O(\frac{T(U)}{\sin (\theta)})$ where $T(U)$ is the time to implement $U$.

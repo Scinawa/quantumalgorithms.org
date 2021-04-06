@@ -5,8 +5,8 @@ output:
 ---
 # (PART) Part (Bridging the gap) {-}
 
-# Introduction to quantum information
-In this chapter we will introduce the notation used in this manuscript. For further mathematical introduction, please refer to the appendix.
+# Quantum computing and quantum algorithms
+In this chapter we will introduce the notation that we will extensively use. In this lecture notes will use extensively linear algebra (norm of matrices, SVD, properties of particular matrices, and so on). The reader is higly encouraged to skim the appendix (at least the first part on linear algebra) to have a knowledge of the notation used here. 
 
 <!-- 
 # TODO Write a small introduction on Schroedinger equation
@@ -202,14 +202,16 @@ TODO FIXME
 Let $U_1$ be the evolution of a quantum state $\ket{x}$ and $U_2$ the evolution of a quantum state $\ket{y}$, $U_1 \otimes U_2$ describe the evolution of the quantum system $\ket{x}\ket{y}$. Note that to build a state in $\ket{v} \in \mathcal{H}^n$ we need $\lceil \log n\rceil$ qubits.
 
 
-### Measuring complexity of randomized and quantum algorithms
+### Measuring complexity quantum algorithms
 
 
-TODO: improve section on query and circuit complexity of quanutm algorithms
-(pag 157 RDW)
+<!-- TODO: improve section on query and circuit complexity of quanutm algorithms -->
+<!-- (pag 157 RDW) -->
 
 
 There are various way to measure the complexity of a quantum algorithm.  We denote with $T(U)$ the time complexity needed to implement $U$, measured in terms of depth of the circuit, which is roughly the number of time steps (or ``clock time'') we need, in order to executed the gates of the quantum circuit $U$.  If we just care about the **relativized** complexity, we might limit ourselvs to compare two algorithms that solves the same problem in terms of the number of queries to a given oracle, we might observe that one is faster than the other. This is a **relativized** speedup. The oppositive is an **absolute** speedup, i.e. when we also take into account the complexity of the operations that are **not** queries to an oracle. In the case of quantum algorithms, these might simply be the gate depth of the circuit. 
+
+We use a standard notation of $\widetilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms: $O(\log(n))=\widetilde{O}(1)$. 
 
 
 <!-- ```{definition, query-complexity, name="Query complexity"} -->
@@ -226,7 +228,7 @@ There are various way to measure the complexity of a quantum algorithm.  We deno
 
 
 
-### Data representation
+### Representing data in quantum computers
 
 What does it mean to represent or store data as a quantum state? This question is of paramount importance, because knowing what is the best way of encoding data in a quantum computer might pave the way for intuitions in solving our problems. On the contrary, using the wrong encoding might prevent you from reasoning about the right algorithm design, and obtaining the desired advantages in the implementation of your algorithm. Indeed, in [@schuld2015introduction], Schuld and others wrote: _In order to use the strengths of quantum mechanics without being confined by classical ideas of data encoding, finding “genuinely quantum” ways of representing and extracting information could become vital for the future of quantum machine learning_.
 
@@ -332,7 +334,7 @@ algorithms that use this state as input. For a more detailed description, look a
 #### Remarks on data representation
 
 The precision that we can use for specifying the amplitude of a quantum state might be limited - in practice -  by the precision of our quantum computer in manipulating quantum states (i.e. development in techniques
-in quantum metrology and sensing). Techniques that use a certain precision in the amplitude of a state might suffer of initial technical limitations of the hardware. The precision in the manipulation can be measured by the fidelity. At an intuitive level, you can think of the precision in manipulating quantum state as the 16, 32 or 64 bits of precision in our classical CPUs.
+in quantum metrology and sensing). Techniques that use a certain precision in the amplitude of a state might suffer of initial technical limitations of the hardware. The precision in the manipulation can be measured by the fidelity.
 
 
 
@@ -491,8 +493,7 @@ Then, $\norm{x-y} \leq \epsilon$ implies $\norm{\ket{x} - \ket{y}} \leq \frac{\s
 
 
 
-## Exercises
-
+<!-- ## Exercises -->
 
 <!--
 # TODO Add exercise on rewriting the swap test 
