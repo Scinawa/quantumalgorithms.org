@@ -27,7 +27,7 @@ Given quantum access to a vector $u \in [0,1]^N$ via the operation $\ket j \ket{
 -->
 
 
-This algorithm utilizes a subroutine called quantum exponential searching algorithm (QESA), which is again composed of amplitude amplification (Grover) and amplitude estimation. The goal is to find the minimum among $N$ unsorted values $u_{j\in[N]}$. For simplicity, we assume those values are distinct. The general idea is marking indices of values below a chosen threshold, returning and picking one of them as the new threshold with equal probability. After some iterations, it is expected to yield the lowest value. Note that the step of marking lower values is taken as an oracle with $\mathcal{O}(1)$. We first present to algorithm and keep the explanation for later.
+This algorithm utilizes a subroutine called quantum exponential searching algorithm (QESA), which is again composed of amplitude amplification (Grover) and amplitude estimation.  For simplicity, we assume those values are distinct. The general idea is marking indices of values below a chosen threshold, returning and picking one of them as the new threshold with equal probability. After some iterations, it is expected to yield the lowest value. Note that the step of marking lower values is taken as an oracle with gate complexity of $O(1)$. We first present to algorithm and keep the explanation for later.
 
 
 ```{r, min-finding, fig.cap="Finding the minimum", echo=FALSE}
@@ -40,16 +40,16 @@ knitr::include_graphics("algpseudocode/qesa.png")
 ```
 
 
-In the basic Grover's algorithm with one solution, $m = CI\left(\frac{\pi}{4}\sqrt{N}\right)$ iterations give the true output with error probability at most $1/N$ for $N \gg 1$, where $CI(x)$ being the closest integer to $x$. The result can be generalized in the case of $t \ll N$ solutions that the error rate is reduced to at most $t/N$ after exactly $m = CI\left(\frac{\pi-2\arcsin{\sqrt{t/N}}}{4\arcsin{\sqrt{t/N}}}\right) = \left \lfloor \frac{\pi}{4\arcsin{\sqrt{t/N}}} \right \rfloor$ iterations (and thus oracle calls), with an upper bound $m \leq \frac{\pi}{4}\sqrt{\frac{N}{t}}$. However, a problem arises when we have to amplify amplitudes corresponding to values below the threshold. In practice, the number of candidates is unknown and varies for each threshold. QESA is a generalized algorithm to find a solution for unknown $t$ with probability at least $1/4$ in $\mathcal{O}(\sqrt{N/t})$, which is motivated by the following observation.
+In the basic Grover's algorithm with one solution, $m = CI\left(\frac{\pi}{4}\sqrt{N}\right)$ iterations give the true output with error probability at most $1/N$ for $N \gg 1$, where $CI(x)$ is the closest integer to $x$. The result can be generalized in the case of $t \ll N$ solutions that the error rate is reduced to at most $t/N$ after exactly $m = CI\left(\frac{\pi-2\arcsin{\sqrt{t/N}}}{4\arcsin{\sqrt{t/N}}}\right) = \left \lfloor \frac{\pi}{4\arcsin{\sqrt{t/N}}} \right \rfloor$ iterations (and thus oracle calls), with an upper bound $m \leq \frac{\pi}{4}\sqrt{\frac{N}{t}}$. However, a problem arises when we have to amplify amplitudes corresponding to values below the threshold. In practice, the number of candidates is unknown and varies for each threshold. QESA is a generalized algorithm to find a solution for unknown $t$ with probability at least $1/4$ in $O(\sqrt{N/t})$, which is motivated by the following observation.
 
 
-```{lemma, qesa-observation, name="Quantum Exponential Searching Algorithm [@boyer1998tight]"}
+```{proposition, qesa-observation, name="Quantum Exponential Searching Algorithm [@boyer1998tight]"}
 Let $t$ be the (unknown) number of solutions and let $\theta$ be such that $\sin^2{\theta} = t/N$. Let $m$ be an arbitrary positive integer. Let $k$ be an integer chosen at random according to the uniform distribution between $0$ and $m − 1$. If we observe the register after applying $k$ iterations of Grover’s algorithm starting from the initial state $\sum_{i}\frac{1}{\sqrt{N}}|i\rangle$, the probability of obtaining a solution is exactly $P_m = \frac{1}{2} - \frac{\sin{(4m\theta)}}{4m\sin{(2\theta)}}$.
 In particular, $P_m \geq 1/4$ when $m \geq 1/\sin{(2\theta)}$.
 ```
 
 
-As QESA is expected to be done in $\mathcal{O}(\sqrt{N/t})$ queries, one can deduce that the expected number of queries for the minimum-finding algorithm with success probability at least $1/2$ is $\mathcal{O}(\sqrt{N})$. Repeating the algorithm $c$ times increases the success probability to $1-1/2^c$. In terms of quantum gates, the Grover part and the initialization part use $\mathcal{O}(\sqrt{N})$ and $\mathcal{O}(\log{N})$ respectively.
+As QESA is expected to be done in $O(\sqrt{N/t})$ queries, one can deduce that the expected number of queries for the minimum-finding algorithm with success probability at least $1/2$ is $O(\sqrt{N})$. Repeating the algorithm $c$ times increases the success probability to $1-1/2^c$. In terms of quantum gates, the Grover part and the initialization part use $O(\sqrt{N})$ and $O(\log{N})$ respectively.
 
 
 
@@ -75,6 +75,9 @@ Let $M := \sum_{i} \sigma_iu_iv_i^T \in \mathbb{R}^{d \times d}$ such that $\nor
 One can also get estimates of the norms with multiplicative error $\eta$ by increasing the running time by a factor $1/\eta$.
 ```
 
+Recall that we denote as $V_{\geq \tau}$ the matrix  $\sum_{i=0}^\ell \sigma_i u_i v_i^T$ where $\sigma_\ell$ is the smallest singular value which is greater than $\tau$.
+ For a matrix $M$ and a vector $x$, we define as $M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta} x$ the projection of $x$ onto the space spanned by the singular vectors of $M$ whose corresponding singular values are smaller than $\theta$, and some subset of singular vectors whose corresponding singular values are in the interval $[\theta, (1+\delta)\theta]$. 
+
 <!--
 # TODO Finalize draft of algorithm and proof for linear algebra with SVE
 # It commented - but its there - the original latex coming from the paper of gradient descent
@@ -84,26 +87,20 @@ One can also get estimates of the norms with multiplicative error $\eta$ by incr
 # label: 
 -->
 
-<!-- \begin{algorithm}[H] -->
-<!-- \caption{Quantum matrix multiplication/linear systems.} \label{qmat} -->
-<!-- \begin{algorithmic}[1] -->
-<!-- \REQUIRE Matrix $A \in \R^{n\times n}$ stored in the data structure in Theorem \ref{optqds}, such that eigenvalues of  -->
-<!-- $A$ lie in $[1/\kappa, 1]$. Input state $\ket{x}=\sum_{i} \beta_{i} \ket{v_{i}}\in \R^{n}$, where $v_{i}$ are right singular vectors for $A$.  -->
-<!-- \STATE Perform singular value estimation with precision $\epsilon_{1}$ for $A$ on $\ket{x}$ to obtain $\sum_{i} \beta_{i} \ket{v_{i}} \ket{\overline{\lambda}_{i}}$.  -->
-<!-- \STATE Perform a conditional rotation and uncompute the $SVE$ register to obtain the state: \nl  -->
-<!-- (i)  $\sum_{i} \beta_{i} \ket{v_{i}} ( \overline{\lambda_{i}}  \ket{0} + \gamma \ket{1})$ for matrix multiplication.  \nl  -->
-<!-- (ii) $\sum_{i} \beta_{i} \ket{v_{i}} ( \frac{1} {\kappa \overline{\lambda_{i}} }  \ket{0} + \gamma \ket{1})$ for linear systems. \nl  -->
-<!-- \STATE Perform Amplitude Amplification with the unitary $V$ implementing steps $1$ and $2$, to obtain (i) $\ket{z} = \sum_{i} \beta_{i} \overline{\lambda_{i}}  \ket{v_{i}}$ or (ii) $\ket{z} = \sum_{i} \beta_{i} \frac{1}{\overline{\lambda_{i}}} \ket{v_{i}} $. \nl  -->
-<!-- \end{algorithmic} -->
-<!-- \end{algorithm} -->
 
-<!-- \noindent  -->
-<!-- We next analyze the correctness and provide the running time for the above algorithm.   -->
+<!--  ```{r, svd-linalg, fig.cap="Finding the minimum", echo=FALSE} -->
+<!--  knitr::include_graphics("algpseudocode/min-finding.png") -->
+<!--  ``` -->
+
+
+<!-- We next analyze the correctness and provide the running time for the above algorithm. -->
+
+
 <!-- \begin{theorem} \label{lqmat} -->
 <!-- Parts (i) and (ii) of Algorithm \ref{qmat} produce as output a -->
-<!-- state $\ket{z}$ such that  -->
+<!-- state $\ket{z}$ such that -->
 <!--  $\norm{ \ket{\mathcal{A}x} - \ket{z}} \leq \delta$ in expected time -->
-<!--   $\widetilde{O}(\frac{\kappa^{2}(A) \mu(A)}{ \delta }  )$ for $\mathcal{A}= A$ and $\mathcal{A}= A^{-1}$ respectively.  -->
+<!--   $\widetilde{O}(\frac{\kappa^{2}(A) \mu(A)}{ \delta }  )$ for $\mathcal{A}= A$ and $\mathcal{A}= A^{-1}$ respectively. -->
 <!--   \end{theorem} -->
 
 
@@ -123,43 +120,10 @@ One can also get estimates of the norms with multiplicative error $\eta$ by incr
 <!-- assuming  -->
 <!-- that $\kappa(A) \epsilon_{1} \leq 1/2$.  Applying Claim  \ref{unnorm} we obtain $\norm{ \ket{A^{-1} x} -\ket{ z}} \leq  2\sqrt{2}\kappa(A) \epsilon_{1}$ for $\kappa(A) \epsilon_{1} \leq 1/2$.  -->
 
-<!-- We can therefore use the SVE algorithm with precision $\epsilon_{1} = \frac{\delta} { \kappa(A)} $ for both cases to obtain a solution state $\norm{ \ket{\mathcal{A}x} - \ket{z}} \leq \delta$. The success probability for step 2 of the algorithm is $\frac{1}{\kappa^{2}(A)}$ for both matrix multiplication and matrix inversion. We apply Amplitude Amplification as in Theorem \ref{tampa} with the unitary $V$ that represents the first two steps of the algorithm to obtain an expected running time $\widetilde{O}(\frac{\kappa^2 (A) \mu(A)}{ \delta } )$.  -->
+<!-- We can therefore use the SVE algorithm with precision $\epsilon_{1} = \frac{\delta} { \kappa(A)} $ for both cases to obtain a solution state $\norm{ \ket{\mathcal{A}x} - \ket{z}} \leq \delta$. The success probability for step 2 of the algorithm is $\frac{1}{\kappa^{2}(A)}$ for both matrix multiplication and matrix inversion. We apply Amplitude Amplification as in theorem \ref{tampa} with the unitary $V$ that represents the first two steps of the algorithm to obtain an expected running time $\widetilde{O}(\frac{\kappa^2 (A) \mu(A)}{ \delta } )$.  -->
 <!-- ``` -->
 
-<!-- #### Algorithm:  -->
-<!--  - **Require**:  -->
-<!--     - QRAM acces to rows of $M$ and $\mathbb{R}^{n \times d}$, and $\ket{x} \in \mathbb{R}^d$ -->
-<!--     - A threshold $\theta$ and an error parameter $\delta > 0$. -->
-<!--  - **Ensure**:  -->
-<!--     - Our output register is in state $\ket{Mx}, \ket{M^{-1}x}$ or $\ket{M^{+}\_{\theta,\delta}M\_{\theta,\delta}x}$ -->
-
-<!-- 1. Create the state: $\ket{x} = \sum_{i} \alpha_i\ket{v_i} $ using the QRAM. -->
-<!-- 2. Perform SVE on $M$ with precision $\epsilon / \kappa(M)$ for matrix multiplication and inversion and with precision $\delta\theta$ for matrix projection. This step creates the state: $ \sum_{i} \alpha_i\ket{v_i}\ket{\overline{\sigma}_i} $ -->
-<!-- 3. Perform a conditional operation on an ancilla qubit to get  -->
-<!--   -  for matrix multiplication: $ \sum\limits_{i=1}^d \alpha_i\ket{v_i}\ket{\overline{\sigma}_i}\Big(\overline{\sigma}_i\ket{0} + \sqrt{1 - \overline{\sigma}^2_i}\ket{1}\Big) $ -->
-<!--   -  for matrix inversion: $ \sum\limits_{i=1}^d \alpha\_i\ket{v\_i}\ket{\overline{\sigma\_i}} \left(\frac{\overline{\sigma}\_{min}}{	\overline{\sigma}\_i}\ket{0} + \sqrt{1- \left(\frac{\overline{\sigma}\_{min}}{\overline{\sigma}\_i}\right)^2}\ket{1} \right)$ -->
-<!--   -  for projecting in the subspace spanned by singular values smaller than $\theta$, map $\ket{\overline{\sigma}_j}\ket{0} \to \ket{\overline{\sigma}_i}\ket{0}$ if $\overline{\sigma_i }< (1+\delta) \theta$ and to $\ket{\overline{\sigma}_i}\ket{1}$ otherwise. -->
-<!-- 4. Uncompute the SVE to get the following states: -->
-<!--   - for matrix multiplication: $ \sum\limits\_{i=1}^d \alpha_i \overline{\sigma}_i \ket{v_i}  \ket{0} + \ket{G}\ket{1} $ -->
-<!--   -  for matrix inversion: $ \overline{\sigma}\_{min} \sum\limits_{i=1}^d { \frac{\alpha\_i}{\overline{\sigma}\_i}}  \ket{v\_i}  \ket{0}  -->
-<!-- +\ket{G} \ket{1} $ -->
-<!--   -  for projection in a subspace: $ \sum\limits\_{j \in S}  \alpha\_j \ket{v\_j}\ket{0}  + \sum\limits\_{j \in \bar{S}}  \alpha\_j\ket{v\_j}\ket{1}$ where $S$ is the set of $j$'s such that $\sigma_j \leq \theta$ and some $j$'s such that $\sigma_j \leq [\theta, (1+\delta)\theta)$, and $\bar{S}$ is the complement of $S$. -->
-
-<!-- 5. Perform amplitude **amplification*** on the register $\ket{0}$ with the unitary $U$ implementing steps 1 to 4, to obtain: -->
-<!--   - for matrix multiplication: $\ket{z}$ such that $| \ket{z}-\ket{Mx}| \leq \epsilon$, using  -->
-<!-- $O(\kappa(M))$ iterations -->
-<!--   -  for matrix inversion: $\ket{z}$ such that $\|\ket{z} - \ket{M^{-1}x} \| < \epsilon $, using $O(\kappa(M))$ iterations -->
-<!--   -  for projection in a subspace: $\ket{M^{+}\_{\theta, \delta}M\_{\theta, \delta} x}$, using -->
-<!--  $O(\frac{ \norm{x}}{\norm{M^{+}\_{\leq \theta, \delta}M\_{\leq \theta, \delta}x}})$ iterations -->
-
-
-<!-- 6. Perform amplitude **estimation** on the register $\ket{0}$ with the unitary $U$ implementing steps 1 to 4, to obtain -->
-<!--   -  for matrix multiplication: $\overline{\norm{Mx}}$ such that $\|\overline{\norm{Mx}} - \norm{Mx} \| \leq \eta \norm{Mx} $, using $O(\kappa(M)/\eta)$ iterations -->
-
-<!--  - for matrix inversion: $\overline{\norm{M^{-1}x}	}$ such that $\|\overline{\norm{M^{-1}x} }  - \norm{M^{-1}x} \| \leq \eta \norm{M^{-1}x} $, using $O(\kappa(M)/\eta)$ iterations -->
-
-<!--   -  for projection in a subspace: $\overline{ \norm{M^{+}\_{\theta, \delta}M\_{\theta, \delta} x}}$ such that $\| \overline{ \norm{M^{+}\_{\theta, \delta}M\_{\theta, \delta} x}}-  \norm{M^{+}\_{\theta, \delta}M\_{\theta, \delta} x} \| \leq \eta \norm{M^{+}\_{\theta, \delta}M\_{\theta, \delta} x}$, using $O(\frac{ \norm{x}}{\eta \norm{M^{+}\_{\leq \theta, \delta}M\_{\leq \theta, \delta}x}})$ iterations -->
-
+  
 
 
 
@@ -206,7 +170,7 @@ Let $A\in \mathbb{C}^{2^s \times 2^s}$. We say that a unitary $U \in \mathbb{C}^
 $$\norm{A - \alpha (\bra{0}^a \otimes I )U( \ket{0}^a \otimes I)  } \leq \epsilon$$ 
 ```
 
-We will see that having quantum access to a matrix $A\in\mathbb{C}^{2^w \times 2^w}$, as described in the setting of theorem \@ref(qram), it is possible to implement a $(\mu(A), w+2, \text{polylog}(\epsilon))$ block-encoding of $A$ \footnote{This $\text{polylog}(\epsilon)$ in the block encoding is due to approximation error that one commits when creating quantum access to the classical data structures, i.e. is the approximation that derives from truncating a number $n \in \mathbb{R}$ (which rerepsent an entry of the matrix) up to a certain precision $\epsilon$ Lemma 25 of [@CGJ18].}. Given matrix $U$ which is a $(\alpha, a, \delta)$ block encoding of $A$, and a matrix $V$ which is a $(\beta, b, \epsilon)$ block encoding of $B$, it is simple to obtain a $(\alpha\beta, a+b, \alpha\epsilon+\beta\delta)$ block encoding of $AB$.
+We will see that having quantum access to a matrix $A\in\mathbb{C}^{2^w \times 2^w}$, as described in the setting of theorem \@ref(def:qram), it is possible to implement a $(\mu(A), w+2, \text{polylog}(\epsilon))$ block-encoding of $A$ \footnote{This $\text{polylog}(\epsilon)$ in the block encoding is due to approximation error that one commits when creating quantum access to the classical data structures, i.e. is the approximation that derives from truncating a number $n \in \mathbb{R}$ (which rerepsent an entry of the matrix) up to a certain precision $\epsilon$ lemma 25 of [@CGJ18].}. Given matrix $U$ which is a $(\alpha, a, \delta)$ block encoding of $A$, and a matrix $V$ which is a $(\beta, b, \epsilon)$ block encoding of $B$, it is simple to obtain a $(\alpha\beta, a+b, \alpha\epsilon+\beta\delta)$ block encoding of $AB$.
 
 For practical purposes, having a block encoding of a matrix $A$, allows one to manipulate its spectra using polynomial approximation of analytic functions.
 In the following theorem, the notation $P_{\Re}(A)$ means that we apply the polynomial $P$ to the singular values of the matrix $A$, i.e. $P_{\Re}(A) = \sum_i^r P(\sigma_i)u_iv_i^T$.
@@ -241,7 +205,7 @@ From the hypothesis, we know that $\norm{\frac{1}{\alpha}A\ket{b} } \geq \gamma/
 Regarding the usage of block-encodings for solving with a quantum computer a linear system of equations (i.e. multiplying a quantum state by the inverse of a matrix, and creating a state $\ket{x}$ proportional to $A^{-1}\ket{b}$) we can proceed in an analogous way. First, we need to create block encoding access to $A^{-1}$. Using the following lemma, (where they denoted with $\kappa$ the condition number of $A$) we can implement negative powers of Hermitian matrices.
 
 
-```{lemma, negative-powers, name="Implementing negative powers of Hermitian matrices [@CGJ18] Lemma 9" }
+```{lemma, negative-powers, name="Implementing negative powers of Hermitian matrices [@CGJ18] lemma 9" }
 Let $c \in (0,\infty), \kappa \geq 2$, and let $A$ be an Hermitian matrix such that $I/\kappa \leq A \leq I$. Suppose that $\delta = o(\epsilon/( \kappa^{1+c}(1+c) \log^3\frac{k^{1+c}}{\epsilon}))$ and $U$ is an $(\alpha,a,\delta)$-block encoding of $A$ that can be implemented using $T_U$ gates. Then, for any $\epsilon$, we can implement a unitary $\tilde{U}$ that is a $(2\kappa^c, a, \epsilon)$-block encoding of $H^{-c}$ in cost:
 	$$O\left(\alpha \kappa(a+T_U)(1+c)\log^2(\frac{k^{1+c}}{\epsilon})\right)$$
 ```
@@ -411,11 +375,11 @@ Note that this algorithm can be extended by using another index register to quer
 ### Inner product and l1-norm estimation with query access
 
 ```{lemma, qsp-l1norm, name="Quantum state preparation and norm estimation"}
-Let $\eta >0$. Given a non-zero vector $u \in [0,1]^N$, with $\max_j u_j = 1$. Given quantum access to $u$ via the operation $\ket j \ket{\bar 0} \to \ket j \ket{ u_j}$ on $O{\log N + \log 1/ \eta}$ qubits, where $u_j$ is encoded to additive accuracy $\eta$. Then:
+Let $\eta >0$. Given a non-zero vector $u \in [0,1]^N$, with $\max_j u_j = 1$. Given quantum access to $u$ via the operation $\ket j \ket{\bar 0} \to \ket j \ket{ u_j}$ on $O(\log N + \log 1/ \eta)$ qubits, where $u_j$ is encoded to additive accuracy $\eta$. Then:
 
-- There exists a unitary operator that prepares the state $\frac{1}{\sqrt{N}}  \sum_{j=1}^N \ket j  \left( \sqrt{ u_j } \ket{0} + \sqrt{1- u_j} \ket{1} \right)$ with two queries and number of gates $O{\log N + \log 1/\eta}$. Denote this unitary by $U_\chi$.
-- Let $\epsilon >0$ such that $\eta \leq \epsilon/ (2N)$ and $\delta \in (0,1)$. There exists a quantum algorithm that  provides an estimate $\Gamma_u$ of the $\ell_1$-norm $\Vert u \Vert_1$  such that $\left \vert \Vert u \Vert_1 - \Gamma_u\right \vert \leq \epsilon \Vert u \Vert_1$, with probability at least $1-\delta$. The algorithm requires $O{\frac{\sqrt{ N}}{\epsilon} \log(1/\delta)}$  queries and $\widetilde{O}{\frac{\sqrt{ N }}{\epsilon} \log\left (1/\delta\right)}$ gates.
-- Let  $\xi \in (0,1]$ such that $\eta \leq \xi /4N$ and $\delta \in(0,1)$. An approximation $\ket{ \tilde p} =  \sum_{j=1}^N   \sqrt{ \tilde p_j }\ket j$ to the state $\ket{u} := \sum_{j=1}^N   \sqrt{ \frac{u_j}{\Vert u \Vert_1}}\ket j$ can be prepared with probability $1-\delta$, using $O{\sqrt{N} \log (1/\delta)}$ calls to the unitary of (i) and $\widetilde{O}{\sqrt{N} \log (1/\xi)\log \left (1/\delta \right)}$  gates. The approximation in $\ell_1$-norm of the probabilities is $\left \Vert   \tilde p -  \frac{u}{\Vert u\Vert_1} \right\Vert_1 \leq \xi$.
+- There exists a unitary operator that prepares the state $\frac{1}{\sqrt{N}}  \sum_{j=1}^N \ket j  \left( \sqrt{ u_j } \ket{0} + \sqrt{1- u_j} \ket{1} \right)$ with two queries and number of gates $O(\log N + \log 1/\eta)$. Denote this unitary by $U_\chi$.
+- Let $\epsilon >0$ such that $\eta \leq \epsilon/ (2N)$ and $\delta \in (0,1)$. There exists a quantum algorithm that  provides an estimate $\Gamma_u$ of the $\ell_1$-norm $\Vert u \Vert_1$  such that $\left \vert \Vert u \Vert_1 - \Gamma_u\right \vert \leq \epsilon \Vert u \Vert_1$, with probability at least $1-\delta$. The algorithm requires $O(\frac{\sqrt{ N}}{\epsilon} \log(1/\delta))$  queries and $\widetilde{O}(\frac{\sqrt{ N }}{\epsilon} \log\left (1/\delta\right))$ gates.
+- Let  $\xi \in (0,1]$ such that $\eta \leq \xi /4N$ and $\delta \in(0,1)$. An approximation $\ket{ \tilde p} =  \sum_{j=1}^N   \sqrt{ \tilde p_j }\ket j$ to the state $\ket{u} := \sum_{j=1}^N   \sqrt{ \frac{u_j}{\Vert u \Vert_1}}\ket j$ can be prepared with probability $1-\delta$, using $O(\sqrt{N} \log (1/\delta))$ calls to the unitary of (i) and $\widetilde{O}(\sqrt{N} \log (1/\xi)\log \left (1/\delta \right))$  gates. The approximation in $\ell_1$-norm of the probabilities is $\left \Vert   \tilde p -  \frac{u}{\Vert u\Vert_1} \right\Vert_1 \leq \xi$.
 
 ```
 <!-- TODO: fix cite Brassard2002, Apeldoorn2017, and put it as in our book.bib
@@ -427,12 +391,12 @@ For the first point,  prepare a uniform superposition of all $\ket j$ with $O(\l
 $$\frac{1}{\sqrt{N}} \sum_{j=1}^N \ket {j} \ket {\bar 0} \to \frac{1}{\sqrt{N}}  \sum_{j=1}^N \ket j  \ket{ u_j} \ket { 0}$$
  $$\to \frac{1}{\sqrt{N}}  \sum_{j=1}^N \ket j  \ket{ u_j}  \left( \sqrt{ u_j} \ket{0} + \sqrt{1-u_j } \ket{1} \right).$$
   
- The steps consist of an oracle query and a controlled rotation. The rotation is well-defined as $u_j \leq 1$ and costs $O{ \log 1/\eta}$ gates. Then uncompute the data register $\ket{  u_j } $ with another oracle query.
+ The steps consist of an oracle query and a controlled rotation. The rotation is well-defined as $u_j \leq 1$ and costs $O( \log 1/\eta)$ gates. Then uncompute the data register $\ket{u_j}$ with another oracle query.
 
-For part 2, define a unitary $\mathcal U = U_\chi \left(\mathbb 1 - 2 \ket{\bar 0}\bra{\bar 0}\right) \left(U_\chi\right)^\dagger$, with $U_\chi$ from (i). Define another unitary by $\mathcal V = \mathbb 1-2 \mathbb 1 \otimes \ket{0} \bra{0}$.
- Using $K$ applications of $\mathcal U$ and $\mathcal V$, Amplitude Estimation \@ref(thm-ampest-orig) allows to provide an estimate $\tilde a$ of the quantity $a = \frac{\Vert u \Vert_1}{N}$  to accuracy 
+For part 2, define a unitary $\mathcal U = U_\chi \left(\mathbb{1} - 2 \ket{\bar 0}\bra{\bar 0}\right) \left(U_\chi\right)^\dagger$, with $U_\chi$ from part 1, and here $\mathbb{1}$ is the identiy matrix. Define another unitary by $\mathcal V = \mathbb {1}-2 \mathbb{1} \otimes \ket{0} \bra{0}$.
+ Using $K$ applications of $\mathcal U$ and $\mathcal V$, amplitude estimation \@ref(thm:thm-ampest-orig) allows to provide an estimate $\tilde a$ of the quantity $a = \frac{\Vert u \Vert_1}{N}$  to accuracy 
 $\vert \tilde{a} - a \vert \leq 2 \pi \frac{\sqrt{a(1-a)} }{K}+ \frac{\pi^2}{K^2}$. 
-Following the idea in [@van2020quantum], take $K> \frac{6 \pi }{\epsilon} \sqrt{ N}$, which obtains
+Following the idea in [@van2020quantum] (of dividing the elements that we are summing using amplitude estimation by their maximum, that we can find using the finding the minimum subroutine), take $K> \frac{6 \pi }{\epsilon} \sqrt{ N}$, which obtains
   \begin{align}
  \left| \tilde a - a \right|
   &\leq& \frac{\pi}{K}\left( 2\sqrt{a}+ \frac{\pi}{K} \right)
@@ -446,7 +410,7 @@ Also, there is an inaccuracy arising from the additive error $\eta$ of each $u_j
  $\eta\leq \epsilon / (2N)$,  the overall multiplicative error $\epsilon$ is obtained for the estimation.
  For performing a single run of amplitude estimation with $K$ steps,
  we require
- $O{K} =O{\frac{\sqrt{ N }}{\epsilon} }$
+ $O(K) =O(\frac{\sqrt{ N }}{\epsilon} )$
  queries to the oracles and
  $O\left(\frac{\sqrt{ N }}{\epsilon} \left(\log N + \log (N / \epsilon)  \right) \right)$
  gates.
@@ -460,13 +424,16 @@ Also, there is an inaccuracy arising from the additive error $\eta$ of each $u_j
  \end{align}
  Now amplify the $\ket 0$ part using Amplitude Amplification [@brassard2002quantum] via the exponential search technique without knowledge of the normalization, to prepare
  $\sum_{j=1}^N \ket j   \sqrt{ \frac{u_j}{\Vert u \Vert_1}}$ with success probability $1-\delta$.
- The amplification requires $O{\sqrt{ \frac{N }{ \Vert u \Vert_1}}\log (1/\delta)}= O{\sqrt N \log (1/\delta)}$ calls to the unitary of part 1, as ${\Vert u \Vert_1} \geq 1$. The gate complexity derives from the gate complexity of part 1.
+ The amplification requires $O(\sqrt{ \frac{N }{ \Vert u \Vert_1}}\log (1/\delta))= O(\sqrt N \log (1/\delta))$ calls to the unitary of part 1, as ${\Vert u \Vert_1} \geq 1$. The gate complexity derives from the gate complexity of part 1.
  
  
 Denote the  $\eta$-additive approximation to $u_j$ by $\tilde u_j$,
 and evaluate the $\ell_1$-distance of the probabilities.
  First, $\left \vert \Vert u\Vert_1 - \Vert \tilde u\Vert_1\right \vert \leq N \eta$.
- One obtains $\left \Vert   \tilde p -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 =\left \Vert  \frac{\tilde u}{{\Vert \tilde u\Vert_1}}  -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 \leq \sum_j \left \vert \frac{\tilde u_j}{{\Vert \tilde  u\Vert_1}}  -  \frac{u_j}{{\Vert \tilde u\Vert_1}} \right \vert + \sum_j \left \vert \frac{ u_j}{{\Vert \tilde u\Vert_1}}  -  \frac{u_j}{\Vert u\Vert_1}\right \vert  \leq \frac{N \eta} {{\Vert \tilde u\Vert_1}} + \frac{ N \eta } {{\Vert \tilde u\Vert_1}}$. We also obtain $\frac{1}{ {\Vert \tilde u\Vert_1} } \leq \frac{1}{ \Vert u\Vert_1 -N\eta } \leq \frac{2}{ \Vert u\Vert_1}$ for $\eta \leq  \Vert u\Vert_1 / 2 N$. Since $\eta \leq \Vert u\Vert_1 \xi/(4N)$, the distance is $\left \Vert   \tilde p -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 \leq \xi$ as desired.
+ One obtains $\left \Vert   \tilde p -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 =\left \Vert  \frac{\tilde u}{{\Vert \tilde u\Vert_1}}  -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 \leq \sum_j \left \vert \frac{\tilde u_j}{{\Vert \tilde  u\Vert_1}}  -  \frac{u_j}{{\Vert \tilde u\Vert_1}} \right \vert + \sum_j \left \vert \frac{ u_j}{{\Vert \tilde u\Vert_1}}  -  \frac{u_j}{\Vert u\Vert_1}\right \vert  \leq \frac{N \eta} {{\Vert \tilde u\Vert_1}} + \frac{ N \eta } {{\Vert \tilde u\Vert_1}}$. 
+ 
+ We also obtain $$\frac{1}{ {\Vert \tilde u\Vert_1} } \leq \frac{1}{ \Vert u\Vert_1 -N\eta } \leq \frac{2}{ \Vert u\Vert_1}$ for $\eta \leq  \Vert u\Vert_1 / 2 N.$$ 
+Since $\eta \leq \Vert u\Vert_1 \xi/(4N)$, the distance is $\left \Vert   \tilde p -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 \leq \xi$ as desired.
  
 ```
 
@@ -475,23 +442,23 @@ and evaluate the $\ell_1$-distance of the probabilities.
 ```{lemma, inner-product-relative, name="Quantum inner product estimation with relative accuracy"}
 Let $\epsilon,\delta \in(0,1)$.
 Given quantum access to two vectors $u,v \in [0,1]^N$, where $u_j$ and $v_j$ are encoded to additive accuracy $\eta= O{1/N}$. Then, an estimate $I$ for the inner product can be provided such that $\vert I - u\cdot v /\Vert u\Vert_1 \vert \leq \epsilon\  u\cdot v /\Vert u\Vert_1$ with success probability $1-\delta$.
-This estimate is obtained with $O{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$ queries and $\widetilde{O}{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$ quantum gates.
+This estimate is obtained with $O\left(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )\right)$ queries and $\widetilde{O}\left(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  \right)$ quantum gates.
 ```
 ```{proof}
-Via Lemma \@ref(lem:find-minimum-orig}, determine $u_{\max}$ with success probability $1-\delta$ with $O{\sqrt N \log \frac{1}{\delta}}$ queries and $\widetilde{O}{\sqrt N \log \left( \frac{1}{\delta}\right )}$ quantum gates.
+Via lemma \@ref(lem:find-minimum-orig), determine $u_{\max}$ with success probability $1-\delta$ with $O\left(\sqrt N \log \frac{1}{\delta}\right)$ queries and $\widetilde{O}\left(\sqrt N \log \left( \frac{1}{\delta}\right )\right)$ quantum gates.
 
-Apply  Lemma \@ref(lem:unitaryU) with the vector $\frac{ u}{ u_{\max}}$ to obtain an estimate $\Gamma_u$ of the norm $\left \Vert  \frac{ u}{ u_{\max}} \right \Vert_1$ to relative accuracy $\epsilon_u= \epsilon/2$ with success probability $1-\delta$.
+Apply  lemma \@ref(lem:qsp-l1norm) with the vector $\frac{u}{ u_{\max}}$ to obtain an estimate $\Gamma_u$ of the norm $\left \Vert  \frac{ u}{ u_{\max}} \right \Vert_1$ to relative accuracy $\epsilon_u= \epsilon/2$ with success probability $1-\delta$.
 
-This estimation takes $O{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$ queries and $\widetilde{O}{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$ quantum gates.
+This estimation takes $O(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  )$ queries and $\widetilde{O}(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  )$ quantum gates.
 
  Define the vector $z$ with $z_j = u_j v_j$.
-Via Lemma \@ref(lem:find-minimum-orig), determine $z_{\max}$ with success probability $1-\delta$ with $O{\sqrt N \log \frac{1}{\delta}}$ queries and $\widetilde{O}{\sqrt N \log \left( \frac{1}{\delta}\right )}$ quantum gates.
+Via lemma \@ref(lem:find-minimum-orig), determine $z_{\max}$ with success probability $1-\delta$ with $O\left(\sqrt N \log \frac{1}{\delta}\right)$ queries and $\widetilde{O}\left(\sqrt N \log \left( \frac{1}{\delta}\right )\right)$ quantum gates.
  If $z_{\max} = 0$ up to numerical accuracy, the estimate is $I = 0$ and we are done.
  Otherwise,
- apply  Lemma \@ref(lem:qsp-l1norm) with the vector $\frac{ z}{ z_{\max}}$ to obtain an estimate $\Gamma_z$ of the norm $\left \Vert  \frac{ z}{ z_{\max}} \right \Vert_1$ to relative accuracy $\epsilon_z = \epsilon/2$ with success probability $1-\delta$.
- This estimation takes $O{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$ queries and $\widetilde{O}{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$ quantum gates.
+ apply  lemma \@ref(lem:qsp-l1norm) with the vector $\frac{ z}{ z_{\max}}$ to obtain an estimate $\Gamma_z$ of the norm $\left \Vert  \frac{ z}{ z_{\max}} \right \Vert_1$ to relative accuracy $\epsilon_z = \epsilon/2$ with success probability $1-\delta$.
+ This estimation takes $O\left(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  \right)$ queries and $\widetilde{O}\left(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right)  \right)$ quantum gates.
 
-With Lemma \@ref(lem:ratio-relative-general), we have
+With lemma \@ref(lem:ratio-relative-general), which gives a nice bound for the ratio between two relative errors, we have
  \begin{align}
  \left \vert \frac{\Gamma_z}{\Gamma_u} - \frac{u_{\max}}{z_{\max}}\frac{u\cdot v}{\Vert u\Vert_1} \right \vert &\leq& \frac{u_{\max}}{z_{\max}} \frac{u\cdot v }{\Vert u\Vert_1 } \frac{\epsilon_z + \epsilon_u}{ (1-\epsilon_u)} \\
  &\leq& 2\epsilon \frac{u_{\max}}{z_{\max}} \frac{u\cdot v }{\Vert u\Vert_1 },
@@ -538,41 +505,40 @@ The total success probability of  the four probabilistic steps is at least $1-4\
  Let $\epsilon,\delta \in(0,1)$.
  Given quantum access to a non-zero vector $u \in [0,1]^N$ and another vector $v \in [-1,1]^N$, where $u_j$ and $v_j$ are encoded to additive accuracy $\eta= O{1/N}$. Then,
  an estimate $I$ for the inner product can be provided such that $\vert I - u\cdot v / \Vert u\Vert_1 \vert \leq \epsilon$ with success probability $1-\delta$.
- This estimate is obtained with $O{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$ queries and $\widetilde{O}{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$ quantum gates.
+ This estimate is obtained with $O\left(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  \right)$ queries and $\widetilde{O}\left(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  \right)$ quantum gates.
 ```
 
-<!-- TODO CHECK THIS SENTENCE -->
 Note that as a byproduct, the value $u_{\max}$ and an estimate of $\Vert u /u_{\max} \Vert_1$ with relative accuracy $\epsilon$ can be provided with probability at least $1-\delta$.
 
 ```{proof}
-Via Lemma \@ref(lem:find-minimum-orig), determine $\Vert u\Vert_{\max}$ with success probability $1-\delta$ with $O{\sqrt N \log \frac{1}{\delta}}$ queries and $\widetilde{O}{\sqrt N  \log \left( \frac{1}{ \eta}\right) \log \left( \frac{1}{\delta}\right )}$ quantum gates.
-Apply  Lemma \@ref(lem:qsp-l1norm) with the vector $\frac{ u}{ u_{\max}}$ to obtain an estimate $\Gamma_u$ of the norm $\left \Vert  \frac{ u}{ u_{\max}} \right \Vert_1$ to relative accuracy $\epsilon_u= \epsilon/2$ with success probability $1-\delta$.
+Via lemma \@ref(lem:find-minimum-orig), determine $\Vert u\Vert_{\max}$ with success probability $1-\delta$ with $O\left(\sqrt N \log \frac{1}{\delta}\right)$ queries and $\widetilde{O}\left(\sqrt N  \log \left( \frac{1}{ \eta}\right) \log \left( \frac{1}{\delta}\right )\right)$ quantum gates.
+Apply  lemma \@ref(lem:qsp-l1norm) with the vector $\frac{u}{ u_{\max}}$ to obtain an estimate $\Gamma_u$ of the norm $\left \Vert  \frac{ u}{ u_{\max}} \right \Vert_1$ to relative accuracy $\epsilon_u= \epsilon/2$ with success probability $1-\delta$.
 
-This estimation takes $O{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$ queries and $\widetilde{O}{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$ quantum gates.
+This estimation takes $O\left(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  \right)$ queries and $\widetilde{O}\left(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  \right)$ quantum gates.
 
 Similarily, consider the vector $z$ with elements $z_j := u_j \left (v_j+3\right) \in [0,4]$.
-Determine $\Vert z\Vert_{\max}$ with success probability $1-\delta$ with $O{\sqrt N \log \frac{1}{\delta}}$ queries and $\widetilde{O}{\sqrt N  \log \left( \frac{1}{\delta}\right )}$ quantum gates.
-Apply  Lemma \@ref(lem:qsp-l1norm) with the vector $z/ z_{\max}$ to obtain an estimate $\Gamma_z$ of the norm $\Vert z/ z_{\max} \Vert_1$ to relative accuracy $\epsilon_z =  \epsilon/2$ with success probability $1-\delta$.
+Determine $\Vert z\Vert_{\max}$ with success probability $1-\delta$ with $O\left(\sqrt N \log \frac{1}{\delta}\right)$ queries and $\widetilde{O}\left(\sqrt N  \log \left( \frac{1}{\delta}\right )\right)$ quantum gates.
+Apply  lemma \@ref(lem:qsp-l1norm) with the vector $z/ z_{\max}$ to obtain an estimate $\Gamma_z$ of the norm $\Vert z/ z_{\max} \Vert_1$ to relative accuracy $\epsilon_z =  \epsilon/2$ with success probability $1-\delta$.
 
 
-This estimation takes $O{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$ queries and $\widetilde{O}{\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  }$.
+This estimation takes $O\left(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  \right)$ queries and $\widetilde{O}\left(\frac{ \sqrt{N} }{\epsilon} \log \left (\frac{1}{\delta} \right )  \right)$.
 
-The exact quantities are related via
+It takes some steps to see that the exact quantities are related via
 \begin{align}
 \frac{u\cdot v}{\Vert u\Vert_1}  = \frac{z_{\max} }{u_{\max} } \frac{ \Vert \frac{z}{ z_{\max}} \Vert_1 } { \Vert \frac{ u}{ u_{\max}} \Vert_1}  - 3.
 \end{align}
- Considering the estimator $I = \frac{z_{\max} }{u_{\max} } \frac{ \Gamma_z } { \Gamma_u}  - 3$, from Lemma \@ref(lem:ratio-relative-general), we have
+ Considering the estimator $I = \frac{z_{\max} }{u_{\max} } \frac{ \Gamma_z } { \Gamma_u}  - 3$, from lemma \@ref(lem:ratio-relative-general), we have
 \begin{align}
 \left  \vert I -  \frac{u\cdot v}{ \Vert u\Vert_1 } \right \vert &=& \frac{z_{\max} }{u_{\max} } \left \vert   \frac{ \Gamma_z } { \Gamma_u} - \frac{ \Vert \frac{z}{ z_{\max}} \Vert_1 } { \Vert \frac{ u}{ u_{\max}} \Vert_1}  \right \vert \\ &\leq&
 \frac{ \epsilon_u + \epsilon_{z}}{1-  \epsilon_u}  \frac{ \Vert z \Vert_1 } { \Vert u\Vert_1} \leq 8 \epsilon. \nonumber
 \end{align}
  
-In the last steps we have used that
+In the last steps we have used the observation that
 \begin{align}
 \frac{ \Vert z \Vert_1 } { \Vert u\Vert_1} \equiv \frac{\sum_j u_j  (v_j+3)}{\sum_j u_j } \leq\frac{4 \sum_j  u_j }{\sum_j u_j } = 4,
 \end{align}
 and $\epsilon_u < 1/2$.
-All steps together take $O{\frac{\sqrt N}{\epsilon} \log \frac{1}{\delta}}$ queries and $\widetilde{O}{\frac{\sqrt N}{\epsilon}  \log \left( \frac{1}{\delta}\right )}$ gates.
+All steps together take $O\left(\frac{\sqrt N}{\epsilon} \log \frac{1}{\delta}\right)$ queries and $\widetilde{O}\left(\frac{\sqrt N}{\epsilon}  \log \left( \frac{1}{\delta}\right )\right)$ gates.
 The total success probability of all the probabilistic steps is at least $1-4\delta$ via a union bound. Choosing $\epsilon \to \epsilon/8$ and $\delta \to \delta/4$ leads to the result.
 
 ```
@@ -645,7 +611,7 @@ We can rewrite the quantum state encoding the representation of $A$ (which we ca
 \begin{equation}
 |A\rangle = \frac{1}{\|A\|_F} \sum_{i,j=1}^n a_{ij}|i,j\rangle = \frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle.
 \end{equation}
-Starting from the state $\ket{A}$, we can apply SVE (see Lemma  \ref{sveplus1}) to $\ket{A}$ up to precision $\epsilon_1$ to obtain
+Starting from the state $\ket{A}$, we can apply SVE (see lemma  \ref{sveplus1}) to $\ket{A}$ up to precision $\epsilon_1$ to obtain
 $$\frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle |\tilde{\sigma}_j\rangle,$$
 where $|\tilde{\sigma}_j-\sigma_j|\leq \epsilon_1$.
 Since $\norm{A} \leq 1$, using controlled operations, we can prepare
@@ -904,7 +870,7 @@ Given a state $\ket{\psi(0)}$ and an Hamiltonian $H$ acting on $n$ qubits, we sa
 <!-- quantum circuit is described by an Hamiltonian dynamic, being able to -->
 <!-- simulate an Hamiltonian is like being able to run virtual machines in -->
 <!-- our computer (This example actually came from a talk at IHP by Toby -->
-<!-- Cubitt!). Remember that there’s a Theorem (No Fast-forward Theorem) that says that for an -->
+<!-- Cubitt!). Remember that there’s a theorem (No Fast-forward theorem) that says that for an -->
 <!-- Hamiltonian simulation problem, the number of gates is $\omega{t}$. -->
 <!-- But concretely? What does it means to simulate an Hamiltonian of a -->
 <!-- physical system? Let’s take the Hamiltonian of a particle in a -->
@@ -916,7 +882,7 @@ Given a state $\ket{\psi(0)}$ and an Hamiltonian $H$ acting on $n$ qubits, we sa
 
 <!-- -   Hamiltonians that represent the dynamic of a quantum circuits (more -->
 <!--     formally, where you only admit local interactions between a constant -->
-<!--     number of qubits). This result is due to the famous Solovay-Kitaev Theorem (more about it before the References in this page). -->
+<!--     number of qubits). This result is due to the famous Solovay-Kitaev theorem (more about it before the References in this page). -->
 
 <!-- -   Suppose you know how to efficiently change base of reference with a unitary $U$. Then, if the Hamiltonian can be efficiently applied that base, also -->
 <!--     $UHU$ can be efficiently applied. Proof: -->
