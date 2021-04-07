@@ -17,15 +17,6 @@ Given quantum access to a vector $u \in [0,1]^N$ via the operation $\ket j \ket{
 
 
 
-<!--
-# TODO Write about quantum minimum finding subroutines
-# Amplitude amplification and estimation has been generalized to minimum finding procedure
-# where they retain the quadratic speedup of the original technique. 
-# It would be good to have those subroutine included here, with a general expaination of the 
-# idea of the proof used behind the algorithm
-# labels: good first issue, help wanted
--->
-
 
 This algorithm utilizes a subroutine called quantum exponential searching algorithm (QESA), which is again composed of amplitude amplification (Grover) and amplitude estimation.  For simplicity, we assume those values are distinct. The general idea is marking indices of values below a chosen threshold, returning and picking one of them as the new threshold with equal probability. After some iterations, it is expected to yield the lowest value. Note that the step of marking lower values is taken as an oracle with gate complexity of $O(1)$. We first present to algorithm and keep the explanation for later.
 
@@ -71,20 +62,20 @@ Let $M := \sum_{i} \sigma_iu_iv_i^T \in \mathbb{R}^{d \times d}$ such that $\nor
 - a state $\ket{z}$ such that $| \ket{z} - \ket{Mx}| \leq \epsilon$ in time $\tilde{O}(\kappa^2(M)\mu(M)/\epsilon)$
 - a state $\ket{z}$ such that $|\ket{z} - \ket{M^{-1}x}| \leq \epsilon$ in time $\tilde{O}(\kappa^2(M)\mu(M)/\epsilon)$
 - a state $\ket{M_{\leq \theta, \delta}^+M_{\leq \theta, \delta}x}$  in time $\tilde{O}(\frac{ \mu(M) \norm{x}}{\delta \theta \norm{M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta}x}})$
-  
+
 One can also get estimates of the norms with multiplicative error $\eta$ by increasing the running time by a factor $1/\eta$.
 ```
 
 Recall that we denote as $V_{\geq \tau}$ the matrix  $\sum_{i=0}^\ell \sigma_i u_i v_i^T$ where $\sigma_\ell$ is the smallest singular value which is greater than $\tau$.
- For a matrix $M$ and a vector $x$, we define as $M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta} x$ the projection of $x$ onto the space spanned by the singular vectors of $M$ whose corresponding singular values are smaller than $\theta$, and some subset of singular vectors whose corresponding singular values are in the interval $[\theta, (1+\delta)\theta]$. 
+ For a matrix $M$ and a vector $x$, we define as $M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta} x$ the projection of $x$ onto the space spanned by the singular vectors of $M$ whose corresponding singular values are smaller than $\theta$, and some subset of singular vectors whose corresponding singular values are in the interval $[\theta, (1+\delta)\theta]$.
 
 <!--
 # TODO Finalize draft of algorithm and proof for linear algebra with SVE
 # It commented - but its there - the original latex coming from the paper of gradient descent
-# for the algo and the proof of the linear system of equation. 
+# for the algo and the proof of the linear system of equation.
 # It should be integrated with the proof of projection is subspace.
 # I have already an algorithm encompassing all the three cases in my notes.
-# label: 
+# label:
 -->
 
 
@@ -167,7 +158,7 @@ In recent years a new framework for performing operations on matrices with a qua
 
 ```{definition, def-block-encoding, name="Block encoding of a matrix"}
 Let $A\in \mathbb{C}^{2^s \times 2^s}$. We say that a unitary $U \in \mathbb{C}^{(s+a)\times(s+a)}$ is a ($\alpha, a, \epsilon)$ block encoding of $A$ if:
-$$\norm{A - \alpha (\bra{0}^a \otimes I )U( \ket{0}^a \otimes I)  } \leq \epsilon$$ 
+$$\norm{A - \alpha (\bra{0}^a \otimes I )U( \ket{0}^a \otimes I)  } \leq \epsilon$$
 ```
 
 We will see that having quantum access to a matrix $A\in\mathbb{C}^{2^w \times 2^w}$, as described in the setting of theorem \@ref(def:qram), it is possible to implement a $(\mu(A), w+2, \text{polylog}(\epsilon))$ block-encoding of $A$ \footnote{This $\text{polylog}(\epsilon)$ in the block encoding is due to approximation error that one commits when creating quantum access to the classical data structures, i.e. is the approximation that derives from truncating a number $n \in \mathbb{R}$ (which rerepsent an entry of the matrix) up to a certain precision $\epsilon$ lemma 25 of [@CGJ18].}. Given matrix $U$ which is a $(\alpha, a, \delta)$ block encoding of $A$, and a matrix $V$ which is a $(\beta, b, \epsilon)$ block encoding of $B$, it is simple to obtain a $(\alpha\beta, a+b, \alpha\epsilon+\beta\delta)$ block encoding of $AB$.
@@ -209,7 +200,7 @@ Regarding the usage of block-encodings for solving with a quantum computer a lin
 Let $c \in (0,\infty), \kappa \geq 2$, and let $A$ be an Hermitian matrix such that $I/\kappa \leq A \leq I$. Suppose that $\delta = o(\epsilon/( \kappa^{1+c}(1+c) \log^3\frac{k^{1+c}}{\epsilon}))$ and $U$ is an $(\alpha,a,\delta)$-block encoding of $A$ that can be implemented using $T_U$ gates. Then, for any $\epsilon$, we can implement a unitary $\tilde{U}$ that is a $(2\kappa^c, a, \epsilon)$-block encoding of $H^{-c}$ in cost:
 	$$O\left(\alpha \kappa(a+T_U)(1+c)\log^2(\frac{k^{1+c}}{\epsilon})\right)$$
 ```
-  
+
 
 
 Nevertheless, the algorithm that emerges by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2010variable]. Hence, we can restate the theorem  \ref{matrix_algebra}, with the improved runtimes, as follows.
@@ -252,12 +243,12 @@ We can rephrase this theorem saying that we have quantum access to the matrices,
 
 ```{lemma, innerproductestimation, name="Distance and Inner Products Estimation [@kerenidis2019qmeans]"}
 Assume for a matrix $V \in \mathbb{R}^{n \times d}$ and a matrix $C \in \mathbb{R}^{k \times d}$ that the following unitaries
-$\ket{i}\ket{0} \mapsto \ket{i}\ket{v_i}$, and $\ket{j}\ket{0} \mapsto \ket{j}\ket{c_j}$ 
+$\ket{i}\ket{0} \mapsto \ket{i}\ket{v_i}$, and $\ket{j}\ket{0} \mapsto \ket{j}\ket{c_j}$
 can be performed in time $T$ and the norms of the vectors are known. For any $\Delta > 0$ and $\epsilon>0$, there exists a quantum algorithm that  computes
 
 - $\ket{i}\ket{j}\ket{0}  \mapsto   \ket{i}\ket{j}\ket{\overline{d^2(v_i,c_j)}}$ where $|\overline{d^{2}(v_i,c_j)}-d^{2}(v_i,c_j)| \leqslant  \epsilon$ w.p. $\geq 1-2\Delta$
 - $\ket{i}\ket{j}\ket{0}  \mapsto   \ket{i}\ket{j}\ket{\overline{(v_i,c_j)}}$ where  $|\overline{(v_i,c_j)}-(v_i,c_j)| \leqslant  \epsilon$ w.p. $\geq  1-2\Delta$
-  
+
 in time $\widetilde{O}\left(\frac{ \norm{v_i}\norm{c_j} T \log(1/\Delta)}{ \epsilon}\right)$.
 ```
 
@@ -297,7 +288,7 @@ $$
 $$
  where $G, G'$ are garbage registers, $|\overline{p_{ij}} - p_{ij}  |  \leq \epsilon$ and $\alpha \geq 8/\pi^2$.
  The unitary $\mathcal{U}$ requires $P$ iterations of $A$ with $P=O(1/\epsilon)$. Amplitude estimation thus takes time $T_{\mathcal{U}} = \widetilde{O}(T/\epsilon)$. We can now apply theorem \@ref(lem:median) for the unitary $\mathcal{U}$ to obtain a quantum state $\ket{\Psi_{ij}}$ such that,
- 
+
 $$\|\ket{\Psi_{ij}}-\ket{0}^{\otimes L}\ket{\overline{p_{ij}}, G}\|_2\le \sqrt{2\Delta}$$
 
 The running time of the procedure is $O( T_{\mathcal{U}} \ln(1/\Delta)) = \widetilde{O}( \frac{T }{\epsilon}\log (1/\Delta)  )$.
@@ -365,7 +356,7 @@ Note that if we want to estimate a quadratic form of two unnormalized vectors, w
 ```
 <!--
 # TODO Fix and check epsilons in the proof for quandratic forms
-# (it was epsilonmult) what is the correct epsilon to put in the log? 
+# (it was epsilonmult) what is the correct epsilon to put in the log?
 -->
 
 
@@ -390,12 +381,12 @@ also add the notation used in this theorems, or standardize it with therest of t
 For the first point,  prepare a uniform superposition of all $\ket j$ with $O(\log N)$ Hadamard gates. With the quantum query access, perform
 $$\frac{1}{\sqrt{N}} \sum_{j=1}^N \ket {j} \ket {\bar 0} \to \frac{1}{\sqrt{N}}  \sum_{j=1}^N \ket j  \ket{ u_j} \ket { 0}$$
  $$\to \frac{1}{\sqrt{N}}  \sum_{j=1}^N \ket j  \ket{ u_j}  \left( \sqrt{ u_j} \ket{0} + \sqrt{1-u_j } \ket{1} \right).$$
-  
+
  The steps consist of an oracle query and a controlled rotation. The rotation is well-defined as $u_j \leq 1$ and costs $O( \log 1/\eta)$ gates. Then uncompute the data register $\ket{u_j}$ with another oracle query.
 
 For part 2, define a unitary $\mathcal U = U_\chi \left(\mathbb{1} - 2 \ket{\bar 0}\bra{\bar 0}\right) \left(U_\chi\right)^\dagger$, with $U_\chi$ from part 1, and here $\mathbb{1}$ is the identiy matrix. Define another unitary by $\mathcal V = \mathbb {1}-2 \mathbb{1} \otimes \ket{0} \bra{0}$.
- Using $K$ applications of $\mathcal U$ and $\mathcal V$, amplitude estimation \@ref(thm:thm-ampest-orig) allows to provide an estimate $\tilde a$ of the quantity $a = \frac{\Vert u \Vert_1}{N}$  to accuracy 
-$\vert \tilde{a} - a \vert \leq 2 \pi \frac{\sqrt{a(1-a)} }{K}+ \frac{\pi^2}{K^2}$. 
+ Using $K$ applications of $\mathcal U$ and $\mathcal V$, amplitude estimation \@ref(thm:thm-ampest-orig) allows to provide an estimate $\tilde a$ of the quantity $a = \frac{\Vert u \Vert_1}{N}$  to accuracy
+$\vert \tilde{a} - a \vert \leq 2 \pi \frac{\sqrt{a(1-a)} }{K}+ \frac{\pi^2}{K^2}$.
 Following the idea in [@van2020quantum] (of dividing the elements that we are summing using amplitude estimation by their maximum, that we can find using the finding the minimum subroutine), take $K> \frac{6 \pi }{\epsilon} \sqrt{ N}$, which obtains
   \begin{align}
  \left| \tilde a - a \right|
@@ -416,25 +407,25 @@ Also, there is an inaccuracy arising from the additive error $\eta$ of each $u_j
  gates.
 
  
- 
+
   For part 3, rewrite the state from part 1
  as
- \begin{align} 
+ \begin{align}
  \sqrt{ \frac{{\Vert  u \Vert_1} }{N}}  \sum_{j=1}^N&    \sqrt{ \frac{u_j  }{{\Vert  u \Vert_1}}} \ket j \ket{0}  +  \sqrt{1-\frac{{\Vert  u \Vert_1}}{N }}  \sum_{j=1}^N  \sqrt{\frac{1- u_j }{N -{\Vert  u \Vert_1}} } \ket j \ket{1}.\nonumber
  \end{align}
  Now amplify the $\ket 0$ part using Amplitude Amplification [@brassard2002quantum] via the exponential search technique without knowledge of the normalization, to prepare
  $\sum_{j=1}^N \ket j   \sqrt{ \frac{u_j}{\Vert u \Vert_1}}$ with success probability $1-\delta$.
  The amplification requires $O(\sqrt{ \frac{N }{ \Vert u \Vert_1}}\log (1/\delta))= O(\sqrt N \log (1/\delta))$ calls to the unitary of part 1, as ${\Vert u \Vert_1} \geq 1$. The gate complexity derives from the gate complexity of part 1.
- 
+
  
 Denote the  $\eta$-additive approximation to $u_j$ by $\tilde u_j$,
 and evaluate the $\ell_1$-distance of the probabilities.
  First, $\left \vert \Vert u\Vert_1 - \Vert \tilde u\Vert_1\right \vert \leq N \eta$.
- One obtains $\left \Vert   \tilde p -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 =\left \Vert  \frac{\tilde u}{{\Vert \tilde u\Vert_1}}  -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 \leq \sum_j \left \vert \frac{\tilde u_j}{{\Vert \tilde  u\Vert_1}}  -  \frac{u_j}{{\Vert \tilde u\Vert_1}} \right \vert + \sum_j \left \vert \frac{ u_j}{{\Vert \tilde u\Vert_1}}  -  \frac{u_j}{\Vert u\Vert_1}\right \vert  \leq \frac{N \eta} {{\Vert \tilde u\Vert_1}} + \frac{ N \eta } {{\Vert \tilde u\Vert_1}}$. 
- 
- We also obtain $$\frac{1}{ {\Vert \tilde u\Vert_1} } \leq \frac{1}{ \Vert u\Vert_1 -N\eta } \leq \frac{2}{ \Vert u\Vert_1}$ for $\eta \leq  \Vert u\Vert_1 / 2 N.$$ 
+ One obtains $\left \Vert   \tilde p -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 =\left \Vert  \frac{\tilde u}{{\Vert \tilde u\Vert_1}}  -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 \leq \sum_j \left \vert \frac{\tilde u_j}{{\Vert \tilde  u\Vert_1}}  -  \frac{u_j}{{\Vert \tilde u\Vert_1}} \right \vert + \sum_j \left \vert \frac{ u_j}{{\Vert \tilde u\Vert_1}}  -  \frac{u_j}{\Vert u\Vert_1}\right \vert  \leq \frac{N \eta} {{\Vert \tilde u\Vert_1}} + \frac{ N \eta } {{\Vert \tilde u\Vert_1}}$.
+
+ We also obtain $$\frac{1}{ {\Vert \tilde u\Vert_1} } \leq \frac{1}{ \Vert u\Vert_1 -N\eta } \leq \frac{2}{ \Vert u\Vert_1}$$ for $\eta \leq  \Vert u\Vert_1 / 2 N.$$ 
 Since $\eta \leq \Vert u\Vert_1 \xi/(4N)$, the distance is $\left \Vert   \tilde p -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 \leq \xi$ as desired.
- 
+
 ```
 
 
@@ -532,7 +523,7 @@ It takes some steps to see that the exact quantities are related via
 \left  \vert I -  \frac{u\cdot v}{ \Vert u\Vert_1 } \right \vert &=& \frac{z_{\max} }{u_{\max} } \left \vert   \frac{ \Gamma_z } { \Gamma_u} - \frac{ \Vert \frac{z}{ z_{\max}} \Vert_1 } { \Vert \frac{ u}{ u_{\max}} \Vert_1}  \right \vert \\ &\leq&
 \frac{ \epsilon_u + \epsilon_{z}}{1-  \epsilon_u}  \frac{ \Vert z \Vert_1 } { \Vert u\Vert_1} \leq 8 \epsilon. \nonumber
 \end{align}
- 
+
 In the last steps we have used the observation that
 \begin{align}
 \frac{ \Vert z \Vert_1 } { \Vert u\Vert_1} \equiv \frac{\sum_j u_j  (v_j+3)}{\sum_j u_j } \leq\frac{4 \sum_j  u_j }{\sum_j u_j } = 4,
@@ -592,7 +583,7 @@ In the following section, we will cover some quantum algorithms based on singula
 
 
 ### Log-determinant
-This is not the fastest algorithm for estimating the log-determinant, but it's worth mentioning here because it perhaps the first thing one would try to do in order to estimate this quantity. It also is a good example of the power of quantum singular value estimation, and checking the correctness of this proof might be a good exercise. 
+This is not the fastest algorithm for estimating the log-determinant, but it's worth mentioning here because it perhaps the first thing one would try to do in order to estimate this quantity. It also is a good example of the power of quantum singular value estimation, and checking the correctness of this proof might be a good exercise.
 
 
 ```{r, logdet-sve-algo, fig.cap="SVE based algorithm to estimatethe log-determinant of a matrix", echo=FALSE}
@@ -601,7 +592,7 @@ knitr::include_graphics("algpseudocode/logdet-sve.png")
 
 ```{theorem, logdet-sve, name="SVE based algorithm for log-determinant"}
 Under assumption \ref{assumption}, algorithm \ref{algo:logdet-sve} returns
-$\overline{\log\det(A)}$ such that $|\overline{\log\det(A)} - \log\det(A)| < \epsilon |\log\det(A)|$ in time 
+$\overline{\log\det(A)}$ such that $|\overline{\log\det(A)} - \log\det(A)| < \epsilon |\log\det(A)|$ in time
 $\widetilde{O}(\mu \kappa^3/\epsilon^2).$
 ```
 
@@ -692,14 +683,14 @@ The complexity to perform amplitude estimation  is $\widetilde{O}(\mu /\epsilon_
 
 <!-- 
 # TODO Estimation of spectral norm and condition number from quantum access
-# Let's understand properly the procedure from quantum gradient descent paper 
+# Let's understand properly the procedure from quantum gradient descent paper
 # labels: help wanted,
 -->
 
 ### Explained variance
 
 <!-- 
-# TODO Add algos for estimating variance 
+# TODO Add algos for estimating variance
 # From Armando's thesis!
 # labels: help wanted, enhancement
 -->
@@ -707,7 +698,7 @@ The complexity to perform amplitude estimation  is $\widetilde{O}(\mu /\epsilon_
 
 
 #### Singular value estimation of a product of two matrices 
-This is an example of an algorithm that has been superseded by recent development in singular value transformation. Nevertheless, it is a non-trivial way of using SVE, which a nice mathematical error analysis. 
+This is an example of an algorithm that has been superseded by recent development in singular value transformation. Nevertheless, it is a non-trivial way of using SVE, which a nice mathematical error analysis.
 
 
 ```{theorem, sve-product, name="SVE of product of matrices"}
@@ -799,7 +790,7 @@ Suppose we have a random variable $X$ described by a certain probability distrib
 
 Let's start by translating into the quantum realm these two mathematical objects. The probability distribution is (surprise surprise) represented in our quantum computer by a quantum state over $n=\lceil \log N \rceil$ qubits. 
 $$\ket{\psi} = \sum_{i=0}^{N-1} \sqrt{p_i} \ket{i} $$
-where the probability of measuring the state $\ket{i}$ is $p_i,$ for $p_i \in [0, 1]$. Basically, each bases of the Hilbert space represent an outcome of the random variable. 
+where the probability of measuring the state $\ket{i}$ is $p_i,$ for $p_i \in [0, 1]$. Basically, each bases of the Hilbert space represent an outcome of the random variable.
 
 The quantization of the function $f$ is represented by a linear operator $F$ acting on a new ancilla qubit  (here on the right) as:
 
@@ -845,7 +836,7 @@ As you can imagine, classical computers are supposed to struggle to simulate the
 Why we might want to do that?
 
 An example would be the following. Imagine you are a quantum machine learning scientist, and you have just found a new mapping between an optimization problem and an Hamiltonian
-dynamics, and you want to use quantum computer to perform the optimization [@otterbach2017unsupervised]. You expect a quantum computers to run the Hamiltonian simulation for you, and then sample useful information from the resulting quantum sate. This result might be fed again into your classical algorithm to perform ML related task, in a virtuous cycle of hybrid quantum-classical computation, which we will discuss more in another chapter. 
+dynamics, and you want to use quantum computer to perform the optimization [@otterbach2017unsupervised]. You expect a quantum computers to run the Hamiltonian simulation for you, and then sample useful information from the resulting quantum sate. This result might be fed again into your classical algorithm to perform ML related task, in a virtuous cycle of hybrid quantum-classical computation, which we will discuss more in another chapter.
 
 Another example, perhaps more akin to the original scope of Hamiltonian simulation, is related to quantum chemistry. Imagine that are a chemist, and you have developed a hypothesis for the Hamiltonian dynamics of a chemical compound. Now you want to run some experiments to see if the formula behaves according to the experiments (and you cannot simulate numerically the experiment). Or maybe you are testing the properties of complex compounds you don’t want to synthesize. 
 
@@ -927,4 +918,3 @@ Given a state $\ket{\psi(0)}$ and an Hamiltonian $H$ acting on $n$ qubits, we sa
 <!-- *Exercise/open problem*: do we know any algorithm that might benefit the -->
 <!-- efficient simulation of $[H_1, H_2]$? Childs in Childs (n.d.) claims he -->
 <!-- is not aware of any algorithm that uses that. -->
-
