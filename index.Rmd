@@ -58,15 +58,26 @@ These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalg
 it would be nice to make just a preface, and put the text above this one without any heading..
 https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter-header  -->
 
+### Changelog
+
+- August 2020: Migrated the old blog on bookdown
+- December 2020: Moved thesis in bookdown
+- January 2021: First system for typesetting algorithms, more appendix on linear algebra
+- February 2021: New subroutines for estimating $\ell_1$ norms.
+- March 2021: quantumalgorithms.org is proudly supported by the [Unitary Fund](https://unitary.fund/), and quantumalgorithms.org is a project of the [QOSF](https://qosf.org) mentorship program: 5 students started creating new content!
+- April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation. 
+
+Arriving soon:
+
+- quantum perceptrons
+- quantum lower bounds
+- quantum algorithms for dynamic programming
+- quantum algorithms for graph problems
+- quantum Monte Carlo
+- quantum convolutional neural networks
+- quantum random feature sampling
+
 ## Abstract
-
-
-
-
-
-
-
-
 
 In these lecture notes, we explore how we can leverage quantum computers and quantum algorithms for information processing. It has long been known that quantum computation can offer computational advantages with respect to classical computers, and in this place, we explore more the consequences of this intuition in recent domains of computer sciences. 
 
@@ -82,7 +93,7 @@ computational capabilities of nature: what can be computed in this world? Last
 but not least, because of the interplay between classical and quantum
 computation, many new *classical* algorithms have been invented (i.e. the
 dequantizations of quantum machine learning algorithms, the classical algorithms
-for Gibbs sampling, simulations of the QAOA algorithm, etc..). This, in turn,
+for Gibbs sampling, simulations of the QAOA, etc..). This, in turn,
 improved our understanding of physics, and ultimately of the world itself.
 <!-- As some scientists believe\footnote{A friend told me this was originally an idea -->
 <!-- of Miklos Santha}, quantum computing is the occasion for Theoretical Computer -->
@@ -91,11 +102,15 @@ improved our understanding of physics, and ultimately of the world itself.
 <!-- is basically a branch of Mathematics. With quantum computing, TCS can welcome -->
 <!-- also contribution from physics, perhaps going towards the direction of a -->
 <!-- "Physical Computer Science". -->
+Another reason for studying quantum algorithm is that quantum computers are posing
+a significant challenge to the *strong* Church-Turing thesis, which says that any "reasonable"
+model of computation can be *efficiently* simulated on a probabilistic Turing machine (i.e. a Turing machine which has access to some randomness).
+However, there are some physical processes that we do not know how to simulate efficiently on classical computers, but for which we have efficient quantum algorithms! This is a strong evidence that the strong Church-Turing thesis might be wrong!
 
 You might often hear that there are only two real quantum algorithms: phase estimation and the Grover's algorithm. This is somehow true, but it is true in the same way that we have only 12 notes, and still Pink Floyd were able to do [The Dark Side of the Moon](https://www.youtube.com/playlist?list=OLAK5uy_l1x-JAx0w53suECoCI0YJtW6VB8DBQWRQ) (and the other musicians were able to do "the rest" of the music). 
 
 
-The common thread of these algorithms is that the runtime depends only [poly-logarithmically](https://en.wikipedia.org/wiki/Polylogarithmic_function) in the number of elements in the dataset, and is usually only linear in the number of features (classical algorithms are often either linear in the number of elements and quadratic in the number of feature or depends on the number of nonzero componets of the matrix and depends polynomially on other parameters of the matrix). The runtime of the quantum machine learning algorithm also often depends on characteristics of the matrix that represent the data under analysis, such as its rank, the Frobenius norm (or other matrix norms), the sparsity, the condition number, and the error we tolerate in the analysis. For this, along with an error-corrected quantum computer, we assume to have quantum access to a dataset. In other words, we assume that the data is stored in a quantum memory: the corresponding quantum version of the classical random-access memory. 
+The common thread of these algorithms is that they are faster then their best classical counterpart. Oftentime, (especially for ML) the runtime will depends only [poly-logarithmically](https://en.wikipedia.org/wiki/Polylogarithmic_function) in the number of elements in the dataset, and is usually only linear in the number of features (classical algorithms are often either linear in the number of elements and quadratic in the number of feature or depends on the number of nonzero componets of the matrix and depends polynomially on other parameters of the matrix). The runtime of the quantum machine learning algorithm also often depends on characteristics of the matrix that represent the data under analysis, such as its rank, the Frobenius norm (or other matrix norms), the sparsity, the condition number, and the error we tolerate in the analysis. For this, along with an error-corrected quantum computer, we assume to have quantum access to a dataset. In other words, we assume that the data is stored in a quantum memory: the corresponding quantum version of the classical random-access memory.
 
 We will see that, for a new QML algorithm, one often needs to make sure that the real performances of the quantum algorithms offer concrete advantages with respect to the effective runtime and the accuracy that is offered by the best classical algorithms. As we don't have access to big-enough quantum computers *yet*, we assessed the performance of these quantum algorithms via a classical simulation. 
 
