@@ -199,7 +199,7 @@ Moreover, a matrix $A$ with  eigenvalues $\{\lambda_1, ..., \lambda_k\}$ has an 
 
 Generally, one eigenvalue can be associated with multiple eigenvectors. There might be a set of vectors $E(\lambda) \subseteq \mathbb{R}^n$ such that for all those vectors $q \in E(\lambda): Aq = \lambda q$. That is why for each eigenvalue we talk about an eigenspace. 
 
-```{definition, eigenspace, name="Eigenspace (Definition 7.1.5 page 108 [@scappellato])"}
+```{definition, eigenspace, name="Eigenspace (Definition 7.1.5 page 108 [@scapellato])"}
 Let $A$ be a $\mathbb{R}^{n\times n}$ square matrix and $\lambda$ be an eigenvalue of $A$. The eigenspace of $A$ related to $\lambda$ is the space defined over the set of vectors $E(\lambda) = \{ x: Ax = \lambda x\}$.
 ```
 
