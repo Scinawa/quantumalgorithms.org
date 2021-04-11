@@ -50,7 +50,7 @@ Let $0.a=a_1, \dots a_q$ be the output of phase estimation when applied to an ei
 
 
 While the standard implementation of phase estimation is based on the quantum Fourier transform (QFT) circuit [@NC02], there have been various improvements [@ahmadi2010quantum] which try to soften the dependence on the QFT circuit, while retaining the accuracy guarantees offered by the QFT in estimating the angles $\theta_j$.
-\paragraph{Remark.} Note that the same algorithm described in theorem \@ref(thm:phase_estimation) can be made ''consistent'', in the sense of [@ta2013inverting]. While in the original formulation of phase estimation two different runs might return different estimates for $\overline{\theta}_j$, with a consistent phase estimation this estimate is fixed, with high probability. This means that the error between two different runs of phase estimation is almost deterministic.
+\paragraph{Remark.} Note that the same algorithm described in theorem \@ref(thm:phase_estimation) can be made ''consistent'', in the sense of [@ta2013inverting] and [@A12]. While in the original formulation of phase estimation two different runs might return different estimates for $\overline{\theta}_j$, with a consistent phase estimation this estimate is fixed, with high probability. This means that the error between two different runs of phase estimation is almost deterministic.
 
 
 
