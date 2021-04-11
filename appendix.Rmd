@@ -1093,6 +1093,7 @@ The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contr
 - Yassine Hamoudi
 - Martin Plávala
 - Trong Duong
+- Filippo Miatto
 
 # License and citation
 
