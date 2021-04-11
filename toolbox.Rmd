@@ -56,7 +56,7 @@ Let $M \in \mathbb{R}^{n \times d}$  be a matrix with singular value decompositi
 Recall that quantum access to a matrix is defined in theorem \@ref(def:KP-trees), and the parameter $\mu$ is defined in definition \@ref(def:mu).
 The relevance of theorem \@ref(thm:sve-theorem) for quantum machine learning is the following: if we are able to estimate the singular values of a matrix, then we can perform a conditional rotation controlled by these singular values and hence perform a variety of linear algebraic operations, including matrix inversion, matrix multiplication or projection onto a subspace. Based on this result, quantum linear algebra was done using the theorem stated below.
 
-``` {theorem, thm-matrix-algebra-sve, nome="(OLD) Quantum linear algebra"}
+``` {theorem, matrix-algebra-sve, nome="(OLD) Quantum linear algebra"}
 Let $M := \sum_{i} \sigma_iu_iv_i^T \in \mathbb{R}^{d \times d}$ such that $\norm{M}_2 = 1$, and a vector $x \in \mathbb{R}^d$ for which we have quantum access. There exist quantum algorithms that with probability at least $1-1/poly(d)$ return
 
 - a state $\ket{z}$ such that $| \ket{z} - \ket{Mx}| \leq \epsilon$ in time $\tilde{O}(\kappa^2(M)\mu(M)/\epsilon)$
@@ -203,7 +203,7 @@ Let $c \in (0,\infty), \kappa \geq 2$, and let $A$ be an Hermitian matrix such t
 
 
 
-Nevertheless, the algorithm that emerges by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2010variable]. Hence, we can restate the theorem  \ref{matrix_algebra}, with the improved runtimes, as follows.
+Nevertheless, the algorithm that emerges by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2010variable]. Hence, we can restate the theorem  \@ref{thm:matrix-algebra-sve}, with the improved runtimes, as follows.
 
   
 ```{theorem, qla, name="Quantum linear algebra [@CGJ18],[@gilyen2019quantum]"}
@@ -316,7 +316,7 @@ The algorithm can return an estimate of $\overline{(v_i, Av_i)}$ such that $\ove
 ```
 
 ```{proof}
-We analyze first the case where we want to compute the quadratic form with $A$, and after the case for $A^{-1}$. Recall that the matrix $A$ can be decomposed in an orthonormal basis $\ket{u_i}$. We can use theorem \ref{th:qla} to perform the following mapping:
+We analyze first the case where we want to compute the quadratic form with $A$, and after the case for $A^{-1}$. Recall that the matrix $A$ can be decomposed in an orthonormal basis $\ket{u_i}$. We can use theorem \@ref(thm:qla) to perform the following mapping:
 
 \begin{align}
 	\ket{i}\ket{v_i}\ket{0} = \ket{i}\frac{1}{N_i}\sum_j^n \alpha_{ij}\ket{u_j}\ket{0} \mapsto \ket{i}\frac{1}{N_i} \sum_i^n \Big(\lambda_i\alpha_{ij}\ket{u_i,0}+ \sqrt{1-\gamma^2}\ket{G,1} \Big) =\\
@@ -348,7 +348,7 @@ We analyze the case where we want to compute the quadratic form for $A^{-1}$. Fo
 U_2 \ket{i}\ket{0} \mapsto \frac{1}{2}\ket{i} \left(\sqrt{\alpha}\ket{p_i(0),y_i,0} + \sqrt{1-\alpha}\ket{G'_i,1} \right)
 \end{equation}
 
-and estimate $p_i(0)$ such that $|p_i(0) - \overline{p_i(0)}| < \epsilon$ for the case of $v_i^TAv_i$ and we choose a precision $\epsilon/C$ for the case of $v_i^TA^{-1}v_i$ to get the same accuracy. Amplitude estimation theorem, i.e. theorem \ref{thm:ampest_orig} fails with probability $\leq \frac{8}{\pi^2}$. The runtime of this procedure is given by combining the runtime of creating the state $\ket{\psi_i}$, amplitude estimation, and the median lemma. Since the error in the matrix multiplication step is negligible, and assuming quantum access to the vectors is polylogarithmic, the final runtime is $O(\log(1/\delta)\mu(A)\log(1/\epsilon_2) / \epsilon)$, with an additional factor $\kappa(A)$ for the case of the quadratic form of $A^{-1}$.
+and estimate $p_i(0)$ such that $|p_i(0) - \overline{p_i(0)}| < \epsilon$ for the case of $v_i^TAv_i$ and we choose a precision $\epsilon/C$ for the case of $v_i^TA^{-1}v_i$ to get the same accuracy. Amplitude estimation theorem, i.e. theorem \@ref(thm:ampest_orig) fails with probability $\leq \frac{8}{\pi^2}$. The runtime of this procedure is given by combining the runtime of creating the state $\ket{\psi_i}$, amplitude estimation, and the median lemma. Since the error in the matrix multiplication step is negligible, and assuming quantum access to the vectors is polylogarithmic, the final runtime is $O(\log(1/\delta)\mu(A)\log(1/\epsilon_2) / \epsilon)$, with an additional factor $\kappa(A)$ for the case of the quadratic form of $A^{-1}$.
 		
 		
 Note that if we want to estimate a quadratic form of two unnormalized vectors, we can just multiply this result by their norms. Note also that the absolute error $\epsilon$ now becomes relative w.r.t the norms, i.e. $\epsilon \norm{v_i}^2$.  If we want to obtain an absolute error $\epsilon'$, as in the case with normalized unit vectors, we have to run amplitude estimation with precision $\epsilon'=O(\epsilon/\norm{v_i}^2)$.
@@ -586,12 +586,12 @@ In the following section, we will cover some quantum algorithms based on singula
 This is not the fastest algorithm for estimating the log-determinant, but it's worth mentioning here because it perhaps the first thing one would try to do in order to estimate this quantity. It also is a good example of the power of quantum singular value estimation, and checking the correctness of this proof might be a good exercise.
 
 
-```{r, logdet-sve-algo, fig.cap="SVE based algorithm to estimatethe log-determinant of a matrix", echo=FALSE}
+```{r, algo-logdet-sve, fig.cap="SVE based algorithm to estimatethe log-determinant of a matrix", echo=FALSE}
 knitr::include_graphics("algpseudocode/logdet-sve.png")
 ```
 
 ```{theorem, logdet-sve, name="SVE based algorithm for log-determinant"}
-Under assumption \ref{assumption}, algorithm \ref{algo:logdet-sve} returns
+Assuming to have quantum access to an SPD matrix $A$, the algorithm in figure \@ref(algo:logdet-sve) returns
 $\overline{\log\det(A)}$ such that $|\overline{\log\det(A)} - \log\det(A)| < \epsilon |\log\det(A)|$ in time
 $\widetilde{O}(\mu \kappa^3/\epsilon^2).$
 ```
@@ -602,7 +602,7 @@ We can rewrite the quantum state encoding the representation of $A$ (which we ca
 \begin{equation}
 |A\rangle = \frac{1}{\|A\|_F} \sum_{i,j=1}^n a_{ij}|i,j\rangle = \frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle.
 \end{equation}
-Starting from the state $\ket{A}$, we can apply SVE (see lemma  \ref{sveplus1}) to $\ket{A}$ up to precision $\epsilon_1$ to obtain
+Starting from the state $\ket{A}$, we can apply SVE (see lemma  \@ref(thm:sve-theorem) to $\ket{A}$ up to precision $\epsilon_1$ to obtain
 $$\frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle |\tilde{\sigma}_j\rangle,$$
 where $|\tilde{\sigma}_j-\sigma_j|\leq \epsilon_1$.
 Since $\norm{A} \leq 1$, using controlled operations, we can prepare
