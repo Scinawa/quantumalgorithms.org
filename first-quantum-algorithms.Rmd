@@ -102,7 +102,7 @@ There is a quantum algorithm called amplitude estimation which takes as input on
 with probability at least $8/\pi^2$, using $U$ and $V$ $t$ times each. If $a=0$ then $\tilde{a}=0$ with certainty, and if $a=1$ and $t$ is even, then $\tilde{a}=1$ with certainty. 
 ```
 
-In the original version of the Grover's algorithm we assume to know the number of marked elements, and therefore we can derive the correct number of iterations. Later on, a fixed-point version of amplitude amplification was proposed [@brassard2002quantum]  [@grover2005fixed], which was then optimized in [@yoder2014fixed]. These versions do not require to know the number of iterations in advance. These results foundamentally leverage the observation reprted in Proposition \@ref(qesa-observation). 
+In the original version of the Grover's algorithm we assume to know the number of marked elements, and therefore we can derive the correct number of iterations. Later on, a fixed-point version of amplitude amplification was proposed [@brassard2002quantum]  [@grover2005fixed], which was then optimized in [@yoder2014fixed]. These versions do not require to know the number of iterations in advance. These results foundamentally leverage the observation reprted in Proposition \@ref(prp:qesa-observation).
 
 Recently, various researches worked on improvements of amplitude estimation by getting rid of the part of the original algorithm that performed the phase estimation (i.e. the Quantum Fourier Transform [@NC02]) [@grinko2019iterative], [@aaronson2020quantum]. As the QFT is not a NISQ subroutine, these results bring more hope to apply these algorithms in useful scenarios in the first quantum computers. 
 
