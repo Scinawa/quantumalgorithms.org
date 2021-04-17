@@ -14,7 +14,7 @@ rmd_files: ["index.Rmd",
 "qem.Rmd",
 "on-real-data.Rmd",
 "selected-works.Rmd",
-"virtual-quantum-labs.Rmd",
-"glossary.Rmd",
+#"virtual-quantum-labs.Rmd",
+#"glossary.Rmd",
 "appendix.Rmd"
 ]
