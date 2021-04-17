@@ -3,66 +3,49 @@ output:
   pdf_document: default
   html_document: default
 ---
-# Introduction to quantum information
-In this chapter we will introduce the notation used in this manuscript. For further mathematical introduction, please refer to the appendix.
+# (PART) Part (Bridging the gap) {-}
 
-<!-- 
-# TODO Write a small introduction on Schroedinger equation
-# The best introduction on quantum mechanics is the first lecture of Susskind on youtube. 
-# As usual, I already started taking some notes that I can share. 
-# labels: help wanted, good first issue
--->
+# Quantum computing and quantum algorithms
+In this chapter we will introduce the notation used throughout the rest of the lecture notes. We will extensively use linear algebra (norm of matrices, SVD, properties of particular matrices, and so on), so the reader is higly encouraged to skim the appendix on his/her own, so to know the notation adopted here. 
 
+### Getting rid of physics in quantum computing
 
+Following one of the [lectures of Sussking](https://www.youtube.com/watch?v=8mi0PoPvLvs), we are going to start from a "handwavy" introduction that justify the existence of the Schrödinger equation. With a few mathematical observation we are going to give an intuitive justification of all the 4 axioms of quantum mechanics that are stated in the next sections. The hope is that, thanks to this introduction, the reader can be gently guided from a tiny physical intuition, to a greater understanding of the axioms of quantum mechanics. Despite their name might seems too much related to physics, thanks to this formulation (which comes from [@NC02]), we could eventually call them "axioms of quantum computing". 
 
-## Preliminaries and notation {#section:notation}
-
-For all matrices $A \in \mathbb{R}^{n \times d}$, we recall the definition of singular value decomposition. The matrix $A$ can be written as:
-
-$$A=(U, U_0)\begin{pmatrix}
-	\Sigma & 0 \\
-	0 & 0
-	\end{pmatrix} (V, V_0)^T.$$
-The matrix $\Sigma$ is a diagonal matrix with $\Sigma_{ii}=\sigma_i$ being the singular values (which we assume to be sorted $\sigma_1 \geq \dots \geq \sigma_n$). The matrices $(U, U_0)$ and $(V, V_0)$ are orthogonal matrices, which contain a basis for the column and the row space (respectively $U$ and $V$) and the left null-space and null-space (respectively $U_0$ and $V_0$). Oftentimes, it is simpler to define the SVD of a matrix by simply discarding the left and right null spaces, as $A=U\Sigma V^T$, where $U,V$ are orthogonal matrices and
-$\Sigma \in \mathbb{R}^{r \times r}$ is a diagonal matrix with real elements, where $r$ is the rank of the matrix. It is well known, but important to remark, that the matrices $AA^T=U\Sigma^2 U^T$ and $A^TA=V\Sigma^2V^T$ are symmetric. The dimension of the null-space is the number of linearly-dependent columns. For a rank $k$ matrix, the Moore-Penrose pseudo-inverse is defined as $\sum_{i}^k \frac{1}{\sigma_i}u_i v_i^T$. Another relevant property of SVD is that the nonzero singular values and the corresponding singular vectors are the nonzero eigenvalues and eigenvectors of the matrix
-$\begin{pmatrix}
-	0 & A \\
-	A^T & 0
-	\end{pmatrix}$:
-
-$$ \begin{pmatrix}
-	0 & A \\
-	A^T & 0
-	\end{pmatrix} \begin{pmatrix}
-	u_i \\
-	v_i
-	\end{pmatrix} .
-	= s_i \begin{pmatrix}
-	u_i \\
-	v_i
-	\end{pmatrix}
-	$$
-
-We will use the following matrix norms:
-
-- $\|A\|_0$ as the number of non-zero elements of the matrix $A$,
-- $\|A\|_1 = \max\limits_{1 \leq j \leq n} \sum_{i=0}^n |a_{ij}|$ is the maximum among the sum of the absolute value along the columns of the matrix, 
-- $\|A\|_2 = \|A\| = \sigma_1$ is the biggest singular value of the matrix,
-- $\|A\|_\infty = \max\limits_{1 \leq i \leq m} \sum_{j=0}^n  |a_{ij}|$ is the maximum among the sum of the absolute values along the rows of the matrix,
-- $\norm{A}_{\max}$ is the maximal element of the matrix in absolute value.
-- $\norm{A}_F$ is the Frobenius norm of the matrix, defined as $\sqrt{\sum_{ij}a_{ij}^2}$
-
-Note that for symmetric matrices, $\|A\|_\infty = \|A\|_1$. With $s$ we denote the sparsity, that is, the maximum number of non-zero elements of the rows. The dataset that we manipulate in this work are represented by a matrix $V \in \mathbb{R}^{n \times d}$, i.e. each row can be thought as a vector $v_i \in \mathbb{R}^{d}$ for $i \in [n]$ that represents a single data point. We denote as $V_k$ the optimal rank $k$ approximation of $V$, that is  $V_{k} = \sum_{i=0}^k \sigma_i u_i v_i^T$, where $u_i, v_i$ are the row and column singular vectors respectively and the sum is over the largest $k$ singular values $\sigma_{i}$.  We denote as $V_{\geq \tau}$ the matrix  $\sum_{i=0}^\ell \sigma_i u_i v_i^T$ where $\sigma_\ell$ is the smallest singular value which is greater than $\tau$.
- For a matrix $M$ and a vector $x$, we define as $M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta} x$ the projection of $x$ onto the space spanned by the singular vectors of $M$ whose corresponding singular values are smaller than $\theta$, and some subset of singular vectors whose corresponding singular values are in the interval $[\theta, (1+\delta)\theta]$. We use a standard notation of $\tilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms.
+The objective is that the reader should *not* feel the need to dig into quantum mechanical details of quantum computers, but can comfortably sit on top of the 4 axioms of quantum mechanics, and build (a lot) from there. 
 
 
 
+When, at the beginning of the 20th century, physicist started to model quantum phenomena, they observed that the dynamic of the systems had two properties. The time and space evolution of quantum systems were continious (as in classical mechanics) and reversible (unlike the classical world). They decided to formalize this concept as follow. First they decided to model the state of a quantum system at time $p$ as a function $\psi(p)$, and they decided to model the evolution of $\psi(p)$ for time $t$ as an operator $U(t)$ acting on $\psi(p)$s. Formally, the two requirements can be written as:
 
-## Quantum Information
+- $U(\epsilon)=I-i\epsilon H$ (continuity)
+- $U^\dagger(t)U(t)=I$ (reversibility)
 
+The first requirement reads that if we were to apply out evolution for a small amount of time $\epsilon$, than $U$ would behave almost as the identiy, and then it will apply for a "small" amount another operator $H$. The second requirement reads that if we "undo" the operator $U$, by applying the transpose conjugate, we would obtain the identity, i.e. we haven't change the state of the system. 
+From these two requirements we can already derive the following observation.
+
+$$I = U^\dagger(\epsilon)U(\epsilon)= (I+i\epsilon H)(I-i\epsilon H) = I -i \epsilon H + i \epsilon H^\dagger + O(\epsilon^2)$$. 
+The only way for this equation to hold is for $H=H^\dagger$. 
+
+In mathematics we have a name for such operators, and they are called Hermitian operators! (More about those in the appendix!).
+Now we can ask ourselves what happens when we apply $U(\epsilon)$ to a quantum state $\psi(t)$? Well it's simple to see now:
+$$U(\epsilon)\psi(t) = \psi(t+\epsilon) = \psi(t) -i \epsilon H\psi(t) $$
+With a little algebra we can rewrite the previous equation as
+
+$$ \frac{\psi(t+\epsilon) -  \psi(t)}{\epsilon} = -i  H\psi(t) $$
+The left hand side (l.h.s) part of this equation can be rewritten as a derivative:
+$$\frac{d}{dt}\psi(t) = -i H \psi(t)$$
+But this is the well-known Schrödinger equation! Note that, as computer scientists, we take the right to remove some physical constant ($\hbar$) out of the equation. What should be the takeaway of these observations? Well, first we know that the Schrödinger equation is a differential equation whose solution is fully determined if we were to know the initial state of our system $\psi(p)$. Formally the solution can be written as:
+
+$$\psi(p+t)=e^{-iHt}\psi(p)$$
+From this last equation we can observe further (more on this in the appendix) that the exponential of an Hermitian matrix $e^{-iHt}$ is *defined* through it's Taylor expansion is just a *unitary* matrix: $U(t)=e^{-itH}$. Unitary matrices are exactly those matrices that describe isometries: applying a matrix to a vector won't change its lenght. From this we see that the two quantum state $\psi(p+t)$ and $\psi(p)$ could be just taken to be vector of a fixed length, which - for practicality - we take to be unit vectors. Notation-wise, we denote unit vectors describing quantum states as "kets", i.e. we rewrite this quation as:
+
+$$\ket{\psi(p+t)}=U(t)\ket{\psi(p)}$$
+Hopefully, this introduction should be enough for getting a better intuition of what comes next, and give you a "justification" for the axioms of quantum mechanics.
+
+## Axioms of quantum mechanics
 The standard formalism used in Quantum Information is the Dirac's ``bra-ket'' notation, which we will introduce in this section. We also recall here the postulates of quantum mechanics, and take this opportunity to settle the rest of the notation and preliminaries used in this thesis. For the postulates, we follow the standard formulation in [@NC02].
 
-### Axioms of quantum mechanics 
 ```{proposition, name="Postulate 1"}
 Associated to any isolated physical system is a complex vector space with inner product (that is, a Hilbert space) known as the state space of the system. The system is completely described by its state vector, which is a unit vector in the system's state space.
 ```
@@ -88,9 +71,8 @@ A matrix $U\in \mathbb{C}^{d \times d}$ is said to be unitary if $UU^\dagger = U
 - The columns and the rows of $U$ form an orthonormal basis of $\mathcal{C}^d$
 - $U$ can be written as $e^{iH}$ for some Hermitian operator $H$.
 
-<!-- TODO -->
-```{exercise, name="Exercise"} 
-Convince me that the 2x2 diagonal matrix $A$ with entries $10$ and $1/10$ is unitary because the determinant is 1. 
+```{example, name="Determinant = 1 is a necessary but not sufficient condition for being unitary."} 
+It is simple to see that any 2x2 diagonal matrix $A$ with entries $10$ and $1/10$ has determinant is 1, but it's not a unitary matrix: $A^\dagger A = AA^\dagger \neq I$. 
 ```
 
 
@@ -200,12 +182,34 @@ TODO FIXME
 
 Let $U_1$ be the evolution of a quantum state $\ket{x}$ and $U_2$ the evolution of a quantum state $\ket{y}$, $U_1 \otimes U_2$ describe the evolution of the quantum system $\ket{x}\ket{y}$. Note that to build a state in $\ket{v} \in \mathcal{H}^n$ we need $\lceil \log n\rceil$ qubits.
 
+
+## Measuring complexity of quantum algorithms
+
+
+<!-- TODO: improve section on query and circuit complexity of quanutm algorithms -->
+<!-- (pag 157 RDW) -->
+
+
 There are various way to measure the complexity of a quantum algorithm.  We denote with $T(U)$ the time complexity needed to implement $U$, measured in terms of depth of the circuit, which is roughly the number of time steps (or ``clock time'') we need, in order to executed the gates of the quantum circuit $U$.  If we just care about the **relativized** complexity, we might limit ourselvs to compare two algorithms that solves the same problem in terms of the number of queries to a given oracle, we might observe that one is faster than the other. This is a **relativized** speedup. The oppositive is an **absolute** speedup, i.e. when we also take into account the complexity of the operations that are **not** queries to an oracle. In the case of quantum algorithms, these might simply be the gate depth of the circuit. 
 
+We use a standard notation of $\widetilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms: $O(\log(n))=\widetilde{O}(1)$. 
+
+
+<!-- ```{definition, query-complexity, name="Query complexity"} -->
+
+<!-- ``` -->
+
+
+<!-- ```{definition, circuit-complexity, name="Circuit complexity"} -->
+
+<!-- ``` -->
 
 
 
-### Data representation
+
+
+
+## Representing data in quantum computers
 
 What does it mean to represent or store data as a quantum state? This question is of paramount importance, because knowing what is the best way of encoding data in a quantum computer might pave the way for intuitions in solving our problems. On the contrary, using the wrong encoding might prevent you from reasoning about the right algorithm design, and obtaining the desired advantages in the implementation of your algorithm. Indeed, in [@schuld2015introduction], Schuld and others wrote: _In order to use the strengths of quantum mechanics without being confined by classical ideas of data encoding, finding “genuinely quantum” ways of representing and extracting information could become vital for the future of quantum machine learning_.
 
@@ -240,27 +244,33 @@ This encoding can be used to get speedup in the number of query to an oracle, li
 
 #### Binary vectors: $\{0,1\}^n$
 
-Let $\vec{b} \in \{0,1\}^n$. We can imagine three options here. As for the encoding the integers, we can use $n$ qubits with a digital encoding:
+Let $\vec{b} \in \{0,1\}^n$. We can imagine three options here. As for the encoding the integers, we can use $n$ qubits with a binary (or digital) encoding:
 
 $$\ket{b} = \bigotimes_{i=0}^{n} \ket{b_i}$$
 
 As an example, suppose you want to encode the vector
-$[1,0,1,0,1,0] \in \{0,1\}^6$, which is $42$ in decimal. This will
+$b=[1,0,1,0,1,0] \in \{0,1\}^6$, which is $42$ in decimal. This will
 correspond to the $42$-th base of the Hilbert space where our qubits
-will live. Note that, in some sense, we are not "fully" using the $C^{2^{n}}$
-Hilbert space: we are mapping our list of binary vector in vectors of the canonical base.
-base. As a consequence, Euclidean distances between points in the new space are
-different.
+are living. Note that, in some sense, we are not "fully" using the $2^n$ dimensional 
+Hilbert space $\mathbb{C}^{2^{n}}$: we are mapping our list of binary vector in vectors of the computational (i.e. canonical) base. As a consequence of this choice, Euclidean distances in the Hilbert space between points have a different meaning.
 
-Our second encoding is the following. For instance we can map a $0$ into
-$1$ and $1$ as $-1$, and build:
+```{remark, name="Difference between distances in this binary representation"}
+Consider again $v=[1,0,1,0,1,0]$ and $u=[1,1,1,0,1,1] \in \{0,1\}^6$. It is simple to see that 
+$d(u,v)=\|u-v\|_2= 2.236..$. But $\| \ket{42} - \ket{59} \|_2 = \sqrt{2}$.
+```
 
-$$\ket{v} = \frac{1} {\sqrt{2^n}} \sum_{i \in \{0,1\}^n} (-1)^{b_i} \ket{i}$$.
 
-Or analogously:
+Our second encoding that we can imagine is the following is an amplitude encoding. We can either map:
 
-$$\ket{b} = \frac{1}{\sqrt{\sum_{i=0}^n}1} \sum_{i=0}^n b_i\ket{i} $$
+- a $0$ into a $0$, and $1$ as $1$ (or $-1$)
+- a $0$ into a $1$, and $1$ as $1$ (or $-1$) 
 
+$$\ket{b} = \frac{1}{\sqrt{\sum_{i=0}^n(-1)^{b_i}}} \sum_{i \in \{0,1\}^n} (-1)^{b_i} \ket{i}$$.
+
+Or, eitherway:
+
+$$\ket{b} = \frac{1}{\sqrt{\sum_{i=0}^nb_i}} \sum_{i=0}^n b_i\ket{i} $$
+Note that these two last binary encodings are using the amplitudes, so we are using $\lceil \log n\rceil$ qubits. In the last two equations, the normalization factor is just the $\ell_2$ norm of the vector (which in this case is just the square root of the Hamming weight).
 
 ####  Vectors and matrices: $\mathbb{R}^n$, $\mathbb{R}^{n \times d}$
 
@@ -305,18 +315,29 @@ algorithms that use this state as input. For a more detailed description, look a
 #### Remarks on data representation
 
 The precision that we can use for specifying the amplitude of a quantum state might be limited - in practice -  by the precision of our quantum computer in manipulating quantum states (i.e. development in techniques
-in quantum metrology and sensing). Techniques that use a certain precision in the amplitude of a state might suffer of initial technical limitations of the hardware. The precision in the manipulation can be measured by the fidelity. At an intuitive level, you can think of the precision in manipulating quantum state as the 16, 32 or 64 bits of precision in our classical CPUs.
+in quantum metrology and sensing). Techniques that use a certain precision in the amplitude of a state might suffer of initial technical limitations of the hardware. The precision in the manipulation can be measured by the fidelity.
 
 
 
-### Loading the data: quantum memory models
+## Loading the data: memory models
 
 Along with a fully fledged quantum computer, we also assume to have access to a quantum memory, i.e. a classical data structure that store classical information, but that is able to answer queries in quantum superposition. This model is commonly called the \emph{QRAM model}. As we will see in greater details soon, the task of building the data structure classically requires time that is linear (up to polylogarithmic factors) in the dimension of the data. This observation is better detailed in definition \@ref(def:QRAM-model). For instance, if we want to have quantum  access to a dense matrix $M \in \mathbb{R}^{n \times d}$ the preprocessing runtime will be $O(nd \log (nd))$. To stress more the fact that we are linear in the effective number of elements contained in the matrix (which can often be sparse) can write $\tilde{O}(\norm{A}_0)$. The name QRAM is meant to evoke the way classical RAM address the data in memory using a tree structure. In the data structure one can write down the real entries $m_{ij}$ with some precision $\delta$ using $\log 1/\delta$ bits.
 
 Note that sometimes, QRAM goes under the name of QROM, as actually it is not something that can be written during the runtime of the quantum algorithm, but just queried, i.e. read.  Furthermore, a QRAM is said to be \emph{efficient} if can be updated by adding, deleting, or modifying an entry in polylogarithmic time w.r.t the size of the data it is storing. Using the following definition, we can better define the computational model we are working with.
 
 
-```{definition, QRAM-model, name="QRAM model"}
+<!-- TODO
+add here a little discussion on hardware and circuit for QRAM
+-->
+```{definition, qram, name="Quantum Random Access Memory [@giovannetti2008quantum]"}
+A quantum random access memory is a device that stores indexed data $(i,x_i)$ for $i \in [n]$ and $x_i \in \R$ (eventually truncated with some bits of precision). It allows query in the form $\ket{i}\ket{0}\mapsto \ket{i}\ket{x_i}$, and has circuit depth $O(polylog(n))$.
+```
+We say that a dataset is efficiently loaded in the QRAM, if the size of the data structure is linear in the dimension and number of data points and the time to enter/update/delete an element is polylogarithmic in the dimension and number of data points. A direct application of this model is what is commonly assumed in quantum algorithms to access sparse matrices. This is often useful when dealing with graphs, or simply with sparse Hamiltonians. 
+
+Equipped with this definition - which we will not discuss in depth, but it's discussed here [@giovannetti2008quantum] - allows us to load all kind of data in the quantum computer. 
+
+
+```{definition, QRAM-model, name="QRAM model [@kerenidis2017quantumsquares]"}
 An algorithm in the QRAM data structure model that processes a data-set of size $m$ has two steps:
 
  * A pre-processing step with complexity $\widetilde{O}(m)$ that constructs efficient QRAM data structures for storing the data.
@@ -326,33 +347,28 @@ The complexity of the algorithm in this model is measured by the cost for step 2
 ```
 
 
-```{definition, oracular, name="Oracular access - Folklore"}
-Let $V \in \mathbb{R}^{n \times d}$. There is a data structure to store $V$ such that, a quantum algorithm with access to the data structure can perform $\ket{i}\ket{j} \to \ket{i}\ket{j}\ket{v_{ij}}$ for $i,j \in [n]$ in time $T=O(\log^{2}n)$.
+When we say that we have "oracular access" to a matrix (or a vector), we mean the following. 
+
+```{definition, oracle-access-adjacencymatrix, name="Query access to a matrix"}
+Let $V \in \mathbb{R}^{n \times d}$. There is a data structure to store $V$ such that, a quantum algorithm with access to the data structure can perform $\ket{i}\ket{j}\ket{z} \to \ket{i}\ket{j}\ket{z \oplus v_{ij}}$ for $i \in [n], j \in [d]$.
 ```
 
+With the vector stored in a QRAM, we can have efficient (i.e. in time $O(\log(n))$) query access to a matrix or a vector.
+A matrix can be accessed also in another way. 
 
+```{definition, oracle-access-adjacencylist,  name="Oracle access in adjacency list model"}
+	Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform:
 
-Equipped with this data structure, we are allowed to perform the following operation in a quantum computer. [@giovannetti2008quantum, kerenidis2017quantumsquares]. 
+- the mapping $\ket{i}\mapsto\ket{i}\ket{d(i)}$ where $d(i)$ is the number of entries in row $i$, and
+- $\ket{j,l}\mapsto\ket{j,\nu(j,l)}$, where $\nu(j,l)$ is the $l$-th nonzero entry of the $j$-th column of $V$.
 
-```{definition, qram, name="Quantum Random Access Memory"}
-A quantum random access memory is a device that stores indexed data $(i,x_i)$ for $i \in [n]$ and $x_i \in \R$ (eventually truncated with some bits of precision). It allows query in the form $\ket{i}\ket{0}\mapsto \ket{i}\ket{x_i}$, and has circuit depth $O(polylog(n))$.
 ```
 
-
-We say that a dataset is efficiently loaded in the QRAM, if the size of the data structure is linear in the dimension and number of data points and the time to enter/update/delete an element is polylogarithmic in the dimension and number of data points. A direct application of this model is what is commonly assumed in quantum algorithms to access sparse matrices. This is often useful when dealing with graphs, or simply with sparse Hamiltonians.
-
-```{definition, oracleaccess-adjacencymatrix, name="Oracle access in adjacency matrix model"}
-Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform the following mapping $\ket{j,k,z} \mapsto \ket{j,k,z \oplus V_{jk}}$
-```
+Note that Definition \@ref(def:oracle-access-adjacencymatrix)  is very similar to the definition of the Grover's oracle that you might know from previous courses in quantum information. It's important to remember that for Definition \ref(def:oracle-access-adjacencymatrix) and \ref{def:oracle-access-adjacencylist} we might **not** need a QRAM, as there might be other efficient circuit for performing those mapping. For instance, when working with graphs (remember that a generic weighted and directed graph $G=(V,E)$ can be seen as its adjacency matrix $A\in \mathbb{R}^{|E| \times |E|}$), many algorithms call Definition \@ref(def:oracle-access-adjacencymatrix) **vertex-pair-query**, and the two mappings in Definition \@ref(def:oracle-access-adjacencylist) as **degree query** and **neighbor query**. When we have access to both queries, we call that **quantum general graph model** [@hamoudi2018quantum]. This is usually the case in all the literature for quantum algorithms for Hamiltonian simulation, graphs, or algorithms on sparse matrices. These query models are sometimes called in literature "sparse access" to a matrix, as sparsity is often the key to obtain an efficient circuit for encoding such structures without a QRAM. Note that Definition \@ref(def:oracle-access-adjacencylist), sometimes goes under the name "Adjacency *array* model, so to stress the difference between the classical adjacency list (where to get the last element o the list we need to read all the previous element) and the quantum case, where we can index the nonzero elements in a row of a matrix as in an array [@Durr2004]. 
 
 
 
-```{definition, oracleaccess-adjacencylist,  name="Oracle access in adjacency list model"}
-	Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform the: mapping $\ket{i}\mapsto\ket{i}\ket{d(i)}$ where $d(i)$ is the number of entries in row $i$, and $\ket{j,l}\mapsto\ket{j,\nu(j,l)}$, where $\nu(j,l)$ is the $l$-th nonzero entry of the $j$-th column of $V$.
-```
-
-
-In the PhD thesis of [@Prakash:EECS-2014-211], he leveraged the definition of \@ref(def:qram) to allow us to efficiently create superpositions corresponding to the rows of the matrices, i.e. encoding the values of the components of a matrix' row in the amplitudes of a quantum state. Note that this data structure, which sometimes goes under the name KP-trees [@rebentrost2018quantum], assumes and extends definition \@ref(def:qram). In practice, both are called QRAM, and both rely on two (different) tree data structure for their construction. One is a hardware tree that allows to perform the mapping in \@ref(def:qram), the other is a tree that stores the partial norms of the rows of the matrix, which we will discuss later. We will use the following as definition, but this is actually a theorem. For the proof, we refer to [@Prakash:EECS-2014-211] and the appendix of [@KP16].
+In the PhD thesis of Prakash [@Prakash:EECS-2014-211], he leveraged the definition of \@ref(def:qram) to allow us to efficiently create superpositions corresponding to the rows of the matrices, i.e. encoding the values of the components of a matrix' row in the amplitudes of a quantum state. Note that this data structure, which sometimes goes under the name KP-trees [@rebentrost2018quantum], assumes and extends definition \@ref(def:qram). In practice, both are called QRAM, and both rely on two (different) tree data structure for their construction. One is a hardware tree that allows to perform the mapping in \@ref(def:qram), the other is a tree that stores the partial norms of the rows of the matrix, which we will discuss later. We will use the following as definition, but this is actually a theorem. For the proof, we refer to [@Prakash:EECS-2014-211] and the appendix of [@KP16].
 
 
 ```{definition, KP-trees,  name="Quantum access to matrices using KP-trees [@KP16]"}
@@ -379,7 +395,7 @@ $$\mu_p(A)=\min_{p\in [0,1]} (\norm{A}_{F}, \sqrt{s_{2p}(A)s_{(1-2p)}(A^{T})}).$
 The original definition of QRAM, where $\mu(A)=\|A\|_F$ corresponds to the factorization $A/\|A\|_F = P \circ Q$ where we have $p_{ij} = \frac{a_{ij}}{\norm{a_i}}$ and $q_{ij}=\frac{\norm{a_i}}{\norm{A}_F}$. For the generalized choice of $\mu$ in definition \@ref(def:mu), it is necessary to store two quantum accessible data structures, that respectively store the rows and the columns of a function of $A$. Instead of storing $a_{ij}$ (along with the sign, which is stored separately), we store $sgn(a_{ij})a_{ij}^p$ and $a^{1-p}_{ij}$. The different terms in the minimum in the definition of $\mu(A)$ correspond to different choices for the data structure for storing $A$.  Note that in the worst case, $\mu(A) \leq \norm{A}_{F} \leq \sqrt{d}$ as we assume that $\norm{A}=1$. Having a small value for $\mu(A)$ is very important, as this value will appear in the runtime of the quantum algorithms. In this thesis we always assume to have quantum access to matrices which are normalized such that $\norm{A} \leq 1$.
 
 
-For details on how to use quantum access to this data structure and proving theorem \@ref(KP-trees), the reader is referred to [@KP16] (Appendix) for the original proof, [@kerenidis2017quantumsquares] (theorem 4.4) for details on the choices of $\mu(A)$. More explicit proofs for the creation of quantum states with choices of $\mu$ different than the Frobenius norm can be found in [@CGJ18] (Lemma 25) and  [@gilyen2019quantum].
+For details on how to use quantum access to this data structure and proving theorem \@ref(def:KP-trees), the reader is referred to [@KP16] (Appendix) for the original proof, [@kerenidis2017quantumsquares] (theorem 4.4) for details on the choices of $\mu(A)$. More explicit proofs for the creation of quantum states with choices of $\mu$ different than the Frobenius norm can be found in [@CGJ18] (Lemma 25) and  [@gilyen2019quantum].
 
 
 To grasp the importance of this model we discuss the hurdles and bottlenecks of doing data analysis on massive datasets. When the data that needs to be processed surpass the size of the available memory, the dataset can only be analyzed with algorithms whose runtime is linear (or at most quadratic) with respect to the size of the dataset. Super-linear computations (like most algorithms based on linear-algebra) are too computationally expensive, as the size of the data is too big to fit in live memory.
@@ -388,7 +404,7 @@ To grasp the importance of this model we discuss the hurdles and bottlenecks of 
 Under this settings, quantum computers can offer  significant advantages. In fact, the runtime of the whole process of performing a data analysis using quantum computers is given by the time of the preprocessing and constructing quantum access, plus the runtime of the quantum procedure. In practice, we want to write algorithms with a total computational complexity of  $\tilde{O}(\norm{A}_0) + \tilde{O}(poly(\kappa(A), \mu(A), 1/\epsilon,\log(n), \Gamma ))$, where $\kappa(A)$, is the condition number of the matrix, $\epsilon$ the error in the approximation of the calculations, and $\Gamma$ might represent some other parameters that depends on the data, but not on its size. This represents an improvement compared to the runtime of the best classical algorithms in machine learning, which is $O(poly(\norm{A}_0) \times poly(\kappa(A),1/\epsilon))$.  Note that without resorting to randomized linear algebra (as in the case of the dequantizations), these runtimes are lower bounded by the runtime for matrix multiplication and matrix inversion. As the QRAM preparation is computationally easy to implement, (it requires a single or few passes over the dataset, that we can do when we receive it, and it is can be made in parallel) a quantum data analysis can be considerably faster than the classical one. It is clear that, even if the scaling of the quantum algorithm is sub-linear in the data (it is often in fact polylogarithmic in $n$), if we consider in the runtime of the algorithms also the time to build quantum access we ``lose'' the exponential gap between the classical and the quantum runtime. Nevertheless, the overall computational cost can still largely favour the quantum procedure, as we expect the final runtime of the quantum algorithm to be comparable to the preprocessing time. Moreover, the preprocessing can be made once, when the data is received. For the choice of the data structure that leads to a value of $\mu$ equal to the Frobenius norm of the matrix under consideration, this can be done even on the fly, i.e. while receiving each of the rows of the matrix. For the choice of $\mu$ related to a $p$ norm, the construction of the data structure needs only a few passes over the dataset.
 
 
-### Retrieving data
+## Retrieving data
 In order to retrieve information from a quantum computer, we are going to use some efficient procedures that allow to reconstruct classically the information stored in a quantum state. These procedures can be thought of as cleaver ways of sampling a state $\ket{x}$. The idea for an efficient quantum tomography is that we want to minimize the number of times that the sate $\ket{x}$ is created, and consequently, the number of times we call the process that creates $\ket{x}$.
 
 
@@ -432,7 +448,7 @@ For the state $\ket{v}$ lies in the row space of a matrix $A \in \R^{n \times d}
 Other strategies to output data from a quantum computer can be sampling, or (if the output of the computation is just a scalar) amplitude estimation. These techniques can be employed when the output of the computation is a scalar.
 
 
-### Useful quantum subroutines and results
+## Useful quantum subroutines and results
 
 We will often make use of a tool developed in [@wiebe2018quantum]. It is standard technique in classical computer science to boost the success probability of a randomized algorithm by repeating it and computing some statistics in the results. For the case of quantum algorithms, in high level, we take multiple copies of the output of the amplitude estimation procedure, compute the median, and reverse the circuit in order to get rid of the garbage.
 
@@ -462,8 +478,7 @@ Then, $\norm{x-y} \leq \epsilon$ implies $\norm{\ket{x} - \ket{y}} \leq \frac{\s
 
 
 
-## Exercises
-
+<!-- ## Exercises -->
 
 <!--
 # TODO Add exercise on rewriting the swap test 

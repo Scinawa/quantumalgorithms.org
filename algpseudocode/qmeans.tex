@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{braket}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+
+
+\newcommand{\errdist}{\epsilon_1}
+\newcommand{\errmult}{\epsilon_2}
+\newcommand{\errnorms}{\epsilon_3}
+\newcommand{\errtom}{\epsilon_4}
+\newcommand{\errkappa}{\epsilon_{\tau}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+
+\begin{document}
+\pagestyle{empty} 
+
+\begin{algorithm} 
+	\caption{$q$-means.} 
+	\begin{algorithmic}[1]
+	 
+	\Require  Data matrix $X \in \mathbb{R}^{n \times d}$ stored in QRAM data structure. Precision parameters $\delta$ for $k$-means, error parameters
+	$\errdist$ for distance estimation, $\errmult$ and $\errnorms$ for matrix multiplication and $\errtom$ for tomography. 
+	\Ensure Outputs vectors $c_{1}, c_{2}, \cdots, c_{k} \in \mathbb{R}^{d}$ that correspond to the centroids at the final step of the $\delta$-$k$-means algorithm.\\
+	\vspace{10pt} 
+	\Statex Select $k$ initial centroids $c_{1}^{0}, \cdots, c_{k}^{0}$ and store them in QRAM data structure. 
+	\State t=0
+	\Repeat 
+	\Statex {\bf Step 1: Centroid Distance Estimation}\\
+	Perform the mapping 
+	\begin{equation}
+	\frac{1}{\sqrt{N}}\sum_{i=1}^{n}   \ket{i} \otimes_{j \in [k]} \ket{j}\ket{0} \mapsto \frac{1}{\sqrt{N}}\sum_{i=1}^{n}  \ket{i} \otimes_{j \in [k]} \ket{j}\ket{\overline{d^2(x_{i}, c_{j}^{t})}}
+	\end{equation}
+	where $|\overline{d^2(x_{i}, c_{j}^{t})} -  d^2(x_{i}, c_{j}^{t}) | \leq \epsilon_{1}. $\\
+	\Statex {\bf Step 2: Cluster Assignment}\\
+	Find the minimum distance among $\{d^2(x_{i}, c_{j}^{t})\}_{j\in[k]}$, then uncompute Step 1 to create the superposition of all points and their labels
+	\begin{equation}
+	\frac{1}{\sqrt{n}}\sum_{i=1}^{n}  \ket{i} \otimes_{j \in [k]} \ket{j}\ket{\overline{d^2(x_{i}, c_{j}^{t})}}
+	 \mapsto \frac{1}{\sqrt{n}}\sum_{i=1}^{n} \ket{i} \ket{ \ell^t(x_{i})}
+	\end{equation} 
+	
+	\Statex {\bf Step 3: Centroid states creation} \\
+	{\bf 3.1} Measure the label register to obtain a state $\ket{\chi_{j}^t} = \frac{1}{ \sqrt{ |\mathcal{C}^t_{j}|} }  \sum_{i\in \mathcal{C}^t_j}\ket{i}$, with prob. $\frac{|\mathcal{C}^{t}_j|}{N} $ \\ %= O(\frac{1}{k})$.\\
+	{\bf 3.2} Perform matrix multiplication with matrix $V^T$ and vector  $\ket{\chi_{j}^t}$  to obtain the state $\ket{c_{j}^{t+1}}$ with error $\errmult$, along with an estimation of $\norm{c_{j}^{t+1}}$ with relative error $\errnorms$ \\
+	
+	
+	\Statex {\bf Step 4: Centroid Update} \\
+	{\bf 4.1} Perform tomography for the states $\ket{c_{j}^{t+1}}$ 
+	with precision $\errtom$ using the operation from Steps 1-3  and get a classical estimate $\overline{c}_j^{t+1}$ for the new centroids such that $|c_j^{t+1} - \overline{c}_j^{t+1}| \leq \sqrt{\eta}(\errnorms+\errtom) = \epsilon_{centroids}$\\ %$\norm{\ket{\overline{c_j^{t+1}}}-\ket{c_j^{t+1}}} \leqslant \errtom$ and $| \norm{c_j} - \overline{\norm{c_j}} | \leq \errnorms\norm{c_j}$
+	{\bf 4.2} Update the QRAM data structure for the centroids with the new vectors $\overline{c}^{t+1}_0 \cdots \overline{c}^{t+1}_k$. 
+	
+	\Statex t=t+1
+	\Until convergence condition is satisfied. 
+	
+	\end{algorithmic}
+	\end{algorithm}
+
+\end{document}

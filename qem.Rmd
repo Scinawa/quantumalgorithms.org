@@ -1,13 +1,10 @@
 ---
-title: "Quantum Expectation-Maximization"
-author: "scinawa"
-date: "12/2/2020"
-output: html_document
-header-includes: 
-  - \usepackage{bm} 
+output:
+  pdf_document: default
+  html_document: default
 ---
 
-# Quantum Expectation-Maximization
+# Quantum Expectation-Maximization {#chap:qem}
 
 In this chapter we discuss the quantum version of Expectation-Maximization (EM). EM is an iterative algorithm that have been broadly used (and re-discovered) in many part of machine learning and statistics. As is common in machine learning literature, we introduce the Expectation-Maximization algorithm by using it to fit Gaussian mixture models (GMM). As the name hints, a Gaussian mixture model is a way of describing a probability density function as a combination of different Gaussian distributions. GMM, and in general all the mixture models, are a popular generative model in machine learning.
 
@@ -247,7 +244,7 @@ knitr::include_graphics("algpseudocode/qem.png")
 
 For the initialization of $\gamma^0$ in the quantum algorithm we can use the same initialization strategies as in classical machine learning. For instance, we can use the classical **random EM** initialization strategy for QEM.
 
-A quantum initialization strategy can also be given using the **k-means++** initializion strategy, which we discuss in Chapter \@ref(chap:qmeans). It returns $k$ initial guesses for the centroids $c_1^0 \cdots c_k^0$ consistent with the classical algorithm in time $\left(k^2 \frac{2\eta^{1.5}}{\epsilon\sqrt{\mathbb{E}(d^2(v_i, v_j))}}\right)$, where $\mathbb{E}(d^2(v_i, v_j))$ is the average squared distance between two points of the dataset, and $\epsilon$ is the tolerance in the distance estimation. From there, we can perform a full round of q-means algorithm and get an estimate for $\mu_1^0 \cdots \mu_k^0$. With q-means and the new centroids store in the QRAM we can create the state
+A quantum initialization strategy can also be given using the **k-means++** initializion strategy, which we discuss in Chapter \@ref(chap:q-means). It returns $k$ initial guesses for the centroids $c_1^0 \cdots c_k^0$ consistent with the classical algorithm in time $\left(k^2 \frac{2\eta^{1.5}}{\epsilon\sqrt{\mathbb{E}(d^2(v_i, v_j))}}\right)$, where $\mathbb{E}(d^2(v_i, v_j))$ is the average squared distance between two points of the dataset, and $\epsilon$ is the tolerance in the distance estimation. From there, we can perform a full round of q-means algorithm and get an estimate for $\mu_1^0 \cdots \mu_k^0$. With q-means and the new centroids store in the QRAM we can create the state
 \begin{equation}
 	\ket{\psi^0} := \frac{1}{\sqrt{n}}\sum_{i=1}^{n} \ket{i} \ket{ l(v_{i})}.(\#eq:new-labels)
 	\end{equation}
@@ -268,7 +265,7 @@ $$T_{G,\epsilon_1} = O\left(\frac{\kappa(\Sigma)\mu(\Sigma) \log (1/\gamma) }{\e
 
 
 ```{proof}
-We use quantum linear algebra and inner product estimation to estimate the quadratic form $(v_i-\mu)^T\Sigma^{-1}(v_i-\mu)$ to error $\epsilon_{1}$. We decompose the quadratic form as $v_i^T\Sigma^{-1}v_i - 2v_i^T\Sigma^{-1}\mu + \mu^T\Sigma^{-1}\mu$ and separately approximate each term in the sum to error $\epsilon_{1}/8$ using lemma \ref{lemma:quadratic forms}. The runtime for this operation is $O(\frac{\mu(\Sigma)\kappa(\Sigma)\eta}{\epsilon_1})$. With this, we obtain an estimate for $\frac{1}{2} ((v_i-\mu)^T\Sigma^{-1}(v_i-\mu)$ within error $\epsilon_{1}$. Recall that (through  the algorithm in lemma \ref{lemma: absolute error logdet} we also have an estimate of the log-determinant to error $\epsilon_1/2$. With these factors, we obtain an approximation for $- \frac{1}{2} ((v_i-\mu)^T\Sigma^{-1}(v_i-\mu) + d \log 2\pi + \log (\det(\Sigma)))$ within error $\epsilon_{1}$.
+We use quantum linear algebra and inner product estimation to estimate the quadratic form $(v_i-\mu)^T\Sigma^{-1}(v_i-\mu)$ to error $\epsilon_{1}$. We decompose the quadratic form as $v_i^T\Sigma^{-1}v_i - 2v_i^T\Sigma^{-1}\mu + \mu^T\Sigma^{-1}\mu$ and separately approximate each term in the sum to error $\epsilon_{1}/8$ using lemma \@ref(lem:quadratic-forms). The runtime for this operation is $O(\frac{\mu(\Sigma)\kappa(\Sigma)\eta}{\epsilon_1})$. With this, we obtain an estimate for $\frac{1}{2} ((v_i-\mu)^T\Sigma^{-1}(v_i-\mu)$ within error $\epsilon_{1}$. Recall that (through  the algorithm in lemma \ref{lemma: absolute error logdet} we also have an estimate of the log-determinant to error $\epsilon_1/2$. With these factors, we obtain an approximation for $- \frac{1}{2} ((v_i-\mu)^T\Sigma^{-1}(v_i-\mu) + d \log 2\pi + \log (\det(\Sigma)))$ within error $\epsilon_{1}$.
 ```
 
 
@@ -281,7 +278,7 @@ Let $v_i \in \R^{n}$ be a vector, and let $\{ p(v_i | \nu_j)\}_{j=1}^k$ be a set
 ```
 
 ```{proof}
-The proof follows from rewriting the responsibility of Equation \@ref(responsibility) and \@ref(responsibility2) as:
+The proof follows from rewriting the responsibility of Equation \@ref(eq:resp) and \@ref(eq:responsibility2) as:
 \begin{equation}
 			r_{ij}  := \frac{h_j(v_i)\exp \{ o_j(\nu_j)^TT(v_i) - A_j(\nu_j)  \  + \log \theta_j \}}{\sum\limits_{l=1}^k h_l(v_i)\exp \{ o_l(\nu_l)^TT(v_i) - A_l(\nu_l)  \  + \log \theta_l \} }
 \end{equation}
@@ -436,7 +433,7 @@ Let's analyze the error of this procedure. We want a matrix $\overline{\Sigma_j'
 
 
 The same argument applies to estimating the norm $\norm{\Sigma_j'}$ with relative error :
-		$|\norm{\Sigma'_j} - \overline{\norm{\Sigma'_j}} |  \leq  | \overline{\norm{\Sigma'_j}} - \widehat{\norm{\Sigma'_j}}| + |\widehat{\norm{\Sigma'_j}} - \norm{\Sigma'_j}| < \epsilon + \epsilon_1 \leq \delta_{\mu}/2\sqrt{\eta}$ (where here $\epsilon$ is the error of the amplitude estimation step used in theorem \ref{th:qla} and $\epsilon_1$ is the error in calling lemma \ref{lemma:responsibility}. Again, we choose $\epsilon=\epsilon_1 \leq \frac{\delta_\mu/\sqrt{\eta}}{4}$.
+		$|\norm{\Sigma'_j} - \overline{\norm{\Sigma'_j}} |  \leq  | \overline{\norm{\Sigma'_j}} - \widehat{\norm{\Sigma'_j}}| + |\widehat{\norm{\Sigma'_j}} - \norm{\Sigma'_j}| < \epsilon + \epsilon_1 \leq \delta_{\mu}/2\sqrt{\eta}$ (where here $\epsilon$ is the error of the amplitude estimation step used in theorem \@ref(thm:qla) and $\epsilon_1$ is the error in calling lemma \@ref(lemma:responsibility). Again, we choose $\epsilon=\epsilon_1 \leq \frac{\delta_\mu/\sqrt{\eta}}{4}$.
 
 Since the tomography is more costly than the amplitude estimation step, we can disregard the runtime for the norm estimation step. As this operation is repeated $k$ times for the $k$ different covariance matrices, the total runtime of the whole algorithm is given by $\widetilde{O} \Big( \frac{kd^2 \eta\kappa(V)(\mu(V)+\eta^2k^{3.5}\kappa(\Sigma)\mu(\Sigma))}{\delta_{\mu}^3} \Big)$.
 Let us also recall that for each of new computed covariance matrices, we use lemma \@ref(lemma: absolute-error-logdet) to compute an estimate for their log-determinant and this time can be absorbed in the time $T_\Sigma$.

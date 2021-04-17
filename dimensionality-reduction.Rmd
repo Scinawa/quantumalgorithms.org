@@ -1,9 +1,10 @@
 ---
-title: "03-dimensionalityreduction"
-author: "scinawa"
-date: "12/2/2020"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
+
+# (PART) Part (Quantum Machine Learning) {-} 
 
 # Dimensionality reduction
 
@@ -224,7 +225,7 @@ This observation allow us to whiten the data with a quantum procedure. Recall th
 
 
 #### Quantum Slow Feature Analysis {#sec:qsfa}
-We are finally ready to put forward a quantum procedure for SFA. Specifically, we want to map the input matrix $X$ to the output matrix $Y=XW$, and then we will see how to estimate classically the slow feature vectors $W \in\mathbb{R}^{(K-1)\times d}$. For this, we assume to have quantum access to the matrices $X$ and $\dot{X}$, as in definition \ref{def:QRAM}. We start by describing a circuit that approximately performs the unitary $U_{QSFA} : \ket{X}\to \ket{Y}$ where $\ket{X}$ is the quantum state we obtain by having quantum access to $X$, the dataset, and $\ket{Y} :=  \frac{1}{\norm{Y}_F} \sum_{i=0}^n\norm{y_i}\ket{i}\ket{y_i}$.
+We are finally ready to put forward a quantum procedure for SFA. Specifically, we want to map the input matrix $X$ to the output matrix $Y=XW$, and then we will see how to estimate classically the slow feature vectors $W \in\mathbb{R}^{(K-1)\times d}$. For this, we assume to have quantum access to the matrices $X$ and $\dot{X}$, as in definition \@ref(def:KP-trees). We start by describing a circuit that approximately performs the unitary $U_{QSFA} : \ket{X}\to \ket{Y}$ where $\ket{X}$ is the quantum state we obtain by having quantum access to $X$, the dataset, and $\ket{Y} :=  \frac{1}{\norm{Y}_F} \sum_{i=0}^n\norm{y_i}\ket{i}\ket{y_i}$.
  As the classical algorithm, QSFA is divided in two parts. In the first step we whiten the data, i.e. we map the state $\ket{X}$ to the state $\ket{Z}=\ket{XB^{-1/2}}$, and in the second step we approximately project $\ket{Z}$ onto the subspace spanned by the smallest eigenvectors of the whitened derivative covariance matrix $A=\dot{Z}^T\dot{Z}$.
 
 
@@ -234,8 +235,8 @@ We are finally ready to put forward a quantum procedure for SFA. Specifically, w
 Recall that $X = \sum_i \sigma_i u_iv_i^T \in \mathbb{R}^{n\times d},$ and $A,B \in \mathbb{R}^{d \times d}$. We now show how to whiten the data having quantum access to the matrix $X$.  As $B^{-1/2}$ is a symmetric matrix with eigenvectors the column singular vectors of $X$ and eigenvalues equal to $1/|\sigma_i|$. Using quantum linear algebra procedure, i.e. theorem \@ref(thm:qla), we can multiply with $B^{-1/2}$ our state $\ket{X}$. Thus, we have the following corollary.
 
 
-```{corollary, name="Whitening algorithm"}
-Assume to have quantum access to $X = \sum_i \sigma_i u_iv_i^T \in \mathbb{R}^{n\times d}$, as in theorem \@ref(qram).
+```{corollary, whitening, name="Whitening algorithm"}
+Assume to have quantum access to $X = \sum_i \sigma_i u_iv_i^T \in \mathbb{R}^{n\times d}$, as in theorem \@ref(def:KP-trees).
 Let $Z = XB^{-1/2}$ the matrix of whitened data. There exists a quantum algorithm that produces as output a state $\ket{\bar{Z}}$ such that $| \ket{\bar{Z}} - \ket{Z}| \leq \varepsilon$ in expected time $\tilde{O}(\kappa(X)\mu(X) \log{1/\varepsilon}))$.
 ```
 #### Step 2: Projection in slow feature space
@@ -249,7 +250,7 @@ Recall that $A_{\leq \theta, \delta}$ we denote a projection of the matrix $A$ o
 To perform the projection, we will need a threshold for the eigenvalues that will give us the subspace of the $K-1$ slowest eigenvectors. A priori, we don't know the appropriate threshold value, and thus it must be found experimentally through binary search since it depends on the distribution of singular values of the matrix representing the dataset.  We can now describe and analyse the entire QSFA algorithm.
 
 
-As in the previous section, we note that the eigenvalues of $A_{\dot{Z}}$ are the squares of the singular values of $\dot{Z}$, and the two matrices share the same column space: $\dot{Z} = U\Sigma V^T$, and $A_{\dot{Z}} = V\Sigma^2 V^T$. Claim \@ref(commutingderivatives) tells us that whitening the derivatives of the signal is equal to taking the derivatives of the whitened data.  theorem \@ref(thm:qlap) provides exactly the procedure for accessing the rows of $\dot{Z}$, since we know how to multiply with $\dot{X}$ and with $B^{-1/2}$.
+As in the previous section, we note that the eigenvalues of $A_{\dot{Z}}$ are the squares of the singular values of $\dot{Z}$, and the two matrices share the same column space: $\dot{Z} = U\Sigma V^T$, and $A_{\dot{Z}} = V\Sigma^2 V^T$. Claim \@ref(lem:commutingderivatives) tells us that whitening the derivatives of the signal is equal to taking the derivatives of the whitened data.  theorem \@ref(thm:qlap) provides exactly the procedure for accessing the rows of $\dot{Z}$, since we know how to multiply with $\dot{X}$ and with $B^{-1/2}$.
 
 <!--  \begin{algorithm}[H] -->
 <!--  \floatname{algorithm}{QSFA} -->
@@ -290,7 +291,7 @@ and an estimator $\overline{\norm{Y}}$ with $| \overline{\norm{Y}} - \norm{Y} | 
 ```
 
 ```{proof}
-QSFA consists of two steps. The first step is the whitening, which can be performed in time $\tilde{O}(\kappa(X)\mu(X)\log(1/\epsilon))$ and provide the state $\ket{\overline{Z}}$ using Corollary \ref{coro:whitening}. It is simple to verify that creating a state $\ket{Z}$ of whitened data such that $Z^TZ = I$ can be done using quantum access just to the matrix $X$, as $Z=XB^{-1/2}$. The second step is the projection of whitened data in the slow feature space, which is spanned by the eigenvectors of $A=\dot{Z}^T\dot{Z}$. This matrix shares the same right eigenvectors of $\dot{X}B^{-1/2}$, which is simple to check that we can efficiently access using the QRAM constructions of $X$ and $\dot{X}$. Using the algorithm for quantum linear algebra, i.e. theorem \ref{th:qlap}, we know that the projection (without the amplitude amplification) takes time equal to the ratio $\mu(X) +\mu(\dot{X})$ over the threshold parameter, in other words it takes time $\tilde{O}( \frac{(\mu({X})+ \mu(\dot{X}) }{\delta \theta})$. Finally, the amplitude amplification and estimation depends on the size of the projection of $\ket{\overline{Z}}$ onto the slow eigenspace of $A$, more precisely it corresponds to the factor $O(\frac{\norm{\overline{Z}}}{ \norm{A^+_{\leq \theta, \kappa}A_{\leq \theta, \kappa} \overline{Z} }})$, which is roughly the same if we look at $Z$ instead of $\overline{Z}$. Note also that $Z$ is the whitened data, which means that each whitened vector should look roughly the same on each direction. This implies that the ratio should be proportional to the ratio of the dimension of the whitened data over the dimension of the output signal. 	The final runtime of the algorithm is:
+QSFA consists of two steps. The first step is the whitening, which can be performed in time $\tilde{O}(\kappa(X)\mu(X)\log(1/\epsilon))$ and provide the state $\ket{\overline{Z}}$ using Corollary \@ref(cor:whitening). It is simple to verify that creating a state $\ket{Z}$ of whitened data such that $Z^TZ = I$ can be done using quantum access just to the matrix $X$, as $Z=XB^{-1/2}$. The second step is the projection of whitened data in the slow feature space, which is spanned by the eigenvectors of $A=\dot{Z}^T\dot{Z}$. This matrix shares the same right eigenvectors of $\dot{X}B^{-1/2}$, which is simple to check that we can efficiently access using the QRAM constructions of $X$ and $\dot{X}$. Using the algorithm for quantum linear algebra, i.e. theorem \@ref(thm:qlap), we know that the projection (without the amplitude amplification) takes time equal to the ratio $\mu(X) +\mu(\dot{X})$ over the threshold parameter, in other words it takes time $\tilde{O}( \frac{(\mu({X})+ \mu(\dot{X}) }{\delta \theta})$. Finally, the amplitude amplification and estimation depends on the size of the projection of $\ket{\overline{Z}}$ onto the slow eigenspace of $A$, more precisely it corresponds to the factor $O(\frac{\norm{\overline{Z}}}{ \norm{A^+_{\leq \theta, \kappa}A_{\leq \theta, \kappa} \overline{Z} }})$, which is roughly the same if we look at $Z$ instead of $\overline{Z}$. Note also that $Z$ is the whitened data, which means that each whitened vector should look roughly the same on each direction. This implies that the ratio should be proportional to the ratio of the dimension of the whitened data over the dimension of the output signal. 	The final runtime of the algorithm is:
 
 $$\tilde{O}\left(  \left( \kappa(X)\mu(X)\log (1/\varepsilon) + \frac{ ( \kappa(X) + \kappa(\dot{X})) ( \mu({X})+ \mu(\dot{X}) ) }{\delta\theta} \right)
  \frac{\norm{Z}}{ \norm{A^+_{\leq \theta, \delta}A_{\leq \theta, \delta} {Z} }} \right)$$

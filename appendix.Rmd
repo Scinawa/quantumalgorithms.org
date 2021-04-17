@@ -1,8 +1,7 @@
 ---
-title: "appendix"
-author: "scinawa"
-date: "12/8/2020"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 
@@ -12,7 +11,7 @@ output: html_document
 <!--
 # TODO Finish introductory part on linear algebra in appendix
 # I think we need an introduction on inner products, linearty, vector na matrix norms,
-# trigonometry, identities, and so on.. 
+# trigonometry, identities, and so on..
 # labels: todo, help wanted, good first issue
 -->
 
@@ -62,8 +61,15 @@ $$|(x,y)| \leq \|x\| \|y\|$$
 Note that by taking the square on both sides we get: $(x,y)^2 \leq (x,x)(y,y)$.
 Substituting $(x,y)=\|x\| \|y\| cos(\theta)$, we get:
 $$|\|x\|^2\|y\|^2 cos^2(\theta) | \leq (x,x)(y,y)$$
-The inequality follows from noting that $|cos(\theta)|$ is always $\leq 1$. 
+The inequality follows from noting that $|cos(\theta)|$ is always $\leq 1$.
 ```
+
+```{remark}
+It is simple to see - using Cauchy-Schwarz - that for a vector $x$ we have that:
+$$\|x\|_1 \leq \sqrt{n} \|x\|_2 $$
+```
+
+
 
 <!-- \paragraph{Matrix norms} -->
 <!-- \begin{itemize} -->
@@ -72,16 +78,24 @@ The inequality follows from noting that $|cos(\theta)|$ is always $\leq 1$.
 <!--     \item  -->
 <!-- \end{itemize} -->
 
+We will use the following matrix norms:
 
-```{remark}
-It is simple to see - using Cauchy-Schwarz - that for a vector $x$ we have that:
-$$\|x\|_1 \leq \sqrt{n} \|x\|_2 $$
-```
+- $\|A\|_0$ as the number of non-zero elements of the matrix $A$,
+- $\|A\|_1 = \max\limits_{1 \leq j \leq n} \sum_{i=0}^n |a_{ij}|$ is the maximum among the sum of the absolute value along the columns of the matrix,
+- $\|A\|_2 = \|A\| = \sigma_1$ is the biggest singular value of the matrix,
+- $\|A\|_\infty = \max\limits_{1 \leq i \leq m} \sum_{j=0}^n  |a_{ij}|$ is the maximum among the sum of the absolute values along the rows of the matrix,
+- $\norm{A}_{\max}$ is the maximal element of the matrix in absolute value.
+- $\norm{A}_F$ is the Frobenius norm of the matrix, defined as $\sqrt{\sum_{ij}a_{ij}^2}$
+
+Note that for symmetric matrices, $\|A\|_\infty = \|A\|_1$.
+
+
+
 
 
 <!-- from dequantization of qsfa -->
 ```{exercise, name="bound error on product of matrices"}
-Suppose that $\|A - \overline{A}\|_F \leq \epsilon \|A\|_F$. 
+Suppose that $\|A - \overline{A}\|_F \leq \epsilon \|A\|_F$.
 Bound $\|A^TA - \overline{A}^T\overline{A}\|_F\|$
 ```
 
@@ -104,7 +118,7 @@ A function $f : \mathbb{R}^d \times \mathbb{R}^d \mapsto \mathbb{R}$ is called a
 - $d(x,z) \leq d(x,y) + d(y+z)$
 
 ```
-  
+
 #### Properties of the trace operator
 
 - $Tr[A+B] = Tr[A] + Tr[B]$
@@ -121,9 +135,15 @@ where inner product between matrices is basically defined pointwise as $\sum_{ij
 
 #### Properties of tensor product
 
+Given two liner maps $V_1 : W_1 \mapsto V_1$ and $V_2 : W_2 \mapsto V_2$ we define the tensor product as the linear map:
+$$V_1 \otimes V_2 : V_1 \otimes V_2 \mapsto W_1 \otimes W_2 $$
+
 - $\alpha v \otimes w = v \otimes \alpha w = \alpha(v \otimes w)$
 - $( v_1 + v_2) \otimes w = (v_1 \otimes w) + (v_2 \otimes w)$ (and the symmetric of it)
-- $\ket{\psi_1}\bra{\phi_1} \otimes \ket{\psi_2}\bra{\phi_2} = \ket{\psi_1}\ket{\psi_2} \otimes \bra{\phi_1}\bra{\phi_2}$ <!-- improve, check.. --> 
+- $\ket{\psi_1}\bra{\phi_1} \otimes \ket{\psi_2}\bra{\phi_2} = \ket{\psi_1}\ket{\psi_2} \otimes \bra{\phi_1}\bra{\phi_2}$ <!-- improve, check.. -->
+
+When a basis is decided for representing linear maps between vector spaces, the tensor product becomes the Kroeneker product. 
+
 
 #### Useful inequalities 
 
@@ -139,18 +159,30 @@ Jensen inequality
 
 
 ```{theorem binomial-theorem, name="Binomial theorem"}
-$$(a+b)^n = \sum_{k=0}^n \choose{n, k}a^kb^{n-k}$$
+$$(a+b)^n = \sum_{k=0}^n {n \choose k} a^kb^{n-k}$$
 ```
 
 
-### Eigenvalues, eigenvectors and eigendecomposition of a matrix
+
+
+
+
+
+
+
+## Linear algebra
+
 <!-- 
 # TODO Adjust citations and labels
 -->
-Real matrices are important tools in Machine Learning as they allow to comfortably represent data and describe the operations to perform during an algorithm. Eigenvectors and Eigenvalues are fundamental linear algebra concepts that provide important information about a matrix. 
 
-```{definition, name="Eigenvalues and Eigenvectors"}
-\cite[Section 6.1 page 289]{linearalgebragilbert}
+
+
+### Eigenvalues, eigenvectors and eigendecomposition of a matrix
+
+Real matrices are important tools in Machine Learning as they allow to comfortably represent data and describe the operations to perform during an algorithm. Eigenvectors and eigenvalues are fundamental linear algebra concepts that provide important information about a matrix. 
+
+```{definition, name="Eigenvalues and Eigenvectors (Section 6.1 page 289 from [@linearalgebragilbert] )"}
 Let $A$ be a $\mathbb{R}^{n\times n}$ square matrix, $q \in \mathbb{R}^{n}$ a non-zero vector and $\lambda$ a scalar. If the following equation is satisfied
 $$Aq = \lambda q,$$
 then $q$ is said to be an eigenvector of matrix $A$ and $\lambda$ is its associated eigenvalue.
@@ -160,15 +192,14 @@ To have a geometric insight into what eigenvectors and eigenvalues are, we can t
 
 The eigenvalues reveal interesting properties of a matrix. For example, the trace of a matrix (i.e. the sum of the element along the main diagonal of a square matrix) is the sum of its eigenvalues
 $$Tr[A] = \sum_i^{n}\lambda_i,$$
-and its determinant is equal to the product of the eigenvalues \cite[Section 6.1 page 294]{linearalgebragilbert}
+and its determinant is equal to the product of the eigenvalues (Section 6.1 page 294 from [@linearalgebragilbert])
 $$det(A) = \prod_i^{n}\lambda_i.$$
 
 Moreover, a matrix $A$ with  eigenvalues $\{\lambda_1, ..., \lambda_k\}$ has an inverse only if all the eigenvalues are not zero. The inverse has eigenvalues $\{\frac{1}{\lambda_1}, ..., \frac{1}{\lambda_k}\}$.
 
 Generally, one eigenvalue can be associated with multiple eigenvectors. There might be a set of vectors $E(\lambda) \subseteq \mathbb{R}^n$ such that for all those vectors $q \in E(\lambda): Aq = \lambda q$. That is why for each eigenvalue we talk about an eigenspace. 
 
-```{definition, name="Eigenspace"}
-\cite[Definition 7.1.5 page 108]{scapellato}
+```{definition, eigenspace, name="Eigenspace (Definition 7.1.5 page 108 [@scapellato])"}
 Let $A$ be a $\mathbb{R}^{n\times n}$ square matrix and $\lambda$ be an eigenvalue of $A$. The eigenspace of $A$ related to $\lambda$ is the space defined over the set of vectors $E(\lambda) = \{ x: Ax = \lambda x\}$.
 ```
 
@@ -180,8 +211,8 @@ A basis for the space where all the eigenvectors of a matrix lie is called eigen
 
 An important result is that vectors in different eigenspaces are linearly independent.
 
-```{lemma, name="Linear independence of eigenvectors"}
-\cite[Lemma 7.2.3 page 112]{scapellato}
+```{lemma, name="Linear independence of eigenvectors (Lemma 7.2.3 page 112 from [@scapellato]"}
+
 The set of vectors obtained by the union of the bases of the eigenspaces of a matrix is linearly independent.
 ```
 This means that if the sum of the dimensions of the eigenspaces $\sum_i dim(E(\lambda_i))$ equals $n$, it is possible to find $n$ eigenvectors of $A$ that form a basis for the $\mathbb{R}^n$ space. If that is the case, each vector that lies in $\mathbb{R}^n$ can be written as a linear combination of the eigenvectors of $A$.
@@ -196,7 +227,7 @@ Where $Q \in \mathbb{R}^{n\times n}$ is an square matrix and $\Lambda \in \mathb
 
 The matrices that can be eigendecomposed are also said diagonalizable, as in practice the theorem above states that such matrices are similar to diagonal matrices. Unfortunately, not all the square matrices have enough independent eigenvectors to be diagonalized. The Spectral Theorem provides us with a set of matrices that can always be eigendecomposed.
 
-```{theorem, name="Spectral theorem"}
+```{theorem, spectral-theorem, name="Spectral theorem"}
 \cite[Spectral Theorem page 339]{linearalgebragilbert}
 Every symmetric matrix is diagonalizable $A = Q\Lambda Q^{-1}$. Furthermore, its eigenvalues are real and it is possible to choose the columns of $Q$ so that it is an orthogonal matrix.
 ```
@@ -208,7 +239,7 @@ where $\Lambda^{-1} = diag([\frac{1}{\lambda_1}, ... \frac{1}{\lambda_n}])$. It 
 $$AA^{-1} = (Q\Lambda Q^{-1})(Q\Lambda^{-1}Q^{-1}) = Q\Lambda\Lambda^{-1}Q^{-1} = QQ^{-1} = \mathbb{I}$$
 $$A^{-1}A = (Q\Lambda^{-1}Q^{-1})(Q\Lambda Q^{-1}) = Q\Lambda^{-1}\Lambda Q^{-1} = QQ^{-1} = \mathbb{I}.$$
 At the same time, the eigendecomposition of a matrix allows performing matrix exponentiation much faster than through the usual matrix multiplication. In fact, it is true that $A^p = Q\Lambda^pQ^{-1}$.
-For instance, 
+For instance,
 $$A^3 = (Q\Lambda Q^{-1})(Q\Lambda Q^{-1})(Q\Lambda Q^{-1}) = Q\Lambda(Q^{-1}Q)\Lambda(Q^{-1}Q)\Lambda Q^{-1} = Q\Lambda\Lambda\Lambda Q^{-1} = Q\Lambda^3Q^{-1}.$$
 Computing big matrix powers such as $A^{100}$, with its eigendecomposed representation, only takes two matrix multiplications instead of a hundred.
 
@@ -216,17 +247,31 @@ Traditionally, the computational effort of performing the eigendecomposition of 
 
 
 ### Singular value decomposition
-<!-- 
+<!--
 # TODO Adjust citations and labels
 -->
 Eigenvalues and eigenvectors can be computed only on square matrices. Moreover, not all matrices can be eigendecomposed. For this reason, we introduce the concepts of singular values and singular vectors, that are closely related to the ones of eigenvalues and eigenvectors, and offer a decomposition for all the kind of matrices.
 
-```{theorem, name="Singular Value Decomposition"} 
+```{theorem, svd, name="Singular Value Decomposition (Sections 7.1, 7.2 from [@linearalgebragilbert])"} 
 \cite[Sections 7.1, 7.2]{linearalgebragilbert}
 Any matrix $A \in \mathbb{R}^{n \times n}$ can be decomposed as
 $$A = U\Sigma V^T$$
 where $U \in \mathbb{R}^{n\times r}$ and $V \in \mathbb{R}^{m\times r}$ are orthogonal matrices and $\Sigma  \in \mathbb{R}^{r\times r}$ is a diagonal matrix. In particular, each $i^{th}$ column of $U$ and $V$ are respectively called left and right singular vectors of $A$ and the $i^{th}$ entry of $\Sigma$ is their associated singular value. Furthermore, $r$ is a natural number smaller then $m$ and $n$.
 ```
+
+Another (equivaloent) definition of SVD is the following:
+$$A=(U, U_0)\begin{pmatrix}
+	\Sigma & 0 \\
+	0 & 0
+	\end{pmatrix} (V, V_0)^T.$$
+The matrix $\Sigma$ is a diagonal matrix with $\Sigma_{ii}=\sigma_i$ being the singular values (which we assume to be sorted $\sigma_1 \geq \dots \geq \sigma_n$).
+
+The matrices $(U, U_0)$ and $(V, V_0)$ are unitary matrices, which contain a basis for the column and the row space (respectively $U$ and $V$) and the left null-space and null-space (respectively $U_0$ and $V_0$). Oftentimes, it is simpler to define the SVD of a matrix by simply discarding the left and right null spaces, as $A=U\Sigma V^T$, where $U,V$ are orthogonal matrices and
+$\Sigma \in \mathbb{R}^{r \times r}$ is a diagonal matrix with real elements, as we did in Theorem \@ref{thm:svd}.
+
+
+
+
 
 Similarly to how eigenvalues and eigenvectors have been defined previously, for each pair of left-right singular vector, and the associated singular value, the following equation stands:
 $$Av = \sigma u.$$
@@ -244,36 +289,66 @@ $$A^TA =
 (U\Sigma V^T)^T(U\Sigma V^T) =
 V\Sigma U^TU\Sigma V^T = V\Sigma ^2V^T.$$
 
-Note that the matrices $AA^T$ and $A^TA$ are symmetric matrices and so, for the Spectral theorem, they can always be decomposed. Moreover, note that they have positive eigenvalues: being the square roots of real positive eigenvalues, the singular values of a real matrix are always real positive numbers.
+Note that the matrices $AA^T$ and $A^TA$ are symmetric matrices and so, for the Spectral theorem, we can always find an eigendecomposition. Moreover, note that they have positive eigenvalues: being the square roots of real positive eigenvalues, the singular values of a real matrix are always real positive numbers.
 
 As the left and right singular vectors are eigenvectors of symmetric matrices, they can be chosen to be orthogonal as well. In particular, the left singular vectors of a matrix span the row space of the matrix, and the right singular vectors span the column space.
 
-```{definition, name="Column (Row) Space"} 
- \cite[Definition 8.1 page 192]{schlesinger} \label{Def:column_row_space} Let $A$ be a $\mathbb{R}^{n\times m}$ matrix. The column (row) space of $A$ is the space spanned by the column (row) vectors of $A$. Its dimension is equal to the number of linearly independent columns (rows) of $A$.
+```{definition, column_row_space, name="Column (row) Space (Definition 8.1 page 192 [@schlesinger])"} 
+ \cite[Definition 8.1 page 192]{schlesinger} Let $A$ be a $\mathbb{R}^{n\times m}$ matrix. The column (row) space of $A$ is the space spanned by the column (row) vectors of $A$. Its dimension is equal to the number of linearly independent columns (rows) of $A$.
 ```
 
 The number $r$ of singular values and singular vectors of a matrix is its rank.
-```{definition, name="Rank of a matrix"} 
- \cite[Definition 8.3, Proposition 8.4 page 193-194]{schlesinger} \label{Def:rank} The rank of a matrix is the number of linearly independent rows/columns of the matrix. If the matrix belongs to the $\mathbb{R}^{n\times m}$ space, the rank is less or equal than $min(n,m)$. A matrix is said to be full rank if its rank is equal to $min(n,m)$.
+
+```{definition, rank, name="Rank of a matrix (Definition 8.3, Proposition 8.4 page 193-194 from [@schlesinger]) "} 
+The rank of a matrix is the number of linearly independent rows/columns of the matrix. If the matrix belongs to the $\mathbb{R}^{n\times m}$ space, the rank is less or equal than $min(n,m)$. A matrix is said to be full rank if its rank is equal to $min(n,m)$.
 ```
 
 
+
+
+
+
+
+The dimension of the null-space is the number of linearly-dependent columns. For a rank $k$ matrix, the Moore-Penrose pseudo-inverse is defined as $\sum_{i}^k \frac{1}{\sigma_i}u_i v_i^T$. Another relevant property of SVD is that the nonzero singular values and the corresponding singular vectors are the nonzero eigenvalues and eigenvectors of the matrix
+$\begin{pmatrix}
+	0 & A \\
+	A^T & 0
+	\end{pmatrix}$:
+
+$$ \begin{pmatrix}
+	0 & A \\
+	A^T & 0
+	\end{pmatrix} \begin{pmatrix}
+	u_i \\
+	v_i
+	\end{pmatrix} .
+	= s_i \begin{pmatrix}
+	u_i \\
+	v_i
+	\end{pmatrix}
+	$$
+
+With $s(A)$ or simply with $s$   we denote the sparsity, that is, the maximum number of non-zero elements of the rows. 
+
+
+
+
+
 ### Singular vectors for data representation
-<!-- 
+<!--
 # TODO Adjust citations and labels
 -->
-Singular values and singular vectors provide important information about matrices and allow to speed up certain kind of calculations. Many data analysis algorithms, such as Principal Component Analysis, Correspondence Analysis, and Latent Semantic Analysis that will be further investigated in the following sections, are based on the singular value decomposition of a matrix. 
+Singular values and singular vectors provide important information about matrices and allow to speed up certain kind of calculations. Many data analysis algorithms, such as Principal Component Analysis, Correspondence Analysis, and Latent Semantic Analysis that will be further investigated in the following sections, are based on the singular value decomposition of a matrix.
 
 To begin with, the SVD representation of a matrix allows us to better understand some matrix norms, like the spectral norm and the Frobenius norm.
-```{definition, name="$l_2$ (or Spectral) norm"}
- \cite[Section 11.2 page 518]{linearalgebragilbert} \label{Def:spectral_norm} 
+```{definition, spectral_norm, name="$l_2$ (or Spectral) norm (Section 11.2 page 518, [@linearalgebragilbert])"}
  Let $A  \in \mathbb{R}^{n\times m}$ be a matrix. The $l_2$ norm of $A$ is defined as $||A ||_2 = max_{x }\frac{||A x ||}{||x ||}$.
 ```
 
 
 It is pretty easy to see that 
 $$||A ||_2 = \sigma_{max}$$
-Where $\sigma_{max}$ is the greatest singular value of $A$. In particular, if we consider again the matrix $A =U \Sigma V ^T$ as a linear transformation, we see that $U$ and $V ^T$ only rotate vectors $||U x ||=||x ||$, $||V x ||=||x ||$ while $\Sigma$ changes their magnitude $||\Sigma x || \leq \sigma_{max}||x ||$. For this reason, the $l_2$ Norm of a matrix is also referred to as the Spectral Norm. During the rest of the work we will also use the notation $||A ||$ to refer to the Spectral Norm.  
+Where $\sigma_{max}$ is the greatest singular value of $A$. In particular, if we consider again the matrix $A =U \Sigma V ^T$ as a linear transformation, we see that $U$ and $V ^T$ only rotate vectors $||U x ||=||x ||$, $||V x ||=||x ||$ while $\Sigma$ changes their magnitude $||\Sigma x || \leq \sigma_{max}||x ||$. For this reason, the $l_2$ Norm of a matrix is also referred to as the Spectral Norm. During the rest of the work we will also use the notation $||A ||$ to refer to the Spectral Norm.
 
 Another important matrix norm that benefits from SVD is the Frobenius norm, defined in the following way.
 ```{definition, name="Frobenius norm"}
@@ -299,10 +374,10 @@ From the cyclic property of the trace $Tr[A B ] = Tr[B A ]$ it follows that $Tr[
 
 
 Another interesting result about the SVD of a matrix is known as the Eckart–Young–Mirsky theorem. 
-```{theorem, name="Best F-Norm Low Rank Approximation"}
+```{theorem, eckart-young-mirsky, name="Best F-Norm Low Rank Approximation"}
  \cite{eckart1936approximation}\cite{mirsky1960symmetric} \label{Theo:eckart-young-mirsky}
-Let $A  \in \mathbb{R}^{n \times m}$ be a matrix of rank $r$ and singular value decomposition $A  = U \Sigma V ^T$. The matrix $A ^{(k)} = U ^{(k)}\Sigma ^{(k)}V ^{(k)T}$ of rank $k \leq r$, obtained by zeroing the smallest $r-k$ singular values of $A$, is the best rank-k approximation of $A$.  
- Equivalently, $A _k = argmin_{B :rank(B )=k}(||A  - B  ||_F)$.  
+Let $A  \in \mathbb{R}^{n \times m}$ be a matrix of rank $r$ and singular value decomposition $A  = U \Sigma V ^T$. The matrix $A ^{(k)} = U ^{(k)}\Sigma ^{(k)}V ^{(k)T}$ of rank $k \leq r$, obtained by zeroing the smallest $r-k$ singular values of $A$, is the best rank-k approximation of $A$.
+ Equivalently, $A _k = argmin_{B :rank(B )=k}(||A  - B  ||_F)$.
  Furthermore, $min_{B :rank(B )=k}(||A  - B  ||_F) = \sqrt{\sum_{i=k+1}^r{\sigma_i}}$.
 ```
 
@@ -314,7 +389,7 @@ When the smallest singular values are set to 0, we still reconstruct a big part 
 
 
 Unfortunately though, calculating the singular vectors and singular values of a matrix is a computationally intensive task. Indeed, for a matrix $A  \in \mathbb{R}^{n\times m}$ the cost of the exact SVD is $O\left( min(n^2m, nm^2) \right)$. Recently, there have been developed approximate methods that compute the Eckart-Young-Mirsky approximations of matrices in 
-time $O(knm)$, where k is the rank of the output matrix \cite{partridge1997fastpca}, or in times that scale super-linearly on the desired rank and one dimension of the input matrix \cite{bhojanapalli2014tighter}. 
+time $O(knm)$, where k is the rank of the output matrix \cite{partridge1997fastpca}, or in times that scale super-linearly on the desired rank and one dimension of the input matrix \cite{bhojanapalli2014tighter}.
 
 ### Trigonometry
 Always have in mind the following Taylor expansion:
@@ -325,8 +400,8 @@ $$e^{x} = \sum_{k=0}^\infty \frac{x^k}{k!}$$
 
 From that, it is easy to derive that: 
 $$e^{\pm ix}= cos (x) \pm i sin(x) $$
-```{theorem, name="Nunzio's version of Euler's identity"} 
-For $\tau = 2\pi$, 
+```{theorem, name="Nunzio's version of Euler's identity"}
+For $\tau = 2\pi$,
 
 $$e^{i\tau} = 1 $$
 ```
@@ -348,17 +423,17 @@ Recall that $e^x = cos(x)+isin(x)$,
 $$e^{A+B} = cos(a+b)+isin(a+b) = e^Ae^B = (cos(a)+isin(a))(cos(b)+isin(b))$$
 $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)+isin(b)+isin(a)cos(b) - sin(b)sin(a)$$
 $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)$$
-  From this, it follows 
+  From this, it follows
 ```
 
 # Series
 
 <!-- 
 # TODO Finish section on series (geometric, telescopic, and so on.. )
-# This should be a straight-to-the point section on series, with specific focus on CS. 
-# These series pops up very often in the analysis of algorithms so having them here is really helpful. 
-# Ask scinawa the notes he already have on this. 
-# labels: good first issue, help wanted 
+# This should be a straight-to-the point section on series, with specific focus on CS.
+# These series pops up very often in the analysis of algorithms so having them here is really helpful.
+# Ask scinawa the notes he already have on this.
+# labels: good first issue, help wanted
 -->
 
 <!-- The geometric series is a series with a constant ratio between successive terms. The term $r$ is called the *common ratio* and the term $a$ is the first element of the series.  -->
@@ -392,7 +467,7 @@ $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)
 
 <!-- Also, TOADD: $\frac{1}{x-a} = ?$ -->
 
-<!-- <!-- Perhaps include the beautiful image of wikipedia of the geometric series! --> -->
+<!-- <!-- Perhaps include the beautiful image of wikipedia of the geometric series! --> 
 
 <!-- So, if we wanted to find the Taylor series of $\frac{1}{x}$ we would only need to find some way of representing the new function via the old one. This can be done by changing $x$ to $(1-x)$ in the sum. So our new series is $\frac{1}{1-(1-x)}=\frac{1}{x}=\sum_{n=0}^\infty (1-x)^n$. -->
 
@@ -424,7 +499,7 @@ The union bound is used to show that the probability of union fo some finte or c
 <span id="unionbound"> </span>
 
 ```{theorem, unionbound, name="Union bound"}
-$\forall$ event $A_1 \dots A_n$ 
+$\forall$ event $A_1 \dots A_n$
 $$P(\cup_{i=1}^n A_i) \leq \sum_{i=1}^n P(A_i)$$
 ```
 
@@ -434,7 +509,7 @@ $$P(\cup_{i=1}^n A_i) \leq \sum_{i=1}^n P(A_i)$$
 <!-- ``` -->
 
 ```{exercise}
-In Erdős–Rényi graphs $G(n,p)$, (that is, a graph with $n$ nodes with probability $p$ that each of the two nodes are connected). We define the event $B_n$ as the event where a graph $G(n,p)$ has at least one isolated node. Show that $P(B_n) \leq n(1-p)^{n-1}$. 
+In Erdős–Rényi graphs $G(n,p)$, (that is, a graph with $n$ nodes with probability $p$ that each of the two nodes are connected). We define the event $B_n$ as the event where a graph $G(n,p)$ has at least one isolated node. Show that $P(B_n) \leq n(1-p)^{n-1}$.
 ```
 ```{proof}
 Let $A_i, i\in[n]$ the event that node $i$ is isoldated. Its probability, from the definition of $G(n,p)$ is $(1-p)^{n-1}$, because there might be an edge with probability $p$ with other $n-1$ nods. From this, applying directly the union bonund we obtain an upper bound on the probability that there is at least one isoldated node is in the graph:
@@ -442,16 +517,16 @@ $$P(B_n) = P(\cup_{i=1}^n A_i) \leq \sum_i P(A_i) \leq nP(A_i) = n(1-p)^{n-1}$$
 ```
 
 ```{exercise}
-Suppose we run 4 times a randomized algorithm, with success probability $1-\delta$. What is the probability that we never fail? 
+Suppose we run 4 times a randomized algorithm, with success probability $1-\delta$. What is the probability that we never fail?
 ```
 
 ```{proof}
-Let $f_i$ the event that we fail running our algorithm at time $i$. 
+Let $f_i$ the event that we fail running our algorithm at time $i$.
 We know that the failure probability $f_i$ is $\delta$ for all $i \in [4]$. Thanks to the union bound we can bound the probability that we fail at least once:
-$$P(\cup_i^k f_i ) \leq \sum_i^k \delta = 4\delta$.
-It follows that the have 4 success in a row is *lower* bounded by $1-4\delta$. 
+$P(\cup_i^k f_i ) \leq \sum_i^k \delta = 4\delta$.
+It follows that the have 4 success in a row is *lower* bounded by $1-4\delta$.
 
-Note that we could have also bypassed the union bound and compute this quantity analitically, as the probability of getting 4 success in a row would be $(1-\delta)^4$, which we can compute with the \@ref(binomial-theorem). 
+Note that we could have also bypassed the union bound and compute this quantity analitically, as the probability of getting 4 success in a row would be $(1-\delta)^4$, which we can compute with the binomial theorem \@ref(binomial-theorem). 
 ```
 
 
@@ -469,8 +544,8 @@ Note that we could have also bypassed the union bound and compute this quantity 
 
 ```{exercise}
 How can we express the variance as expectation of quantum states? What quantum algorithm might we run to estimate the variance of a random variable $M$?
-  $$\braket{\psi|M^2|\psi} - (\braket{\psi|M|\psi})^2 $$ 
-  Discuss. 
+  $$\braket{\psi|M^2|\psi} - (\braket{\psi|M|\psi})^2 $$
+  Discuss.
 ```
 
 
@@ -478,7 +553,7 @@ How can we express the variance as expectation of quantum states? What quantum a
 A probability density function or probability mass function $p(v|\nu)$ for $v = (v_1, \cdots, v_m) \in \mathcal{V}^m$, where $\mathcal{V} \subseteq \mathbb{R}$, is a $\sigma$-algebra over a set $X$ 	$\nu \in \mathbb{R}^p$ is said to be in the exponential family if it can be written as:
  $$p(v|\nu) := 	h(v)\exp \{ o(\nu)^TT(v) - A(\nu) \}$$
  where:
-  
+
 - $\nu \in \mathbb{R}^p$ is called the \emph{canonical or natural} parameter of the family,
 - $o(\nu)$ is a function of $\nu$  (which often is just the identity function),
 - $T(v)$  is the vector of sufficient statistics: a function that holds all the information the data $v$ holds with respect to the unknown parameters,
@@ -500,7 +575,7 @@ A probability density function or probability mass function $p(v|\nu)$ for $v = 
 In this section we discuss the following, widely known result in CS. It's used not only in writing algorithms, but also in complexity theory. 
 
 ```{lemma, powering-lemma, name="Powering lemma [@jerrum1986random]"} 
-Let $\mathcal{A}$ be a quantum or classical algorithm which aims to estimate some quantity $\mu$, and whose output $\widetilde{\mu}$ satisfies $|\mu-\widetilde{\mu} \leq \epsilon$ except with probability $\gamma$, for some fixed $\gamma \leq 1/2$. Then, for any $\gamma > 0$ it suffices to repeat $\mathcal{A}$ $O(\log 1/\delta)$ times and take the median to obtain an estimate which is accurate to within $\epsilon$ with probability at least $1-\delta$. 
+Let $\mathcal{A}$ be a quantum or classical algorithm which aims to estimate some quantity $\mu$, and whose output $\widetilde{\mu}$ satisfies $|\mu-\widetilde{\mu} |\leq \epsilon$ except with probability $\gamma$, for some fixed $\gamma \leq 1/2$. Then, for any $\gamma > 0$ it suffices to repeat $\mathcal{A}$ $O(\log 1/\delta)$ times and take the median to obtain an estimate which is accurate to within $\epsilon$ with probability at least $1-\delta$.
 ```
 
 
@@ -568,8 +643,8 @@ The proof is made by induction on $r$, (and can be found all over the internet a
 
 
 ```{theorem, jensen, name="Jensen inequality"} 
-Let $X$ be a random variable with $\mathbb{E}|X| \leq \infty$ and $g : \mathbb{R}\to \mathbb{R}$ a real continious convex function. Then 
-$$g(\mathbb{E}[X] \leq \mathbb{E}[g(X)].$$ 
+Let $X$ be a random variable with $\mathbb{E}|X| \leq \infty$ and $g : \mathbb{R}\to \mathbb{R}$ a real continious convex function. Then
+$$g(\mathbb{E}[X]) \leq \mathbb{E}[g(X)].$$
 
 ```
 
@@ -597,14 +672,14 @@ $$\|X+Y\|_p \leq \|X\|_p + \|Y\|_p.$$
 
 <!-- 
 # TODO Finish section on concentration inequalities
-# I would like to have a proper part on these concentration inequalities. 
-# This is very important in computer science and in algorithms analysiss because the runtimes and the errors are 
-# bounded using tools like these. 
+# I would like to have a proper part on these concentration inequalities.
+# This is very important in computer science and in algorithms analysiss because the runtimes and the errors are
+# bounded using tools like these.
 # labels: good first issue, help wanted
 -->
 
 ### Markov inequality 
-The Markov inequality is an *upper bound for the probability that a non-negative function of a random variable*, that is greater than or equal to a positive constant. Especially in analysis, refer to it as Chebyshev's inequality (sometimes, calling it the *first* Chebyshev inequality, while referring to the "normal" Chebyshev's inequality as the second Chebyshev inequality) or Bienaym{\'e}'s inequality.  \@ref(chebyshevwikipedia). 
+The Markov inequality is an *upper bound for the probability that a non-negative function of a random variable*, that is greater than or equal to a positive constant. Especially in analysis, people refer to it as Chebyshev's inequality (sometimes, calling it the *first* Chebyshev inequality, while referring to the ["usual"](https://en.wikipedia.org/wiki/Chebyshev%27s_inequality) Chebyshev's inequality as the second Chebyshev inequality or Bienaym{\'e}'s inequality).
 
 ```{theorem, markov, name="Markov inequality"}
 For all non-negative random variable, and $a > 0$,  we have that
@@ -614,7 +689,7 @@ $$Pr(X  \geq aE[X]) \leq \frac{1}{a} $$
 
 ```{proof}
 Observe that :
-$$E[X] = P(X < a) \cdot E[X|X<a] +  P(X > a) \cdot E[X|X>a]$$ 
+$$E[X] = P(X < a) \cdot E[X|X<a] +  P(X > a) \cdot E[X|X>a]$$
 As both of these expected values are bigger than zero, (using the nonnegativity hypothesis) we have that
 $$E[X] \geq P(X > a) \dot E[X|X>a] $$
 
@@ -625,25 +700,22 @@ The second statement of the theorem follows from substitution, i.e. setting $b=a
 ```
 
 ```{theorem, coro-markov, name="Corollary of Markov inequality"}
-Let $f$ be a monotone increasing (or noll) function on a space $I$, and define the random variable on $Y$. 
+Let $f$ be a monotone increasing (or noll) function on a space $I$, and define the random variable on $Y$.
 $$ P(Y \geq b) \leq \frac{E[f(Y)]}{f(b)} $$
 ```
 
 
 
 ### Chebyshev inequality
-(Sometimes called Chebyshev's Second Inequality). 
+This inequality tells us about the probability of finding the random variable $X$ away from the mean $E[X]$ is bounded by the variance of $X$.
 
 ```{theorem, chebyshev, name="Chebyshev inequality"}
-Two formulations:
-  
-- $Pr[|X - E[X]| \geq k\sigma]  \leq \frac{1}{k^2}$
+Let $X$ be a random variable with finite mean and variance, and $\epsilon > 0$. Then:
+  $$Pr[|X - E[X]| \geq \epsilon]\leq \frac{\sigma^2}{\epsilon^2}$$
 
+Moreover, if  $k = \epsilon /\sigma$ we can replace $\epsilon$ with $k\sigma$ and obtain:
 
-Replacing $k\sigma$ with $\epsilon$, where $k = \epsilon /\sigma$, we have the second formulation:
-
-- $Pr[|X - E[X]| \geq \epsilon]\leq \frac{\sigma^2}{\epsilon^2}$
-
+ $$Pr[|X - E[X]| \geq k\sigma]  \leq \frac{1}{k^2}$$
 
 ```
 
@@ -656,7 +728,7 @@ $$Var[Y] = \frac{1}{n^2} \sum_i^n \text{Var}[X]$$
 This allows us to obtain the following bound:
 
 ```{theorem, chebyshev-mean, name="Chebyshev inequality for sample mean"}
-Let $Y= \frac{1}{n}\sum_i^n X_i$. Then, 
+Let $Y= \frac{1}{n}\sum_i^n X_i$. Then,
 
 $$Pr[|Y - E[Y]| \geq \epsilon]\leq \frac{\sigma^2}{n\epsilon^2}$$
 ```
@@ -665,7 +737,7 @@ $$Pr[|Y - E[Y]| \geq \epsilon]\leq \frac{\sigma^2}{n\epsilon^2}$$
 
 ### (Weak) Law of large numbers
 
-```{theorem, wlln, name="(Weak) Llaw of large numbers"}
+```{theorem, wlln, name="(Weak) Law of large numbers"}
 Let $X_1, X_2, \dots, X_n$ be i.i.d random variables with a finite expected value $X[X_i]=\mu \leq \infty$. Then, for any $\epsilon > 0$, we have that:
 
 $$\lim_{n\to +\infty} P\left( |\overline{X} - \mu | \geq \epsilon   \right) = 0$$
@@ -679,17 +751,22 @@ $$\lim_{n\to +\infty} P\left( |\overline{X} - \mu | \geq \epsilon   \right) = 0$
 
 ### Chernoff bound
 <!-- From [here](https://math.mit.edu/~goemans/18310S15/chernoff-notes.pdf) and [here](http://www.stat.cmu.edu/~arinaldo/Teaching/36709/S19/Scribed_Lectures/Jan29_Tudor.pdf). -->
+<!-- https://polynomiallybounded.wordpress.com/2017/05/23/how-i-remember-the-chernoff-bound/ -->
 
 <!-- We now consider a more restricted class of random variables, i.e. the case when our random variable is obtained as the sum of *indipendent* other random variables.  -->
 <!-- Central limit theorem says that, as $n \to \infty$, the value $\frac{X-\mu}{\sigma}$ approaches the standard normal distribution $N(0,1)$. Hoewver, it does not tell any information on the rate of convergence. -->
-<!-- <!-- (Expand more on this..) --> -->
+<!-- <!-- (Expand more on this..) -->
 <!-- Chernoff bound is useful because some random variable are not efficiently bounded from Markov and Chebyshev.  -->
 <!-- Note: to apply the Chernoff bound we require our random variable to be a sum of *indipendent* random variables.  -->
 
 
+<!-- https://www.probabilitycourse.com/chapter6/6_2_3_chernoff_bounds.php -->
+
+
+
 ```{theorem, chernoff-bound, name="Chernoff bound"}
 Let $X=\sum_i^n X_i$ where $X_i =1$ with probability $p_i$ and $X_i=0$ with probability $(1-p_i)$, and all $X_i$ are independent. Let $\mu=E[X] = \sum_i^n p_i$. Then:
-  
+
 - *Upper tail*: $P(X \geq (1+\delta)\mu) \leq e^-\frac{\delta^2}{2+\delta}\mu$ for all $\delta > 0$
 - *Lower tail*: $P(X \leq (1-\delta)\mu) \leq e^{\mu\delta^2/2}$ for all $0 \leq \delta \leq 1$
 
@@ -702,10 +779,10 @@ Let $X=\sum_i^n X_i$ where $X_i =1$ with probability $p_i$ and $X_i=0$ with prob
 
 
 <!-- *Trick:* if not all random variables are between $0$ and $1$, we can define $Y_i=X_i/max(X_i)$ -->
-<!-- <!-- (Expand more on this..) --> -->
+<!-- <!-- (Expand more on this..) -->
 
 <!-- # ```{exercise} -->
-<!-- # estimate number of 
+<!-- # estimate number of
 <!-- # ``` -->
 
 
@@ -733,7 +810,7 @@ Let $X=\sum_i^n X_i$ where $X_i =1$ with probability $p_i$ and $X_i=0$ with prob
 
 
 <!-- 
-# TODO Add explaination on how to do the polynomial approximation of 1/x 
+# TODO Add explaination on how to do the polynomial approximation of 1/x
 # It mightbe cool to have the polynomial approximatoin used for ridge regression. Can we do it?
 # labels: help wanted, enhancement
 -->
@@ -744,11 +821,11 @@ Let $X=\sum_i^n X_i$ where $X_i =1$ with probability $p_i$ and $X_i=0$ with prob
 
 <!-- 
 # TODO Finish notes on error propagation
-# It would be very clarifying to understand the error propagation from the point of view of theoretical computer science. 
-# There are many places on the internet that discuss tihs, but from the point of view of physicists that needs to run an experiment. 
-# This is not really helpful sometimes, and require further "processing" to be understood and used in algorithms. 
-# Moreover, I have some notes to share (here in the repository, commented in the code) as I am half-way through this part. 
-# labels: todo, good first issue, 
+# It would be very clarifying to understand the error propagation from the point of view of theoretical computer science.
+# There are many places on the internet that discuss tihs, but from the point of view of physicists that needs to run an experiment.
+# This is not really helpful sometimes, and require further "processing" to be understood and used in algorithms.
+# Moreover, I have some notes to share (here in the repository, commented in the code) as I am half-way through this part.
+# labels: todo, good first issue,
 -->
 
 This part is based on many different sources, like [@hogan2006combine], [@ku1966notes].
@@ -965,7 +1042,7 @@ deduce $\frac{1}{ \tilde b} \leq \frac{1}{ b (1-\epsilon_b)}$.
 
 Now we can combine the previous observation:
 \begin{align}
-\left| \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right| = & 
+\left| \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right| = &
   \left \vert \frac{\tilde a b - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a b - ab + ab - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a  - a}{\tilde b} + \frac{a}{\tilde b} \frac{b - \tilde b}{ b}  \right\vert   \\
 \leq & \left \vert \frac{\tilde a  - a}{\tilde b} \right\vert+  \frac{a}{\tilde b}  \left \vert \frac{b - \tilde b}{ b}  \right\vert \leq \frac{\epsilon_a a + \epsilon_b a }{\tilde b}   \leq  \frac{a}{b}\frac{\epsilon_a +\epsilon_b}{ (1-\epsilon_b)}.
 \end{align}
@@ -989,24 +1066,34 @@ Now we can combine the previous observation:
 <!-- - \url{https://math.stackexchange.com/questions/3000501/relative-error-of-division/3001050#3001050} -->
 
 
+## Useful theorems around linear algebra
 
-
+- [Gershgorin circle theorem](https://en.wikipedia.org/wiki/Gershgorin_circle_theorem)
+- [Perron-Frobenius theorem](https://en.wikipedia.org/wiki/Perron%E2%80%93Frobenius_theorem)
+- [Sherman-Morrison formula](https://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula)
+-
 
 # Contributions and  acknowledgements
 
-These are my first lecture notes in Quantum Machine Learning (QML) and quantum algorithms. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. Thesis, and now are in this extended form with the hope to serve the future researchers in QML.
+These are my first lecture notes in Quantum Machine Learning (QML) and quantum algorithms. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. Thesis, and now are in this extended form with the hope to serve the future researchers in QML. I am not an expert in the broad field of "quantum computing", and these lecture notes are an attempt (while quite prolonged over time) of collecting useful knowledge for new researcher in quantum computing. While I strive to be as precise as the lecture notes of [Ronald de Wolf](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf) and [Andrew Childs](https://www.cs.umd.edu/~amchilds/qa/qa.pdf), I know this work is still far from them. Please be indulgent, and help! For instance by signaling imprecisions, errors, and things that can be made more clear.
+
+
+
 
 If you want to give me any feedback, feel free to write me at "scinawa - at - luongo - dot - pro". Or contact me on [Twitter](https://twitter.com/scinawa).
 
 In sparse order, I would like to thank [Dong Ping Zhang](www.dongpingzhang.com), [Mehdi Mhalla](http://membres-lig.imag.fr/mhalla/) , [Simon Perdrix](https://members.loria.fr/SPerdrix/), [Tommaso Fontana](https://twitter.com/zommiommy), and [Nicola](https://www.linkedin.com/in/nvitucci/) [Vitucci](https://twitter.com/nvitucci) for the initial help with the previous version of this project, and the helpful words of encouragement.
 
 
-The contributors to the project are:
+The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contributors) to the project are:
 
 - Alessandro ['Scinawa'](https://twitter.com/scinawa) Luongo
-- Armando 'ikiga1' Bellante
+- Armando ['ikiga1'](https://twitter.com/ikiga1) Bellante
 - Patrick Rebentrost
-- 
+- Yassine Hamoudi
+- Martin Plávala
+- Trong Duong
+- Filippo Miatto
 
 # License and citation
 

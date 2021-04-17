@@ -1,6 +1,6 @@
 --- 
 title: "Quantum algorithms for data analysis"
-author: "Alessandro Luongo"
+author: ""
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -46,41 +46,74 @@ description: "Lecture notes on quantum algorithms for information processing and
 
 
 # Preface 
-I hope you can find here all the things that I would have liked to know when I started doing quantum algorithms. My aspiration is that they will help to close the gap between introductory material in quantum computation and high-level research material. 
+I hope you can find here all the things that I would have liked to know when I started working on quantum algorithms. My aspiration is that they will help bridge the gap between introductory material in quantum computation and high-level research material. 
 
-These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalgorithms.org/) easily accessible on GitHub. Fell free to help by sending a pull request to the previous url. There are a list of issues and enhancements that would ameliorate further these lecture notes, making them more accessible and covering more interesting and recent material that keeps popping up in quantum information. 
+These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalgorithms.org/) easily accessible on GitHub. Feel free to help by sending a pull request. You can find a list of issues and enhancements that would improve these lecture notes further, making them more accessible and covering more interesting and recent material that keeps popping up in quantum information. 
 
 
-<!-- 
-to bringe back after grant's applications. 
-<p style="text-align:right"> -->
-<!-- This book is dedicated to all [**cypherpunks**](https://luongo.pro/cypherpunks/): *civil liberties through complex mathematics*. </p> -->
+<p style="text-align:right"> 
+ This book is dedicated to all [**cypherpunks**](https://luongo.pro/cypherpunks/): *civil liberties through complex mathematics*. </p> 
 
 <!-- 
 it would be nice to make just a preface, and put the text above this one without any heading..
 https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter-header  -->
 
+### Changelog
+
+- August 2020: Migrated the old blog on bookdown
+- December 2020: Moved thesis in bookdown
+- January 2021: First system for typesetting algorithms, more appendix on linear algebra
+- February 2021: New subroutines for estimating $\ell_1$ norms.
+- March 2021: quantumalgorithms.org is proudly supported by the [Unitary Fund](https://unitary.fund/), and quantumalgorithms.org is a project of the [QOSF](https://qosf.org) mentorship program: 5 students started creating new content!
+- April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation. 
+
+Arriving soon:
+
+- quantum perceptrons
+- quantum lower bounds
+- quantum algorithms for dynamic programming
+- quantum algorithms for graph problems
+- quantum Monte Carlo
+- quantum convolutional neural networks
+- quantum random feature sampling
+
 ## Abstract
 
+In these lecture notes, we explore how we can leverage quantum computers and quantum algorithms for information processing. It has long been known that quantum computation can offer computational advantages with respect to classical computation, and in this place we explore more the consequences of this intuition in current domains of computer sciences. 
 
+Why are we studying quantum algorithms? Studying how to use quantum mechanical
+systems is already fascinating in itself, but we argue that having faster
+algorithms it's not the only reason for studying quantum computing. Studying
+quantum computation might also reveal profound insights on new ways to process
+information. For instance, it can give us ideas on processing data
+in a secure way (though, quantum cryptography is not discussed in these notes).
+Understanding the computational capabilities of quantum machines
+is certainly an interesting thing to do. This might lead to understanding the
+computational limits of nature: what can be computed in this world? Last
+but not least, because of the interplay between classical and quantum
+computation, many new *classical* algorithms have been invented (i.e. the
+dequantizations of quantum machine learning algorithms, the classical algorithms
+for Gibbs sampling, simulations of QAOA, etc..). This, in turn,
+improved our understanding of physics, and ultimately of the world itself.
+<!-- As some scientists believe\footnote{A friend told me this was originally an idea -->
+<!-- of Miklos Santha}, quantum computing is the occasion for Theoretical Computer -->
+<!-- Science to welcome contribution from Physics. As we know, TCS has (luckly) -->
+<!-- welcome many contribution from Mathematical sciences, and at the current state -->
+<!-- is basically a branch of Mathematics. With quantum computing, TCS can welcome -->
+<!-- also contribution from physics, perhaps going towards the direction of a -->
+<!-- "Physical Computer Science". -->
+Another reason for studying quantum algorithms is that quantum computers are posing
+a significant challenge to the *strong* Church-Turing thesis, which says that any "reasonable"
+model of computation can be *efficiently* simulated on a probabilistic Turing machine (i.e. a Turing machine which has access to randomness).
+However, there are some physical processes that we do not know how to simulate efficiently on classical computers, but for which we have efficient quantum algorithms! This is a strong evidence that the strong Church-Turing thesis might be wrong!
 
+You might often hear that there are only two real quantum algorithms: phase estimation and the Grover's algorithm. This is somewhat true, but it is true in the same way that we have only 12 notes in the western temperate scale, and yet Pink Floyd were able to write [The Dark Side of the Moon](https://www.youtube.com/playlist?list=OLAK5uy_l1x-JAx0w53suECoCI0YJtW6VB8DBQWRQ) (and the other musicians came up with "the rest" of the music).
 
+The common thread of these algorithms is that they are faster than their best classical counterpart. Oftentimes, (especially for ML) the runtime will depend only [poly-logarithmically](https://en.wikipedia.org/wiki/Polylogarithmic_function) in the number of elements of the dataset, and it is usually only linear in the number of features (classical algorithms are often either linear in the number of elements and quadratic in the number of features, or depend on the number of nonzero components of the matrix and depend polynomially on other parameters of the matrix). The runtime of a quantum machine learning algorithm also often depends on characteristics of the matrix that represents the data under analysis, such as its rank, the Frobenius norm (or other matrix norms), the sparsity, the condition number, and the error we tolerate in the analysis. For this, along with an error-corrected quantum computer, we assume to have quantum access to a dataset. In other words, we assume that the data is stored in a quantum memory: the corresponding quantum version of the classical random-access memory.
 
+We will see that, for a new QML algorithm, one often needs to make sure that the real performances of the quantum algorithms offer concrete advantages with respect to the effective runtime and the accuracy that is offered by the best classical algorithms. As we don't have access to big-enough quantum computers *yet*, we can only assess the performance of these quantum algorithms via a classical simulation. 
 
-
-
-
-In these lecture notes, we explore how we can leverage quantum computers and quantum algorithms for information processing. It has long been known that quantum computation can offer computational advantages with respect to classical computers, and in this place, we explore more the consequences of this intuition in recent domains of computer sciences. 
-
-Why are we studying quantum algorithms? Studying how to use quantum mechanical systems is already fascinating by itself, but we argue that having faster algorithms it's not the only reason for studying quantum computing. Studying quantum computation might also reveal profound insight on new ways to process information. For instance, it can shed insights into the way data can be processed in a secure way, (but quantum cryptography is not discussed in this manuscript ). Understanding the computational capabilities of quantum machines is certainly an interesting thing to do. This might leads to understanding computational capabilities of nature: what can be computed in this world? Last but not least, because of the interplay between classical and quantum computation, many new *classical* algorithms have been invented (i.e. the dequantizations of quantum machine learning algorithms, the classical algorithms for Gibbs sampling, simulations of the QAOA algorithm, etc..). This, in turn, improved our understanding of physics, and ultimately of the world itself. 
-
-You might often hear that there are only two real quantum algorithms: phase estimation and the Grover's algorithm. This is somehow true, but it is true in the same way that we have only 12 notes, and still Pink Floyd were able to do [The Dark Side of the Moon](https://www.youtube.com/playlist?list=OLAK5uy_l1x-JAx0w53suECoCI0YJtW6VB8DBQWRQ) (and the other musicians were able to do "the rest" of the music). 
-
-The common thread of these algorithms is that the runtime depends only [poly-logarithmically](https://en.wikipedia.org/wiki/Polylogarithmic_function) in the number of elements in the dataset, and is usually only linear in the number of features (classical algorithms are often either linear in the number of elements and quadratic in the number of feature or depends on the number of nonzero componets of the matrix and depends polynomially on other parameters of the matrix). The runtime of the quantum machine learning algorithm also often depends on characteristics of the matrix that represent the data under analysis, such as its rank, the Frobenius norm (or other matrix norms), the sparsity, the condition number, and the error we tolerate in the analysis. For this, along with an error-corrected quantum computer, we assume to have quantum access to a dataset. In other words, we assume that the data is stored in a quantum memory: the corresponding quantum version of the classical random-access memory. 
-
-We will see that, for a new QML algorithm, one often needs to make sure that the real performances of the quantum algorithms offer concrete advantages with respect to the effective runtime and the accuracy that is offered by the best classical algorithms. As we don't have access to big-enough quantum computers *yet*, we assessed the performance of these quantum algorithms via a classical simulation. 
-
-These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefits society and humankind, as soon as the hardware that supports this kind of computation will be ready. 
+These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefits society and humankind, as soon as the hardware that supports this kind of computation will become ready. 
 
 
 While reading these lecture notes you should always remember the good [**Simon Martiel**](https://scholar.google.fr/citations?user=upaq0vIAAAAJ&hl=en): 

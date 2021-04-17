@@ -1,8 +1,7 @@
 ---
-title: "on-real-data"
-author: "scinawa"
-date: "12/11/2020"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 # QML on real datasets
