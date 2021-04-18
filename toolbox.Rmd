@@ -686,16 +686,15 @@ The complexity to perform amplitude estimation  is $\widetilde{O}(\mu /\epsilon_
 # Let's understand properly the procedure from quantum gradient descent paper
 # labels: help wanted,
 -->
-Trollolol asdasd pippo Kerenidis.
 
 ```{theorem, spectral-norm-estimation, name="Spectral norm estimation"}
 Let there be quantum access to the matrix $A \in \R ^{n\times m}$, and let $\epsilon>0$ be a precision parameter. There exists a quantum algorithm that estimates $\|A\|$ to error $\epsilon\|A\|_F$ in time $\widetilde{O}\left(\frac{\log(1/\epsilon)}{\epsilon}\frac{\|A\|_F}{\|A\|}\right)$.
 ```
 
-```{proof}
-Ora te la scrivo.
+<!-- ```{proof}
+TODO!
 ```
-
+-->
 
 ### Explained variance {#sec:explainedvariance}
 
@@ -864,6 +863,9 @@ Besides $p$ being negligible, it is interesting to note that the parameter $\the
 About the latter, for instance, the experiments of [@KL18] on the run-time parameters of the polynomial expansions of the MNIST dataset support this expectation:
 even though in qSFA they keep the $k$ smallest singular values and refer to $\theta$ as the biggest singular value to retain, this value does not vary much when the the dimensionality of their dataset grows.
 In the experiments chapter, we observe similar $\theta$s in different datasets for image classification.
+Note that, given a vector with $d$ non-zero entries, performing $\ell_\infty$ tomography with error $\frac{\delta}{\sqrt{d}}$ provides the same guarantees of $\ell_2$ tomography with error $\delta$.
+In practice, this result implies that the extraction of the singular vectors, with $\ell_2$ guarantees, can be faster if we can assume some prior assumptions on their sparseness: $\widetilde{O}\left(\frac{1}{\theta}\frac{1}{\sqrt{p}}\frac{\mu(A)}{\epsilon}\frac{kd}{\delta^2}\right)$.
+
 
 
 #### Singular value estimation of a product of two matrices 

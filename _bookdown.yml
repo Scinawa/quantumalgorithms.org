@@ -4,17 +4,17 @@ language:
   ui:
     chapter_name: "Chapter "
 rmd_files: ["index.Rmd", 
-#"intro.Rmd",
-#"classical.Rmd",
-#"first-quantum-algorithms.Rmd",
+"intro.Rmd",
+"classical.Rmd",
+"first-quantum-algorithms.Rmd",
 "toolbox.Rmd",
 #"between.Rmd",
 "dimensionality-reduction.Rmd",
-#"q-means.Rmd",
-#"qem.Rmd",
-#"on-real-data.Rmd",
-#"selected-works.Rmd",
+"q-means.Rmd",
+"qem.Rmd",
+"on-real-data.Rmd",
+"selected-works.Rmd",
 #"virtual-quantum-labs.Rmd",
 #"glossary.Rmd",
-#"appendix.Rmd"
+"appendix.Rmd"
 ]
