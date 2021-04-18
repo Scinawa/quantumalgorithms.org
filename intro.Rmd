@@ -8,37 +8,37 @@ output:
 # Quantum computing and quantum algorithms
 In this chapter we will introduce the notation used throughout the rest of the lecture notes. We will extensively use linear algebra (norm of matrices, SVD, properties of particular matrices, and so on), so the reader is higly encouraged to skim the appendix on his/her own, so to know the notation adopted here. 
 
-### Getting rid of physics in quantum computing
+## Getting rid of physics in quantum computing
 
-Following one of the [lectures of Sussking](https://www.youtube.com/watch?v=8mi0PoPvLvs), we are going to start from a "handwavy" introduction that justify the existence of the Schrödinger equation. With a few mathematical observation we are going to give an intuitive justification of all the 4 axioms of quantum mechanics that are stated in the next sections. The hope is that, thanks to this introduction, the reader can be gently guided from a tiny physical intuition, to a greater understanding of the axioms of quantum mechanics. Despite their name might seems too much related to physics, thanks to this formulation (which comes from [@NC02]), we could eventually call them "axioms of quantum computing". 
+Following one of the [lectures of Susskind](https://www.youtube.com/watch?v=8mi0PoPvLvs), we are going to start from a "handwavy" introduction of quantum mechanics, that starts from few considerations and lead straight to the Schrödinger equation. With a few mathematical tricks, we are going to give an intuitive justification of all the 4 axioms of quantum mechanics that are stated in the next sections. The hope is that thanks to this introduction, the reader can be gently guided from a tiny physical intuition to a greater understanding of the **axioms of quantum mechanics**. Despite the name "axioms of quantum mechanics" might seems (obviously) related to physics, thanks to this formulation (which comes from [@NC02]), we could eventually think of them as "axioms of quantum computing". As [Scott Aaronson](https://www.youtube.com/watch?v=SJkbe4Rkv9c) rightly said, if you are not a physicist, you need to remove physics from quantum mechanics to understanding it!
 
 The objective is that the reader should *not* feel the need to dig into quantum mechanical details of quantum computers, but can comfortably sit on top of the 4 axioms of quantum mechanics, and build (a lot) from there. 
 
 
 
-When, at the beginning of the 20th century, physicist started to model quantum phenomena, they observed that the dynamic of the systems had two properties. The time and space evolution of quantum systems were continious (as in classical mechanics) and reversible (unlike the classical world). They decided to formalize this concept as follow. First they decided to model the state of a quantum system at time $p$ as a function $\psi(p)$, and they decided to model the evolution of $\psi(p)$ for time $t$ as an operator $U(t)$ acting on $\psi(p)$s. Formally, the two requirements can be written as:
+When, at the beginning of the 20th century, physicists started to model quantum phenomena, they observed that the dynamic of the systems had two properties: they observed that the time and space evolution of quantum systems is continuous (as in classical mechanics) and reversible (unlike the classical world). They decided to formalize this concept as follows. First, they decided to model the state of a quantum system at time $p$ as a function $\psi(p)$, and they decided to model the evolution of $\psi(p)$ for time $t$ as an operator $U(t)$ acting on $\psi(p)$s. Formally, the two requirements can be written as:
 
 - $U(\epsilon)=I-i\epsilon H$ (continuity)
 - $U^\dagger(t)U(t)=I$ (reversibility)
 
-The first requirement reads that if we were to apply out evolution for a small amount of time $\epsilon$, than $U$ would behave almost as the identiy, and then it will apply for a "small" amount another operator $H$. The second requirement reads that if we "undo" the operator $U$, by applying the transpose conjugate, we would obtain the identity, i.e. we haven't change the state of the system. 
-From these two requirements we can already derive the following observation.
+The first requirement reads that if we were to apply an evolution for a small amount of time $\epsilon$, then $U$ would behave almost as the identiy, and then it will apply for a "small" amount another operator $H$. The second requirement reads that if we "undo" the operator $U$, by applying the transpose conjugate, we would obtain the identity, i.e. we haven't change the state of the system. 
+From these two requirements, we can already derive the following observation.
 
-$$I = U^\dagger(\epsilon)U(\epsilon)= (I+i\epsilon H)(I-i\epsilon H) = I -i \epsilon H + i \epsilon H^\dagger + O(\epsilon^2)$$. 
+$$I = U^\dagger(\epsilon)U(\epsilon)= (I+i\epsilon H)(I-i\epsilon H) = I -i \epsilon H + i \epsilon H^\dagger + O(\epsilon^2).$$
 The only way for this equation to hold is for $H=H^\dagger$. 
 
-In mathematics we have a name for such operators, and they are called Hermitian operators! (More about those in the appendix!).
+I.e. the operator $H$ should be equal to its transpose conjugate. In mathematics, we have a name for such operators, and they are called Hermitian operators! (More about those in the appendix!).
 Now we can ask ourselves what happens when we apply $U(\epsilon)$ to a quantum state $\psi(t)$? Well it's simple to see now:
-$$U(\epsilon)\psi(t) = \psi(t+\epsilon) = \psi(t) -i \epsilon H\psi(t) $$
-With a little algebra we can rewrite the previous equation as
+$$U(\epsilon)\psi(t) = \psi(t+\epsilon) = \psi(t) -i \epsilon H\psi(t).$$
+With a little algebra we can rewrite the previous equation as:
 
-$$ \frac{\psi(t+\epsilon) -  \psi(t)}{\epsilon} = -i  H\psi(t) $$
-The left hand side (l.h.s) part of this equation can be rewritten as a derivative:
-$$\frac{d}{dt}\psi(t) = -i H \psi(t)$$
+$$ \frac{\psi(t+\epsilon) -  \psi(t)}{\epsilon} = -i  H\psi(t).$$
+Note that the left-hand side part of this equation can be rewritten as a derivative:
+$$\frac{d}{dt}\psi(t) = -i H \psi(t).$$
 But this is the well-known Schrödinger equation! Note that, as computer scientists, we take the right to remove some physical constant ($\hbar$) out of the equation. What should be the takeaway of these observations? Well, first we know that the Schrödinger equation is a differential equation whose solution is fully determined if we were to know the initial state of our system $\psi(p)$. Formally the solution can be written as:
 
-$$\psi(p+t)=e^{-iHt}\psi(p)$$
-From this last equation we can observe further (more on this in the appendix) that the exponential of an Hermitian matrix $e^{-iHt}$ is *defined* through it's Taylor expansion is just a *unitary* matrix: $U(t)=e^{-itH}$. Unitary matrices are exactly those matrices that describe isometries: applying a matrix to a vector won't change its lenght. From this we see that the two quantum state $\psi(p+t)$ and $\psi(p)$ could be just taken to be vector of a fixed length, which - for practicality - we take to be unit vectors. Notation-wise, we denote unit vectors describing quantum states as "kets", i.e. we rewrite this quation as:
+$$\psi(p+t)=e^{-iHt}\psi(p).$$
+From this last equation we can observe further (more on this in the appendix) that the exponential of an Hermitian matrix $e^{-iHt}$ is *defined* through its Taylor expansion is just a *unitary* matrix: $U(t)=e^{-itH}$. Unitary matrices are exactly those matrices that describe isometries: applying a matrix to a vector won't change its length. From this, we see that the two quantum states $\psi(p+t)$ and $\psi(p)$ could be just taken to be vectors of a fixed length, which - for practicality - we take to be unit vectors. Notation-wise, we denote unit vectors describing quantum states as "kets", i.e. we rewrite this equation as:
 
 $$\ket{\psi(p+t)}=U(t)\ket{\psi(p)}$$
 Hopefully, this introduction should be enough for getting a better intuition of what comes next, and give you a "justification" for the axioms of quantum mechanics.
@@ -319,7 +319,7 @@ in quantum metrology and sensing). Techniques that use a certain precision in th
 
 
 
-## Loading the data: memory models
+## Loading data: quantum memory models
 
 Along with a fully fledged quantum computer, we also assume to have access to a quantum memory, i.e. a classical data structure that store classical information, but that is able to answer queries in quantum superposition. This model is commonly called the \emph{QRAM model}. As we will see in greater details soon, the task of building the data structure classically requires time that is linear (up to polylogarithmic factors) in the dimension of the data. This observation is better detailed in definition \@ref(def:QRAM-model). For instance, if we want to have quantum  access to a dense matrix $M \in \mathbb{R}^{n \times d}$ the preprocessing runtime will be $O(nd \log (nd))$. To stress more the fact that we are linear in the effective number of elements contained in the matrix (which can often be sparse) can write $\tilde{O}(\norm{A}_0)$. The name QRAM is meant to evoke the way classical RAM address the data in memory using a tree structure. In the data structure one can write down the real entries $m_{ij}$ with some precision $\delta$ using $\log 1/\delta$ bits.
 
@@ -357,14 +357,14 @@ With the vector stored in a QRAM, we can have efficient (i.e. in time $O(\log(n)
 A matrix can be accessed also in another way. 
 
 ```{definition, oracle-access-adjacencylist,  name="Oracle access in adjacency list model"}
-	Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform:
+	Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform the mappings:
 
-- the mapping $\ket{i}\mapsto\ket{i}\ket{d(i)}$ where $d(i)$ is the number of entries in row $i$, and
-- $\ket{j,l}\mapsto\ket{j,\nu(j,l)}$, where $\nu(j,l)$ is the $l$-th nonzero entry of the $j$-th column of $V$.
+- $\ket{i}\mapsto\ket{i}\ket{d(i)}$ where $d(i)$ is the number of entries in row $i$, for $i \in [n]$, and
+- $\ket{i,l}\mapsto\ket{i,\nu(j,l)}$, where $\nu(i,l)$ is the $l$-th nonzero entry of the $i$-th row of $V$.
 
 ```
 
-Note that Definition \@ref(def:oracle-access-adjacencymatrix)  is very similar to the definition of the Grover's oracle that you might know from previous courses in quantum information. It's important to remember that for Definition \ref(def:oracle-access-adjacencymatrix) and \ref{def:oracle-access-adjacencylist} we might **not** need a QRAM, as there might be other efficient circuit for performing those mapping. For instance, when working with graphs (remember that a generic weighted and directed graph $G=(V,E)$ can be seen as its adjacency matrix $A\in \mathbb{R}^{|E| \times |E|}$), many algorithms call Definition \@ref(def:oracle-access-adjacencymatrix) **vertex-pair-query**, and the two mappings in Definition \@ref(def:oracle-access-adjacencylist) as **degree query** and **neighbor query**. When we have access to both queries, we call that **quantum general graph model** [@hamoudi2018quantum]. This is usually the case in all the literature for quantum algorithms for Hamiltonian simulation, graphs, or algorithms on sparse matrices. These query models are sometimes called in literature "sparse access" to a matrix, as sparsity is often the key to obtain an efficient circuit for encoding such structures without a QRAM. Note that Definition \@ref(def:oracle-access-adjacencylist), sometimes goes under the name "Adjacency *array* model, so to stress the difference between the classical adjacency list (where to get the last element o the list we need to read all the previous element) and the quantum case, where we can index the nonzero elements in a row of a matrix as in an array [@Durr2004]. 
+Note that Definition \@ref(def:oracle-access-adjacencymatrix)  is very similar to the definition of the Grover's oracle that you might know from previous courses in quantum information. It's important to remember that for Definition \ref(def:oracle-access-adjacencymatrix) and \ref{def:oracle-access-adjacencylist} we might **not** need a QRAM, as there might be other efficient circuit for performing those mapping. For instance, when working with graphs (remember that a generic weighted and directed graph $G=(V,E)$ can be seen as its adjacency matrix $A\in \mathbb{R}^{|E| \times |E|}$), many algorithms call Definition \@ref(def:oracle-access-adjacencymatrix) **vertex-pair-query**, and the two mappings in Definition \@ref(def:oracle-access-adjacencylist) as **degree query** and **neighbor query**. When we have access to both queries, we call that **quantum general graph model** [@hamoudi2018quantum]. This is usually the case in all the literature for quantum algorithms for Hamiltonian simulation, graphs, or algorithms on sparse matrices. These query models are sometimes called in literature "sparse access" to a matrix, as sparsity is often the key to obtain an efficient circuit for encoding such structures without a QRAM. Note that Definition \@ref(def:oracle-access-adjacencylist), sometimes goes under the name "Adjacency *array* model", so to stress the difference between the classical adjacency list (where to get the last element o the list we need to read all the previous element) and the quantum case, where we can index the nonzero elements in a row of a matrix as in an array [@Durr2004]. 
 
 
 

@@ -203,7 +203,7 @@ Let $c \in (0,\infty), \kappa \geq 2$, and let $A$ be an Hermitian matrix such t
 
 
 
-Nevertheless, the algorithm that emerges by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2010variable]. Hence, we can restate the theorem  \@ref{thm:matrix-algebra-sve}, with the improved runtimes, as follows.
+Nevertheless, the algorithm that emerges by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2010variable]. Hence, we can restate the theorem  \@ref(thm:matrix-algebra-sve), with the improved runtimes, as follows.
 
   
 ```{theorem, qla, name="Quantum linear algebra [@CGJ18],[@gilyen2019quantum]"}
@@ -282,7 +282,7 @@ We can rewrite $\ket{1}\left(\ket{v_i} - \ket{c_j}\right)$ as $\ket{y_{ij},1}$ (
 
 Now that we know how to apply the transformation described in Equation \@ref(eq:QDE), we can use known techniques to conclude our subroutine to perform the distance estimation within additive error $\epsilon$ with high probability. The method uses two tools, amplitude estimation, and the median evaluation lemma \@ref(lem:median) from [@wiebe2018quantum], which is a quantum version of the well-known powering-lemma \@ref(lem:powering-lemma).
 
-First, using amplitude estimation (theorem \@ref(thm:thm-ampest-orig)) with the unitary $A$ defined in Equation \ref{QDE}, we can create a unitary operation that maps
+First, using amplitude estimation (theorem \@ref(thm:thm-ampest-orig) ) with the unitary $A$ defined in Equation \ref{QDE}, we can create a unitary operation that maps
 $$
 \mathcal{U}: \ket{i}\ket{j}  \ket{0} \mapsto \ket{i}\ket{j} \left( \sqrt{\alpha}  \ket{ \overline{p_{ij}}, G, 1} + \sqrt{ (1-\alpha ) }\ket{G', 0}  \right)
 $$
@@ -345,7 +345,7 @@ We analyze the case where we want to compute the quadratic form for $A^{-1}$. Fo
 
 
 \begin{equation}
-U_2 \ket{i}\ket{0} \mapsto \frac{1}{2}\ket{i} \left(\sqrt{\alpha}\ket{p_i(0),y_i,0} + \sqrt{1-\alpha}\ket{G'_i,1} \right)
+U_2 \ket{i}\ket{0} \mapsto \frac{1}{2}\ket{i} \left(\sqrt{\alpha}\ket{p_i(0),y_i,0} + \sqrt{1-\alpha}\ket{G_i,1} \right)
 \end{equation}
 
 and estimate $p_i(0)$ such that $|p_i(0) - \overline{p_i(0)}| < \epsilon$ for the case of $v_i^TAv_i$ and we choose a precision $\epsilon/C$ for the case of $v_i^TA^{-1}v_i$ to get the same accuracy. Amplitude estimation theorem, i.e. theorem \@ref(thm:ampest_orig) fails with probability $\leq \frac{8}{\pi^2}$. The runtime of this procedure is given by combining the runtime of creating the state $\ket{\psi_i}$, amplitude estimation, and the median lemma. Since the error in the matrix multiplication step is negligible, and assuming quantum access to the vectors is polylogarithmic, the final runtime is $O(\log(1/\delta)\mu(A)\log(1/\epsilon_2) / \epsilon)$, with an additional factor $\kappa(A)$ for the case of the quadratic form of $A^{-1}$.
@@ -925,8 +925,6 @@ In order to apply $U$ on a state $\ket{x} = \sum_{i} \alpha_i \ket{v_i}$, let's 
 $$\frac{1}{\sqrt{N_l}}\sum_{j=0}^l \frac{-i^j}{j!}\ket{j}\ket{x}$$
 
 Controlled on the first register we use our matrix multiplication procedure to multiply with the corresponding power of $W$ and get a state at most $\epsilon/4$ away from the state
-
-%$$\frac{1}{N_l} \sum_{j=0}^l \frac{-i^j}{j!}e^{\theta}\ket{j}\ket{W^jx}$$
 
 $$\frac{1}{\sqrt{N_l}}\sum_{j=0}^l \frac{-i^j}{j!}\ket{j}\ket{W^jx}.$$
 

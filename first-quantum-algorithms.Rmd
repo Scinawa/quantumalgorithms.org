@@ -50,7 +50,7 @@ Let $0.a=a_1, \dots a_q$ be the output of phase estimation when applied to an ei
 
 
 While the standard implementation of phase estimation is based on the quantum Fourier transform (QFT) circuit [@NC02], there have been various improvements [@ahmadi2010quantum] which try to soften the dependence on the QFT circuit, while retaining the accuracy guarantees offered by the QFT in estimating the angles $\theta_j$.
-\paragraph{Remark.} Note that the same algorithm described in theorem \@ref(thm:phase_estimation) can be made ''consistent'', in the sense of [@ta2013inverting] and [@A12]. While in the original formulation of phase estimation two different runs might return different estimates for $\overline{\theta}_j$, with a consistent phase estimation this estimate is fixed, with high probability. This means that the error between two different runs of phase estimation is almost deterministic.
+\paragraph{Remark.} Note that the same algorithm described in theorem \@ref(thm:phase-estimation) can be made ''consistent'', in the sense of [@ta2013inverting] and [@A12]. While in the original formulation of phase estimation two different runs might return different estimates for $\overline{\theta}_j$, with a consistent phase estimation this estimate is fixed, with high probability. This means that the error between two different runs of phase estimation is almost deterministic.
 
 
 
@@ -87,7 +87,7 @@ This problem can be generalized to the case where there are multiple elements "m
 
 Amplitude amplification and amplitude estimation are two of the workhorses of quantum algorithms. 
 
-```{theorem, thm-ampest-orig, name="Amplitude estimation, [@BHMT00]"}
+```{theorem, thm-ampest-orig, name="Amplitude estimation, [@brassard2002quantum]"}
 Given a quantum algorithm $$A:\ket{0} \to \sqrt{p}\ket{y,1} + \sqrt{1-p}\ket{G,0}$$ where $\ket{G}$ is some garbage state, then the amplitude estimation algorithm, using exactly $P$ iterations of the algorithm $A$ for any positive integer $P$, outputs $\tilde{p}$ $(0 \le \tilde p \le 1)$ such that
 	$$
 	|\tilde{p}-p|\le 2\pi \frac{\sqrt{p(1-p)}}{P}+\left(\frac{\pi}{P}\right)^2
@@ -96,7 +96,7 @@ Given a quantum algorithm $$A:\ket{0} \to \sqrt{p}\ket{y,1} + \sqrt{1-p}\ket{G,0
 	If $p=0$ then $\tilde{p}=0$ with certainty, and if $p=1$ and $P$ is even, then $\tilde{p}=1$ with certainty.
 ```
 
-```{theorem, thm-ampest-orig-precise, name="Amplitude estimation [@brassard2002quantum] formulation of [@montanaro2015quantum]"} 
+```{theorem, thm-ampest-orig-precise, name="Amplitude estimation [@brassard2002quantum], formulation of [@montanaro2015quantum]"} 
 There is a quantum algorithm called amplitude estimation which takes as input one copy of a quantum state $\ket{\psi}$, a unitary transformation $U=2\ket{\psi}\bra{\psi}-I$, a unitary transformation $V=I-2P$ for some projector $P$, and an integer $t$. The algorithm outputs $\tilde{a}$, an estimate of $a=\braket{\psi|P|\psi}$, such that: 
   $$|\tilde{a}-a| \leq 2\pi\frac{\sqrt{a(1-a)}}{t} + \frac{\pi^2}{t^2}$$ 
 with probability at least $8/\pi^2$, using $U$ and $V$ $t$ times each. If $a=0$ then $\tilde{a}=0$ with certainty, and if $a=1$ and $t$ is even, then $\tilde{a}=1$ with certainty. 

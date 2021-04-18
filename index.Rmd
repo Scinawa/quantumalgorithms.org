@@ -105,7 +105,7 @@ improved our understanding of physics, and ultimately of the world itself.
 Another reason for studying quantum algorithms is that quantum computers are posing
 a significant challenge to the *strong* Church-Turing thesis, which says that any "reasonable"
 model of computation can be *efficiently* simulated on a probabilistic Turing machine (i.e. a Turing machine which has access to randomness).
-However, there are some physical processes that we do not know how to simulate efficiently on classical computers, but for which we have efficient quantum algorithms! This is a strong evidence that the strong Church-Turing thesis might be wrong!
+However, there are some physical processes that we do not know how to simulate efficiently on classical computers, but for which we have efficient quantum algorithms! This is a strong evidence that the strong Church-Turing thesis might be false!
 
 You might often hear that there are only two real quantum algorithms: phase estimation and the Grover's algorithm. This is somewhat true, but it is true in the same way that we have only 12 notes in the western temperate scale, and yet Pink Floyd were able to write [The Dark Side of the Moon](https://www.youtube.com/playlist?list=OLAK5uy_l1x-JAx0w53suECoCI0YJtW6VB8DBQWRQ) (and the other musicians came up with "the rest" of the music).
 
