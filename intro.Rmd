@@ -29,15 +29,15 @@ The only way for this equation to hold is for $H=H^\dagger$.
 
 I.e. the operator $H$ should be equal to its transpose conjugate. In mathematics, we have a name for such operators, and they are called Hermitian operators! (More about those in the appendix!).
 Now we can ask ourselves what happens when we apply $U(\epsilon)$ to a quantum state $\psi(t)$? Well it's simple to see now:
-$$U(\epsilon)\psi(t) = \psi(t+\epsilon) = \psi(t) -i \epsilon H\psi(t) $$
-With a little algebra we can rewrite the previous equation as
+$$U(\epsilon)\psi(t) = \psi(t+\epsilon) = \psi(t) -i \epsilon H\psi(t).$$
+With a little algebra we can rewrite the previous equation as:
 
-$$ \frac{\psi(t+\epsilon) -  \psi(t)}{\epsilon} = -i  H\psi(t) $$
-The left hand side (l.h.s) part of this equation can be rewritten as a derivative:
-$$\frac{d}{dt}\psi(t) = -i H \psi(t)$$
+$$ \frac{\psi(t+\epsilon) -  \psi(t)}{\epsilon} = -i  H\psi(t).$$
+Note that the left-hand side part of this equation can be rewritten as a derivative:
+$$\frac{d}{dt}\psi(t) = -i H \psi(t).$$
 But this is the well-known Schrödinger equation! Note that, as computer scientists, we take the right to remove some physical constant ($\hbar$) out of the equation. What should be the takeaway of these observations? Well, first we know that the Schrödinger equation is a differential equation whose solution is fully determined if we were to know the initial state of our system $\psi(p)$. Formally the solution can be written as:
 
-$$\psi(p+t)=e^{-iHt}\psi(p)$$
+$$\psi(p+t)=e^{-iHt}\psi(p).$$
 From this last equation we can observe further (more on this in the appendix) that the exponential of an Hermitian matrix $e^{-iHt}$ is *defined* through its Taylor expansion is just a *unitary* matrix: $U(t)=e^{-itH}$. Unitary matrices are exactly those matrices that describe isometries: applying a matrix to a vector won't change its length. From this, we see that the two quantum states $\psi(p+t)$ and $\psi(p)$ could be just taken to be vectors of a fixed length, which - for practicality - we take to be unit vectors. Notation-wise, we denote unit vectors describing quantum states as "kets", i.e. we rewrite this equation as:
 
 $$\ket{\psi(p+t)}=U(t)\ket{\psi(p)}$$
