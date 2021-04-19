@@ -11,8 +11,10 @@ output:
 
 
 ## Unsupervised algorithms
+The qPCA, qCA and qLSA algorithms are extracted from a M.Sc. thesis [@bellante2020quantum] and from an soon-to-appear work.
+The interested reader may wish to consult both for more details.
 
-### Quantum PCA {#section:qpca}
+### Quantum PCA {#sec:qpca}
 Principal component analysis is a widely-used multivariate statistical method for continuous variables that finds many applications in machine learning, ranging from outlier detection to dimensionality reduction and data visualization. 
 Consider a matrix $A \in \mathbb{R}^{n \times m}$ that stores information about $n$ data points using $m$ coordinates (e.g. think of $n$ images described through $m$ pixels each), its *principal components* are the set of orthogonal vectors along which the variance of the data points is maximized.
 The goal of PCA is to compute the principal components, with the amount of variance they capture, and rotate the data-points to make the axis coincide with the principal components.
