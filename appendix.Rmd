@@ -485,6 +485,86 @@ $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)
 
 # Probability
 
+
+## Theory of measure
+
+
+```{definition, sigma-algebra, name="Sigma algebra"}
+Let $\Omega$ be a set, and $\Sigma$ be a subset of the power set of $\Omega$ (or equivalently a collection of subsets of $X$). Then $\Sigma$ is a $\sigma$-algebra if:
+
+- $\emptyset\in \Sigma$,
+- $\Sigma$ is closed under countable union,
+- $\forall S \in \Sigma, \overline{S} \in \Sigma$.
+
+```
+
+Observe that thanks to de Morgan's law, we can equivalently define the sigma algebra to be closed under countable intersection. Oftentimes, it's common to conflate $\Sigma$ and $(\Omega, \Sigma)$, and call both $\sigma$-algebra. 
+
+```{definition, measurable-space, name="Measurable space"}
+Let $\Omega$ be a set, and $\Sigma$ a $\sigma$-algebra. The tuple $(\Omega, \Sigma)$ is a measurable space (or Borel space). 
+```
+
+
+```{definition, measurable-function, name="Measurable function"}
+Let $(\Omega, \Sigma)$, and $(Y, T)$ two different measurable space. A function $f : \Omega \mapsto Y$ is said to be measurable if for every $E \in T$: 
+  $$f^{-1}(E):=\{x \in \Omega | f(x) \in E \} \in \Sigma$$
+```
+A measurable function is a function between the underlying sets of two measurable spaces that preserves the structure of the spaces: the preimage of any measurable set is measurable. This is in [direct analogy](https://en.wikipedia.org/wiki/Measurable_function) to the definition that a continuous function between topological spaces preserves the topological structure: the preimage of any open set is open. 
+
+
+<!-- https://ece.iisc.ac.in/~parimal/2015/proofs/lecture-17.pdf -->
+```{definition, continious-function, name="Continious function"}
+Let $(X, \mathbb{X}), (Y, \mathbb{Y})$ two topological spaces. Let $f$ be a function between two topological spaces $f : X \mapsto Y$ is said to be continious if the inverse image of every open subset of $Y$ is open in $X$. In other words, if $V  \in \mathbb{Y}$, then its inverse image $f^{-1}(V) \in \mathbb{X}$
+```
+
+
+```{definition, measure-space, name="Measure space"}
+The tuple $(\Omega, \Sigma, \mathbb{P})$ is a measure space if:
+  
+- $(\Omega, \Sigma)$ is a measurable space. 
+- $\mu(E)$ is a measure on $(\Omega, \Sigma)$: 
+  - $\mu : \Sigma \mapsto \mathbb{R}+\{-\infty, +\infty\}$
+  - non-negativity: $\mu(E) \geq 0 \forall E \in \Sigma$
+  - Null empty set $\mu(\emptyset )= 0$
+  - Coutable additivity (or $\sigma$-additivity): for all countable collections $\{E_k \}_{k=1}^\infty$ of pariwise disjoint sets in $\Sigma$,
+  $$\mu \left(\cup_{k=1}^\infty E_k\right) = \sum_{k=1}^\infty \mu(E_k)$$
+
+```
+
+
+```{definition, probability-space, name="Probability space"}
+The tuple $(\Omega, \Sigma, \mathbb{P})$ is a probability space if:
+  
+- $(\Omega, \Sigma)$ is a $\sigma$-algebra  ($\Omega$ is the set of *outcomes* of the experiment, and $\Sigma$ is the set of *events*)
+- $\mathbb{P}$ is a measurable function: 
+  - $\mathbb{P} : \Sigma \mapsto [0,1]$
+  - Null empty set. 
+  - $\mu$ is countably additive. 
+ - $\mathbb{P}(\Omega)=1$ 
+
+```
+I.e. a probability space is a measure space where the measurable function on $\Omega$ is $1$. 
+
+
+
+```{definition, name="Complete probability space"}
+For $B \subset \Sigma$ s.t. $\mathbb{P}(B)=0$, a $(\Omega, \Sigma, \mathbb{P})$ probability space is complete if $\forall A \subset B$, $A \in \Sigma$. 
+```
+
+
+```{definition, equivalence-prob-measure, name="Equivalence between probability measures"}
+Let $(\Omega, \Sigma, \mathbb{P}), (\Omega, \Sigma, \mathbb{Q})$ two probability space with the same $\Omega$ and $\Sigma$. We say that $\mathbb{P}$ and $\mathbb{Q}$ are equivalent iif for every $A \in \Sigma$,  $\mathbb{P}(A)=0 \Leftrightarrow \mathbb{Q}(A)=0$.
+```
+It basically means that the two measures agree on the possible and impossible events (even if it is pretty strange to call them equivalent).
+
+
+```{definition, random-variable, name="Random variable"}
+A (real-valued) random variable on a probability space $(\Omega, \Sigma, \mathbb{P})$ is a measurable function $X: \Omega \mapsto \mathbb{R}$. 
+```
+
+
+
+
 <!-- - Joint probability of two events $P(a \cap b) = P(a,b) = P(a|b|)P(a)$ -->
 <!-- - Marginal probability $p(a) = \sum_b p(a,b) = \sum_b p(a|b)p(b)$ -->
 <!-- - Union of two events $p(a \cup b)$ -->
@@ -499,7 +579,7 @@ The union bound is used to show that the probability of union fo some finte or c
 <span id="unionbound"> </span>
 
 ```{theorem, unionbound, name="Union bound"}
-$\forall$ event $A_1 \dots A_n$
+$\forall$ events $A_1 \dots A_n \in \Sigma$:
 $$P(\cup_{i=1}^n A_i) \leq \sum_{i=1}^n P(A_i)$$
 ```
 
@@ -526,7 +606,7 @@ We know that the failure probability $f_i$ is $\delta$ for all $i \in [4]$. Than
 $P(\cup_i^k f_i ) \leq \sum_i^k \delta = 4\delta$.
 It follows that the have 4 success in a row is *lower* bounded by $1-4\delta$.
 
-Note that we could have also bypassed the union bound and compute this quantity analitically, as the probability of getting 4 success in a row would be $(1-\delta)^4$, which we can compute with the binomial theorem \@ref(binomial-theorem). 
+Note that we could have also bypassed the union bound and compute this quantity analitically, as the probability of getting 4 success in a row would be $(1-\delta)^4$, which we can compute with the binomial theorem \@ref(thm:binomial-theorem). 
 ```
 
 

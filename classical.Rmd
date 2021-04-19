@@ -62,8 +62,8 @@ The generalized eigenvalue problem is denoted by $(A,B)$  (note that the order i
 (\#eq:raylight)
 \end{equation}
 
-There many different optimization problems that can be reduced to a GEP, which we report here for completeness [@de2005eigenproblems], [@ghojogh2019eigenvalue]. One can see that the norm of $w$ does not change the value of the optimization problem. Therefore, we can impose an additional constraint on $w$. In this way, we can reformulate the problem as a constrained optimization problem, without losing any solution. This constraint is $w^TBw=1$. We now describe the relation between Equation \@ref(eq:raylight) and Equation in definition \@ref(eq:gep).
-
+There many different optimization problems that can be reduced to a GEP, which we report here for completeness [@de2005eigenproblems], [@ghojogh2019eigenvalue]. One can see that the norm of $w$ does not change the value of the optimization problem. Therefore, we can impose an additional constraint on $w$. In this way, we can reformulate the problem as a constrained optimization problem, without losing any solution. This constraint is $w^TBw=1$. We will describe the relation between Equation \@ref(eq:raylight) and Equation in definition \@ref(def:gep).
+(To appear)
 <!-- ### Optimization Form 1 (Vector form) -->
 <!-- For $\phi \in \R^d$ -->
 

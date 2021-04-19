@@ -868,7 +868,7 @@ In practice, this result implies that the extraction of the singular vectors, wi
 
 
 
-#### Singular value estimation of a product of two matrices 
+### Singular value estimation of a product of two matrices 
 This is an example of an algorithm that has been superseded by recent development in singular value transformation. Nevertheless, it is a non-trivial way of using SVE, which a nice mathematical error analysis.
 
 
