@@ -686,6 +686,7 @@ The complexity to perform amplitude estimation  is $\widetilde{O}(\mu /\epsilon_
 # Let's understand properly the procedure from quantum gradient descent paper
 # labels: help wanted,
 -->
+We will elaborate more on this result soon. For the moment, we report the main statement. 
 
 ```{theorem, spectral-norm-estimation, name="Spectral norm estimation"}
 Let there be quantum access to the matrix $A \in \R ^{n\times m}$, and let $\epsilon>0$ be a precision parameter. There exists a quantum algorithm that estimates $\|A\|$ to error $\epsilon\|A\|_F$ in time $\widetilde{O}\left(\frac{\log(1/\epsilon)}{\epsilon}\frac{\|A\|_F}{\|A\|}\right)$.
@@ -703,6 +704,8 @@ TODO!
 # From Armando's thesis!
 # labels: help wanted, enhancement
 -->
+The content of this section is extracted from a M.Sc. thesis [@bellante2020quantum] and from an soon-to-appear work.
+The interested reader may wish to consult both for more details.
 
 Let $A = U\Sigma V^T$ be the singluar value decomposition of a matrix $A \in \mathbb{R}^{n \times m}$. We call *factor scores* of $A$, and denote them with $\lambda_i = \sigma_i^2$, the squares of its singular values. Similarly, we call *factor score ratios* the relative magnitudes of the factor scores $\lambda^{(i)} = \frac{\lambda_i}{\sum_j^{rank(A)} \lambda_j} = \frac{\sigma_i^2}{\sum_j^{rank(A)}\sigma_j^2}$. The factor score ratios are a measure of the amount of variance explained by the singular values.
 
@@ -750,7 +753,8 @@ $2\tau + \tau^2=\epsilon$ for $\tau>0$
 leads to 
 $\tau = \sqrt{1+\epsilon} - 1$. Finally,
 $$\tau = \sqrt{1+\epsilon} - 1 = \frac{(\sqrt{1+\epsilon} - 1)(\sqrt{1+\epsilon} + 1)}{(\sqrt{1+\epsilon} + 1)} = \frac{1+\epsilon - 1} {\sqrt{1+\epsilon} + 1} = \frac{\epsilon}{\sqrt{1+\epsilon} + 1} \sim \frac {\epsilon}{2}$$
-which proves the error guarantees.```
+which proves the error guarantees.
+```
 
 
 One limitation of the algorithm used in the proof is that the Wald confidence interval is not a simultaneous confidence interval. 
@@ -786,10 +790,12 @@ After introducing the procedures to test for the most relevant singular values, 
 Additionally, this subroutine can provide an estimation of the singular values greater than $\theta$, to absolute error $\epsilon$.
 
 ```{theorem, top-k-sv-extraction, name="Top-k singular vectors extraction"}
-Let there be efficient quantum access to the matrix $A \in \mathbb{R}^{n \times m}$, with singular value decomposition $A = \sum_i^r \sigma_i u_i v_i^T$ and $\sigma_{max} \leq 1$. Let $\delta > 0$ be a precision parameter for the singular vectors, $\epsilon>0$ a precision parameter for the singular values, and  $\theta>0$ be a threshold such that $A$ has $k$ singular values greater than $\theta$. Define $p=\frac{\sum_{i: \overline{\sigma}_i \geq \theta} \sigma_i^2}{\sum_j^r \sigma_j^2}$. There exist quantum algorithms that estimate:\\
+Let there be efficient quantum access to the matrix $A \in \mathbb{R}^{n \times m}$, with singular value decomposition $A = \sum_i^r \sigma_i u_i v_i^T$ and $\sigma_{max} \leq 1$. Let $\delta > 0$ be a precision parameter for the singular vectors, $\epsilon>0$ a precision parameter for the singular values, and  $\theta>0$ be a threshold such that $A$ has $k$ singular values greater than $\theta$. Define $p=\frac{\sum_{i: \overline{\sigma}_i \geq \theta} \sigma_i^2}{\sum_j^r \sigma_j^2}$. There exist quantum algorithms that estimate:
+
 - The top $k$ left singular vectors $u_i$ of $A$ with unit vectors $\overline{u}_i$ such that $||u_i-\overline{u}_i||_2 \leq \delta$ with probability at least $1-1/poly(n)$, in time $\widetilde{O}\left(\frac{1}{\theta}\frac{1}{\sqrt{p}}\frac{\mu(A)}{\epsilon}\frac{kn}{\delta^2}\right)$;
 - The top $k$ right singular vectors  $v_i$ of $A$ with unit vectors $\overline{v}_i$ such that $||v_i-\overline{v}_i||_2 \leq \delta$ with probability at least $1-1/poly(m)$, in time $\widetilde{O}\left(\frac{1}{\theta}\frac{1}{\sqrt{p}}\frac{\mu(A)}{\epsilon}\frac{km}{\delta^2}\right)$;
 - The top $k$ singular values $\sigma_i$ and factor scores $\lambda_i$ of $A$ to precision $\epsilon$ and $2\epsilon$ with probability at least $1 - 1/\text{poly}(m)$, in time $\widetilde{O}\left(\frac{1}{\theta}\frac{1}{\sqrt{p}}\frac{\mu(A)k}{\epsilon}\right)$ or any of the two above.
+
 ```
 ```{proof}
 As reported in the proofs above, creating the state
@@ -825,7 +831,7 @@ for
 $\epsilon \rightarrow 0$.
 The last step of the proof is to compute the time complexity of the state-vector tomography on $\frac{1}{\sqrt{k}}\sum_i^k \ket{u_i}\ket{v_i}\ket{\overline{\sigma}_i}$.
 When measuring the last register of state in the computational basis and obtaining $\ket{\overline{\sigma}_i}$, the first two registers collapse in the state $\ket{u_i}\ket{v_i}$.
-On $\ket{u_i}\ket{v_i}$, it is possible to perform $\ell_2$ vector-state tomography using Theorem \@ref{thm:tomelle2} either on the first register, to retrieve $\overline{u}_i$, or on the second one, to retrieve $\overline{v}_i$.
+On $\ket{u_i}\ket{v_i}$, it is possible to perform $\ell_2$ vector-state tomography using Theorem \@ref(thm:tomelle2) either on the first register, to retrieve $\overline{u}_i$, or on the second one, to retrieve $\overline{v}_i$.
 Since $u_i \in R^n$ and $v_i \in R^m$, performing state-vector tomography
 on the first register 
 takes time
@@ -848,7 +854,7 @@ $O\left(T(U)\frac{k\log{k}\cdot m\log{m}}{\delta^2}\right)$, where $T(U)$ is the
 It easily follows that the following complexities are proven:
 $\widetilde{O}\left(\frac{1}{\theta}\frac{1}{\sqrt{p}}\frac{\mu(A)}{\epsilon}\frac{kn}{\delta^2}\right), \widetilde{O}\left(\frac{1}{\theta}\frac{1}{\sqrt{p}}\frac{\mu(A)}{\epsilon}\frac{km}{\delta^2}\right).$
 ```
-In the experiments chapter, we provide experiments that show that the coupon collector's prediction is accurate for practical $\epsilon$. 
+In the experiments paragraph \@ref(sec:runtime-analysis), we provide experiments that show that the coupon collector's prediction is accurate for practical $\epsilon$. 
 
 ```{corollary, top-k-sv-linfty, name="Fast top-k singular vectors extraction"}
 The run-times of the theorem above can be improved to
@@ -857,9 +863,11 @@ The run-times of the theorem above can be improved to
 The proof of this corollary consists in a variant of the proof above that uses $\ell_\infty$ tomography (Theorem \@ref(thm:tomellinfinity)) to extract the singular vectors.
 
 Besides $p$ being negligible, it is interesting to note that the parameter $\theta$ can be computed using:
+
 - the procedures of Theorems \@ref(thm:factor-score-estimation) and \@ref(thm:check-explained-variance);
 - the binary search of Theorem \@ref(thm:explained-variance-binarysearch);
 - the available literature on the type of data stored in the input matrix $A$.
+
 About the latter, for instance, the experiments of [@KL18] on the run-time parameters of the polynomial expansions of the MNIST dataset support this expectation:
 even though in qSFA they keep the $k$ smallest singular values and refer to $\theta$ as the biggest singular value to retain, this value does not vary much when the the dimensionality of their dataset grows.
 In the experiments chapter, we observe similar $\theta$s in different datasets for image classification.
