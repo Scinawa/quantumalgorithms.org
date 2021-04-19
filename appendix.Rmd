@@ -391,6 +391,14 @@ When the smallest singular values are set to 0, we still reconstruct a big part 
 Unfortunately though, calculating the singular vectors and singular values of a matrix is a computationally intensive task. Indeed, for a matrix $A  \in \mathbb{R}^{n\times m}$ the cost of the exact SVD is $O\left( min(n^2m, nm^2) \right)$. Recently, there have been developed approximate methods that compute the Eckart-Young-Mirsky approximations of matrices in 
 time $O(knm)$, where k is the rank of the output matrix \cite{partridge1997fastpca}, or in times that scale super-linearly on the desired rank and one dimension of the input matrix \cite{bhojanapalli2014tighter}.
 
+## Useful theorems around linear algebra
+
+- [Gershgorin circle theorem](https://en.wikipedia.org/wiki/Gershgorin_circle_theorem)
+- [Perron-Frobenius theorem](https://en.wikipedia.org/wiki/Perron%E2%80%93Frobenius_theorem)
+- [Sherman-Morrison formula](https://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula)
+-
+
+
 ### Trigonometry
 Always have in mind the following Taylor expansion:
 
@@ -1146,12 +1154,6 @@ Now we can combine the previous observation:
 <!-- - \url{https://math.stackexchange.com/questions/3000501/relative-error-of-division/3001050#3001050} -->
 
 
-## Useful theorems around linear algebra
-
-- [Gershgorin circle theorem](https://en.wikipedia.org/wiki/Gershgorin_circle_theorem)
-- [Perron-Frobenius theorem](https://en.wikipedia.org/wiki/Perron%E2%80%93Frobenius_theorem)
-- [Sherman-Morrison formula](https://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula)
--
 
 # Contributions and  acknowledgements
 

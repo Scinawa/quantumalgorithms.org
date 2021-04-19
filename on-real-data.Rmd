@@ -330,7 +330,7 @@ As we said, the quantum running time saves the factor that depends on the number
 
 
 ### QPCA
-These experiment are extracted from a M.Sc. thesis [@bellante2020quantum] and from an soon-to-appear work.
+These experiment are extracted from a M.Sc. thesis [@bellante2020quantum] and from a soon-to-appear work.
 This section shows several experiments on the MNIST, Fashion MNIST, CIFAR-10 and Research Papers datasets.
 In all the experiments, the datasets have been shifted to row mean $0$ and normalized so that $\sigma_{max} \leq 1$. 
 

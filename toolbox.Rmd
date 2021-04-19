@@ -582,101 +582,6 @@ The total success probability of all the probabilistic steps is at least $1-4\de
 In the following section, we will cover some quantum algorithms based on singular value estimation. Some of them are here just because they are simple enough to have a good pedagogical value, while some of them we believe will be really useful in performing data analysis. 
 
 
-### Log-determinant
-This is not the fastest algorithm for estimating the log-determinant, but it's worth mentioning here because it perhaps the first thing one would try to do in order to estimate this quantity. It also is a good example of the power of quantum singular value estimation, and checking the correctness of this proof might be a good exercise.
-
-
-```{r, algo-logdet-sve, fig.cap="SVE based algorithm to estimatethe log-determinant of a matrix", echo=FALSE}
-knitr::include_graphics("algpseudocode/logdet-sve.png")
-```
-
-```{theorem, logdet-sve, name="SVE based algorithm for log-determinant"}
-Assuming to have quantum access to an SPD matrix $A$, the algorithm in figure \@ref(algo:logdet-sve) returns
-$\overline{\log\det(A)}$ such that $|\overline{\log\det(A)} - \log\det(A)| < \epsilon |\log\det(A)|$ in time
-$\widetilde{O}(\mu \kappa^3/\epsilon^2).$
-```
-
-
-```{proof}
-We can rewrite the quantum state encoding the representation of $A$ (which we can create with quantum access to $A$) as follow:
-\begin{equation}
-|A\rangle = \frac{1}{\|A\|_F} \sum_{i,j=1}^n a_{ij}|i,j\rangle = \frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle.
-\end{equation}
-Starting from the state $\ket{A}$, we can apply SVE (see lemma  \@ref(thm:sve-theorem) to $\ket{A}$ up to precision $\epsilon_1$ to obtain
-$$\frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle |\tilde{\sigma}_j\rangle,$$
-where $|\tilde{\sigma}_j-\sigma_j|\leq \epsilon_1$.
-Since $\norm{A} \leq 1$, using controlled operations, we can prepare
-
-\begin{align}
-\frac{1}{\|A\|_F} \sum_{i=1}^n \sigma_j |u_j\rangle|u_j\rangle
-\ket{\tilde{\sigma}_j}
-\left(
-C\frac{\sqrt{-\log \tilde{\sigma}_j}}{\tilde{\sigma}_j}\ket{0}
-+ \ket{0^\bot}
-\right),
-(\#eq:tracelogdet)
-\end{align}
-
-  where $C=\min_j \tilde{\sigma}_j/\sqrt{|\log \tilde{\sigma}_j|} \approx \sigma_{\min}/\sqrt{|\log \sigma_{\min}|}
-=1/\kappa\sqrt{\log \kappa}$.
-The probability of $\ket{0}$ is
-$$P = -\frac{C^2}{\|A\|_F^2} \sum_{j=1}^n  \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log \tilde{\sigma}_j.$$
-
-
-First, we do the error analysis.
-Note that
-\begin{align}
-\left| \sum_{j=1}^n  \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log \tilde{\sigma}_j - \sum_{j=1}^n \log \sigma_j \right|
-&\leq& \left|\sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log \tilde{\sigma}_j - \sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2}\log \sigma_j \right|
-+ \left|\sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log\sigma_j - \sum_{j=1}^n \log \sigma_j \right| \\
-&\leq&
-\sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2} |\log \tilde{\sigma}_j - \log \sigma_j | +  \sum_{j=1}^n \frac{|\sigma_j^2-\tilde{\sigma}_j^2|}{\tilde{\sigma}_j^2}  |\log \sigma_j |  \\
-&\leq& \sum_{j=1}^n (1 + \frac{\epsilon_1}{\tilde{\sigma}_j})^2 (\frac{\epsilon_1}{\tilde{\sigma}_j}+O(\frac{\epsilon_1^2}{\tilde{\sigma}_j^2})) + (2\kappa\epsilon_1 +\kappa^2\epsilon_1^2)
-|\log\det(A)| \\
-&\leq& n  (\kappa\epsilon_1+O(\kappa^2\epsilon_1^2)) + (2\kappa\epsilon_1 +\kappa^2\epsilon_1^2) |\log \det(A)| \\
-&=& (n+2|\log \det(A)|) (\kappa\epsilon_1+O(\kappa^2\epsilon_1^2)).
-\end{align}
-In the third inequality, we use the result
-that $\sigma_j\leq \tilde{\sigma}_j+\epsilon_1$.
-
-Denote $P'$ as the $\epsilon_2$-approximation of $P$ obtained by amplitude estimation, then the above analysis shows that
-$-\|A\|_F^2P'/C^2$ is an $(n+2|\log \det(A)|) (\kappa \epsilon_1 + O(\kappa^2 \epsilon_1^2)) +\epsilon_2\|A\|_F^2/C^2$
-approximation of $\log\det(A)$. Note that
-
-\begin{align}
-&& (n+2|\log \det(A)|) (\kappa \epsilon_1 +
-O(\kappa^2 \epsilon_1^2))
-+\epsilon_2\|A\|_F^2/C^2 \\
-&=&
-(n+2|\log \det(A)|) (\kappa \epsilon_1 +
-O(\kappa^2 \epsilon_1^2))
-+\epsilon_2 \|A\|_F^2  \kappa^2\log \kappa \\
-&\leq&
-(n+2n\log \kappa) (\kappa \epsilon_1 +
-O(\kappa^2 \epsilon_1^2))
-+n\epsilon_2 \kappa^2\log \kappa \\
-&=& O(n\epsilon_1\kappa\log \kappa+n\epsilon_2\kappa^2\log \kappa).
-\end{align}
-
-
-To make sure the above error is bounded by $n\epsilon$ it suffcies to choose
-$\epsilon_1=\epsilon/\kappa\log \kappa$
-and $\epsilon_2=\epsilon/\kappa^2\log \kappa$.
-
-Now we do the runtime analysis. The runtime of the algorithm mainly comes from the using of SVE and the performing of amplitude estimation on the state in  (\@ref(eq:tracelogdet)).
-Using quantum singular value estimation, the complexity to obtain the state
-\@ref(eq:tracelogdet) is $\widetilde{O}(\mu /\epsilon_1)$.
-The complexity to perform amplitude estimation  is $\widetilde{O}(\mu /\epsilon_1\epsilon_2)=\widetilde{O}(\mu \kappa^3(\log \kappa)^2/\epsilon^2)$.
-```
-
-
-
-
-
-
-### SVE-based linear algebra
-
-
 
 
 ### Estimation of the spectral norm and the condition number
@@ -885,7 +790,7 @@ Assume to have quantum access to matrices $P \in \mathbb{R}^{d\times d}$ and $Q 
 ```
 
 ```{proof}
-We start by noting that for each singular value $\sigma_{i}$ of $W$ there is a corresponding eigenvalue  $e^{-i\sigma_i}$ of the unitary matrix $e^{-iW}$. Also, we note that we know how to multiply by $W$ by applying theorem \@ref(matrix_algebra) sequentially with $Q$ and $P$. This will allow us to approximately apply the unitary $U=e^{-iW}$. The last step will consist of the application of phase estimation to estimate the eigenvalues of $U$ and hence the singular values of $W$. Note that we need $W$ to be a symmetric matrix because of the Hamiltonian simulation part. In case $W$ is not symmetric, we redefine it as
+We start by noting that for each singular value $\sigma_{i}$ of $W$ there is a corresponding eigenvalue  $e^{-i\sigma_i}$ of the unitary matrix $e^{-iW}$. Also, we note that we know how to multiply by $W$ by applying theorem \@ref(thm:matrix-algebra-sve) sequentially with $Q$ and $P$. This will allow us to approximately apply the unitary $U=e^{-iW}$. The last step will consist of the application of phase estimation to estimate the eigenvalues of $U$ and hence the singular values of $W$. Note that we need $W$ to be a symmetric matrix because of the Hamiltonian simulation part. In case $W$ is not symmetric, we redefine it as
 $$
 W  =
 \begin{bmatrix}
@@ -986,6 +891,99 @@ Finally, observe that:
 - if we chose $f(i)=\frac{i^2}{(N-1)^2}$ instead, we can estimate $E[X^2]$ and using this along with the previous choice of $f$ we can estimate the variance of $X$: $E[X^2] - E[X]^2$.
 
 
+### Log-determinant
+A very simple example of the utility of the SVE subroutines is to estimate quantities associated to a given matrix. In this case we are going to study the log-determinant. As the name sais, this is just the logarithm of the determinant of a (symmetric positive definite) SPD matrix. 
+
+```{definition, log-determinant, name="Log-determinant of an SPD matrix"}
+Let $A\in \mathbb{R}^{n \times n}$ be a SPD matrix with singular value decomposition $A=U\SigmaV^T$. The log-determinant of $A$ is defined as: 
+  $$\log\det(A)=\log(\prod_i^n \sigma_i) = \sum_i^n \log(\sigma_i)$$
+```
+
+Please keep in mind that this is *not* the fastest algorithm for estimating the log-determinant (we will see that in the appropriate chapter on spectral sums), but it's worth mentioning here because it perhaps the first thing one would try to do in order to estimate this quantity. It also is a good example of the power of quantum singular value estimation, and checking the correctness of this proof might be a good exercise to learn more some mathematical tricks that are very useful to upper bound quantities that appear in the error analysis or the runtime analysis of algorithms. 
+
+
+```{r, algo-logdet-sve, fig.cap="SVE based algorithm to estimatethe log-determinant of a matrix", echo=FALSE}
+knitr::include_graphics("algpseudocode/logdet-sve.png")
+```
+
+```{theorem, logdet-sve, name="SVE based algorithm for log-determinant"}
+Assuming to have quantum access to an SPD matrix $A$, the algorithm in figure \@ref(algo:logdet-sve) returns
+$\overline{\log\det(A)}$ such that $|\overline{\log\det(A)} - \log\det(A)| < \epsilon |\log\det(A)|$ in time
+$\widetilde{O}(\mu \kappa^3/\epsilon^2).$
+```
+
+
+```{proof}
+We can rewrite the quantum state encoding the representation of $A$ (which we can create with quantum access to $A$) as follow:
+\begin{equation}
+|A\rangle = \frac{1}{\|A\|_F} \sum_{i,j=1}^n a_{ij}|i,j\rangle = \frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle.
+\end{equation}
+Starting from the state $\ket{A}$, we can apply SVE (see lemma  \@ref(thm:sve-theorem) to $\ket{A}$ up to precision $\epsilon_1$ to obtain
+$$\frac{1}{\|A\|_F} \sum_{j=1}^n \sigma_j |u_j\rangle|u_j\rangle |\tilde{\sigma}_j\rangle,$$
+where $|\tilde{\sigma}_j-\sigma_j|\leq \epsilon_1$.
+Since $\norm{A} \leq 1$, using controlled operations, we can prepare
+
+\begin{align}
+\frac{1}{\|A\|_F} \sum_{i=1}^n \sigma_j |u_j\rangle|u_j\rangle
+\ket{\tilde{\sigma}_j}
+\left(
+C\frac{\sqrt{-\log \tilde{\sigma}_j}}{\tilde{\sigma}_j}\ket{0}
++ \ket{0^\bot}
+\right),
+(\#eq:tracelogdet)
+\end{align}
+
+  where $C=\min_j \tilde{\sigma}_j/\sqrt{|\log \tilde{\sigma}_j|} \approx \sigma_{\min}/\sqrt{|\log \sigma_{\min}|}
+=1/\kappa\sqrt{\log \kappa}$.
+The probability of $\ket{0}$ is
+$$P = -\frac{C^2}{\|A\|_F^2} \sum_{j=1}^n  \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log \tilde{\sigma}_j.$$
+
+
+First, we do the error analysis.
+Note that
+\begin{align}
+\left| \sum_{j=1}^n  \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log \tilde{\sigma}_j - \sum_{j=1}^n \log \sigma_j \right|
+&\leq& \left|\sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log \tilde{\sigma}_j - \sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2}\log \sigma_j \right|
++ \left|\sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2} \log\sigma_j - \sum_{j=1}^n \log \sigma_j \right| \\
+&\leq&
+\sum_{j=1}^n \frac{\sigma_j^2}{\tilde{\sigma}_j^2} |\log \tilde{\sigma}_j - \log \sigma_j | +  \sum_{j=1}^n \frac{|\sigma_j^2-\tilde{\sigma}_j^2|}{\tilde{\sigma}_j^2}  |\log \sigma_j |  \\
+&\leq& \sum_{j=1}^n (1 + \frac{\epsilon_1}{\tilde{\sigma}_j})^2 (\frac{\epsilon_1}{\tilde{\sigma}_j}+O(\frac{\epsilon_1^2}{\tilde{\sigma}_j^2})) + (2\kappa\epsilon_1 +\kappa^2\epsilon_1^2)
+|\log\det(A)| \\
+&\leq& n  (\kappa\epsilon_1+O(\kappa^2\epsilon_1^2)) + (2\kappa\epsilon_1 +\kappa^2\epsilon_1^2) |\log \det(A)| \\
+&=& (n+2|\log \det(A)|) (\kappa\epsilon_1+O(\kappa^2\epsilon_1^2)).
+\end{align}
+In the third inequality, we use the result
+that $\sigma_j\leq \tilde{\sigma}_j+\epsilon_1$.
+
+Denote $P'$ as the $\epsilon_2$-approximation of $P$ obtained by amplitude estimation, then the above analysis shows that
+$-\|A\|_F^2P'/C^2$ is an $(n+2|\log \det(A)|) (\kappa \epsilon_1 + O(\kappa^2 \epsilon_1^2)) +\epsilon_2\|A\|_F^2/C^2$
+approximation of $\log\det(A)$. Note that
+
+\begin{align}
+&& (n+2|\log \det(A)|) (\kappa \epsilon_1 +
+O(\kappa^2 \epsilon_1^2))
++\epsilon_2\|A\|_F^2/C^2 \\
+&=&
+(n+2|\log \det(A)|) (\kappa \epsilon_1 +
+O(\kappa^2 \epsilon_1^2))
++\epsilon_2 \|A\|_F^2  \kappa^2\log \kappa \\
+&\leq&
+(n+2n\log \kappa) (\kappa \epsilon_1 +
+O(\kappa^2 \epsilon_1^2))
++n\epsilon_2 \kappa^2\log \kappa \\
+&=& O(n\epsilon_1\kappa\log \kappa+n\epsilon_2\kappa^2\log \kappa).
+\end{align}
+
+
+To make sure the above error is bounded by $n\epsilon$ it suffcies to choose
+$\epsilon_1=\epsilon/\kappa\log \kappa$
+and $\epsilon_2=\epsilon/\kappa^2\log \kappa$.
+
+Now we do the runtime analysis. The runtime of the algorithm mainly comes from the using of SVE and the performing of amplitude estimation on the state in  (\@ref(eq:tracelogdet)).
+Using quantum singular value estimation, the complexity to obtain the state
+\@ref(eq:tracelogdet) is $\widetilde{O}(\mu /\epsilon_1)$.
+The complexity to perform amplitude estimation  is $\widetilde{O}(\mu /\epsilon_1\epsilon_2)=\widetilde{O}(\mu \kappa^3(\log \kappa)^2/\epsilon^2)$.
+```
 
 
 
