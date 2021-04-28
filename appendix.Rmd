@@ -45,7 +45,7 @@ A function $f: A \times B \mapsto \mathbb{C}$ is called an inner product $(a,b) 
 ```{definition, name="Norm"}
 A function $f : \mathbb{R}^d \mapsto \mathbb{R}$ is called a norm if:
 
-- $\|x\| \geq 0 \forall x \in \mathbb{R}^{d}$, also $\|x\|=0$ iif $x=0$ (positive definiteness)
+- $\|x\| \geq 0 \forall x \in \mathbb{R}^{d}$, also $\|x\|=0$ iff $x=0$ (positive definiteness)
 - $\|\alpha x\| = \alpha \|x\| \forall x \in \mathbb{R}^{d}$ and $\forall \alpha \in \mathbb{R}$ (positively homogeneous)
 - $\|x\|-\|y\| \leq  \|x + y\| \leq \|x\| + \|y\|$ (triangle inequality).
 
@@ -96,7 +96,7 @@ Note that for symmetric matrices, $\|A\|_\infty = \|A\|_1$.
 <!-- from dequantization of qsfa -->
 ```{exercise, name="bound error on product of matrices"}
 Suppose that $\|A - \overline{A}\|_F \leq \epsilon \|A\|_F$.
-Bound $\|A^TA - \overline{A}^T\overline{A}\|_F\|$
+Bound $\|A^TA - \overline{A}^T\overline{A}\|_F$
 ```
 
 <!-- ```{proof} -->
@@ -115,7 +115,7 @@ A function $f : \mathbb{R}^d \times \mathbb{R}^d \mapsto \mathbb{R}$ is called a
 - $d(x,y) \geq 0$
 - $d(x,y) = 0$ iif $x=y$
 - $d(x,y)=d(y,x)$
-- $d(x,z) \leq d(x,y) + d(y+z)$
+- $d(x,z) \leq d(x,y) + d(x,y+z)$
 
 ```
 
@@ -266,7 +266,7 @@ $$A=(U, U_0)\begin{pmatrix}
 	\end{pmatrix} (V, V_0)^T.$$
 The matrix $\Sigma$ is a diagonal matrix with $\Sigma_{ii}=\sigma_i$ being the singular values (which we assume to be sorted $\sigma_1 \geq \dots \geq \sigma_n$).
 
-The matrices $(U, U_0)$ and $(V, V_0)$ are unitary matrices, which contain a basis for the column and the row space (respectively $U$ and $V$) and the left null-space and null-space (respectively $U_0$ and $V_0$). Oftentimes, it is simpler to define the SVD of a matrix by simply discarding the left and right null spaces, as $A=U\Sigma V^T$, where $U,V$ are orthogonal matrices and
+The matrices $(U, U_0)$ and $(V, V_0)$ are unitary matrices, which contain a basis for the column and the row space (respectively $U$ and $V$) and the left null-space and right null-space (respectively $U_0$ and $V_0$). Oftentimes, it is simpler to define the SVD of a matrix by simply discarding the left and right null spaces, as $A=U\Sigma V^T$, where $U,V$ are orthogonal matrices and
 $\Sigma \in \mathbb{R}^{r \times r}$ is a diagonal matrix with real elements, as we did in Theorem \@ref{thm:svd}.
 
 
@@ -421,7 +421,7 @@ $$\sin(x)= \frac{e^{ix} - e^{-ix}}{2i}$$
 
 #### Useful equalities in trigonometry
 
-$$sin(a)cos(b) =  \frac{1}{2}(sin(a+b)+sin(a-b) = 1/2(sin(a+b)-sin(b-a) )$$
+$$sin(a)cos(b) =  \frac{1}{2}(sin(a+b)+sin(a-b)) = 1/2(sin(a+b)-sin(b-a) )$$
 
 ```{exercise}
 Derive an expression for $\cos(a+b)$.
