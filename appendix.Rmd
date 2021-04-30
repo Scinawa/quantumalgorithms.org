@@ -8,6 +8,9 @@ output:
 # (APPENDIX) Appendix {-} 
 
 # Math and linear algebra
+
+## Norms, distances, trace, inequalities
+
 <!--
 # TODO Finish introductory part on linear algebra in appendix
 # I think we need an introduction on inner products, linearty, vector na matrix norms,
