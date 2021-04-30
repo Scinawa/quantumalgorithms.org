@@ -448,33 +448,7 @@ For the state $\ket{v}$ lies in the row space of a matrix $A \in \R^{n \times d}
 Other strategies to output data from a quantum computer can be sampling, or (if the output of the computation is just a scalar) amplitude estimation. These techniques can be employed when the output of the computation is a scalar.
 
 
-## Useful quantum subroutines and results
 
-We will often make use of a tool developed in [@wiebe2018quantum]. It is standard technique in classical computer science to boost the success probability of a randomized algorithm by repeating it and computing some statistics in the results. For the case of quantum algorithms, in high level, we take multiple copies of the output of the amplitude estimation procedure, compute the median, and reverse the circuit in order to get rid of the garbage.
-
-
-```{lemma, median, name="Median evaluation [@wiebe2018quantum]"} 
-Let $\mathcal{U}$ be a unitary operation that maps
-$$\mathcal{U}:\ket{0^{\otimes n}}\mapsto \sqrt{a}\ket{x,1}+\sqrt{1-a} \ket{G,0}$$
-for some $1/2 < a \le 1$ in time $T$. Then there exists a quantum algorithm that, for any $\Delta>0$ and for any $1/2<a_0 \le a$, produces a state $\ket{\Psi}$ such that $\|\ket{\Psi}-\ket{0^{\otimes nL}}\ket{x}\|\le \sqrt{2\Delta}$ for some integer $L$, in time
-$$
-2T\left\lceil\frac{\ln(1/\Delta)}{2\left(|a_0|-\frac{1}{2} \right)^2}\right\rceil.
-$$
-```
-
-
-We will also use some simple statements from previous literature.
-
-
-
-```{lemma, quattrocinque, name="[@kerenidis2019qmeans]"}
-Let $\epsilon_b$ be the error we commit in estimating $\ket{c}$ such that $\norm{ \ket{c} - \ket{\overline{c}}} < \epsilon_b$, and $\epsilon_a$ the error we commit in the estimating the norms,  $|\norm{c} - \overline{\norm{c}}| \leq \epsilon_a \norm{c}$. Then $\norm{\overline{c} - c} \leq \sqrt{\eta} (\epsilon_a +  \epsilon_b)$.
-```
-
-```{lemma, kereclaim, name="[@kerenidis2017quantumsquares]"}
-Let $\theta$ be the angle between vectors $x,y$, and assume that $\theta < \pi/2$. 
-Then, $\norm{x-y} \leq \epsilon$ implies $\norm{\ket{x} - \ket{y}} \leq \frac{\sqrt{2}\epsilon}{\norm{x}}$. Where $\ket{x}$ and $\ket{y}$ are two unit vectors in $\ell_2$ norm.
-```
 
 
 
