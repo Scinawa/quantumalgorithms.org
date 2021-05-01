@@ -11,7 +11,7 @@ In this chapter we discuss the quantum version of Expectation-Maximization (EM).
 
 
 
-## Expectation-Maximization for Gaussian mixture models
+## Expectation-Maximization for Gaussian mixture model 
 The intuition behind mixture models is to model complicated distributions by using a group of simpler (usually [uni-modal](https://en.wikipedia.org/wiki/Unimodality)) distributions. In this setting, the purpose of the learning algorithm is to model the data by fitting the joint probability distribution which most likely have generated our samples. It might not be surprising thinking that, given a sufficiently large number of mixture components, it is possible to approximate any density defined in $\mathbb{R}^d$ [@murphy2012machine]. In this section we describe formally GMM, which is a popular mixture model used to solve unsupervised classification problems. Then we propose the first quantum algorithm to fit a GMM with a quantum computer. While there are many classical algorithms that can be used to fit a mixture of Gaussians (which we detail later), this quantum algorithm resemble as much as possible Expectation-Maximization: a iterative method to find (local) maxima of maximum likelihood and maximum a posteriori optimization problems, especially used in unsupervised settings. 
 
 	
