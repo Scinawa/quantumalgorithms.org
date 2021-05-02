@@ -895,7 +895,7 @@ Finally, observe that:
 A very simple example of the utility of the SVE subroutines is to estimate quantities associated to a given matrix. In this case we are going to study the log-determinant. As the name sais, this is just the logarithm of the determinant of a (symmetric positive definite) SPD matrix. 
 
 ```{definition, log-determinant, name="Log-determinant of an SPD matrix"}
-Let $A\in \mathbb{R}^{n \times n}$ be a SPD matrix with singular value decomposition $A=U\SigmaV^T$. The log-determinant of $A$ is defined as: 
+Let $A\in \mathbb{R}^{n \times n}$ be a SPD matrix with singular value decomposition $A=U\Sigma V^T$. The log-determinant of $A$ is defined as:
   $$\log\det(A)=\log(\prod_i^n \sigma_i) = \sum_i^n \log(\sigma_i)$$
 ```
 
