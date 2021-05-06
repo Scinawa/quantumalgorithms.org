@@ -4,6 +4,7 @@ output:
   html_document: default
 ---
 
+# (PART) Part (appendix) {-} 
 
 # (APPENDIX) Appendix {-} 
 
@@ -112,13 +113,13 @@ Bound $\|A^TA - \overline{A}^T\overline{A}\|_F$
 
 
 
-```{definition, name="Distance"}
+```{definition, distance, name="Distance"}
 A function $f : \mathbb{R}^d \times \mathbb{R}^d \mapsto \mathbb{R}$ is called a distance if:
 
 - $d(x,y) \geq 0$
 - $d(x,y) = 0$ iif $x=y$
 - $d(x,y)=d(y,x)$
-- $d(x,z) \leq d(x,y) + d(x,y+z)$
+- $d(x,z) \leq d(x,y) + d(y,z)$
 
 ```
 
@@ -380,8 +381,8 @@ Another interesting result about the SVD of a matrix is known as the Eckart–Yo
 ```{theorem, eckart-young-mirsky, name="Best F-Norm Low Rank Approximation"}
  \cite{eckart1936approximation}\cite{mirsky1960symmetric} \label{Theo:eckart-young-mirsky}
 Let $A  \in \mathbb{R}^{n \times m}$ be a matrix of rank $r$ and singular value decomposition $A  = U \Sigma V ^T$. The matrix $A ^{(k)} = U ^{(k)}\Sigma ^{(k)}V ^{(k)T}$ of rank $k \leq r$, obtained by zeroing the smallest $r-k$ singular values of $A$, is the best rank-k approximation of $A$.
- Equivalently, $A _k = argmin_{B :rank(B )=k}(||A  - B  ||_F)$.
- Furthermore, $min_{B :rank(B )=k}(||A  - B  ||_F) = \sqrt{\sum_{i=k+1}^r{\sigma_i}}$.
+ Equivalently, $A _k = argmin_{B :rank(B )=k}(\|A  - B  \|_F)$.
+ Furthermore, $min_{B :rank(B )=k}(\|A  - B  \|_F) = \sqrt{\sum_{i=k+1}^r{\sigma_i}}$.
 ```
 
 
@@ -1198,15 +1199,20 @@ If you want to give me any feedback, feel free to write me at "scinawa - at - lu
 In sparse order, I would like to thank [Dong Ping Zhang](www.dongpingzhang.com), [Mehdi Mhalla](http://membres-lig.imag.fr/mhalla/) , [Simon Perdrix](https://members.loria.fr/SPerdrix/), [Tommaso Fontana](https://twitter.com/zommiommy), and [Nicola](https://www.linkedin.com/in/nvitucci/) [Vitucci](https://twitter.com/nvitucci) for the initial help with the previous version of this project, and the helpful words of encouragement.
 
 
-The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contributors) to the project are:
+
+**Core team**
 
 - Alessandro ['Scinawa'](https://twitter.com/scinawa) Luongo
 - Armando ['ikiga1'](https://twitter.com/ikiga1) Bellante
+
+The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contributors) to the project are:
+
 - Patrick Rebentrost
 - Yassine Hamoudi
 - Martin Plávala
 - Trong Duong
 - Filippo Miatto
+- Jinge Bao
 
 # License and citation
 

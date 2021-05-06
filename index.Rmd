@@ -1,6 +1,6 @@
 --- 
 title: "Quantum algorithms for data analysis"
-author: ""
+author: "Alessandro Luongo"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -117,7 +117,7 @@ https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter
 - March 2021: quantumalgorithms.org is proudly supported by the [Unitary Fund](https://unitary.fund/), and quantumalgorithms.org is a project of the [QOSF](https://qosf.org) mentorship program: 5 students started creating new content!
 - April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation. 
 
-Arriving soon:
+Coming soon:
 
 - quantum perceptrons
 - quantum lower bounds

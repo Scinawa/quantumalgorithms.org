@@ -15,6 +15,11 @@ We now want to show an algorithm that finds the minimum among $N$ unsorted value
 Given quantum access to a vector $u \in [0,1]^N$ via the operation $\ket j \ket{\bar 0} \to \ket j \ket{ u_j}$ on $\Ord{\log N}$ qubits, where $u_j$ is encoded to additive accuracy $\Ord{1/N}$. Then, we can find the minimum $u_{\min} = \min_{j\in[N]}  u_j$ with success probability $1-\delta$ with $\Ord{\sqrt N \log \left (\frac{1}{\delta}\right) }$ queries and $\tOrd{\sqrt N  \log \left( \frac{1}{\delta}\right )}$ quantum gates.
 ```
 
+Another formulation is the following: 
+```{theorem, finding-minimum-2, name="Quantum Minimum Finding [@durr1996quantum] formulation of [@ambainis2019quantum]"}
+Let $a_1, \ldots, a_n$ be integers, accessed by a procedure $\mathcal P$.
+There exists a quantum algorithm that finds $\min_{i=1}^n \{a_i\}$ with success probability at least $2/3$ using $O(\sqrt n)$ applications of $\mathcal P$.
+```
 
 
 
