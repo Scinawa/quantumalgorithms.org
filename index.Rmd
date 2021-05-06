@@ -24,9 +24,11 @@ output:
 #             in_header: preamble.tex
 description: "Lecture notes on quantum algorithms for information processing and machine learning"
 ---
-# ```{r, include=FALSE}
-# options(tinytex.verbose = TRUE)
-# ```
+
+
+<!--  ```{r, include=FALSE} -->
+<!--  options(tinytex.verbose = TRUE) -->
+<!--  ``` -->
 
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
