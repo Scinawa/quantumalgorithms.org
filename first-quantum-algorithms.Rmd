@@ -113,7 +113,7 @@ If there is a unitary operator $U$ such that $U\ket{0}^{l}= \ket{\phi} = \sin(\t
 ```
 
 
-```{theorem, variable-time-search, name="Variable Time Search [@ambainis2010variable]"}
+```{theorem, variable-time-search, name="Variable Time Search [@ambainis2012variable]"}
 Let $\mathcal A_1, \ldots, \mathcal A_n$ be quantum algorithms that return true or false and run in unknown times $T_1, \ldots, T_n$, respectively.
 Suppose that each $\mathcal A_i$ outputs the correct answer with probability at least $2/3$.
 Then there exists a quantum algorithm with success probability at least $2/3$ that checks whether at least one of $\mathcal A_i$ returns true and runs in time
