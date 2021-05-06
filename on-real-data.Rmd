@@ -430,6 +430,7 @@ knitr::include_graphics("images/experiments/qpca/couponcollector/MNIST_Coupon_Co
 knitr::include_graphics("images/experiments/qpca/couponcollector/Fashion_MNIST_Coupon_Collect45.png")
 knitr::include_graphics("images/experiments/qpca/couponcollector/CIFAR_Coupon_Collect55.png")
 ```
+
 Furthermore, we have computed $\delta$ by using the fact that $\|A - \overline{A}\| \leq \sqrt{k}(\epsilon + \delta)$ (Lemma \@ref(lem:accuracyUSeVS)). 
 By inverting the equation and considering the thresholding $\epsilon$ we have computed an estimate for $\delta$. 
 In particular, we have fixed $\|A - \overline{A}\|$ to the biggest value in our experiments so that the accuracy doesn't drop more than $1\%$. 
