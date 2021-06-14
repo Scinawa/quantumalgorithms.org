@@ -55,6 +55,9 @@ A function $f : \mathbb{R}^d \mapsto \mathbb{R}$ is called a norm if:
 
 ```
 
+
+Note that along with triangle inequality you might also need to know the [reverse triangle inequality](https://www.quora.com/What-is-an-intuitive-explanation-of-the-reverse-triangle-inequality)
+
 The triangle inequality is basically the [subadditivity](https://en.wikipedia.org/wiki/Subadditivity) property of the norm. It is simople to see that norms are **not** linear operators. 
 
 
@@ -96,7 +99,6 @@ Note that for symmetric matrices, $\|A\|_\infty = \|A\|_1$.
 
 
 
-
 <!-- from dequantization of qsfa -->
 ```{exercise, name="bound error on product of matrices"}
 Suppose that $\|A - \overline{A}\|_F \leq \epsilon \|A\|_F$.
@@ -120,6 +122,16 @@ A function $f : \mathbb{R}^d \times \mathbb{R}^d \mapsto \mathbb{R}$ is called a
 - $d(x,y) = 0$ iif $x=y$
 - $d(x,y)=d(y,x)$
 - $d(x,z) \leq d(x,y) + d(y,z)$
+
+```
+
+
+```{definition, convexity-concavity, name="Convex and concave function"}
+A function $f$ defined on a convex vector space $D$ is said to be *concave* if, $\forall \lambda \in [0,1]$, and $\forall x,y \in D$:
+
+$$f\left( (1-\alpha)x + \alpha y \right)  \geq (1-\alpha) f(x) + \alpha f(y)$$
+Conversely, a function $f$ defined on a convex vector space $D$ is said to be *convex* if, $\forall \lambda \in [0,1]$, and $\forall x,y \in D$:
+$$f\left( (1-\alpha)x + \alpha y \right)  \leq (1-\alpha) f(x) + \alpha f(y)$$
 
 ```
 
@@ -157,12 +169,8 @@ knitr::include_graphics("images/amgm2.png")
 
 ```
 
-```{theorem, jense, name="Jensen inequality"}
-Jensen inequality
-```
 
-
-```{theorem binomial-theorem, name="Binomial theorem"}
+```{theorem, binomial-theorem, name="Binomial theorem"}
 $$(a+b)^n = \sum_{k=0}^n {n \choose k} a^kb^{n-k}$$
 ```
 
@@ -406,8 +414,9 @@ time $O(knm)$, where k is the rank of the output matrix \cite{partridge1997fastp
 ### Trigonometry
 Always have in mind the following Taylor expansion:
 
-```{theorem}
+```{theorem, taylor-exponential, name="Taylor expansion of exponential function"}
 $$e^{x} = \sum_{k=0}^\infty \frac{x^k}{k!}$$
+  Note that this series is convergent for all $x$
 ```
 
 From that, it is easy to derive that: 
@@ -421,6 +430,17 @@ $$e^{i\tau} = 1 $$
 Because of this, we can rewrite $\sin$ and $\cos$ as:
 $$\cos(x) = \frac{e^{ix} + e^{-ix}}{2}$$
 $$\sin(x)= \frac{e^{ix} - e^{-ix}}{2i}$$
+
+Note that we can do a similar thing of \@ref{thm:taylor-exponential} for matrices. In this case, we *define* the exponential of a matrix via it's Taylor expansion: 
+
+$$e^A = \sum_{k=0}^\infty \frac{A^k}{k!}$$
+The matrix exponential has the following nice properties [@symmetryquantum]:
+
+- $(e^A)^\dagger = e^{A^\dagger}$
+- $e^{A\otimes I} = e^A \otimes I$
+- if $[A,B] = 0$, then $e^Ae^B = e^{A+B}$.
+- $Ue^AU^\dagger = e^{UAU\dagger}$
+- $det(e^A)= e^{Tr[A]}$
 
 
 #### Useful equalities in trigonometry
@@ -513,15 +533,15 @@ Let $\Omega$ be a set, and $\Sigma$ be a subset of the power set of $\Omega$ (or
 Observe that thanks to de Morgan's law, we can equivalently define the sigma algebra to be closed under countable intersection. Oftentimes, it's common to conflate $\Sigma$ and $(\Omega, \Sigma)$, and call both $\sigma$-algebra. 
 
 ```{definition, measurable-space, name="Measurable space"}
-Let $\Omega$ be a set, and $\Sigma$ a $\sigma$-algebra. The tuple $(\Omega, \Sigma)$ is a measurable space (or Borel space). 
+Let $\Omega$ be a set, and $\Sigma$ a $\sigma$-algebra. The tuple $(\Omega, \Sigma)$ is a measurable space (or Borel space).
 ```
 
 
 ```{definition, measurable-function, name="Measurable function"}
-Let $(\Omega, \Sigma)$, and $(Y, T)$ two different measurable space. A function $f : \Omega \mapsto Y$ is said to be measurable if for every $E \in T$: 
+Let $(\Omega, \Sigma)$, and $(Y, T)$ two different measurable space. A function $f : \Omega \mapsto Y$ is said to be measurable if for every $E \in T$:
   $$f^{-1}(E):=\{x \in \Omega | f(x) \in E \} \in \Sigma$$
 ```
-A measurable function is a function between the underlying sets of two measurable spaces that preserves the structure of the spaces: the preimage of any measurable set is measurable. This is in [direct analogy](https://en.wikipedia.org/wiki/Measurable_function) to the definition that a continuous function between topological spaces preserves the topological structure: the preimage of any open set is open. 
+A measurable function is a function between the underlying sets of two measurable spaces that preserves the structure of the spaces: the preimage of any measurable set is measurable. This is in [direct analogy](https://en.wikipedia.org/wiki/Measurable_function) to the definition that a continuous function between topological spaces preserves the topological structure: the preimage of any open set is open.
 
 
 <!-- https://ece.iisc.ac.in/~parimal/2015/proofs/lecture-17.pdf -->
@@ -532,9 +552,9 @@ Let $(X, \mathbb{X}), (Y, \mathbb{Y})$ two topological spaces. Let $f$ be a func
 
 ```{definition, measure-space, name="Measure space"}
 The tuple $(\Omega, \Sigma, \mathbb{P})$ is a measure space if:
-  
+
 - $(\Omega, \Sigma)$ is a measurable space. 
-- $\mu(E)$ is a measure on $(\Omega, \Sigma)$: 
+- $\mu(E)$ is a measure on $(\Omega, \Sigma)$:
   - $\mu : \Sigma \mapsto \mathbb{R}+\{-\infty, +\infty\}$
   - non-negativity: $\mu(E) \geq 0 \forall E \in \Sigma$
   - Null empty set $\mu(\emptyset )= 0$
@@ -546,21 +566,21 @@ The tuple $(\Omega, \Sigma, \mathbb{P})$ is a measure space if:
 
 ```{definition, probability-space, name="Probability space"}
 The tuple $(\Omega, \Sigma, \mathbb{P})$ is a probability space if:
-  
+
 - $(\Omega, \Sigma)$ is a $\sigma$-algebra  ($\Omega$ is the set of *outcomes* of the experiment, and $\Sigma$ is the set of *events*)
-- $\mathbb{P}$ is a measurable function: 
+- $\mathbb{P}$ is a measurable function:
   - $\mathbb{P} : \Sigma \mapsto [0,1]$
-  - Null empty set. 
-  - $\mu$ is countably additive. 
- - $\mathbb{P}(\Omega)=1$ 
+  - Null empty set.
+  - $\mu$ is countably additive.
+ - $\mathbb{P}(\Omega)=1$
 
 ```
-I.e. a probability space is a measure space where the measurable function on $\Omega$ is $1$. 
+I.e. a probability space is a measure space where the measurable function on $\Omega$ is $1$.
 
 
 
 ```{definition, name="Complete probability space"}
-For $B \subset \Sigma$ s.t. $\mathbb{P}(B)=0$, a $(\Omega, \Sigma, \mathbb{P})$ probability space is complete if $\forall A \subset B$, $A \in \Sigma$. 
+For $B \subset \Sigma$ s.t. $\mathbb{P}(B)=0$, a $(\Omega, \Sigma, \mathbb{P})$ probability space is complete if $\forall A \subset B$, $A \in \Sigma$.
 ```
 
 
@@ -571,7 +591,7 @@ It basically means that the two measures agree on the possible and impossible ev
 
 
 ```{definition, random-variable, name="Random variable"}
-A (real-valued) random variable on a probability space $(\Omega, \Sigma, \mathbb{P})$ is a measurable function $X: \Omega \mapsto \mathbb{R}$. 
+A (real-valued) random variable on a probability space $(\Omega, \Sigma, \mathbb{P})$ is a measurable function $X: \Omega \mapsto \mathbb{R}$.
 ```
 
 
@@ -608,14 +628,14 @@ Let $A_i, i\in[n]$ the event that node $i$ is isoldated. Its probability, from t
 $$P(B_n) = P(\cup_{i=1}^n A_i) \leq \sum_i P(A_i) \leq nP(A_i) = n(1-p)^{n-1}$$
 ```
 
-```{exercise}
-Suppose we run 4 times a randomized algorithm, with success probability $1-\delta$. What is the probability that we never fail?
+```{exercise, example-algorithm-unionbound}
+Suppose we run 4 times a randomized algorithm, with success probability $1-\delta$. Can you bound the probability that we never fail using the union bound?
 ```
 
 ```{proof}
 Let $f_i$ the event that we fail running our algorithm at time $i$.
 We know that the failure probability $f_i$ is $\delta$ for all $i \in [4]$. Thanks to the union bound we can bound the probability that we fail at least once:
-$P(\cup_i^k f_i ) \leq \sum_i^k \delta = 4\delta$.
+$P(\cup_i^k f_i ) \leq \sum_i^4 \delta = 4\delta$.
 It follows that the have 4 success in a row is *lower* bounded by $1-4\delta$.
 
 Note that we could have also bypassed the union bound and compute this quantity analitically, as the probability of getting 4 success in a row would be $(1-\delta)^4$, which we can compute with the binomial theorem \@ref(thm:binomial-theorem). 
@@ -774,9 +794,11 @@ $$\|X+Y\|_p \leq \|X\|_p + \|Y\|_p.$$
 The Markov inequality is an *upper bound for the probability that a non-negative function of a random variable*, that is greater than or equal to a positive constant. Especially in analysis, people refer to it as Chebyshev's inequality (sometimes, calling it the *first* Chebyshev inequality, while referring to the ["usual"](https://en.wikipedia.org/wiki/Chebyshev%27s_inequality) Chebyshev's inequality as the second Chebyshev inequality or Bienaym{\'e}'s inequality).
 
 ```{theorem, markov, name="Markov inequality"}
-For all non-negative random variable, and $a > 0$,  we have that
-$$Pr(X  \geq a) \leq \frac{E[X]}{a} $$
-$$Pr(X  \geq aE[X]) \leq \frac{1}{a} $$
+For all non-negative random variable, and $a > 0$,  we have that:
+
+- $Pr(X  \geq a) \leq \frac{E[X]}{a}$
+- $Pr(X  \geq aE[X]) \leq \frac{1}{a}$
+
 ```
 
 ```{proof}
@@ -1181,7 +1203,7 @@ Let $\epsilon_b$ be the error we commit in estimating $\ket{c}$ such that $\norm
 ```
 
 ```{lemma, kereclaim, name="[@kerenidis2017quantumsquares]"}
-Let $\theta$ be the angle between vectors $x,y$, and assume that $\theta < \pi/2$. 
+Let $\theta$ be the angle between vectors $x,y$, and assume that $\theta < \pi/2$.
 Then, $\norm{x-y} \leq \epsilon$ implies $\norm{\ket{x} - \ket{y}} \leq \frac{\sqrt{2}\epsilon}{\norm{x}}$. Where $\ket{x}$ and $\ket{y}$ are two unit vectors in $\ell_2$ norm.
 ```
 
