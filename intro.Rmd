@@ -6,7 +6,7 @@ output:
 # (PART) Part (Bridging the gap) {-}
 
 # Quantum computing and quantum algorithms
-In this chapter we will introduce the notation used throughout the rest of the lecture notes. We will extensively use linear algebra (norm of matrices, SVD, properties of particular matrices, and so on), so the reader is higly encouraged to skim the appendix on his/her own, so to know the notation adopted here. 
+In this chapter we will introduce the notation used throughout the rest of the lecture notes. We will extensively use linear algebra (norm of matrices, SVD, properties of particular matrices, and so on), so the reader is higly encouraged to skim the appendix on his/her own, so to know the notation adopted here.
 
 ## Getting rid of physics in quantum computing
 
@@ -25,7 +25,7 @@ The first requirement reads that if we were to apply an evolution for a small am
 From these two requirements, we can already derive the following observation.
 
 $$I = U^\dagger(\epsilon)U(\epsilon)= (I+i\epsilon H)(I-i\epsilon H) = I -i \epsilon H + i \epsilon H^\dagger + O(\epsilon^2).$$
-The only way for this equation to hold is for $H=H^\dagger$. 
+The only way for this equation to hold is for $H=H^\dagger$.
 
 I.e. the operator $H$ should be equal to its transpose conjugate. In mathematics, we have a name for such operators, and they are called Hermitian operators! (More about those in the appendix!).
 Now we can ask ourselves what happens when we apply $U(\epsilon)$ to a quantum state $\psi(t)$? Well it's simple to see now:
@@ -72,18 +72,18 @@ A matrix $U\in \mathbb{C}^{d \times d}$ is said to be unitary if $UU^\dagger = U
 - $U$ can be written as $e^{iH}$ for some Hermitian operator $H$.
 
 ```{example, name="Determinant = 1 is a necessary but not sufficient condition for being unitary."} 
-It is simple to see that any 2x2 diagonal matrix $A$ with entries $10$ and $1/10$ has determinant is 1, but it's not a unitary matrix: $A^\dagger A = AA^\dagger \neq I$. 
+It is simple to see that any 2x2 diagonal matrix $A$ with entries $10$ and $1/10$ has determinant is 1, but it's not a unitary matrix: $A^\dagger A = AA^\dagger \neq I$.
 ```
 
 
 It will be useful to recall that if we have a unitary that perform the mapping $\ket{a_i} \mapsto \ket{b_i}$, we can have the "matrix" form of the opertaor as $\sum_i \ket{b_i}\bra{a_i}$. 
-Recall also that the Pauli matrices are both unitary *and* Hermitian, and this fact will be useful in many places throughout this text. 
+Recall also that the Pauli matrices are both unitary *and* Hermitian, and this fact will be useful in many places throughout this text.
 
 
 
 <!--
 # TODO Introduce more information about quantum gates
-# Below Postulate 3 there are some examples of things that would be pedagogically good to have in this place. 
+# Below Postulate 3 there are some examples of things that would be pedagogically good to have in this place.
 # labels: good first issue, help wanted
 -->
 <!-- $$H = \frac{X + X}{\sqrt{2}}$$ -->
@@ -186,27 +186,64 @@ Let $U_1$ be the evolution of a quantum state $\ket{x}$ and $U_2$ the evolution 
 ## Measuring complexity of quantum algorithms
 
 
-<!-- TODO: improve section on query and circuit complexity of quanutm algorithms -->
-<!-- (pag 157 RDW) -->
-
+This section is an attempt to organize in a coherent way some fundamental concept in quantum computer science. The formalization of some of these concepts comes from [@dorn2008quantum] and [@DeWolf]. 
 
 There are various way to measure the complexity of a quantum algorithm.  We denote with $T(U)$ the time complexity needed to implement $U$, measured in terms of depth of the circuit, which is roughly the number of time steps (or ``clock time'') we need, in order to executed the gates of the quantum circuit $U$.  If we just care about the **relativized** complexity, we might limit ourselvs to compare two algorithms that solves the same problem in terms of the number of queries to a given oracle, we might observe that one is faster than the other. This is a **relativized** speedup. The oppositive is an **absolute** speedup, i.e. when we also take into account the complexity of the operations that are **not** queries to an oracle. In the case of quantum algorithms, these might simply be the gate depth of the circuit. 
 
 We use a standard notation of $\widetilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms: $O(\log(n))=\widetilde{O}(1)$. 
 
 
-<!-- ```{definition, query-complexity, name="Query complexity"} -->
-
-<!-- ``` -->
 
 
-<!-- ```{definition, circuit-complexity, name="Circuit complexity"} -->
+```{definition, quantum-computation, name="Quantum computation"}
+Let $O_x$ be a unitary operator that encodes the input of our computation, and acts in a non trivial way on its associated Hilbert space.
+A quantum computation with $T$ queries to an oracle $O_x : \ket{i,b,z} \mapsto \ket{i,b \otimes x_i, z}$ is a sequence of unitary transformations:
 
-<!-- ``` -->
+  $$U_0O_xU_1O_x \dots U_{T-1}O_xUT$$
+Where each $U_t$ is a unitary that does not depend on the input of the algorithm. The output of the computation is obtained by measuring the rightmost register (by convention).
+```
+
+Note that the second register holds the XOR of the $i$-th component of the input with the previous state of the register (i.e. the b). This is to make the computation reversible. 
 
 
 
+```{definition, query-complexity, name="Query complexity"}
+The quantum query complexity of a quantum algorithm $\mathcal{A}$ is the number of query to a black-box made by $\mathcal{A}$ in order to compute $f$.
+```
 
+
+```{definition, circuit-complexity, name="Circuit complexity or time complexity"}
+The quantum circuit complexity (or time complexity) of a quantum algorithm $\mathcal{A}$ is the depth of the quantum circuit implementing $\mathcal{A}$.
+```
+
+Quantum computing is not the only place where we measure the complexity in terms of query to an oracle. In fact, it's sufficient to do a few [ "queries"](https://www.cs.rutgers.edu/~sa1497/courses/cs514-s20/lec3.pdf) (pun intended) on your search engine to realize that in many computational models we have adopted this measure of computational complexity. 
+
+**Note that the query complexity of an algorithm is a lower bound on the gate complexity of the quantum circuit.** It is often simpler to study first the query complexity of a quantum algorithm and then study the time complexity. For most quantum algorithms (but not all!) the time complexity coincides with the query complexity, up to a logarithmic factor. Note that, if we find a way to have an oracle whose depth (i.e. circuit complexity) is only (poly)logarithmic in the input size, then the query complexity and the gate compexity coincide up to a negligible polylogarithmic factor. 
+There are some exception. Most notably, there is a quantum algorithm for the important *hidden subgroup problem* with only polynomial query complexity, while the classical couterpart has a query complexity that is exponential in the input size. Nevertheless, the overall time complexity of the quantum algorithm is (to date) still exponential, and polynomial time quantum algorithms are known only for a few specialization of the problem.
+
+
+We will clarify better some definition that are used to describe the probabilistic behavior of an algorithm: 
+
+
+```{definition, error-behavior, name="Kind of randomized algorithms"}
+Let $f : \{0,1\}^N \mapsto \{0,1\}$ be a Boolean function. An algorithm computes $f$:
+
+-  **exactly** if the outputs equals $f(x)$ with probability 1 for all $x \in\{0,1\}^N$ 
+- with **zero error** if it is allowed to give the answer "UNDEFINED" with probability smaller than $1/2$ (but if the output is $0$ or $1$ it must be correct)
+- with **bounded error** if the output equals $f(x)$ with probability greater than $2/3$ for all $x\in \{0,1\}^N$.
+
+```
+
+A bounded error (quantum or classical) algorithm that fails with probability $1/3$ (or any other constant smaller than $1/2$) is meant to fail *in the worst case*. We do not expect the algorithm to fail in the average case, i.e. for most of the inputs (see Appendix of [@DeWolf]). 
+
+
+If a  (quantum or classical) algorithm is said to output the right answer in **expected** (oftain said "in expectation") running time $T$, we can quickly create another algorithm that has **worst-case** guarantees on the runtime. This is obtained using the Markov's inequality, i.e. theorem \@ref(thm:markov) as follows. Run the algorithm for $kT$ steps, i.e.. stop the execution after $kT$ steps if it hasn't terminated already. If $X$ is the random variable of the runtime of the computation (so $\mathbb{E}[X]=T$), then: 
+
+$$Pr\left[X > kT \right] \leq \frac{1}{k} $$
+So with probability $\geq 1-\frac{1}{k}$ we will have the output of the algorithm.
+
+
+<!-- TODO: ONE SIDE BOUNDED ERROR IS MISSING -->
 
 
 ## Representing data in quantum computers
@@ -251,11 +288,11 @@ $$\ket{b} = \bigotimes_{i=0}^{n} \ket{b_i}$$
 As an example, suppose you want to encode the vector
 $b=[1,0,1,0,1,0] \in \{0,1\}^6$, which is $42$ in decimal. This will
 correspond to the $42$-th base of the Hilbert space where our qubits
-are living. Note that, in some sense, we are not "fully" using the $2^n$ dimensional 
+are living. Note that, in some sense, we are not "fully" using the $2^n$ dimensional
 Hilbert space $\mathbb{C}^{2^{n}}$: we are mapping our list of binary vector in vectors of the computational (i.e. canonical) base. As a consequence of this choice, Euclidean distances in the Hilbert space between points have a different meaning.
 
 ```{remark, name="Difference between distances in this binary representation"}
-Consider again $v=[1,0,1,0,1,0]$ and $u=[1,1,1,0,1,1] \in \{0,1\}^6$. It is simple to see that 
+Consider again $v=[1,0,1,0,1,0]$ and $u=[1,1,1,0,1,1] \in \{0,1\}^6$. It is simple to see that
 $d(u,v)=\|u-v\|_2= 2.236..$. But $\| \ket{42} - \ket{59} \|_2 = \sqrt{2}$.
 ```
 
@@ -263,7 +300,7 @@ $d(u,v)=\|u-v\|_2= 2.236..$. But $\| \ket{42} - \ket{59} \|_2 = \sqrt{2}$.
 Our second encoding that we can imagine is the following is an amplitude encoding. We can either map:
 
 - a $0$ into a $0$, and $1$ as $1$ (or $-1$)
-- a $0$ into a $1$, and $1$ as $1$ (or $-1$) 
+- a $0$ into a $1$, and $1$ as $1$ (or $-1$)
 
 $$\ket{b} = \frac{1}{\sqrt{\sum_{i=0}^n(-1)^{b_i}}} \sum_{i \in \{0,1\}^n} (-1)^{b_i} \ket{i}$$.
 
@@ -332,7 +369,7 @@ add here a little discussion on hardware and circuit for QRAM
 ```{definition, qram, name="Quantum Random Access Memory [@giovannetti2008quantum]"}
 A quantum random access memory is a device that stores indexed data $(i,x_i)$ for $i \in [n]$ and $x_i \in \R$ (eventually truncated with some bits of precision). It allows query in the form $\ket{i}\ket{0}\mapsto \ket{i}\ket{x_i}$, and has circuit depth $O(polylog(n))$.
 ```
-We say that a dataset is efficiently loaded in the QRAM, if the size of the data structure is linear in the dimension and number of data points and the time to enter/update/delete an element is polylogarithmic in the dimension and number of data points. A direct application of this model is what is commonly assumed in quantum algorithms to access sparse matrices. This is often useful when dealing with graphs, or simply with sparse Hamiltonians. 
+We say that a dataset is efficiently loaded in the QRAM, if the size of the data structure is linear in the dimension and number of data points and the time to enter/update/delete an element is polylogarithmic in the dimension and number of data points. A direct application of this model is what is commonly assumed in quantum algorithms to access sparse matrices. This is often useful when dealing with graphs, or simply with sparse Hamiltonians.
 
 Equipped with this definition - which we will not discuss in depth, but it's discussed here [@giovannetti2008quantum] - allows us to load all kind of data in the quantum computer. 
 
@@ -354,7 +391,7 @@ Let $V \in \mathbb{R}^{n \times d}$. There is a data structure to store $V$ such
 ```
 
 With the vector stored in a QRAM, we can have efficient (i.e. in time $O(\log(n))$) query access to a matrix or a vector.
-A matrix can be accessed also in another way. 
+A matrix can be accessed also in another way.
 
 ```{definition, oracle-access-adjacencylist,  name="Oracle access in adjacency list model"}
 	Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform the mappings:
@@ -412,7 +449,7 @@ Much of the current literature in quantum tomography is directed towards reconst
 
 
 ```{theorem, efficientquantumtomography,  name="Efficient quantum tomography [@o2016efficient]"}
-An unknown rank-r mixed state $\rho \in \mathbb{C}^{d \times d}$ can be estimated to error $\epsilon$ in Frobenius distance using $n = O(d/\epsilon^2)$ copies, or to error $\epsilon$ in trace distance using $n=O(rd/\epsilon^2)$ copies. 
+An unknown rank-r mixed state $\rho \in \mathbb{C}^{d \times d}$ can be estimated to error $\epsilon$ in Frobenius distance using $n = O(d/\epsilon^2)$ copies, or to error $\epsilon$ in trace distance using $n=O(rd/\epsilon^2)$ copies.
 ```
 
 The quantum algorithms described in this document usually work with pure quantum states. Moreover we assume to have access to the unitary that creates the quantum state that we would like to retrieve, and that we have access to the unitary that creates the state (and that we can control it). Under these conditions, the process of performing tomography is greatly simplified. According to the different error guarantees that we require, we can chose among two procedures.
@@ -420,7 +457,7 @@ The quantum algorithms described in this document usually work with pure quantum
  ```{theorem, tomelle2, name="Vector state tomography with L2 guarantees [@KP18]"}
  Given access to unitary $U$ such that $U\ket{0} = \ket{x}$ and its controlled version in time $T(U)$, there is a tomography algorithm with time complexity $O(T(U) \frac{ d \log d  }{\epsilon^{2}})$ that produces unit vector $\widetilde{x} \in \R^{d}$ such that $\norm{\widetilde{x}  - \ket{x} }_{2} \leq \epsilon$ with probability at least $(1-1/poly(d))$.
  ```
-<!-- 
+<!--
 # TODO Find a way to have latex theorems' names
 # Now, we cannot have latex in the titles of theorems, so we are forced to do the following
 # ```{theorem, tomellinfinity, name="Vector state tomography with L∞ guarantees [@jonal2019convolutional]"}
@@ -432,7 +469,7 @@ The quantum algorithms described in this document usually work with pure quantum
 ```
 
 Note that in both kinds of tomography, dependence on the error in the denominator is quadratic, and this is because of the Hoeffding inequality, i.e. lemma \@ref(lem:Hoeffding).
-Another remark on the hypothesis of the algorithms for tomography is that they require a unitary $U$ such that $U\ket{0}\mapsto\ket{x}$ for the $\ket{x}$ in question. Oftentimes, due to the random error in the quantum subroutines used inside the algorithms, this state $\ket{x}$ might slightly change every time. We will see that in this thesis the variance on the state $\ket{x}$ is due to errors in mostly due to the phase estimation procedures. In Section \@ref(section:phaseestimation) we discuss ways of making phase estimation algorithms almost deterministic. 
+Another remark on the hypothesis of the algorithms for tomography is that they require a unitary $U$ such that $U\ket{0}\mapsto\ket{x}$ for the $\ket{x}$ in question. Oftentimes, due to the random error in the quantum subroutines used inside the algorithms, this state $\ket{x}$ might slightly change every time. We will see that in this thesis the variance on the state $\ket{x}$ is due to errors in mostly due to the phase estimation procedures. In Section \@ref(section:phaseestimation) we discuss ways of making phase estimation algorithms almost deterministic.
 
 
 More advanced techniques have been recently developed in [@zhang2020efficient]. There, the authors used the assumption on doing tomography on a state $\ket{x}$ that is in the row space of a rank $r$ matrix $A$ for which we have quantum access. They propose an algorithm to obtain the classical description of the coefficients $x_i$ in the base spanned by the rows $\{A_{i}\}_{i=0}^r$of $A$, so that $\ket{x} = \sum_i^r x_i \ket{A_i}$. This requires $\tilde O(poly(r))$ copies of the output states and $\tilde{O}(poly(r), \kappa^r)$ queries to input oracles. While this procedure has the benefit of not being linear in the output dimension of the final state, the high dependence on the rank might hide the advantages compared to the previous quantum tomography procedures. For completeness, the result is as follows.
@@ -455,7 +492,7 @@ Other strategies to output data from a quantum computer can be sampling, or (if 
 <!-- ## Exercises -->
 
 <!--
-# TODO Add exercise on rewriting the swap test 
-# It's done in the draft/distances.Rmd but the images needs to be worked out properly. 
+# TODO Add exercise on rewriting the swap test
+# It's done in the draft/distances.Rmd but the images needs to be worked out properly.
 # labels: good first issue, help wanted
 -->

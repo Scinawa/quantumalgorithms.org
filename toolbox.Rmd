@@ -208,7 +208,7 @@ Let $c \in (0,\infty), \kappa \geq 2$, and let $A$ be an Hermitian matrix such t
 
 
 
-Nevertheless, the algorithm that emerges by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2010variable]. Hence, we can restate the theorem  \@ref(thm:matrix-algebra-sve), with the improved runtimes, as follows.
+Nevertheless, the algorithm that emerges by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2012variable]. Hence, we can restate the theorem  \@ref(thm:matrix-algebra-sve), with the improved runtimes, as follows.
 
   
 ```{theorem, qla, name="Quantum linear algebra [@CGJ18],[@gilyen2019quantum]"}

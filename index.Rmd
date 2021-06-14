@@ -26,6 +26,7 @@ description: "Lecture notes on quantum algorithms for information processing and
 ---
 
 
+
 <!--  ```{r, include=FALSE} -->
 <!--  options(tinytex.verbose = TRUE) -->
 <!--  ``` -->
@@ -49,10 +50,15 @@ description: "Lecture notes on quantum algorithms for information processing and
 \newcommand{\tOrd}[1]{\widetilde{\mathcal{O}}\left( #1 \right)}
 
 
-# Preface 
-I hope you can find here all the things that I would have liked to know when I started working on quantum algorithms. My aspiration is that they will help bridge the gap between introductory material in quantum computation and high-level research material. 
 
-These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalgorithms.org/) easily accessible on GitHub. Feel free to help by sending a pull request. You can find a list of issues and enhancements that would improve these lecture notes further, making them more accessible and covering more interesting and recent material that keeps popping up in quantum information. 
+
+
+
+# Preface 
+I hope you can find here all the things that I would have liked to know when I started working on quantum algorithms. The first aspiration is that they will help bridge the gap between introductory material in quantum computation and high-level research material. Secondarily, I hope you can use this website as resource for state-of-the-art algorithms, so readers can find statements of theorems and runtimes of the best quantum algorithms proposed so far.
+
+These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalgorithms.org/) easily accessible on [GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. Feel free to help by sending a pull request. You can find a list of issues and enhancements that would improve these lecture notes further, making them more accessible and covering more interesting and recent material that keeps popping up in quantum information.
+
 
 
 <p style="text-align:right"> 
@@ -95,7 +101,7 @@ The common thread of these algorithms is that they are faster than their best cl
 
 We will see that, for a new QML algorithm, one often needs to make sure that the real performances of the quantum algorithms offer concrete advantages with respect to the effective runtime and the accuracy that is offered by the best classical algorithms. As we don't have access to big-enough quantum computers *yet*, we can only assess the performance of these quantum algorithms via a classical simulation. 
 
-These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefits society and humankind, as soon as the hardware that supports this kind of computation will become ready. 
+These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefits society and humankind, as soon as the hardware that supports this kind of computation will become ready.
 
 
 While reading these lecture notes you should always remember the good [**Simon Martiel**](https://scholar.google.fr/citations?user=upaq0vIAAAAJ&hl=en): 

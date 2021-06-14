@@ -40,7 +40,7 @@ Assume to have quantum access to a unitary $U_f$ that computes the function $f :
 
 
 ```{theorem, phase-estimation, name="Phase estimation [@Kitaev1995QuantumProblem]"}
-Let $U$ be a unitary operator with eigenvectors $\ket{v_j}$ and eigenvalues $e^{i \theta_j}$ for $\theta_j \in [-\pi, \pi]$, i.e. we have $U\ket{v_j} = e^{i \theta_j}\ket{v_j}$ for $j \in [n]$. For a precision parameter $\epsilon > 0$, there exists a quantum algorithm that runs in time $O(T(U)\log(\frac{n}{\varepsilon}))$ and with probability $1 - 1/poly(n)$ maps a state $\ket{\phi_i} = \sum_{j \in [n]} \alpha_j\ket{v_j}$ to the state $\sum_{j \in [n]} \alpha_j \ket{v_j}\ket{\bar{\theta_j}}$ such that $|\bar{\theta}_j - \theta_j| < \varepsilon$ for all $j \in [n]$.
+Let $U$ be a unitary operator with eigenvectors $\ket{v_j}$ and eigenvalues $e^{i \theta_j}$ for $\theta_j \in [-\pi, \pi]$, i.e. we have $U\ket{v_j} = e^{i \theta_j}\ket{v_j}$ for $j \in [n]$. For a precision parameter $\epsilon > 0$, there exists a quantum algorithm that runs in time $O(\frac{T(U)\log(n)}{\epsilon}))$ and with probability $1 - 1/poly(n)$ maps a state $\ket{\phi_i} = \sum_{j \in [n]} \alpha_j\ket{v_j}$ to the state $\sum_{j \in [n]} \alpha_j \ket{v_j}\ket{\bar{\theta_j}}$ such that $|\bar{\theta}_j - \theta_j| < \epsilon$ for all $j \in [n]$.
 ```
 
 
@@ -119,3 +119,5 @@ Suppose that each $\mathcal A_i$ outputs the correct answer with probability at 
 Then there exists a quantum algorithm with success probability at least $2/3$ that checks whether at least one of $\mathcal A_i$ returns true and runs in time
 $$\widetilde O\left(\sqrt{T_1^2+\ldots+T_n^2}\right).$$
 ```
+
+
