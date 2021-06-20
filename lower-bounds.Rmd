@@ -82,7 +82,7 @@ Applying the inequality to $r$, one have $|r'(x)| \leq \frac{2d^2}{n}$. On the o
 However, a similar quadratic speedup is not feasible for an exact algorithm for OR function. Assume such an algorithm exists, then it induces $r(0) = 0$ and $r(k) = 1, \: k\in \{1,2,\dots,n\}$. The univariate polynomial $r$ then has to change direction at least $n-1$ times to satisfy the constraint, making its degree at least $n$. Thus $T \geq n/2$, so the exact algorithm cannot achieve a quadratic speedup.
 
 
-## Quantum Adversary methods
+## Quantum adversary method
 
 Consider a decision problem given by a function $f: \{0,1\}^n \rightarrow \{0,1\}$. An input $\mathbf{w} = (w_1,\dots,w_n) \in \{0,1\}^n$ to the function can be accessed via a phase oracle $O_{\mathbf{w}}: |i\rangle \mapsto (-1)^{w_i}|i\rangle$. This type of oracle can be obtained from the general oracle $O'_{\mathbf{w}}: |i\rangle |a\rangle \mapsto |i\rangle |a \oplus g(i)\rangle$ by setting the ancilla state $|a\rangle = |-\rangle$ and $g(i) = w_i$. This trick is often referred as _phase kickback_.
 
@@ -187,4 +187,3 @@ The second line comes from the third assumption and the fact that $\sum_{i\in [N
 We revisit two examples of PARITY and OR functions and show the adversary method and the polynomial method give the same lower bound. Recall from the Polynomial method that one needs at least $n/2$ queries for PARITY and $\Theta(\sqrt{n})$ for OR. Let's see if the same result can be obtained with the Adversary method. The PARITY function $f$ maps binary strings with odd Hamming weight to $1$ and even Hamming weight to $0$. Let $X = f^{-1}(0), Y = f^{-1}(1),$ and $R = \{(\mathbf{x},\mathbf{y}) | d(\mathbf{x},\mathbf{y}) = 1\}$. It not difficult to see that $m_0 = m_1 = n, l_0 = l_1 = 1$ so that the function requires $\Omega(n)$ queries. The OR function $g$ maps only the all-zero sequence to $0$ and other inputs to $1$. Let $X = \{00\dots 00\} = g^{-1}(0)$ and $Y = \{\mathbf{y} | \mathbf{y} \text{ contains exactly one bit } 1\} \subset g^{-1}(1)$. Then, $m_0 = n, m_1=1, l_0 = l_1 = 1$, so we have a lower bound of $\Omega(\sqrt{n})$.
 
 
-### application: quantum coupon collector
