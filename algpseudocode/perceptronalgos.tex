@@ -1,0 +1,130 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Classical Perceptron}
+\author{sbuck}
+\date{April 2021}
+
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{braket}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{amsmath, amssymb}
+\usepackage{bbold}
+\usepackage{makecell}
+\usepackage{amssymb}
+
+
+
+
+% \usepackage[noend]{algorithmic} 
+% \usepackage{algorithm,caption}
+
+\begin{document}
+
+
+% #Classical perceptron algorithm
+
+\begin{algorithm}
+ 
+	Let $\mathcal{D}=\left(\left\langle\mathbf{x}^{[1]},y^{[1]}\right\rangle,\left\langle\mathbf{x}^{[2]}, y^{[2]}\right\rangle,\ldots,\left\langle\mathbf{x}^{[n]},y^{[n]}\right\rangle\right) \in\left(\mathbb{R}^{m} \times\{0,1\}\right)^{n}$
+	\vspace{5pt}
+	
+	\begin{algorithmic}[1]
+	\caption*{\textbf{Classical Perceptron Algorithm}} 
+    
+		\State Initialize ${w}:={0} \in 
+		\mathbb{R}^{m}, {b}:=0$
+		\For{every training epoch}
+		
+		\vspace{5pt}
+		\For {every data point \(\left\langle\mathbf{x}^{[i]}, y^{[i]}\right\rangle \in \mathcal{D}\) }
+		\Statex \vspace{3pt} \hspace{2pt} $\bullet
+		 \hat{y}^{[i]}:=\sigma\left(\mathbf{x}^{[i]T} {w}_{i}+b\right) \leftarrow$Compute output prediction
+
+        \Statex \hspace{2pt} $\bullet \mathrm{error}:=\left({y}^{[i]}-{y}_{t}^{[i]}\right) \leftarrow$ Calculate error (i.e. difference between obtained output and target output)
+
+        \Statex \hspace{2pt} $\bullet {w}_{i}^{'}:={w}_{i}+\Delta{w}  \leftarrow$ Update weight and bias parameters
+ 
+        \EndFor
+        
+        \EndFor
+        
+	\end{algorithmic}
+\end{algorithm}
+
+
+% #Quantum Perceptron Algorithm 1
+
+\begin{algorithm}[ht]
+	\caption{Online Quantum Perceptron Training Algorithm} 
+	\begin{algorithmic}[1]
+	
+		\For {\(k=1, \ldots,\left\lceil\log _{3 / 4} \gamma^{2} \epsilon\right\rceil\)} 
+		
+		\For {\(j=1:\left\lceil\log _{c}\left(1 / \sin \left(2 \sin ^{-1}(1 / \sqrt{N})\right)\right)\right]\)}
+		
+		\State Draw \(m\) uniformly from \(\left\{0, \ldots,\left\lceil c^{j}\right\rceil\right\}\)
+		
+		\State Prepare quantum state \(|\Psi\rangle\). 
+		
+		\State \(|\Psi\rangle \leftarrow\left(\left(2 \Psi \Psi^{\dagger}-\mathbb{1}\right) F_{w}\right)^{m} |\Psi\rangle\)
+		
+		\State Measure \(|\Psi\rangle\), assume outcome is \(u_{q}\).
+		
+		\State \((\phi, y) \leftarrow \phi_{q}\)
+		
+		\If {\(f_{w}(\phi, y)=1\)} 
+		
+		\State \Return \(w^{\prime} \leftarrow w+y \phi\)
+		
+		\EndIf
+		
+		\EndFor
+		
+		\EndFor
+		
+		\State \Return\(w^{\prime}=0\)	
+	\end{algorithmic}
+\end{algorithm}
+
+
+% #Quantum Perceptron Algorithm 2
+
+\begin{algorithm}[ht]
+	\caption{Quantum Version Space Perceptron Training Algorithm} 
+	\begin{algorithmic}[1]
+	
+		\For {\(k=1, \ldots,\left\lceil\log _{3 / 4} \epsilon\right\rceil\)}
+		
+		\For {\(j=1:\left\lceil\log _{c}\left(1 / \sin \left(2 \sin ^{-1}(1 / \sqrt{K})\right)\right)\right\rceil\)}
+		
+		\State Draw \(m\) uniformly from \(\left\{0, \ldots,\left\lceil c^{j}\right\rceil\right\}\).
+		
+		\State Prepare quantum state \(\ket{\Psi}=\frac{1}{\sqrt{K}} \sum_{i=1}^{K} \ket{i} \otimes \ket{0}\)
+		
+		\State \(\ket{\Psi} \leftarrow\left(\left(2 \Psi \Psi^{\dagger}-\mathbb{1}\right) G\right)^{m} \ket{\Psi}\)
+		
+		\State Measure \(\ket{\Psi}\), assume outcome is \(u_{q}\)
+		
+		\State \(w \leftarrow w_{q}\)
+		
+		\If{\(f_{w}\left(\phi_{\ell}, y_{\ell}\right)=0\) for all \(\ell \in\{1, \ldots, N\}\)}
+		
+		\State \Return \(w\)
+		
+		\EndIf
+		
+		\EndFor
+		
+		\EndFor
+		
+		\State \Return \(w=0\)
+	\end{algorithmic}
+\end{algorithm}
+
+\end{document}
