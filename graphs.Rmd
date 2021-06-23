@@ -10,9 +10,7 @@ output:
 Many real world problems can be modeled using graph theory which is the mathematical study of **graphs** that are constructed using nodes (sometimes called vertices), connected by edges.  
 
 Several quantum algorithms are introduced by [@durr2006quantum] to solve problems in graph theory: MINIMUM SPANNING TREE, CONNECTIVITY, STRONG CONNECTIVITY, and SINGLE SOURCE SHORTEST PATH. Classically, these problems can be solved efficiently i.e. in polynomial number of queries. In this chapter, we will see how to decrease the query complexity of the algorithm by applying in a shrewd way amplitude amplification and related algorithms. 
-
-
-In the work of [@durr2006quantum], they used three different versions of the search algorithm. In particular, we state a slightly improved version here, with a quadratic improvement also in the runtime dependence on the probability of failure. 
+More specifically, in the work of [@durr2006quantum], they used three different versions of the search algorithm. In particular, we state a slightly improved version here, with a quadratic improvement also in the runtime dependence on the probability of failure. 
 
 ```{theorem, grover-improved, name="Grover's search algorithm, version of [@buhrman1999bounds]"}
 Let $N=2^n$ for $n>0$. 
@@ -21,33 +19,29 @@ Given quantum oracle access $O_x: \ket{i}\mapsto\ket{i}\ket{x_i}$ to a vector $x
 
 In fact, note that the "standard" version of bounding the probability of failure of a quantum or classical randomized algorithm consist in repeating the algorithm a certain number of time, and use the "powering lemma" \@ref(lem:powering-lemma). 
 
-Further discussions of this subroutune can also be found in [@durr2006quantum] and [@dorn2008quantum]. 
+Further discussions of this subroutine can also be found in [@durr2006quantum] and also in [@dorn2008quantum]. 
 
 
+The most famous problems in graph theory are the following: **Minimum Spanning Tree**, **Connectivity**, **Strong Connectivity** and **Single Sourced Shortest Path**, **Traveling salesman**, and many others. 
 
-## Quantum algorithms
+<!-- The problem of the minimum spanning tree problem is stated below.  -->
 
-In this section, we will present the quantum counterpart of the classical algorithms that will solve **the Minimum Spanning Tree**, **Connectivity**, **Strong Connectivity** and **Single Sourced Shortest Path**. Classically, these problems are commonly solved by greedy algorithms. 
+<!-- ```{definition, probminspantree, name="Minimum Spanning Tree"} -->
+<!-- Given an undirected and weighted graph $G$ with $N$ vertices and its weighted matrix, we wish to find the edge set $E(G)$ of a minimum spanning tree of $G$ that has the smallest weight.  -->
+<!-- ``` -->
 
+<!-- Classically, this problem is solved Boruvka's algorithm [@de2019quantum, @bondy2008graphtheory]. This algorithm works because of a simple fact about connected graph as stated below. -->
 
-The problem of the minimum spanning tree problem is stated below. 
+<!-- ```{lemma, factingraphtheory, name="Fact in graph theory"} -->
+<!-- Let $U ⊂ V$ be a set of vertices of a connected graph $G = (V,E)$ and let $e$ be a minimum weight edge of $(U × \bar U ∩ E$. Then there is a minimum spanning tree containing $e$. -->
 
-```{definition, probminspantree, name="Minimum Spanning Tree"}
-Given an undirected and weighted graph $G$ with $N$ vertices and its weighted matrix, we wish to find the edge set $E(G)$ of a minimum spanning tree of $G$ that has the smallest weight. 
-```
+<!-- ``` -->
 
-Classically, this problem is solved Boruvka's algorithm [@de2019quantum, @bondy2008graphtheory]. This algorithm works because of a simple fact about connected graph as stated below.
+<!-- ```{proof} -->
+<!-- This proof requires to show there exists a spanning tree in graph $G$ such that it has minimum weight of all possible others. Firstly, the existence of a spanning tree in $G$ is clear because a connected graph automatically implies a spanning tree exists.  -->
 
-```{lemma, factingraphtheory, name="Fact in graph theory"}
-Let $U ⊂ V$ be a set of vertices of a connected graph $G = (V,E)$ and let $e$ be a minimum weight edge of $(U × \bar U ∩ E$. Then there is a minimum spanning tree containing $e$.
-
-```
-
-```{proof}
-This proof requires to show there exists a spanning tree in graph $G$ such that it has minimum weight of all possible others. Firstly, the existence of a spanning tree in $G$ is clear because a connected graph automatically implies a spanning tree exists. 
-
-We can prove the minimum weight edge $e$ is in the minimum spanning tree by contradiction. Assume that a minimum spanning tree does not contain $e$. This implies that $e$ must be connected to vertices that are not in $U$ so that $G$ is a disconnected graph. This is a contradiction because $G$ is already connected. Next, we need to show that there exists a minimum spanning tree contains the smallest weight. Assume all others edges in $G$ except $e$ has greater or equal weights. Because $e$ is the edge that has the minimal weight and a minimum spanning tree requires all vertices to be covered, there must be at least one spanning tree that uses $e$ as one of its edges.
-```
+<!-- We can prove the minimum weight edge $e$ is in the minimum spanning tree by contradiction. Assume that a minimum spanning tree does not contain $e$. This implies that $e$ must be connected to vertices that are not in $U$ so that $G$ is a disconnected graph. This is a contradiction because $G$ is already connected. Next, we need to show that there exists a minimum spanning tree contains the smallest weight. Assume all others edges in $G$ except $e$ has greater or equal weights. Because $e$ is the edge that has the minimal weight and a minimum spanning tree requires all vertices to be covered, there must be at least one spanning tree that uses $e$ as one of its edges. -->
+<!-- ``` -->
 
 <!-- ### The algorithm in the adjacency array model -->
 
@@ -122,7 +116,7 @@ knitr::include_graphics("algpseudocode/quantum-connectivity.png")
 
 
 ````{theorem, algo-connectivity, name="Quantum algorithm for graph conectivity (adjacency matrix model)"}
-Assume that $U_A$ is a unitary that gives you query access to the adjacency matrix $M$ of an undirected graph $G=(V,E)$. Then, deciding if a graph is connected has an expected number of queries to $U_{A}$ of $O(n^{3/2})$. In particular, if the graph is connected, algorithm \ref{fig:quantum-algo-connectivity} returns a spanning tree for $G$ with probability greater than $2/3$. 
+Assume that $U_A$ is a unitary that gives you query access to the adjacency matrix $M$ of an undirected graph $G=(V,E)$. Then, deciding if a graph is connected has an expected number of queries to $U_{A}$ of $O(n^{3/2})$. In particular, if the graph is connected, algorithm \@ref(fig:quantum-algo-connectivity) returns a spanning tree for $G$ with probability greater than $2/3$. 
 
 ```
 
@@ -130,7 +124,7 @@ Assume that $U_A$ is a unitary that gives you query access to the adjacency matr
 ```{proof}
 The whole algorithm tries to build a spanning tree for the graph. If we succeed, then the graph is connected. The algorithm start by creating a data structure that holds $n$ different connected components, one for each vertex. Then, we construct a spanning tree by finding an edge that connects any two of the connected components. 
 
-Initialize the algorithm with an empty edge set $A$ for the spanning tree $T=(V,A)$. We use \@ref(thm:grover-improved) on the operator $U_A$ and the oracle $U_{f_T}$. As usual, $U_A$ is defined as $U_A : \ket{i,j,c} \mapsto \ket{i,j,c\oplus A_{ij}}$. We ecapsulate into the oracle $U_{f_T}$ the data structure that stores the connected components, so we can have a unitary implementing the function $f_T : E \mapsto \{0,1\}$:
+Initialize the algorithm with an empty edge set $A$ for the spanning tree $T=(V,A)$. We use theorem \@ref(thm:grover-improved) on the operator $U_A$ and the oracle $U_{f_T}$. As usual, $U_A$ is defined as $U_A : \ket{i,j,c} \mapsto \ket{i,j,c\oplus A_{ij}}$. We ecapsulate into the oracle $U_{f_T}$ the data structure that stores the connected components, so we can have a unitary implementing the function $f_T : E \mapsto \{0,1\}$:
 
 $$ f_T(e) \begin{cases} 
       1 & \text{if } c(T \cup e) < c(T) \\
@@ -144,10 +138,10 @@ The runtime analysis is concluded by noting that we need to repeat the search pr
   $$\sum_{k=2}^n \sqrt{\frac{n^2}{(k-1)}}=O(n^{3/2})$$
 
   
-If the graph is not connected, at some point we will not be able to find any new edges, and the procedure of theorem \@ref(thm:grover-improved) will fail (we can repeat this procedure a certain number of times to be sure that there are indeed no more valid edges, leveraging the powering lemma,  \@ref(lem:powering-lemma)).  
+If the graph is not connected, at some point we will not be able to find any new edges, and the procedure of theorem \@ref(thm:grover-improved) will fail (we can repeat this procedure a certain number of times to be sure that there are indeed no more valid edges, leveraging the powering lemma, i.e. lemma \@ref(lem:powering-lemma)).  
 
-We need to set the failure probability of each run of \@ref(thm:grover-improved). 
-It is simple to check that if we want the probability of failure to be bounded by $2/3$ we need to se the probability of failure for a single run of the algorithm as $\delta \geq \frac{1}{3n}$. This is relatively simple to obatin from the union bound (see exercise \@ref(exm:example-algorithm-unionbound)).  
+We need to set the failure probability of each run of theorem \@ref(thm:grover-improved). 
+It is simple to check that if we want the probability of failure to be bounded by $2/3$ we need to se the probability of failure for a single run of the algorithm as $\delta \geq \frac{1}{3n}$. This is relatively simple to obatin from the union bound (see exercise \@ref(exr:example-algorithm-unionbound)).  
 
 ```
 
@@ -160,7 +154,8 @@ Assume that $U_A$ is a unitary that gives you query access to the array model of
 
 ## Conclusions
 
-In this chapter, we have presented several quantum algorithms that solves problems in graph theory introduced by [@durr2006quantum]. A summary of the query complexities for each presented problem as well as other problems from. 
+A summary of the query complexities is stated below. 
+
 
 Problem  | Adj. Matrix | Array 
 ------------- | ------------- | -------------
