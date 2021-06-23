@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{braket}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+
+\begin{document}
+\pagestyle{empty} 
+
+\begin{algorithm}[ht]
+	\caption{} 
+	\begin{algorithmic}[1]
+
+		\Require  A quantum algorithm $A$ such that $Var(\nu(A))\leq \sigma^2$ for some known $\sigma$, an accuracy $\epsilon$ such that $\epsilon<4\sigma$.
+		\Ensure An estimate of $\mathbb{E}[\nu(A)]$.
+		\vspace{10pt}
+		\Statex 
+		
+		\State Set $A'=A/\sigma$.
+		
+		\State Run $A'$ once and let $\widetilde{m}$ be the output.
+		
+		 \State Let $B$ be the algorithm produced by executing $A'$ and subtracting $\widetilde{m}$.
+		 
+	 \State Apply algorithm 2 to algorithms $-B_{<0}/4$ and $B_{\geq 0}/4$ with accuracy $\epsilon/(32\sigma)$ and failure probability $1/9$, to produce estimates $\widetilde{\mu}^-$, $\widetilde{\mu}^+$ of $\mathbb{E}[\nu(-B_{<0}/4)]$ and $\mathbb{E}[\nu(B_{\geq 0}/4)]$, respectively.
+	 
+		\State Set $\widetilde{\mu}= \widetilde{m}-4\widetilde{\mu}^-+4\widetilde{\mu}^+$.
+		
+		\State Output $\sigma \widetilde{\mu}$.
+		
+	\end{algorithmic}
+\end{algorithm}
+
+\end{document}
