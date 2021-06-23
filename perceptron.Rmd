@@ -1,22 +1,14 @@
 ---
-title: "Quantum Perceptron"
-author: "Samantha Buck"
-date: "`r Sys.Date()`"
-site: bookdown::bookdown_site
-output: bookdown::gitbook
-documentclass: book
-bibliography: [book.bib]
-biblio-style: apalike
-link-citations: yes
-github-repo: rstudio/bookdown-demo
-description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 # Quantum Perceptron
 
 **What is a Perceptron?**
 
-The following work is an investigation into the quantum version of the classical perceptron algorithm, and is based on the previous work of N. Wiebe *et al.* @wiebe2016quantum.
+The following work is an investigation into the quantum version of the classical perceptron algorithm, and is based on the previous work of [@kapoor2016quantum]
 
 However, before we can explore the idea of the quantum perceptron in a meaningful way, we must first understand the fundamentals of the classical version of the perceptron, which is what we will cover first in this chapter.
 
@@ -156,7 +148,7 @@ Batch learning is a technique which generates an output by learning on the entir
 
 **Grover's Search Algorithm**
 
-   Grovers algorithm @grover1996fast, also often referred to as the "quantum search algorithm", refers to a quantum algorithm for unstructured search that successfully determines the unique input to a black box function that produces a particular output value. Specifically, the algorithm consists of two oracle steps: a phase inversion oracle step, and an amplitude amplification oracle step. Grover's search algorithm is ubiquitous in the realm of established quantum algorithms, and is used as the overarching quantum resource in both of the formulations of the quantum perceptron algorithm that will be presented in the following sections. For a more robust investigation of Grover's search, the reader is encouraged to review section 4.2 \@ref(sec:4.2) of this book, \@ref(subsec:findmin), and also section II B in @wiebe2016quantum, where specifics on how Grover's is leveraged in context of the quantum perceptron can be found.
+   Grovers algorithm @grover1996fast, also often referred to as the "quantum search algorithm", refers to a quantum algorithm for unstructured search that successfully determines the unique input to a black box function that produces a particular output value. Specifically, the algorithm consists of two oracle steps: a phase inversion oracle step, and an amplitude amplification oracle step. Grover's search algorithm is ubiquitous in the realm of established quantum algorithms, and is used as the overarching quantum resource in both of the formulations of the quantum perceptron algorithm that will be presented in the following sections. For a more robust investigation of Grover's search, the reader is encouraged to review section 4.2 \@ref(sec:4.2) of this book, \@ref(subsec:findmin), and also section II B in [@kapoor2016quantum], where specifics on how Grover's is leveraged in context of the quantum perceptron can be found.
 
 ## Quantum Perceptron: Algorithm 1 
 
@@ -210,7 +202,7 @@ $$F_{w}=U^{\dagger}\left(\mathbb{1} \otimes \mathcal{F}_{w}\right) U$$
 
 Classifying the data based on the phases (the minus signs) outputted by $F_{w}$ affords a very memory efficient training algorithm due to the fact that only one training vector is ever stored in memory during the implementation of $F_{w}$ provided above. We can then use $F_{w}$ to perform the amplitude amplification aspect of Grover's search algorithm by taking $U_{\text {targ }}=F_{w}$ and $U_{\text{init}}=2 \psi\psi^{\dagger}-\mathbb{1}$, with $\psi=|\Psi\rangle:=\frac{1}{\sqrt{N}}\sum_{j=1}^{N} |j\rangle$, to seek out training vectors that the current perceptron model misclassifies. This leads to a quadratic reduction in the number of times that the training vectors need to be accessed by $F_{w}$ (or its classical analogue). The following theorem highlights this quadratic speedup, achieved by the implementation of a quantum search for the training vectors that the perceptron misclassifies.
 
-```{theorem}
+```{theorem, name="???"}
 Given a training set that consists of unit vectors $\Phi_{1}, \ldots, \Phi_{N}$ that are separated by a margin of $\gamma$ in feature space, the number of applications of $F_{w}$ needed to infer a perceptron model, $w$, such that $P\left(\exists j: f_{w}\left(\phi_{j}\right)=1\right) \leq \epsilon$ using a quantum computer is $N_{\text {quant}}$ where
 $$
 \Omega(\sqrt{N}) \ni N_{\text {quant}} \in O\left(\frac{\sqrt{N}}{\gamma^{2}} \log \left[\frac{1}{\epsilon \gamma^{2}}\right]\right)
@@ -244,7 +236,7 @@ The following pseudocode can be taken as a template to implement the steps discu
 
 For a detailed explanation of the upper range stated in steps 3 and 4 of the pseudocode, refer to section II B in @wiebe2016quantum.
 
-## Quantum Perceptron: Algorithm 2
+## Quantum perceptron in version space
 
 **General Idea:**  Uses Grover’s search as a means to identify the correct hyperplane in version space that perfectly separates the data points, from a set of candidate hyperplanes (i.e. task of picking a successfully separating hyperplane, selected from a set of prepared candidate hyperplanes).
 

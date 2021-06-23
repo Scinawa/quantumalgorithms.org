@@ -3,16 +3,18 @@ delete_merged_file: true
 language:
   ui:
     chapter_name: "Chapter "
-rmd_files: ["index.Rmd", 
+rmd_files: ["index.Rmd",
 "intro.Rmd",
 "classical.Rmd",
 "first-quantum-algorithms.Rmd",
 "toolbox.Rmd",
 #"between.Rmd",
 "dimensionality-reduction.Rmd",
+#"perceptron.Rmd",
 "q-means.Rmd",
 "qem.Rmd",
 "on-real-data.Rmd",
+"graphs.Rmd",
 "lower-bounds.Rmd",
 "selected-works.Rmd",
 #"virtual-quantum-labs.Rmd",
