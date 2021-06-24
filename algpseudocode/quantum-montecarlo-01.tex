@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{braket}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+
+\begin{document}
+\pagestyle{empty} 
+
+\begin{algorithm}[ht]
+	\caption{} 
+	\begin{algorithmic}[1]
+
+		\Require  A quantum algoritm $A$ on $n$ qubits initialized to $\ket{0^n}$ such that $0\leq \nu(A) \leq 1$, integer $t$, real $\delta>0$. $A$ makes no measurement until the end of the algorithm and its final measurement is a measurement of the last $k\leq n$ qubits in the computational basis.
+		\Ensure An estimate of $\mathbb{E}[\nu(A)]$.
+		\vspace{10pt}
+		\Statex 
+
+		\State If necessary, modify $A$ such that it makes no measurement until the end of the algorithm; operates on initial input state $\ket{0^n}$; and its final measurement is a measurement of the last $k\leq n$ of these qubits in the computational basis.
+
+		\State Let $W$ be the unitary operator on $k+1$ qubits defined by 
+		       \begin{equation}
+		       W\ket{x}\ket{0} =\ket{x}\big(\sqrt{1-\phi(x)}\ket{0}+\sqrt{\phi(x)}\ket{1}
+		       \end{equation}
+		       where each computational basis state $x \in \{0,1\}^k$ is associated with a real number $\phi(x) \in [0,1]$, such that $\phi(x)$ is the value output by $A$ when measurement $x$ is recieved.
+
+		 \State Repeat the following step $O(\log(1/\delta)$ times and output the median of the results:
+		 Apply $t$ iterations of amplitude estimation, setting $\ket{\psi} = (I \otimes W)(A \otimes I)\ket{0^{n+1}}$, $P = I \otimes |1\rangle\langle 1|$.
+
+
+	\end{algorithmic}
+\end{algorithm}
+
+\end{document}
