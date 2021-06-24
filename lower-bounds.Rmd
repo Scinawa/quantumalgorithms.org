@@ -4,7 +4,7 @@ output:
   html_document: default
 ---
 
-# Lower bounds on query complexity of quantum algorithms
+# Lower bounds on query complexity of quantum algorithms {#chap:lowerbounds}
 
 We have discussed about several important quantum algorithms. A large portion of them is query-based, i.e. the input is given as a quantum black box $O: |\mathbf{x}\rangle |y\rangle \mapsto |\mathbf{x}\rangle |y \oplus f(x)\rangle$. In that setting, query complexity plays a key role in determining the advantage and limitation of an algorithm. This chapter will discuss how to obtain a lower bound on query complexity, i.e. the minimal number of queries an algorithm needs to make for a desired output (probably up to some error bound). In particular, we are going to look into __Polynomial method__ and __Adversary method__, along with some simple applications.
 

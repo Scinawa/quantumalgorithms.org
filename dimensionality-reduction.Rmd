@@ -4,7 +4,6 @@ output:
   html_document: default
 ---
 
-# (PART) Part (Quantum Machine Learning) {-} 
 
 # Dimensionality reduction
 
