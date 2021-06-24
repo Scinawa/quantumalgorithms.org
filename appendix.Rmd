@@ -1211,9 +1211,7 @@ Then, $\norm{x-y} \leq \epsilon$ implies $\norm{\ket{x} - \ket{y}} \leq \frac{\s
 
 # Contributions and  acknowledgements
 
-These are my first lecture notes in Quantum Machine Learning (QML) and quantum algorithms. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. Thesis, and now are in this extended form with the hope to serve the future researchers in QML. I am not an expert in the broad field of "quantum computing", and these lecture notes are an attempt (while quite prolonged over time) of collecting useful knowledge for new researcher in quantum computing. While I strive to be as precise as the lecture notes of [Ronald de Wolf](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf) and [Andrew Childs](https://www.cs.umd.edu/~amchilds/qa/qa.pdf), I know this work is still far from them. Please be indulgent, and help! For instance by signaling imprecisions, errors, and things that can be made more clear.
-
-
+These are my first lecture notes in Quantum Machine Learning (QML) and quantum algorithms. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. thesis (which I made at [IRIF](https://irif.fr) with the support of [Atos](https://atos.net), which I thank), and now are in this extended form with the hope to serve the future researchers in QML. I am not an expert in the broad field of "quantum computing", and these lecture notes are an attempt (while quite prolonged over time) of collecting useful knowledge for new researcher in quantum computing. While I strive to be as precise as the lecture notes of [Ronald de Wolf](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf) and [Andrew Childs](https://www.cs.umd.edu/~amchilds/qa/qa.pdf), I know this work is still far from them. Please be indulgent, and help! For instance by signaling imprecisions, errors, and things that can be made more clear.
 
 
 If you want to give me any feedback, feel free to write me at "scinawa - at - luongo - dot - pro". Or contact me on [Twitter](https://twitter.com/scinawa).
@@ -1227,7 +1225,9 @@ In sparse order, I would like to thank [Dong Ping Zhang](www.dongpingzhang.com),
 - Alessandro ['Scinawa'](https://twitter.com/scinawa) Luongo
 - Armando ['ikiga1'](https://twitter.com/ikiga1) Bellante
 
-The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contributors) to the project are:
+**Contributors**
+
+The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contributors) to this open-source project are:
 
 - Patrick Rebentrost
 - Yassine Hamoudi
@@ -1235,6 +1235,13 @@ The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contr
 - Trong Duong
 - Filippo Miatto
 - Jinge Bao
+
+**Funding**
+
+This website is supported by:
+
+- [unitary.fund](https://unitary.fund). 
+
 
 # License and citation
 
