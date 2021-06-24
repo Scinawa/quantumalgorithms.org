@@ -17,6 +17,9 @@ This is a work in progress, as the vast majority of works are not present here, 
 - [Noisy intermediate-scale quantum (NISQ) algorithms](https://arxiv.org/abs/2101.08448) `#review, #variational`
 A massive review on the state-of-the-art quantum algorithms for NISQ architectures. It highlights the limitations, but also the wins of the variational paradigm.
 - [Parallel Quantum Algorithm for Hamiltonian Simulation](https://arxiv.org/abs/2105.11889) `#algo`
+- [Quantum Perceptron Revisited: Computational-Statistical Tradeoffs](https://arxiv.org/abs/2106.02496) `#algo`
+- [Lower bounds for monotone arithmetic circuits via communication complexity](https://dl.acm.org/doi/abs/10.1145/3406325.3451069) `#theory`
+- [Fast algorithm for quantum polar decomposition, pretty-goodmeasurements, and the Procrustes problem](https://arxiv.org/abs/2106.07634) `#algo`
 
 #### 2020 {-}
 
@@ -35,7 +38,6 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Quantum algorithms for zero-sum games](https://arxiv.org/abs/1904.03180) `#algo`
 - [Practical implementation of a quantum backtracking algorithm](https://arxiv.org/abs/1908.11291) `#experiment`
 - [Quantum speedup of branch-and-bound algorithms](https://arxiv.org/abs/1906.10375) `#algo`
-- []
 
 #### 2018 {-}
 
