@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{braket}
+\usepackage{amsmath}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+
+\begin{document}
+\pagestyle{empty} 
+
+\begin{algorithm}[ht]
+	\caption{} 
+	\begin{algorithmic}[1]
+
+		\Require  Quantum query access to $A$, the adjacecny matrix of an undirected, unweighted graph $G=(V,E)$. 
+		\Ensure A MST $T$ if the graph is connected, otherwise return "not connected".
+		\vspace{10pt}
+		\Statex 
+		\State Create a set $A=\emptyset$. 
+		\State Create a spanning tree $T=(V,A)$
+		
+		\While {$c(T)>1$}
+		\State Find $e$ using quantum search algorithm using quantum access to $A$ ($U_A$), and the oracle $U_{f_T}$
+		\State $A:=A \cup \{e\}$
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
+\end{document}
