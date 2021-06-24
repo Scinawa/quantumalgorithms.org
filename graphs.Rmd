@@ -5,24 +5,26 @@ output:
 ---
 
 
-# Quantum algorithms for graph problems 
+# Quantum algorithms for graph problems {#chap:graphs}
 
-Many real world problems can be modeled using graph theory which is the mathematical study of **graphs** that are constructed using nodes (sometimes called vertices), connected by edges.  
-
-Several quantum algorithms are introduced by [@durr2006quantum] to solve problems in graph theory: MINIMUM SPANNING TREE, CONNECTIVITY, STRONG CONNECTIVITY, and SINGLE SOURCE SHORTEST PATH. Classically, these problems can be solved efficiently i.e. in polynomial number of queries. In this chapter, we will see how to decrease the query complexity of the algorithm by applying in a shrewd way amplitude amplification and related algorithms. 
-More specifically, in the work of [@durr2006quantum], they used three different versions of the search algorithm. In particular, we state a slightly improved version here, with a quadratic improvement also in the runtime dependence on the probability of failure. 
+In this chapter we are going to discuss quantum algorithms for graph theoretical problems. Initial focus of this chapter revolves around the work of [@durr2006quantum], which investigated the query complexity of problems like MINIMUM SPANNING TREE, CONNECTIVITY, STRONG CONNECTIVITY, and SINGLE SOURCE SHORTEST PATH. Classically, these problems can be solved efficiently i.e. in polynomial number of queries to the graph. In this chapter, we will see how to decrease the query complexity of the quantum algorithm further, by applying in a shrewd way amplitude amplification and related algorithms. 
+More specifically, in the work of [@durr2006quantum], they used three different versions of the Grover's algorithm. In particular, we state a slightly improved version here, with a quadratic improvement also in the runtime dependence on the probability of failure. 
 
 ```{theorem, grover-improved, name="Grover's search algorithm, version of [@buhrman1999bounds]"}
 Let $N=2^n$ for $n>0$. 
-Given quantum oracle access $O_x: \ket{i}\mapsto\ket{i}\ket{x_i}$ to a vector $x=(0,1)^{N}$ and access to an oracle $O_f \ket{x} = (-1)^{f(x)}\ket{x}$ for a function $f:(0,1)^{m} \mapsto (0,1)$, where $m$ is the element of the vector $x$ that is evaluated to $1$ (called marked elements), there is a quantum algorithm that succeed with probability greater than $1-\delta$ and finds the index of a marked element using $O_x$ only $O(\sqrt{N/m \log(1/\delta)})$ times. 
+Given quantum oracle access $O_x: \ket{i}\mapsto\ket{i}\ket{x_i}$ to a vector $x \in [k]^{N}$ (for a fixed $k$) and access to an oracle $O_f \ket{x} = (-1)^{f(x)}\ket{x}$ for a function $f:[k] \mapsto \{0,1\}$, If $m$ is the number of elements of the vector $x$ that are evaluated to $1$ (called marked elements), there is a quantum algorithm that succeed with probability greater than $1-\delta$ and finds an index of a marked element using $O_x$ only $O(\sqrt{N/m \log(1/\delta)})$ times. 
 ```
 
-In fact, note that the "standard" version of bounding the probability of failure of a quantum or classical randomized algorithm consist in repeating the algorithm a certain number of time, and use the "powering lemma" \@ref(lem:powering-lemma). 
+In fact, note that the "standard" version of bounding the probability of failure of a quantum or classical randomized algorithm consist in repeating the algorithm a certain number of time, and use the "powering lemma" \@ref(lem:powering-lemma). This will result in an increase of the runtime that is logarithmic in $\delta$. This version of Grover's algorithm achieves a quadratic speedup in the failure probability. 
 
-Further discussions of this subroutine can also be found in [@durr2006quantum] and also in [@dorn2008quantum]. 
+Further discussions of some of the quantum algorithms for graphs can also be found in [@durr2006quantum] and also in [@dorn2008quantum]. 
 
 
-The most famous problems in graph theory are the following: **Minimum Spanning Tree**, **Connectivity**, **Strong Connectivity** and **Single Sourced Shortest Path**, **Traveling salesman**, and many others. 
+As usual, we assume two different access to the graph: the "adjacecny matrix model" and the "adjacency array" (or list) model.
+
+- In the adjacecy matrix model we assume to have query access to the entries of an adjacecny matrix of a graph, as in definition \@ref(def:oracle-access-adjacencymatrix). 
+- In the adjacency list model we assume to have query access to the an oracle that tells us the number of adjacent nodes, and an oracle that gives us the index of the adjacent nodes, as in \@ref(def:oracle-access-adjacencylist). Note that sometimes this goes under the name "adjacency array", as in the quantum case we don't have to go through the whole list of adjacent nodes, but we can index them as an array. 
+
 
 <!-- The problem of the minimum spanning tree problem is stated below.  -->
 
@@ -100,7 +102,7 @@ The most famous problems in graph theory are the following: **Minimum Spanning T
 
 ## Connectivity 
 
-The problem of connectivity, as stated below as definition \@ref(def:problem-connectivity), is a special case of them minimum spanning tree problem such that all edges of $G$ carries equal weight.  
+The problem of connectivity, as stated below can be seen as a special case of them minimum spanning tree problem, where all edges of $G$ carries equal weight.  
 
 ```{definition, problem-connectivity, name="GRAPH CONNECTIVITY problem"}
 Given an undirected graph $G=(V,E)$, decide if $G$ is connected.
@@ -152,7 +154,7 @@ Assume that $U_A$ is a unitary that gives you query access to the array model of
 ```
 
 
-## Conclusions
+## Summary of results
 
 A summary of the query complexities is stated below. 
 
