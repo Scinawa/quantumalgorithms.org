@@ -126,13 +126,12 @@ https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter
 - February 2021: New subroutines for estimating $\ell_1$ norms.
 - March 2021: quantumalgorithms.org is proudly supported by the [Unitary Fund](https://unitary.fund/), and quantumalgorithms.org is a project of the [QOSF](https://qosf.org) mentorship program: 5 students started creating new content!
 - April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation. 
+- June 2021: Quantum Monte Carlo algorithms, lower bounds techniques for query complexity of quantum algorithms, quantum algorithms for graph problems. The output of the mentorship program of the QOSF foundation!
+
 
 Coming soon:
 
 - quantum perceptrons
-- quantum lower bounds
 - quantum algorithms for dynamic programming
-- quantum algorithms for graph problems
-- quantum Monte Carlo
 - quantum convolutional neural networks
 - quantum random feature sampling

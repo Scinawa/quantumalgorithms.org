@@ -186,9 +186,9 @@ Let $U_1$ be the evolution of a quantum state $\ket{x}$ and $U_2$ the evolution 
 ## Measuring complexity of quantum algorithms
 
 
-This section is an attempt to organize in a coherent way some fundamental concept in quantum computer science. The formalization of some of these concepts comes from [@dorn2008quantum] and [@DeWolf]. 
+This section is an attempt to organize in a coherent way some fundamental concepts in quantum computer science. The formalization of some of these concepts comes from [@dorn2008quantum] and [@DeWolf]. 
 
-There are various way to measure the complexity of a quantum algorithm.  We denote with $T(U)$ the time complexity needed to implement $U$, measured in terms of depth of the circuit, which is roughly the number of time steps (or ``clock time'') we need, in order to executed the gates of the quantum circuit $U$.  If we just care about the **relativized** complexity, we might limit ourselvs to compare two algorithms that solves the same problem in terms of the number of queries to a given oracle, we might observe that one is faster than the other. This is a **relativized** speedup. The oppositive is an **absolute** speedup, i.e. when we also take into account the complexity of the operations that are **not** queries to an oracle. In the case of quantum algorithms, these might simply be the gate depth of the circuit. 
+There are various ways to measure the complexity of a quantum algorithm.  We denote with $T(U)$ the time complexity needed to implement $U$, measured in terms of **depth** of the circuit, which is (very roughly) the number of time we execute a "block of depth 1" of quantum gates. This is a concept that bears some similarity with the cpu clock rate of classical CPUs, but as we are focusing on algorithms, we will leave this concept to the intuition of the reader. The reason for this choice will be clear in a few lines.
 
 We use a standard notation of $\widetilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms: $O(\log(n))=\widetilde{O}(1)$. 
 
@@ -196,7 +196,7 @@ We use a standard notation of $\widetilde{O}$ for hiding polylogarithmic factors
 
 
 ```{definition, quantum-computation, name="Quantum computation"}
-Let $O_x$ be a unitary operator that encodes the input of our computation, and acts in a non trivial way on its associated Hilbert space.
+Let $O_x$ be a unitary operator that encodes the input of our computation, and acts in a non-trivial way on its associated Hilbert space.
 A quantum computation with $T$ queries to an oracle $O_x : \ket{i,b,z} \mapsto \ket{i,b \otimes x_i, z}$ is a sequence of unitary transformations:
 
   $$U_0O_xU_1O_x \dots U_{T-1}O_xUT$$
@@ -208,8 +208,10 @@ Note that the second register holds the XOR of the $i$-th component of the input
 
 
 ```{definition, query-complexity, name="Query complexity"}
-The quantum query complexity of a quantum algorithm $\mathcal{A}$ is the number of query to a black-box made by $\mathcal{A}$ in order to compute $f$.
+The quantum query complexity of a quantum algorithm $\mathcal{A}$ is the number of queries to a black-box made by $\mathcal{A}$ in order to compute $f$.
 ```
+
+If we just care about the **relativized** complexity, we might limit ourselves to compare two algorithms that solve the same problem in terms of the number of queries to a given oracle, we might observe that one is faster than the other. This is a **relativized** speedup. The oppositive is an **absolute** speedup, i.e. when we also take into account the complexity of the operations that are **not** queries to an oracle. In the case of quantum algorithms, these might simply be the gate depth of the circuit.
 
 
 ```{definition, circuit-complexity, name="Circuit complexity or time complexity"}
@@ -218,11 +220,11 @@ The quantum circuit complexity (or time complexity) of a quantum algorithm $\mat
 
 Quantum computing is not the only place where we measure the complexity in terms of query to an oracle. In fact, it's sufficient to do a few [ "queries"](https://www.cs.rutgers.edu/~sa1497/courses/cs514-s20/lec3.pdf) (pun intended) on your search engine to realize that in many computational models we have adopted this measure of computational complexity. 
 
-**Note that the query complexity of an algorithm is a lower bound on the gate complexity of the quantum circuit.** It is often simpler to study first the query complexity of a quantum algorithm and then study the time complexity. For most quantum algorithms (but not all!) the time complexity coincides with the query complexity, up to a logarithmic factor. Note that, if we find a way to have an oracle whose depth (i.e. circuit complexity) is only (poly)logarithmic in the input size, then the query complexity and the gate compexity coincide up to a negligible polylogarithmic factor. 
-There are some exception. Most notably, there is a quantum algorithm for the important *hidden subgroup problem* with only polynomial query complexity, while the classical couterpart has a query complexity that is exponential in the input size. Nevertheless, the overall time complexity of the quantum algorithm is (to date) still exponential, and polynomial time quantum algorithms are known only for a few specialization of the problem.
+**Note that the query complexity of an algorithm is a lower bound on the gate complexity of the quantum circuit.** It is often simpler to study first the query complexity of a quantum algorithm and then study the time complexity. For most quantum algorithms (but not all!) the time complexity coincides with the query complexity, up to a logarithmic factor. Note that, if we find a way to have an oracle whose depth (i.e. circuit complexity) is only (poly)logarithmic in the input size, then the query complexity and the gate complexity coincide up to a negligible polylogarithmic factor. 
+There are some exceptions. Most notably, there is a quantum algorithm for the important *hidden subgroup problem* with only polynomial query complexity, while the classical counterpart has a query complexity that is exponential in the input size. Nevertheless, the overall time complexity of the quantum algorithm is (to date) still exponential, and polynomial-time quantum algorithms are known only for a few specializations of the problem.
 
 
-We will clarify better some definition that are used to describe the probabilistic behavior of an algorithm: 
+We will clarify better some definitions that are used to describe the probabilistic behavior of an algorithm: 
 
 
 ```{definition, error-behavior, name="Kind of randomized algorithms"}
@@ -234,7 +236,7 @@ Let $f : \{0,1\}^N \mapsto \{0,1\}$ be a Boolean function. An algorithm computes
 
 ```
 
-A bounded error (quantum or classical) algorithm that fails with probability $1/3$ (or any other constant smaller than $1/2$) is meant to fail *in the worst case*. We do not expect the algorithm to fail in the average case, i.e. for most of the inputs (see Appendix of [@DeWolf]). 
+A bounded error (quantum or classical) algorithm that fails with probability $1/3$ (or any other constant smaller than $1/2$) is meant to fail *in the worst-case*. We do not expect the algorithm to fail in the average case, i.e. for most of the inputs (see Appendix of [@DeWolf]). 
 
 
 If a  (quantum or classical) algorithm is said to output the right answer in **expected** (oftain said "in expectation") running time $T$, we can quickly create another algorithm that has **worst-case** guarantees on the runtime. This is obtained using the Markov's inequality, i.e. theorem \@ref(thm:markov) as follows. Run the algorithm for $kT$ steps, i.e.. stop the execution after $kT$ steps if it hasn't terminated already. If $X$ is the random variable of the runtime of the computation (so $\mathbb{E}[X]=T$), then: 
@@ -244,6 +246,29 @@ So with probability $\geq 1-\frac{1}{k}$ we will have the output of the algorith
 
 
 <!-- TODO: ONE SIDE BOUNDED ERROR IS MISSING -->
+
+
+
+
+
+## Review of famous quantum algorithms
+In this chapter we will explore some introductory quantum algorithms. Some of them are not particularly related to data analysis or machine learning, but given their potential to help us better understand the model of quantum computation that we adopt, we decided it was important to report them here. Others will prove to be really useful subroutines for the quantum machine learning practitioner. 
+
+```{definition, name="Constant function"}
+A function $f :\{0,1\}^n \mapsto \{0,1\}$ is constant if $f(x)=0 \forall x \in \{0,1\}^n$ or $f(x)=1 \forall x \in \{0,1\}^n$.
+```
+
+```{definition, name="Balanced function"}
+A function $f :\{0,1\}^n \mapsto \{0,1\}$ is balanced if $f(x)=0$ for half of the inputs and $f(x)=1$ for the other half.
+```
+
+```{theorem, name="Deutsch-Josza"}
+Assume to have quantum access to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which is either constant or balanced. There is a quantum algorithm that decides which is the case with probabiliy $1$, using $U_f$ only once and using $O(\log(n))$ other gates. 
+```
+
+```{theorem, name="Bernstein-Vazirani"}
+Assume to have quantum access to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f(x \cdot a) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$.  There is a quantum algorithm that learns $a$ with probability $1$, using $U_f$ only once and $O(\log(n))$ other gates. 
+```
 
 
 ## Representing data in quantum computers
@@ -397,7 +422,7 @@ A matrix can be accessed also in another way.
 	Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform the mappings:
 
 - $\ket{i}\mapsto\ket{i}\ket{d(i)}$ where $d(i)$ is the number of entries in row $i$, for $i \in [n]$, and
-- $\ket{i,l}\mapsto\ket{i,\nu(j,l)}$, where $\nu(i,l)$ is the $l$-th nonzero entry of the $i$-th row of $V$.
+- $\ket{i,l}\mapsto\ket{i,l,\nu(i,l)}$, where $\nu(i,l)$ is the $l$-th nonzero entry of the $i$-th row of $V$, for $l < d(i)$.
 
 ```
 
