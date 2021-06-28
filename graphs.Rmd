@@ -118,8 +118,7 @@ knitr::include_graphics("algpseudocode/quantum-connectivity.png")
 
 
 ````{theorem, algo-connectivity, name="Quantum algorithm for graph conectivity (adjacency matrix model)"}
-Assume that $U_A$ is a unitary that gives you query access to the adjacency matrix $M$ of an undirected graph $G=(V,E)$. Then, deciding if a graph is connected has an expected number of queries to $U_{A}$ of $O(n^{3/2})$. In particular, if the graph is connected, algorithm \@ref(fig:quantum-algo-connectivity) returns a spanning tree for $G$ with probability greater than $2/3$. 
-
+Assume that $U_A$ is a unitary that gives you query access to the adjacency matrix $M$ of an undirected graph $G=(V,E)$. Then, deciding if a graph is connected has an expected number of queries to $U_{A}$ of $\widetilde{O}(n^{3/2})$. In particular, if the graph is connected, algorithm in figure \@ref(fig:quantum-algo-connectivity) returns a spanning tree for $G$ with probability greater than $2/3$.
 ```
 
 
@@ -135,10 +134,15 @@ $$ f_T(e) \begin{cases}
 Where $c(G)$ is the number of connected components of the graph $G$. It is basically a unitary that checks if a given edge has endpoints of 2 different connected component. Note that $U_{f_T}$ needs to compare a given edge with a whole list of edges that are currently in the list of connected components. Note that in order to work, this oracle should compare a given edge with the list of edges that are part of the spanning tree $T$. The spanning tree can grow up to size $O(n)$, so the depth of the oracle is at worst $O(n)$ (up to a polylogarithmic factors).
 
 
-The runtime analysis is concluded by noting that we need to repeat the search procedure of theorem \@ref(thm:grover-improved) up to $n$ times (because when we obtain $n$ nodes in the MST we stop the algorithm). Suppose that the graph is connected. The main loop of the algorithm is repeated exactly $n-1$ times. Each search can be done in $O(\sqrt{n^2/k})$. where $k$ is the number of valid solutions to the search problem. These solutions correspond to the edges $e$ of $G$ that are connecting any two connected components. At the first iteration, we have at least $k=n-1$ solutions (i.e. any edge is a good solution), and the number decrease at each iteration. The number of queries is:
+The runtime analysis is concluded by noting that we need to repeat the search procedure of theorem \@ref(thm:grover-improved) up to $n$ times (because when we obtain $n$ nodes in the MST we stop the algorithm). Suppose that the graph is connected. The main loop of the algorithm is repeated exactly $n-1$ times, and each search withint the loop can be done in $O(\sqrt{n^2/k})$, where $k$ is the number of valid solutions to the search problem. These solutions correspond to the edges $e$ of $G$ that are linking any two connected components. It is simple to observe that at the first iteration we have at least $k=n-1$ solutions (i.e. any edge is a good solution), and the number of solutions decreases at each iteration. The number of queries to the oracle is:
   
-  $$\sum_{k=2}^n \sqrt{\frac{n^2}{(k-1)}}=O(n^{3/2})$$
+  $$\sum_{k=2}^n \sqrt{\frac{n^2}{(k-1)}} = n\sum_{k=2}^n \frac{1}{\sqrt{k-1}}$$
+With Cauchy-Schwartz we can see that:
 
+$$\sum_{k=2}^n \frac{1}{\sqrt{k-1}} = \sum_{k=1}^{n-1} \frac{1}{\sqrt{k}} \leq \sqrt{n-1}\left(\sum_{k=1}^{n-1}\frac{1}{k} \right)^{1/2} = \sqrt{n-1}\left(\gamma + \log(n-1) + \frac{1}{2(n-1)} \right)^{1/2}$$
+
+where $\gamma$ is the Bonferroni constant, and we just interpret the second norm as a [truncated Harmonic series approximated by Taylor expansion](https://en.wikipedia.org/wiki/Harmonic_number#Approximation_using_the_Taylor_series_expansion). Thus, overall we get
+$$\sum_{k=2}^n \sqrt{\frac{n^2}{k-1}} \leq n \sqrt{n-1} \left(\gamma + \log(n-1) + \frac{1}{2(n-1)} \right)^{1/2}  = O(n^{1.5}\log(n))$$
   
 If the graph is not connected, at some point we will not be able to find any new edges, and the procedure of theorem \@ref(thm:grover-improved) will fail (we can repeat this procedure a certain number of times to be sure that there are indeed no more valid edges, leveraging the powering lemma, i.e. lemma \@ref(lem:powering-lemma)).  
 
@@ -146,6 +150,12 @@ We need to set the failure probability of each run of theorem \@ref(thm:grover-i
 It is simple to check that if we want the probability of failure to be bounded by $2/3$ we need to se the probability of failure for a single run of the algorithm as $\delta \geq \frac{1}{3n}$. This is relatively simple to obatin from the union bound (see exercise \@ref(exr:example-algorithm-unionbound)).  
 
 ```
+
+
+```{exercise, name="Improve bound of number of queries"}
+Can you show that   $\sum_{k=2}^n \sqrt{\frac{n^2}{(k-1)}}=O(n^{3/2})$, i.e. without the polylogarithmic factor $\log(n)$. Or can you prove that it is not possible to remove it? [Hint](https://math.stackexchange.com/questions/3745324/upper-bound-of-sum-k-1n-frac1-sqrtk).
+```
+
 
 For the array model, we report the theorem of [@durr2006quantum]. 
 
