@@ -1235,6 +1235,8 @@ The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contr
 - Trong Duong
 - Filippo Miatto
 - Jinge Bao
+- Michele Vischi
+- Adrian Lee
 
 **Funding**
 

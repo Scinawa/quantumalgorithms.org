@@ -15,14 +15,14 @@ The main goal of [Monte Carlo](https://www.youtube.com/watch?v=QNkfYM9qIO4) meth
     \mu = \mathbb{E}[\Phi(X)] = \int_{\chi}\Phi(x)f(x)dx
 \end{equation}
 
-They do so by producing an appropriate number $N$ of samples, each corresponding to an independent execution of $A$. The sample mean $\widetilde{\mu}$ is then used as an approximation of $\mu$. In general, for some random variable $X_i$, for $i=1,\dots,N$ the sample mean is defined as [@MonteCarlo_notes]:
+They do so by producing an appropriate number $N$ of samples, each corresponding to an independent execution of $A$. The sample mean $\widetilde{\mu}$ is then used as an approximation of $\mu$. In general, for some random variable $X_i$, for $i=1,\dots,N$ the sample mean is defined as [@MonteCarlonotes]:
 \begin{equation}
     \widetilde{\mu}_N= \frac{1}{N}\sum_{i=1}^N X_i\, .
 \end{equation}
 The $\widetilde{\mu}_N$ is a linear combination of the random variables $X_i$, and so it is itself a random variable. In the language of statistics, the $\widetilde{\mu}_N$ is called an estimator.
 Note that:
 
-- we do know how many samples $N$ we need to get a good estimate of $\mu$;
+- we do not know how many samples $N$ we need to get a good estimate of $\mu$;
 - even worse, we still don't know whether this procedure leads to a good estimate of $\mu$;
 - if the estimate is good for some $N$ we don't know how much good it is.
 
@@ -44,12 +44,12 @@ Note that since all the $X_i$ random variables have expected value $\mu$ the exp
     \mathbb{E}[\widetilde{\mu}_N]=\frac{1}{N}\mathbb{E}[X_1+\dots+X_N] = \frac{1}{N}N\mu = \mu \, .
 \end{equation}
 When this happens we say that $\widetilde{\mu}_N$ is an unbiased estimator of $\mu$.
-The law of large numbers tells us that $\widetilde{\mu}_N$ converges to $\mu$ for $N$ going to infinity. However in a simulation we can not have $N$ going to infinity: we must choose a (hopefully large but) finite $N$. How close is $\widetilde{\mu}_N$ to $\mu$ for a given value of $N$? The law of large numbers does not reply to that question [@MonteCarlo_notes]. To get a first answer,  suppose that $X_i$ have finite variance and call it $\sigma^2$. The variance of the sample mean is then:
+The law of large numbers tells us that $\widetilde{\mu}_N$ converges to $\mu$ for $N$ going to infinity. However in a simulation we can not have $N$ going to infinity: we must choose a (hopefully large but) finite $N$. How close is $\widetilde{\mu}_N$ to $\mu$ for a given value of $N$? The law of large numbers does not reply to that question [@MonteCarlonotes]. To get a first answer,  suppose that $X_i$ have finite variance and call it $\sigma^2$. The variance of the sample mean is then:
 \begin{equation}
     var(\widetilde{\mu}_N) = \frac{1}{N^2} var(X_1+\dots+X_N) = \frac{1}{N^2}N\sigma^2 = \frac{\sigma^2}{N}\, .
 \end{equation}
-This shows that the difference of $\widetilde{\mu}_N$ from $\mu$ should be of order $\sigma/\sqrt{N}$ [@MonteCarlo_notes]. 
-The central limit theorem gives a more refined statement on the accuracy of the approximation [@MonteCarlo_notes].
+This shows that the difference of $\widetilde{\mu}_N$ from $\mu$ should be of order $\sigma/\sqrt{N}$ [@MonteCarlonotes]. 
+The central limit theorem gives a more refined statement on the accuracy of the approximation [@MonteCarlonotes].
 
 **Central Limit Theorem** Let $X_i$ be a sequence of independent and identically distributed random variables, such that they have finite mean $\mu$ and finite variance $\sigma^2$. The random variable:
 \begin{equation}
@@ -67,7 +67,7 @@ The central limit theorem can be used to construct confidence intervals for our 
 where $Z$ is a standard normal random variable.
 We can find values of $N$ such that the probability to have a good estimate $\widetilde{\mu}_N$ up to fixed additive error $\epsilon$ is almost 1. Usual values for this probability are $95\%$ or $99\%$. So for example if we want $P(-z_c\le Z \le z_c) = 0.99$ where $z_c = \epsilon\sqrt{N}/\sigma$ then $z_c =\epsilon\sqrt{N}/\sigma= 2.58$ because of the properties of the normal distribution. Estimating $\mu$ with additive error $\epsilon$ would require $N = 2.58\, \sigma^2/\epsilon^2$ samples.
 
-You can feel the power of Monte Carlo!! All of the above does not depend on the dimension of the sample space of the random variables $X_i$, but just on the number of repetitions $N$ and on the variance $\sigma^2$ .
+You can feel the power of Monte Carlo!! All of the above does not depend on the dimension of the sample space of the random variables $X_i$, but just on the number of repetitions $N$ and on the variance $\sigma^2$.
 
 This is amazing at first sight but we want to make two remarks.
 First note we don't know the value $\mu$ because we are trying to estimate it. How can we then know the value of $\sigma^2$, and use it to construct the confidence intervals?
@@ -75,8 +75,8 @@ To address this problem we use another estimator: the sample variance. It is def
 \begin{equation}
     s^2 = \frac{1}{N-1}\sum_{k=1}^N(X_i-\widetilde{\mu})^2
 \end{equation}
-where the prefactor is chosen in such a way so that $\mathbb{E}[s^2]=\sigma^2$, i.e. $s^2$ is an unbiased estimator. 
-One can prove that confidence intervals can be built as above but with $\sigma$ replaced by $s$ [@MonteCarlo_notes].
+where the prefactor is chosen in such a way so that $\mathbb{E}[s^2]=\sigma^2$, i.e. $s^2$ is an unbiased estimator.
+One can prove that confidence intervals can be built as above but with $\sigma$ replaced by $s$ [@MonteCarlonotes].
 
 Second we highlight the main flaw of the Monte Carlo procedure. 
 We saw that estimating $\mu$ up to additive error $\epsilon$ with $99\%$ success probability requires $n = O(\sigma^2/\epsilon^2)$ repetitions, independently on the dimension of the sample space. This is remarkable but not so efficient. It means that if we want to maintain the confidence at $99\%$ and we want to decrease the additive error $\epsilon$ by a factor of $10$ we need to increase the number of iteration by a factor of $10^2$.
@@ -85,7 +85,7 @@ Imagine if we want to estimate $\mu$ up to four digits. We would need to run $A$
 
 
 ## Monte Carlo with quantum computing
-Here is where quantum computing comes to help. The number of uses of $A$ can be reduced almost quadratically beyond the classical bound [@montanaro2015quantum]. The result is based on amplitude estimation. 
+Here is where quantum computing comes to help. The number of uses of $A$ can be reduced almost quadratically beyond the classical bound [@montanaro2015quantum]. The result is based on amplitude estimation.
 
 We first show the quadratic advantage for an algorithm $A$ whose output is bounded between 0 and 1. This speedup will be smartly used to speedup more general classes of algorithms. This section is also meant to give insights on why quantum speedup happens in the first place.
 
@@ -178,7 +178,7 @@ for any function $f(x)$ with binary values $0$ or $1$. The target qubit will alw
 <!-- THIS IS HOW YOU INCLUDE AN ALGORITHM -->
 
 We are then ready to state the quantum algorithm to estimate $\mathbb{E}[\nu(A)]$ when the output of $A$ is bounded between $0$ and $1$.
- ```{r, quantum-montecarlo-01, fig.cap="Quantum algorithm for Monte Carlo (bounded variables)", echo=FALSE} 
+ ```{r, quantum-montecarlo-01, fig.cap="Quantum algorithm for Monte Carlo (bounded variables). A makes no measurement until the end of the algorithm and its final measurement is a measurement of the last k qubits in the computational basis.", echo=FALSE} 
 knitr::include_graphics("algpseudocode/quantum-montecarlo-01.png")
 ``` 
 
@@ -217,7 +217,7 @@ Moreover whenever we have an algorithm $A$ and a function $f:\mathbb{R}\to\mathb
 We can now state the second quantum algorithm which estimates the mean value of $\nu(A)$ with bounded $\ell_2$ norm.
 
  
-```{r, quantum-montecarlo-bounded-norm, fig.cap="Quantum algorithm for Monte Carlo (bounded ell2 norm)", echo=FALSE}
+```{r, quantum-montecarlo-bounded-norm, fig.cap="Quantum algorithm for Monte Carlo (bounded l2 norm)", echo=FALSE}
 knitr::include_graphics("algpseudocode/quantum-montecarlo-bounded-norm.png")
 ```
 
