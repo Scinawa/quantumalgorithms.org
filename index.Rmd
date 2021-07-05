@@ -59,6 +59,12 @@ I hope you can find here all the things that I would have liked to know when I s
 
 These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalgorithms.org/) easily accessible on [GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. Feel free to help by sending a pull request. You can find a list of issues and enhancements that would improve these lecture notes further, making them more accessible and covering more interesting and recent material that keeps popping up in quantum information.
 
+These lecture notes were used to teach at:
+
+- Politecnico di Milano (2019) - Quantum machine learning in practice.
+- Politecnico di Milano (2021) - Applied quantum computing.
+
+Are you using these lecture notes as support for your course? [Write us an email!](mailto://scinawa@luongo.pro)
 
 
 <p style="text-align:right"> 

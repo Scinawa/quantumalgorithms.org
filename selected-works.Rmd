@@ -20,7 +20,8 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Quantum Perceptron Revisited: Computational-Statistical Tradeoffs](https://arxiv.org/abs/2106.02496) `#algo`
 - [Lower bounds for monotone arithmetic circuits via communication complexity](https://dl.acm.org/doi/abs/10.1145/3406325.3451069) `#theory`
 - [Fast algorithm for quantum polar decomposition, pretty-goodmeasurements, and the Procrustes problem](https://arxiv.org/abs/2106.07634) `#algo`
-
+- [Quantum Algorithms based on the Block-Encoding Framework for Matrix Functions by Contour Integrals](https://arxiv.org/abs/2106.08076) `#algo`
+- [Classical and Quantum Algorithms for Orthogonal Neural Networks](https://arxiv.org/abs/2106.07198) `#algo`
 #### 2020 {-}
 
 - [Variational Quantum Algorithms](https://scirate.com/arxiv/2012.09265) `#review`

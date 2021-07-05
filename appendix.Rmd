@@ -518,7 +518,7 @@ $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)
 # Probability
 
 
-## Theory of measure
+## Measure theory
 
 
 ```{definition, sigma-algebra, name="Sigma algebra"}
