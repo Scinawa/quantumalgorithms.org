@@ -14,8 +14,8 @@ header-includes:
 output:
   bookdown::gitbook:
     includes:
-      in_header: analytics.html
-      after_body: cookiebanner.html
+      in_header: [analytics.html]
+      after_body: [cookiebanner.html, ribbon_body.html]
 # output:
 #     pdf_document:
 #         includes:
