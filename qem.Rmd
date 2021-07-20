@@ -433,7 +433,7 @@ Let's analyze the error of this procedure. We want a matrix $\overline{\Sigma_j'
 
 
 The same argument applies to estimating the norm $\norm{\Sigma_j'}$ with relative error :
-		$|\norm{\Sigma'_j} - \overline{\norm{\Sigma'_j}} |  \leq  | \overline{\norm{\Sigma'_j}} - \widehat{\norm{\Sigma'_j}}| + |\widehat{\norm{\Sigma'_j}} - \norm{\Sigma'_j}| < \epsilon + \epsilon_1 \leq \delta_{\mu}/2\sqrt{\eta}$ (where here $\epsilon$ is the error of the amplitude estimation step used in theorem \@ref(thm:qla) and $\epsilon_1$ is the error in calling lemma \@ref(lemma:responsibility). Again, we choose $\epsilon=\epsilon_1 \leq \frac{\delta_\mu/\sqrt{\eta}}{4}$.
+		$|\norm{\Sigma'_j} - \overline{\norm{\Sigma'_j}} |  \leq  | \overline{\norm{\Sigma'_j}} - \widehat{\norm{\Sigma'_j}}| + |\widehat{\norm{\Sigma'_j}} - \norm{\Sigma'_j}| < \epsilon + \epsilon_1 \leq \delta_{\mu}/2\sqrt{\eta}$ (where here $\epsilon$ is the error of the amplitude estimation step used in theorem \@ref(thm:qla) and $\epsilon_1$ is the error in calling lemma \@ref(lem:responsibility). Again, we choose $\epsilon=\epsilon_1 \leq \frac{\delta_\mu/\sqrt{\eta}}{4}$.
 
 Since the tomography is more costly than the amplitude estimation step, we can disregard the runtime for the norm estimation step. As this operation is repeated $k$ times for the $k$ different covariance matrices, the total runtime of the whole algorithm is given by $\widetilde{O} \Big( \frac{kd^2 \eta\kappa(V)(\mu(V)+\eta^2k^{3.5}\kappa(\Sigma)\mu(\Sigma))}{\delta_{\mu}^3} \Big)$.
 Let us also recall that for each of new computed covariance matrices, we use lemma \@ref(lemma: absolute-error-logdet) to compute an estimate for their log-determinant and this time can be absorbed in the time $T_\Sigma$.

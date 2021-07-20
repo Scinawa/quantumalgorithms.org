@@ -4,15 +4,16 @@ output:
   html_document: default
 ---
 
-# (PART) Part (Quantum Machine Learning) {-} 
 
 # Dimensionality reduction
 
 
 
 ## Unsupervised algorithms
+The qPCA, qCA and qLSA algorithms are extracted from a M.Sc. thesis [@bellante2020quantum] and from an soon-to-appear work.
+The interested reader may wish to consult both for more details.
 
-### Quantum PCA {#section:qpca}
+### Quantum PCA {#sec:qpca}
 Principal component analysis is a widely-used multivariate statistical method for continuous variables that finds many applications in machine learning, ranging from outlier detection to dimensionality reduction and data visualization. 
 Consider a matrix $A \in \mathbb{R}^{n \times m}$ that stores information about $n$ data points using $m$ coordinates (e.g. think of $n$ images described through $m$ pixels each), its *principal components* are the set of orthogonal vectors along which the variance of the data points is maximized.
 The goal of PCA is to compute the principal components, with the amount of variance they capture, and rotate the data-points to make the axis coincide with the principal components.
@@ -175,7 +176,7 @@ The error requirements of the two corollary propagate to the run-time of the mod
     the run-time to extract $V^{(k)} \in \R^{m \times k}$ for corollaries \ref{Coro:qPCAvector}, \ref{Coro:qPCAmatrix} is $\widetilde{O}\left(\frac{\mu(A)k^2m}{\theta\epsilon\xi^2}\right)$.
 ```
 
-We state the proof for Corollary \@ref(cor:qpca-matrix), as its error is more demanding than the one of Corollary \@ref(cor:qPCA-vector). This way, the proof stands for both cases.
+We state the proof for Corollary \@ref(cor:qpca-matrix), as its error is more demanding than the one of Corollary \@ref(cor:qpca-vector). This way, the proof stands for both cases.
 ```{proof}
 The procedure to train the model consists in using Theorem \@ref(thm:explained-variance-binarysearch) to extract the threshold $\theta$, given the amount of variance to retain $p$, and to leverage Theorem \@ref(thm:top-k-sv-extraction) to extract the $k$ right singular vectors that compose $V \in \R^{m \times k}$.
 The run-time of Theorem \@ref(thm:explained-variance-binarysearch) is smaller than the one of Theorem \@ref(thm:top-k-sv-extraction), so we can focus on the last one.

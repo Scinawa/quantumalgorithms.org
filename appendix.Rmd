@@ -4,10 +4,14 @@ output:
   html_document: default
 ---
 
+# (PART) Part (appendix) {-} 
 
 # (APPENDIX) Appendix {-} 
 
 # Math and linear algebra
+
+## Norms, distances, trace, inequalities
+
 <!--
 # TODO Finish introductory part on linear algebra in appendix
 # I think we need an introduction on inner products, linearty, vector na matrix norms,
@@ -45,11 +49,14 @@ A function $f: A \times B \mapsto \mathbb{C}$ is called an inner product $(a,b) 
 ```{definition, name="Norm"}
 A function $f : \mathbb{R}^d \mapsto \mathbb{R}$ is called a norm if:
 
-- $\|x\| \geq 0 \forall x \in \mathbb{R}^{d}$, also $\|x\|=0$ iif $x=0$ (positive definiteness)
+- $\|x\| \geq 0 \forall x \in \mathbb{R}^{d}$, also $\|x\|=0$ iff $x=0$ (positive definiteness)
 - $\|\alpha x\| = \alpha \|x\| \forall x \in \mathbb{R}^{d}$ and $\forall \alpha \in \mathbb{R}$ (positively homogeneous)
 - $\|x\|-\|y\| \leq  \|x + y\| \leq \|x\| + \|y\|$ (triangle inequality).
 
 ```
+
+
+Note that along with triangle inequality you might also need to know the [reverse triangle inequality](https://www.quora.com/What-is-an-intuitive-explanation-of-the-reverse-triangle-inequality)
 
 The triangle inequality is basically the [subadditivity](https://en.wikipedia.org/wiki/Subadditivity) property of the norm. It is simople to see that norms are **not** linear operators. 
 
@@ -92,11 +99,10 @@ Note that for symmetric matrices, $\|A\|_\infty = \|A\|_1$.
 
 
 
-
 <!-- from dequantization of qsfa -->
 ```{exercise, name="bound error on product of matrices"}
 Suppose that $\|A - \overline{A}\|_F \leq \epsilon \|A\|_F$.
-Bound $\|A^TA - \overline{A}^T\overline{A}\|_F\|$
+Bound $\|A^TA - \overline{A}^T\overline{A}\|_F$
 ```
 
 <!-- ```{proof} -->
@@ -109,13 +115,23 @@ Bound $\|A^TA - \overline{A}^T\overline{A}\|_F\|$
 
 
 
-```{definition, name="Distance"}
+```{definition, distance, name="Distance"}
 A function $f : \mathbb{R}^d \times \mathbb{R}^d \mapsto \mathbb{R}$ is called a distance if:
 
 - $d(x,y) \geq 0$
 - $d(x,y) = 0$ iif $x=y$
 - $d(x,y)=d(y,x)$
-- $d(x,z) \leq d(x,y) + d(y+z)$
+- $d(x,z) \leq d(x,y) + d(y,z)$
+
+```
+
+
+```{definition, convexity-concavity, name="Convex and concave function"}
+A function $f$ defined on a convex vector space $D$ is said to be *concave* if, $\forall \lambda \in [0,1]$, and $\forall x,y \in D$:
+
+$$f\left( (1-\alpha)x + \alpha y \right)  \geq (1-\alpha) f(x) + \alpha f(y)$$
+Conversely, a function $f$ defined on a convex vector space $D$ is said to be *convex* if, $\forall \lambda \in [0,1]$, and $\forall x,y \in D$:
+$$f\left( (1-\alpha)x + \alpha y \right)  \leq (1-\alpha) f(x) + \alpha f(y)$$
 
 ```
 
@@ -153,12 +169,8 @@ knitr::include_graphics("images/amgm2.png")
 
 ```
 
-```{theorem, jense, name="Jensen inequality"}
-Jensen inequality
-```
 
-
-```{theorem binomial-theorem, name="Binomial theorem"}
+```{theorem, binomial-theorem, name="Binomial theorem"}
 $$(a+b)^n = \sum_{k=0}^n {n \choose k} a^kb^{n-k}$$
 ```
 
@@ -266,7 +278,7 @@ $$A=(U, U_0)\begin{pmatrix}
 	\end{pmatrix} (V, V_0)^T.$$
 The matrix $\Sigma$ is a diagonal matrix with $\Sigma_{ii}=\sigma_i$ being the singular values (which we assume to be sorted $\sigma_1 \geq \dots \geq \sigma_n$).
 
-The matrices $(U, U_0)$ and $(V, V_0)$ are unitary matrices, which contain a basis for the column and the row space (respectively $U$ and $V$) and the left null-space and null-space (respectively $U_0$ and $V_0$). Oftentimes, it is simpler to define the SVD of a matrix by simply discarding the left and right null spaces, as $A=U\Sigma V^T$, where $U,V$ are orthogonal matrices and
+The matrices $(U, U_0)$ and $(V, V_0)$ are unitary matrices, which contain a basis for the column and the row space (respectively $U$ and $V$) and the left null-space and right null-space (respectively $U_0$ and $V_0$). Oftentimes, it is simpler to define the SVD of a matrix by simply discarding the left and right null spaces, as $A=U\Sigma V^T$, where $U,V$ are orthogonal matrices and
 $\Sigma \in \mathbb{R}^{r \times r}$ is a diagonal matrix with real elements, as we did in Theorem \@ref{thm:svd}.
 
 
@@ -377,8 +389,8 @@ Another interesting result about the SVD of a matrix is known as the Eckart–Yo
 ```{theorem, eckart-young-mirsky, name="Best F-Norm Low Rank Approximation"}
  \cite{eckart1936approximation}\cite{mirsky1960symmetric} \label{Theo:eckart-young-mirsky}
 Let $A  \in \mathbb{R}^{n \times m}$ be a matrix of rank $r$ and singular value decomposition $A  = U \Sigma V ^T$. The matrix $A ^{(k)} = U ^{(k)}\Sigma ^{(k)}V ^{(k)T}$ of rank $k \leq r$, obtained by zeroing the smallest $r-k$ singular values of $A$, is the best rank-k approximation of $A$.
- Equivalently, $A _k = argmin_{B :rank(B )=k}(||A  - B  ||_F)$.
- Furthermore, $min_{B :rank(B )=k}(||A  - B  ||_F) = \sqrt{\sum_{i=k+1}^r{\sigma_i}}$.
+ Equivalently, $A _k = argmin_{B :rank(B )=k}(\|A  - B  \|_F)$.
+ Furthermore, $min_{B :rank(B )=k}(\|A  - B  \|_F) = \sqrt{\sum_{i=k+1}^r{\sigma_i}}$.
 ```
 
 
@@ -391,11 +403,20 @@ When the smallest singular values are set to 0, we still reconstruct a big part 
 Unfortunately though, calculating the singular vectors and singular values of a matrix is a computationally intensive task. Indeed, for a matrix $A  \in \mathbb{R}^{n\times m}$ the cost of the exact SVD is $O\left( min(n^2m, nm^2) \right)$. Recently, there have been developed approximate methods that compute the Eckart-Young-Mirsky approximations of matrices in 
 time $O(knm)$, where k is the rank of the output matrix \cite{partridge1997fastpca}, or in times that scale super-linearly on the desired rank and one dimension of the input matrix \cite{bhojanapalli2014tighter}.
 
+## Useful theorems around linear algebra
+
+- [Gershgorin circle theorem](https://en.wikipedia.org/wiki/Gershgorin_circle_theorem)
+- [Perron-Frobenius theorem](https://en.wikipedia.org/wiki/Perron%E2%80%93Frobenius_theorem)
+- [Sherman-Morrison formula](https://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula)
+-
+
+
 ### Trigonometry
 Always have in mind the following Taylor expansion:
 
-```{theorem}
+```{theorem, taylor-exponential, name="Taylor expansion of exponential function"}
 $$e^{x} = \sum_{k=0}^\infty \frac{x^k}{k!}$$
+  Note that this series is convergent for all $x$
 ```
 
 From that, it is easy to derive that: 
@@ -410,10 +431,21 @@ Because of this, we can rewrite $\sin$ and $\cos$ as:
 $$\cos(x) = \frac{e^{ix} + e^{-ix}}{2}$$
 $$\sin(x)= \frac{e^{ix} - e^{-ix}}{2i}$$
 
+Note that we can do a similar thing of \@ref{thm:taylor-exponential} for matrices. In this case, we *define* the exponential of a matrix via it's Taylor expansion: 
+
+$$e^A = \sum_{k=0}^\infty \frac{A^k}{k!}$$
+The matrix exponential has the following nice properties [@symmetryquantum]:
+
+- $(e^A)^\dagger = e^{A^\dagger}$
+- $e^{A\otimes I} = e^A \otimes I$
+- if $[A,B] = 0$, then $e^Ae^B = e^{A+B}$.
+- $Ue^AU^\dagger = e^{UAU\dagger}$
+- $det(e^A)= e^{Tr[A]}$
+
 
 #### Useful equalities in trigonometry
 
-$$sin(a)cos(b) =  \frac{1}{2}(sin(a+b)+sin(a-b) = 1/2(sin(a+b)-sin(b-a) )$$
+$$sin(a)cos(b) =  \frac{1}{2}(sin(a+b)+sin(a-b)) = 1/2(sin(a+b)-sin(b-a) )$$
 
 ```{exercise}
 Derive an expression for $\cos(a+b)$.
@@ -485,6 +517,85 @@ $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)
 
 # Probability
 
+
+## Measure theory
+
+
+```{definition, sigma-algebra, name="Sigma algebra"}
+Let $\Omega$ be a set, and $\Sigma$ be a subset of the power set of $\Omega$ (or equivalently a collection of subsets of $X$). Then $\Sigma$ is a $\sigma$-algebra if:
+
+- $\emptyset\in \Sigma$,
+- $\Sigma$ is closed under countable union,
+- $\forall S \in \Sigma, \overline{S} \in \Sigma$.
+
+```
+
+Observe that thanks to de Morgan's law, we can equivalently define the sigma algebra to be closed under countable intersection. Oftentimes, it's common to conflate $\Sigma$ and $(\Omega, \Sigma)$, and call both $\sigma$-algebra. 
+
+```{definition, measurable-space, name="Measurable space"}
+Let $\Omega$ be a set, and $\Sigma$ a $\sigma$-algebra. The tuple $(\Omega, \Sigma)$ is a measurable space (or Borel space).
+```
+
+
+```{definition, measurable-function, name="Measurable function"}
+Let $(\Omega, \Sigma)$, and $(Y, T)$ two different measurable space. A function $f : \Omega \mapsto Y$ is said to be measurable if for every $E \in T$:
+  $$f^{-1}(E):=\{x \in \Omega | f(x) \in E \} \in \Sigma$$
+```
+A measurable function is a function between the underlying sets of two measurable spaces that preserves the structure of the spaces: the preimage of any measurable set is measurable. This is in [direct analogy](https://en.wikipedia.org/wiki/Measurable_function) to the definition that a continuous function between topological spaces preserves the topological structure: the preimage of any open set is open.
+
+
+<!-- https://ece.iisc.ac.in/~parimal/2015/proofs/lecture-17.pdf -->
+```{definition, continious-function, name="Continious function"}
+Let $(X, \mathbb{X}), (Y, \mathbb{Y})$ two topological spaces. Let $f$ be a function between two topological spaces $f : X \mapsto Y$ is said to be continious if the inverse image of every open subset of $Y$ is open in $X$. In other words, if $V  \in \mathbb{Y}$, then its inverse image $f^{-1}(V) \in \mathbb{X}$
+```
+
+
+```{definition, measure-space, name="Measure space"}
+The tuple $(\Omega, \Sigma, \mathbb{P})$ is a measure space if:
+
+- $(\Omega, \Sigma)$ is a measurable space. 
+- $\mu(E)$ is a measure on $(\Omega, \Sigma)$:
+  - $\mu : \Sigma \mapsto \mathbb{R}+\{-\infty, +\infty\}$
+  - non-negativity: $\mu(E) \geq 0 \forall E \in \Sigma$
+  - Null empty set $\mu(\emptyset )= 0$
+  - Coutable additivity (or $\sigma$-additivity): for all countable collections $\{E_k \}_{k=1}^\infty$ of pariwise disjoint sets in $\Sigma$,
+  $$\mu \left(\cup_{k=1}^\infty E_k\right) = \sum_{k=1}^\infty \mu(E_k)$$
+
+```
+
+
+```{definition, probability-space, name="Probability space"}
+The tuple $(\Omega, \Sigma, \mathbb{P})$ is a probability space if:
+
+- $(\Omega, \Sigma)$ is a $\sigma$-algebra  ($\Omega$ is the set of *outcomes* of the experiment, and $\Sigma$ is the set of *events*)
+- $\mathbb{P}$ is a measurable function:
+  - $\mathbb{P} : \Sigma \mapsto [0,1]$
+  - Null empty set.
+  - $\mu$ is countably additive.
+ - $\mathbb{P}(\Omega)=1$
+
+```
+I.e. a probability space is a measure space where the measurable function on $\Omega$ is $1$.
+
+
+
+```{definition, name="Complete probability space"}
+For $B \subset \Sigma$ s.t. $\mathbb{P}(B)=0$, a $(\Omega, \Sigma, \mathbb{P})$ probability space is complete if $\forall A \subset B$, $A \in \Sigma$.
+```
+
+
+```{definition, equivalence-prob-measure, name="Equivalence between probability measures"}
+Let $(\Omega, \Sigma, \mathbb{P}), (\Omega, \Sigma, \mathbb{Q})$ two probability space with the same $\Omega$ and $\Sigma$. We say that $\mathbb{P}$ and $\mathbb{Q}$ are equivalent iif for every $A \in \Sigma$,  $\mathbb{P}(A)=0 \Leftrightarrow \mathbb{Q}(A)=0$.
+```
+It basically means that the two measures agree on the possible and impossible events (even if it is pretty strange to call them equivalent).
+
+
+```{definition, random-variable, name="Random variable"}
+A (real-valued) random variable on a probability space $(\Omega, \Sigma, \mathbb{P})$ is a measurable function $X: \Omega \mapsto \mathbb{R}$.
+```
+
+
+
 <!-- - Joint probability of two events $P(a \cap b) = P(a,b) = P(a|b|)P(a)$ -->
 <!-- - Marginal probability $p(a) = \sum_b p(a,b) = \sum_b p(a|b)p(b)$ -->
 <!-- - Union of two events $p(a \cup b)$ -->
@@ -493,13 +604,14 @@ $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)
 <!-- - Conditional probability -->
 <!-- - Bayes' Theorem: $$ p(A=a | B=b) = \frac{p(A=a|B=b)}{p(B=b)} = \frac{p(A=a)p(B=b|A=a)}{\sum_{a'} p(A=a')p(B=b|A=a')}$$ -->
 
+#### Union bound
 
 The union bound is used to show that the probability of union fo some finte or countable set of events is less than some value.
 
 <span id="unionbound"> </span>
 
 ```{theorem, unionbound, name="Union bound"}
-$\forall$ event $A_1 \dots A_n$
+$\forall$ events $A_1 \dots A_n \in \Sigma$:
 $$P(\cup_{i=1}^n A_i) \leq \sum_{i=1}^n P(A_i)$$
 ```
 
@@ -516,17 +628,17 @@ Let $A_i, i\in[n]$ the event that node $i$ is isoldated. Its probability, from t
 $$P(B_n) = P(\cup_{i=1}^n A_i) \leq \sum_i P(A_i) \leq nP(A_i) = n(1-p)^{n-1}$$
 ```
 
-```{exercise}
-Suppose we run 4 times a randomized algorithm, with success probability $1-\delta$. What is the probability that we never fail?
+```{exercise, example-algorithm-unionbound}
+Suppose we run 4 times a randomized algorithm, with success probability $1-\delta$. Can you bound the probability that we never fail using the union bound?
 ```
 
 ```{proof}
 Let $f_i$ the event that we fail running our algorithm at time $i$.
 We know that the failure probability $f_i$ is $\delta$ for all $i \in [4]$. Thanks to the union bound we can bound the probability that we fail at least once:
-$P(\cup_i^k f_i ) \leq \sum_i^k \delta = 4\delta$.
+$P(\cup_i^k f_i ) \leq \sum_i^4 \delta = 4\delta$.
 It follows that the have 4 success in a row is *lower* bounded by $1-4\delta$.
 
-Note that we could have also bypassed the union bound and compute this quantity analitically, as the probability of getting 4 success in a row would be $(1-\delta)^4$, which we can compute with the binomial theorem \@ref(binomial-theorem). 
+Note that we could have also bypassed the union bound and compute this quantity analitically, as the probability of getting 4 success in a row would be $(1-\delta)^4$, which we can compute with the binomial theorem \@ref(thm:binomial-theorem). 
 ```
 
 
@@ -682,9 +794,11 @@ $$\|X+Y\|_p \leq \|X\|_p + \|Y\|_p.$$
 The Markov inequality is an *upper bound for the probability that a non-negative function of a random variable*, that is greater than or equal to a positive constant. Especially in analysis, people refer to it as Chebyshev's inequality (sometimes, calling it the *first* Chebyshev inequality, while referring to the ["usual"](https://en.wikipedia.org/wiki/Chebyshev%27s_inequality) Chebyshev's inequality as the second Chebyshev inequality or Bienaym{\'e}'s inequality).
 
 ```{theorem, markov, name="Markov inequality"}
-For all non-negative random variable, and $a > 0$,  we have that
-$$Pr(X  \geq a) \leq \frac{E[X]}{a} $$
-$$Pr(X  \geq aE[X]) \leq \frac{1}{a} $$
+For all non-negative random variable, and $a > 0$,  we have that:
+
+- $Pr(X  \geq a) \leq \frac{E[X]}{a}$
+- $Pr(X  \geq aE[X]) \leq \frac{1}{a}$
+
 ```
 
 ```{proof}
@@ -1066,18 +1180,38 @@ Now we can combine the previous observation:
 <!-- - \url{https://math.stackexchange.com/questions/3000501/relative-error-of-division/3001050#3001050} -->
 
 
-## Useful theorems around linear algebra
+## Useful quantum subroutines and folklore results
 
-- [Gershgorin circle theorem](https://en.wikipedia.org/wiki/Gershgorin_circle_theorem)
-- [Perron-Frobenius theorem](https://en.wikipedia.org/wiki/Perron%E2%80%93Frobenius_theorem)
-- [Sherman-Morrison formula](https://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula)
--
+We will often make use of a tool developed in [@wiebe2018quantum]. It is standard technique in classical computer science to boost the success probability of a randomized algorithm by repeating it and computing some statistics in the results. For the case of quantum algorithms, in high level, we take multiple copies of the output of the amplitude estimation procedure, compute the median, and reverse the circuit in order to get rid of the garbage.
+
+
+```{lemma, median, name="Median evaluation [@wiebe2018quantum]"} 
+Let $\mathcal{U}$ be a unitary operation that maps
+$$\mathcal{U}:\ket{0^{\otimes n}}\mapsto \sqrt{a}\ket{x,1}+\sqrt{1-a} \ket{G,0}$$
+for some $1/2 < a \le 1$ in time $T$. Then there exists a quantum algorithm that, for any $\Delta>0$ and for any $1/2<a_0 \le a$, produces a state $\ket{\Psi}$ such that $\|\ket{\Psi}-\ket{0^{\otimes nL}}\ket{x}\|\le \sqrt{2\Delta}$ for some integer $L$, in time
+$$
+2T\left\lceil\frac{\ln(1/\Delta)}{2\left(|a_0|-\frac{1}{2} \right)^2}\right\rceil.
+$$
+```
+
+
+We will report here some simple statements from literature which now are folklore.
+
+
+```{lemma, quattrocinque, name="[@kerenidis2019qmeans]"}
+Let $\epsilon_b$ be the error we commit in estimating $\ket{c}$ such that $\norm{ \ket{c} - \ket{\overline{c}}} < \epsilon_b$, and $\epsilon_a$ the error we commit in the estimating the norms,  $|\norm{c} - \overline{\norm{c}}| \leq \epsilon_a \norm{c}$. Then $\norm{\overline{c} - c} \leq \sqrt{\eta} (\epsilon_a +  \epsilon_b)$.
+```
+
+```{lemma, kereclaim, name="[@kerenidis2017quantumsquares]"}
+Let $\theta$ be the angle between vectors $x,y$, and assume that $\theta < \pi/2$.
+Then, $\norm{x-y} \leq \epsilon$ implies $\norm{\ket{x} - \ket{y}} \leq \frac{\sqrt{2}\epsilon}{\norm{x}}$. Where $\ket{x}$ and $\ket{y}$ are two unit vectors in $\ell_2$ norm.
+```
+
+
 
 # Contributions and  acknowledgements
 
-These are my first lecture notes in Quantum Machine Learning (QML) and quantum algorithms. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. Thesis, and now are in this extended form with the hope to serve the future researchers in QML. I am not an expert in the broad field of "quantum computing", and these lecture notes are an attempt (while quite prolonged over time) of collecting useful knowledge for new researcher in quantum computing. While I strive to be as precise as the lecture notes of [Ronald de Wolf](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf) and [Andrew Childs](https://www.cs.umd.edu/~amchilds/qa/qa.pdf), I know this work is still far from them. Please be indulgent, and help! For instance by signaling imprecisions, errors, and things that can be made more clear.
-
-
+These are my first lecture notes in Quantum Machine Learning (QML) and quantum algorithms. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. thesis (which I made at [IRIF](https://irif.fr) with the support of [Atos](https://atos.net), which I thank), and now are in this extended form with the hope to serve the future researchers in QML. I am not an expert in the broad field of "quantum computing", and these lecture notes are an attempt (while quite prolonged over time) of collecting useful knowledge for new researcher in quantum computing. While I strive to be as precise as the lecture notes of [Ronald de Wolf](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf) and [Andrew Childs](https://www.cs.umd.edu/~amchilds/qa/qa.pdf), I know this work is still far from them. Please be indulgent, and help! For instance by signaling imprecisions, errors, and things that can be made more clear.
 
 
 If you want to give me any feedback, feel free to write me at "scinawa - at - luongo - dot - pro". Or contact me on [Twitter](https://twitter.com/scinawa).
@@ -1085,15 +1219,31 @@ If you want to give me any feedback, feel free to write me at "scinawa - at - lu
 In sparse order, I would like to thank [Dong Ping Zhang](www.dongpingzhang.com), [Mehdi Mhalla](http://membres-lig.imag.fr/mhalla/) , [Simon Perdrix](https://members.loria.fr/SPerdrix/), [Tommaso Fontana](https://twitter.com/zommiommy), and [Nicola](https://www.linkedin.com/in/nvitucci/) [Vitucci](https://twitter.com/nvitucci) for the initial help with the previous version of this project, and the helpful words of encouragement.
 
 
-The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contributors) to the project are:
+
+**Core team**
 
 - Alessandro ['Scinawa'](https://twitter.com/scinawa) Luongo
 - Armando ['ikiga1'](https://twitter.com/ikiga1) Bellante
+
+**Contributors**
+
+The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contributors) to this open-source project are:
+
 - Patrick Rebentrost
 - Yassine Hamoudi
 - Martin Plávala
 - Trong Duong
 - Filippo Miatto
+- Jinge Bao
+- Michele Vischi
+- Adrian Lee
+
+**Funding**
+
+This website is supported by:
+
+- [unitary.fund](https://unitary.fund). 
+
 
 # License and citation
 
@@ -1107,7 +1257,7 @@ To cite this work:
    url={https://quantumalgorithms.org},
    year={2020}
   }
-```
+````
 
 
 
@@ -1119,6 +1269,89 @@ To cite this work:
 -->
 
 The CSS style file comes from [here](https://m-clark.github.io/data-processing-and-visualization/).
+
+# Cookie Policy 
+
+The website [https://quantumalgorithms.org](https://quantumalgorithms.org) (the “Website”) uses cookies for the following purposes: allowing
+online authentication, monitoring sessions and memorising information on specific configurations of users
+accessing the server.
+This document sets out detailed information on the use of cookies and similar technology, how they are used
+by the Website and how to manage them.
+Visitors are able to configure their own browsers so that they are alerted to the use of cookies or they may
+otherwise refuse them. Browser acceptance of cookies can be disabled by changing your settings.
+
+#### DEFINITIONS
+
+Cookies are small strings of text (letters or numbers) that allow a web server to memorise browser
+information that can be used during the same session (session cookies) or at a later stage, even days later
+(persistent cookies). Cookies are memorised in accordance with the user settings by the individual browser
+on the device being used (computer, tablet, smartphone).
+
+#### TYPES OF COOKIES
+
+There are different categories of cookies and each has its own characteristics and uses:
+
+- Technical cookies: this type of cookie is essential for a website to function properly and they are
+only used to the extent required for the transmission of communications over an electronic
+communication network, or to the extent strictly necessary for the supplier of an information service
+explicitly requested by the subscriber or by the user to supply that service;
+- Analytical cookies: this type of cookie is used to anonymously collect and analyse the traffic to and
+use of a website. Without identifying the user, they make it possible for example, to detect whether
+said user has subsequently accessed the website. They also make it possible to monitor the system
+and enhance the services and user experience. These cookies may be disabled without affecting the
+functioning of a website.
+- Profiling cookies: these are persistent cookies used to identify (anonymously and not) user
+preferences and to enhance the navigation experience.
+- Third-party cookies (analytical and/or profiling): these are generated by companies other than
+the actual website and integrated into a website's pages, for example Google widgets (such as
+Google Maps) or social plugins (Facebook, Twitter, LinkedIn, Google+, etc.).
+The management of information that is collected by a "third party" is regulated by the relevant privacy
+statement, which you are requested to read. For ease of reference, they are indicated in the links set out
+below.
+
+#### TYPES OF COOKIES USED
+
+The Website uses the following type of cookies:
+
+- Session cookies: used only for the purpose of authenticating a User.
+- Third-party analytical cookies: Google Analytics, a web traffic analysis service provided by Google
+Inc. (“Google”), which makes it possible to access and analyse detailed statistics on website visitors.
+The Google Analytics service has been designed to use pre-anonymised data so as to conceal the
+last part of the visitor's IP address. For further information, please see https://www.google.it/policies/privacy/partners/. Users may disable Google Analytics by installing on their browser the opt-out add-on tool provided by Google (please
+see https://tools.google.com/dlpage/gaoptout)
+
+
+#### DURATION
+
+Some cookies (called session cookies) remain active until a user closes their browser. Other cookies (called
+persistent cookies) "survive" the closure of the browser and are available in subsequent user visits. Their
+duration is set by the server when they are created: in some cases, there is a set expiry date whereas in
+other cases their duration is unlimited. However, they may always be deleted using browser settings.
+The majority of the cookies we use are persistent and expire 2 years from the date
+when they are downloaded onto the Visitor's device.
+
+#### MANAGEMENT
+
+Visitors may accept or refuse cookies via their browser settings.
+Content may be accessed even if cookies are completely disabled and disabling "third–party technical"
+cookies will not prevent a visitor from using a website. It could however adversely impact the User's
+experience (insofar as it is not possible to memorise their data for future use).
+Settings can be changed for different websites and/or website applications. Moreover, the leading browsers
+allow users to change their settings depending on the type of cookie:
+
+- Firefox: https://support.mozilla.org/it/kb/Gestione%20dei%20cookie
+- Internet Explorer: https://support.microsoft.com/it-it/help/17442/windows-internet-explorer-delete-manage-cookies
+- Chrome: https://support.google.com/chrome/answer/95647?hl=it
+- Opera: http://help.opera.com/Windows/10.00/it/cookies.html
+- Safari for Mac: https://support.apple.com/kb/PH21411?viewlocale=it_IT&amp;locale=it_IT
+- Safari for iOS:  http://support.apple.com/kb/HT1677?viewlocale=it_IT
+
+Third parties are hereby informed that the use of this policy, even partial, for other websites shall be subject
+to sanctions by the Italian Data Protection Authority.
+This page may be accessed via the link set out in the footer of all the website's pages, pursuant to Article
+122(2) of Legislative Decree 196/2003 and the simplified process for privacy information and the acquisition
+of consent to the use of cookies published on the Italian Official Journal no. 126 of 3 June 2014 and the
+relevant register of measures 229 dated 8 May 2014.
 
 
 # References

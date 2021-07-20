@@ -10,7 +10,7 @@ def create_images(directory, latex_files):
   for latex_document in latex_files:
 
     document_name = latex_document.split(".")
-
+    print("\n\n {} \n\n".format(latex_document))
     subprocess.call(["pdflatex", "-output-directory={}".format(directory), latex_document])
 
     # "-background", "white", "-alpha",  "remove",

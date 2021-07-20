@@ -1,6 +1,6 @@
 --- 
 title: "Quantum algorithms for data analysis"
-author: ""
+author: "Alessandro Luongo"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -27,6 +27,11 @@ description: "Lecture notes on quantum algorithms for information processing and
 ---
 
 
+
+<!--  ```{r, include=FALSE} -->
+<!--  options(tinytex.verbose = TRUE) -->
+<!--  ``` -->
+
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
 \newcommand{\R}{\mathbb{R}}
@@ -46,37 +51,26 @@ description: "Lecture notes on quantum algorithms for information processing and
 \newcommand{\tOrd}[1]{\widetilde{\mathcal{O}}\left( #1 \right)}
 
 
-# Preface 
-I hope you can find here all the things that I would have liked to know when I started working on quantum algorithms. My aspiration is that they will help bridge the gap between introductory material in quantum computation and high-level research material. 
 
-These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalgorithms.org/) easily accessible on GitHub. Feel free to help by sending a pull request. You can find a list of issues and enhancements that would improve these lecture notes further, making them more accessible and covering more interesting and recent material that keeps popping up in quantum information. 
+
+
+
+# Preface 
+I hope you can find here all the things that I would have liked to know when I started working on quantum algorithms. The first aspiration is that they will help bridge the gap between introductory material in quantum computation and high-level research material. Secondarily, I hope you can use this website as resource for state-of-the-art algorithms, so readers can find statements of theorems and runtimes of the best quantum algorithms proposed so far.
+
+These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalgorithms.org/) easily accessible on [GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. Feel free to help by sending a pull request. You can find a list of issues and enhancements that would improve these lecture notes further, making them more accessible and covering more interesting and recent material that keeps popping up in quantum information.
+
+These lecture notes were used to teach at:
+
+- Politecnico di Milano (2019) - Quantum machine learning in practice.
+- Politecnico di Milano (2021) - Applied quantum computing.
+
+Are you using these lecture notes as support for your course? [Write us an email!](mailto://scinawa@luongo.pro)
 
 
 <p style="text-align:right"> 
  This book is dedicated to all [**cypherpunks**](https://luongo.pro/cypherpunks/): *civil liberties through complex mathematics*. </p> 
 
-<!-- 
-it would be nice to make just a preface, and put the text above this one without any heading..
-https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter-header  -->
-
-### Changelog
-
-- August 2020: Migrated the old blog on bookdown
-- December 2020: Moved thesis in bookdown
-- January 2021: First system for typesetting algorithms, more appendix on linear algebra
-- February 2021: New subroutines for estimating $\ell_1$ norms.
-- March 2021: quantumalgorithms.org is proudly supported by the [Unitary Fund](https://unitary.fund/), and quantumalgorithms.org is a project of the [QOSF](https://qosf.org) mentorship program: 5 students started creating new content!
-- April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation. 
-
-Arriving soon:
-
-- quantum perceptrons
-- quantum lower bounds
-- quantum algorithms for dynamic programming
-- quantum algorithms for graph problems
-- quantum Monte Carlo
-- quantum convolutional neural networks
-- quantum random feature sampling
 
 ## Abstract
 
@@ -114,7 +108,7 @@ The common thread of these algorithms is that they are faster than their best cl
 
 We will see that, for a new QML algorithm, one often needs to make sure that the real performances of the quantum algorithms offer concrete advantages with respect to the effective runtime and the accuracy that is offered by the best classical algorithms. As we don't have access to big-enough quantum computers *yet*, we can only assess the performance of these quantum algorithms via a classical simulation. 
 
-These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefits society and humankind, as soon as the hardware that supports this kind of computation will become ready. 
+These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefits society and humankind, as soon as the hardware that supports this kind of computation will become ready.
 
 
 While reading these lecture notes you should always remember the good [**Simon Martiel**](https://scholar.google.fr/citations?user=upaq0vIAAAAJ&hl=en): 
@@ -123,3 +117,28 @@ While reading these lecture notes you should always remember the good [**Simon M
 </p>
 
 To all of you, happy reading. 
+
+
+
+
+<!-- 
+it would be nice to make just a preface, and put the text above this one without any heading..
+https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter-header  -->
+
+## Changelog
+
+- August 2020: Migrated the old blog on bookdown
+- December 2020: Moved thesis in bookdown
+- January 2021: First system for typesetting algorithms, more appendix on linear algebra
+- February 2021: New subroutines for estimating $\ell_1$ norms.
+- March 2021: quantumalgorithms.org is proudly supported by the [Unitary Fund](https://unitary.fund/), and quantumalgorithms.org is a project of the [QOSF](https://qosf.org) mentorship program: 5 students started creating new content!
+- April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation. 
+- June 2021: Quantum Monte Carlo algorithms, lower bounds techniques for query complexity of quantum algorithms, quantum algorithms for graph problems. The output of the mentorship program of the QOSF foundation!
+
+
+Coming soon:
+
+- quantum perceptrons
+- quantum algorithms for dynamic programming
+- quantum convolutional neural networks
+- quantum random feature sampling
