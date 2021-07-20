@@ -411,6 +411,47 @@ time $O(knm)$, where k is the rank of the output matrix \cite{partridge1997fastp
 -
 
 
+## Inequalities
+
+
+```{theorem, ljapunov, name="Bernoulli inequalities, [From here](https://en.wikipedia.org/wiki/Bernoulli%27s_inequality#Related_inequalities)"}
+
+- Bernoulli inequality:  for $\forall n \in \mathbb{N}, x\geq -1$ $$(1+x)^n \geq 1+nx$$ (check what happens if $n$ even or odd)
+
+- Generalized bernoully inequality: $\forall r \in \mathbb{R} \geq 1$ or $r \leq 0$, and $x\geq -1$ $$(1+x)^r \geq 1+rx$$.
+ For $0 \leq r\leq 1$, $$(1+x)^r \leq 1+rx$$
+
+- Related inequality: for any $x,r \in \mathbb{R}$, and $r>0>$: $$(1+x)^r \leq e^{rx}$$
+
+```
+
+```{theorem, jensen, name="Jensen inequality"}
+Let $X$ be a random variable with $\mathbb{E}|X| \leq \infty$ and $g : \mathbb{R}\to \mathbb{R}$ a real continious convex function. Then
+$$g(\mathbb{E}[X]) \leq \mathbb{E}[g(X)].$$
+
+```
+
+A [mnemonic trick](https://math.stackexchange.com/questions/2364116/how-to-remember-which-function-is-concave-and-which-one-is-convex) to remember the difference between convex and concave. Conv*EX* ends with *EX*, as the word *EX*ponential, [which is convex](https://math.stackexchange.com/questions/702241/how-to-prove-that-ex-is-convex).
+
+
+```{theorem, ljapunov, name="Ljapunov's inequality"}
+For any real $0 \leq p \leq q$ and any real random variable, $\|X\|_p \leq \|X\|_q$.
+```
+
+```{theorem, holder, name="Hölder's inequality"}
+Let $p,q>1$ that satisfy $\frac{1}{p} + \frac{1}{q} = 1$. If $\|X\|_p \leq \infty$ and $\|X\|_q$ then
+$$\mathbb{E}[|XY|] \leq \|X\|_p \dot \|X\|_q.$$
+
+```
+
+```{theorem, minkowski, name="Minkowski's inequality"}
+Let $p>1$, $\|X\|_p \leq \infty$ and $\|Y\|_p \leq \infty$. Then:
+$$\|X+Y\|_p \leq \|X\|_p + \|Y\|_p.$$
+```
+
+<!-- add cite to bristol's lecture notes on martingales -->
+
+
 ### Trigonometry
 Always have in mind the following Taylor expansion:
 
@@ -738,9 +779,9 @@ Let $\mathcal{A}$ be a quantum or classical algorithm which aims to estimate som
 <!-- ### and many others! -->
 
 
+[This](http://web.mit.edu/urban_or_book/www/book/chapter7/7.1.3.html) is a beautiful guide that shows you how to draw samples from a probability distribution.
 
-
-## Inequalities and concentration inequalities
+## Concentration inequalities
 
 <!--
 # TODO Formalize better inequalities
@@ -748,37 +789,6 @@ Let $\mathcal{A}$ be a quantum or classical algorithm which aims to estimate som
 # labels: good first issue, help wanted
 -->
 
-```{theorem, bernoulli-inequality, name="Bernoulli inequality"}
-$$(1+x)^r \leq 1+rx$$
-```
-The proof is made by induction on $r$, (and can be found all over the internet and in Wikipedia)
-
-
-```{theorem, jensen, name="Jensen inequality"} 
-Let $X$ be a random variable with $\mathbb{E}|X| \leq \infty$ and $g : \mathbb{R}\to \mathbb{R}$ a real continious convex function. Then
-$$g(\mathbb{E}[X]) \leq \mathbb{E}[g(X)].$$
-
-```
-
-A [mnemonic trick](https://math.stackexchange.com/questions/2364116/how-to-remember-which-function-is-concave-and-which-one-is-convex) to remember the difference between convex and concave. Conv*EX* ends with *EX*, as the word *EX*ponential, [which is convex](https://math.stackexchange.com/questions/702241/how-to-prove-that-ex-is-convex). 
-
-
-```{theorem, ljapunov, name="Ljapunov's inequality"}
-For any real $0 \leq p \leq q$ and any real random variable, $\|X\|_p \leq \|X\|_q$.
-```
-
-```{theorem, holder, name="Hölder's inequality"}
-Let $p,q>1$ that satisfy $\frac{1}{p} + \frac{1}{q} = 1$. If $\|X\|_p \leq \infty$ and $\|X\|_q$ then
-$$\mathbb{E}[|XY|] \leq \|X\|_p \dot \|X\|_q.$$
-
-```
-
-```{theorem, minkowski, name="Minkowski's inequality"} 
-Let $p>1$, $\|X\|_p \leq \infty$ and $\|Y\|_p \leq \infty$. Then:
-$$\|X+Y\|_p \leq \|X\|_p + \|Y\|_p.$$
-```
-
-<!-- add cite to bristol's lecture notes on martingales --> 
 
 
 
