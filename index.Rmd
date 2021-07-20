@@ -15,6 +15,7 @@ output:
   bookdown::gitbook:
     includes:
       in_header: analytics.html
+      after_body: cookiebanner.html
 # output:
 #     pdf_document:
 #         includes:
