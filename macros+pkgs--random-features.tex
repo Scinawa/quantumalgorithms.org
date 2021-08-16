@@ -1,0 +1,232 @@
+\usepackage{braket}
+
+\newcommand{\Z}{{\mathbb{Z}}} 
+\newcommand{\C}{{\mathbb{C}}} 
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\id}{{\mathbbm{1}}} % identity matrix 
+
+\newcommand{\CNOT}{\mathop\mathrm{CNOT}}     % CNOT gate inside math environments
+\newcommand{\SU}{\mathrm{SU}} % Lie group SU
+\newcommand{\su}{\mathfrak{su}} % Lie algebra SU
+\newcommand{\qft}{\mathrm{qft}}
+\newcommand{\qftf}{\mathrm{\mathbf{f}}} % qft f
+
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\ee}{\mathrm{e}}
+% an alias because otimes occurs too often
+\newcommand{\ox}{\otimes}
+
+\newcommand{\bolma}{\mathbf{\upsigma}} % tensor product of paulis
+
+\newcommand{\floor}[1]{\left \lfloor #1 \right \rfloor}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\norm}[1]{\|{#1}\|}
+\newcommand{\Norm}[1]{\left\|{#1}\right\|}
+\newcommand{\Abs}[1]{\left|{#1}\right|}
+\newcommand{\Tr}[1]{\mathop{}\text{Tr}\left({#1}\right)}
+% \newcommand{\ketbra}[2]{\ket{#1}\!\!\bra{#2}}
+\newcommand{\proj}[1]{\ketbra{{#1}}{{#1}}}
+
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\spec}{Spec}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\argmax}{argmax}
+\DeclareMathOperator{\tr}{Tr}
+
+\newcommand{\curly}[1]{\mathcal{{#1}}} % `script' or gothic/curly letters
+\newcommand{\cc}[1]{\mathsf{{#1}}}	% complexity class
+
+\newcommand{\parahead}[1]{\noindent\textbf{{#1}}} % left-indented bold paragraph headers
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\x}{{\mathbf{x}}} % vectors in bold
+\newcommand{\w}{{\mathbf{w}}}
+\renewcommand{\v}{{\mathbf{v}}}
+\newcommand{\polylog}{\text{poly}\log}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareMathOperator{\BigO}{\mathcal{O}}
+\DeclareMathOperator{\smallO}{\mathrm{o}}
+\newcommand\field\mathds
+
+\newcommand{\dd}{\mathrm d}
+\renewcommand{\H}{\mathcal{H}}
+\newcommand\op\mathbf
+\DeclareMathOperator{\diag}{diag}
+
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\Expect}{\mathbbm E}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\smallOmega}{\omega}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% random features- essential macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% bold operator type symbols
+% 1. probability density operators
+\newcommand{\q}{\mathbf{q}} 
+\newcommand{\Q}{\mathbf{Q}} 
+\newcommand{\uQ}{\underline{\Q}}  		% for the normalised Q/Q_max
+\newcommand{\SgOp}{\mathbf{\Sigma}} 
+\newcommand{\F}{\mathbf{F}} 
+% 2. generic quantum operators
+\newcommand{\A}{\mathbf{A}}
+\newcommand{\U}{\mathbf{U}}
+\newcommand{\Rot}{\mathbf{R}}
+% 3. kernel operator
+\newcommand{\krn}{\mathbf{k}} 
+\newcommand{\Lam}{\mathbf{\Lambda}}
+
+
+\newcommand{\trInv}{{\mathrm{TI}}} 
+
+% tilde-d letters
+\newcommand{\tx}{\tilde{x}}
+\newcommand{\tk}{\tilde{k}}
+\newcommand{\tv}{\tilde{v}}
+
+% hatted letters
+\newcommand{\hbq}{\hat{\q}}
+\newcommand{\hq}{\hat{q}}
+\newcommand{\hg}{\hat{g}}
+\newcommand{\hSgOp}{\hat{\SgOp}}
+
+% sets in domains and ranges of functions etc
+\newcommand{\sX}{\mathcal{X}} 
+\newcommand{\sH}{\mathcal{H}} 
+\newcommand{\sV}{\mathcal{V}} 
+\newcommand{\sW}{\mathcal{W}} 
+\newcommand{\tsX}{\tilde{\sX}}
+\newcommand{\tsV}{\tilde{\sV}}  
+
+% oracles
+\newcommand{\Or}{{\mathrm{Orc}}} 
+
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\poly}{poly}
+\DeclareMathOperator{\diam}{diam}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% referencing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+% clever references
+\usepackage[nameinlink]{cleveref}
+\crefname{lemma}{lemma}{lemmas}
+\crefname{proposition}{Proposition}{Propositions}
+\crefname{definition}{Definition}{Definitions}
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{conjecture}{conjecture}{conjectures}
+\crefname{corollary}{Corollary}{Corollaries}
+\crefname{example}{example}{examples}
+\crefname{section}{Section}{Sections}
+\crefname{chapter}{Chapter}{Chapters}
+\crefname{appendix}{Appendix}{Appendices}
+\crefname{subappendix}{Appendix}{Appendices}
+\crefname{figure}{fig.}{figs.}
+\crefname{equation}{eq.}{eqs.}
+\crefname{table}{Table}{Tables}
+\crefname{item}{property}{properties}
+\crefname{remark}{Remark}{Remarks}
+\crefname{algorithm}{Algorithm}{Algorithms}
+\crefname{problem}{}{}
+
+%https://tex.stackexchange.com/questions/54728/hyperref-jumps-to-the-wrong-equation-if-the-equation-has-a-tag-and-cleveref-is
+\makeatletter
+
+  \def\make@df@tag@@#1{%
+    \gdef\df@tag{%
+      \maketag@@@{\Hy@make@anchor#1}%
+      \def\@currentlabel{#1}%
+      \def\cref@currentlabel{[equation][2147483647][]#1}%
+    }%
+  }
+  \def\make@df@tag@@@#1{%
+    \gdef\df@tag{%
+      \tagform@{\Hy@make@anchor#1}%
+      \toks@\@xp{\p@equation{#1}}%
+      \edef\@currentlabel{\the\toks@}%
+      \edef\cref@currentlabel{[equation][2147483647][]\the\toks@}
+    }%
+  }
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% theorem, lemma etc. environments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% newtheorem
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{remark*}{Remark}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem*{lemma*}{Lemma}
+
+
+\newenvironment{abstract}
+ {% \small
+  \list{\textbf{Synopsis:}}{%
+    \setlength{\leftmargin}{6mm}
+    \setlength{\rightmargin}{6mm}%
+  }%
+  \item\relax}
+ {\endlist}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% code listings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily, keywordstyle=\bfseries}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% bibliography with biblatex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[backend=biber,
+            style=trad-alpha,
+            % style=alphabetic,
+            % citestyle=authoryear-comp,
+            sorting=nty,
+            doi=true,
+            isbn=false,
+            url=false,
+            maxbibnames=20,
+            maxcitenames=2, 
+            % refsection=chapter,
+            backref,
+            backrefstyle=three]{biblatex}  
+            
+\DefineBibliographyStrings{english}{%
+  backrefpage = {page},% originally "cited on page"
+  backrefpages = {pages},% originally "cited on pages"
+}
+
+\renewcommand\multicitedelim{\addcomma\space} % comma between multiple citations, instead of semicolon
+
+\addbibresource{bibs/featureSamp.bib}
+
+
+% Use DOI links in titles
+% \newbibmacro{string+doi}[1]{\iffieldundef{doi}{#1}{\href{https://dx.doi.org/\thefield{doi}}{#1}}}
+% mod to check if URL is available when DOI isn't
+\newbibmacro{string+doi}[1]{\iffieldundef{doi}%
+                                  {\iffieldundef{url}{#1}{\href{\thefield{url}}{#1}}}%
+                                  {\href{https://dx.doi.org/\thefield{doi}}{#1}}}
+\DeclareFieldFormat{title}{\usebibmacro{string+doi}{\mkbibemph{#1}}}
+\DeclareFieldFormat[article]{title}{\usebibmacro{string+doi}{\mkbibquote{#1}}}
+\DeclareFieldFormat[incollection]{title}{\usebibmacro{string+doi}{\mkbibquote{#1}}}
+
+% changing bibliography heading style
+\defbibheading{customhead}[]{%
+    \chapter*{#1}}
+% can give an optional name argument
