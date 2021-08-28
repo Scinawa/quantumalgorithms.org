@@ -35,7 +35,7 @@ pre code {
 }
 
 .noem {
-  color: #990024;
+  color: #2661bf;
 }
 
 .book .book-body .page-wrapper .page-inner section.normal a.uri {
@@ -54,7 +54,7 @@ pre code {
 }
 
 .date, .author {
-  color: #990024;  
+  color: #2661bf;
   font-style: normal;
 }
 
@@ -100,8 +100,8 @@ uri class is for urls
 */
 
 /* This gets rid of default underline*/
-.book .book-body .page-wrapper .page-inner section.normal a:active, 
-.book .book-body .page-wrapper .page-inner section.normal a:focus, 
+.book .book-body .page-wrapper .page-inner section.normal a:active,
+.book .book-body .page-wrapper .page-inner section.normal a:focus,
 .book .book-body .page-wrapper .page-inner section.normal a:hover {
     outline: 0;
     text-decoration: none;
@@ -120,7 +120,7 @@ uri class is for urls
     display: block;
     width: 0;
     height: 1.5px;
-    background: #990024;
+    background: #2661bf;
     transition: width .3s;
 }
 
@@ -215,12 +215,12 @@ i {
 
 .book .book-summary ul.summary li a:hover, .book .book-summary ul.summary li.active>a {
   color: #fffff8;  /*#6197D5*/
-  background-color: #990024;
+  background-color: #2661bf;
 }
 
 /* so that before and after aren't treated the same as the toc, because why would they? */
 .book .book-summary ul.summary li.before a {
-  color: #990024;
+  color: #2661bf;
   text-decoration: none;
   font-size: 125%;
   font-variant: small-caps;
@@ -232,7 +232,7 @@ i {
 .book .book-summary ul.summary li.before a:hover,
 .book .book-summary ul.summary li.before li.active>a {
   color: #fffff8;  /*#6197D5*/
-  background-color: #990024;
+  background-color: #2661bf;
   text-decoration: none;
 }
 
@@ -282,7 +282,7 @@ i {
 /* headers */
 
 h1, h2, h3, h4, h5 {
-  color:#990024;
+  color:#2661bf;
   font-family: 'Roboto Condensed';
 }
 
@@ -391,18 +391,18 @@ img {
 
 /* creative commons, github icons */
 .fab .fa-creative-commons, .fa-creative-commons-sa, .fa-creative-commons-by, .fa-github, .fa-lg {
-  color: #990024;
+  color: #2661bf;
   background-color: transparent;
 }
 
 .fab, .fas, .far {
   vertical-align: middle;
-  color: #990024CC;
+  color: #2661bfCC;
 }
 
 /* text highlights */
 .book .book-body .page-wrapper .page-inner section.normal em, .emph {
-  color: #990024BF;  /*#E32D00 #ff5500 #D14300*/
+  color: #2661bfBF;  /*#E32D00 #ff5500 #D14300*/
   font-weight: 500;
   font-style: normal;
 }
@@ -496,4 +496,9 @@ div.datatables {
 }
 
 .MJXc-inline {
+}
+
+.book .book-body .navigation.navigation-next {
+  margin-top: 75px;
+
 }
