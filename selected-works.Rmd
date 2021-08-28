@@ -23,6 +23,7 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Quantum Algorithms based on the Block-Encoding Framework for Matrix Functions by Contour Integrals](https://arxiv.org/abs/2106.08076) `#algo`
 - [Classical and Quantum Algorithms for Orthogonal Neural Networks](https://arxiv.org/abs/2106.07198) `#algo`
 - [Quantum Semi Non-negative Matrix Factorization](https://books.google.com.sg/books?hl=en&lr=&id=LMcpEAAAQBAJ&oi=fnd&pg=PA135&dq=Quantum+Semi+Non-negative+Matrix+Factorization&ots=2UP_f_twTu&sig=fvkK9Z4hCCQcSSkbF0HkZ23SRAs&redir_esc=y#v=onepage&q=Quantum%20Semi%20Non-negative%20Matrix%20Factorization&f=false) `#algo`
+- [Quantum Algorithms based on the Block-Encoding Framework for Matrix Functions by Contour Integrals](https://arxiv.org/pdf/2106.08076.pdf)
 
 #### 2020 {-}
 
