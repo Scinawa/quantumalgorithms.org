@@ -414,9 +414,9 @@ time $O(knm)$, where k is the rank of the output matrix \cite{partridge1997fastp
 ## Inequalities
 
 
-```{theorem, ljapunov, name="Bernoulli inequalities, [From here](https://en.wikipedia.org/wiki/Bernoulli%27s_inequality#Related_inequalities)"}
+```{theorem, bernoulli, name="Bernoulli inequalities, [From here](https://en.wikipedia.org/wiki/Bernoulli%27s_inequality#Related_inequalities)"}
 
-- Bernoulli inequality:  for $\forall n \in \mathbb{N}, x\geq -1$ $$(1+x)^n \geq 1+nx$$ (check what happens if $n$ even or odd)
+- Bernoulli inequality:  for $\forall n \in \mathbb{N}, x\geq -1$ $$(1+x)^n \geq 1+nx$$ (Reader, check what happens if $n$ even or odd!)
 
 - Generalized bernoully inequality: $\forall r \in \mathbb{R} \geq 1$ or $r \leq 0$, and $x\geq -1$ $$(1+x)^r \geq 1+rx$$.
  For $0 \leq r\leq 1$, $$(1+x)^r \leq 1+rx$$
@@ -786,19 +786,17 @@ Let $\mathcal{A}$ be a quantum or classical algorithm which aims to estimate som
 <!--
 # TODO Formalize better inequalities
 # can these inequalities be formalized better? some examples are needed, and it would be nice to have different formulations, or something that gives intuition
-# labels: good first issue, help wanted
--->
-
-
-
-
-<!-- 
-# TODO Finish section on concentration inequalities
 # I would like to have a proper part on these concentration inequalities.
 # This is very important in computer science and in algorithms analysiss because the runtimes and the errors are
 # bounded using tools like these.
 # labels: good first issue, help wanted
 -->
+
+
+<!--
+THIS IS A NICE TUTORIAL!! Let's expand and integrate and formalize it better!
+http://www.stat.rice.edu/~jrojo/PASI/lectures/TyronCMarticle.pdf -->
+
 
 ### Markov inequality 
 The Markov inequality is an *upper bound for the probability that a non-negative function of a random variable*, that is greater than or equal to a positive constant. Especially in analysis, people refer to it as Chebyshev's inequality (sometimes, calling it the *first* Chebyshev inequality, while referring to the ["usual"](https://en.wikipedia.org/wiki/Chebyshev%27s_inequality) Chebyshev's inequality as the second Chebyshev inequality or Bienaym{\'e}'s inequality).
@@ -1323,7 +1321,6 @@ below.
 
 The Website uses the following type of cookies:
 
-- Session cookies: used only for the purpose of authenticating a User.
 - Third-party analytical cookies: Google Analytics, a web traffic analysis service provided by Google
 Inc. (“Google”), which makes it possible to access and analyse detailed statistics on website visitors.
 The Google Analytics service has been designed to use pre-anonymised data so as to conceal the
