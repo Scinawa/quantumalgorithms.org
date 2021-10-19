@@ -175,12 +175,34 @@ The state space of a composite physical system is the tensor product of the stat
 ```
 
 
-A quantum state that cannot be expressed as tensor product of two quantum state is said to be entangled. To describe together two different quantum system we use the tensor product.
+To describe together two different quantum system we use the tensor product.
 The tensor product between two vectors $\ket{y} \in \mathbb{R}^{d_1}$ and $\ket{y} \in \mathbb{R}^{d_2}$ is a vector $\ket{z} \in \mathbb{R}^{d_1 \times d_2}$.
 We can use the tensor operation to describe the joint evolution of separate quantum system.
 TODO FIXME
 
-Let $U_1$ be the evolution of a quantum state $\ket{x}$ and $U_2$ the evolution of a quantum state $\ket{y}$, $U_1 \otimes U_2$ describe the evolution of the quantum system $\ket{x}\ket{y}$. Note that to build a state in $\ket{v} \in \mathcal{H}^n$ we need $\lceil \log n\rceil$ qubits.
+Even if it's not explicitly used much in quantum algorithms, it's useful to recall the definition of entangled pure state.
+
+```{definition, name="Entangled state"}
+A quantum state that cannot be expressed as tensor product of two quantum state is said to be entangled.
+```
+
+The same thing can be done for operators. Let $U_1$ be the unitary describing the evolution of a quantum state $\ket{x}$ and $U_2$ the unitary describing the evolution of a quantum state $\ket{y}$. Then $U_1 \otimes U_2$ describes the evolution of the quantum system $\ket{x}\otimes \ket{y}$. Note that to build a state in $\ket{v} \in \mathcal{H}^n$ we need $\lceil \log n\rceil$ qubits, and this fact will be extensively leveraged in our quantum algorithms.
+
+### Review of important statements in quantum computation
+
+Before delving into a review of quantum algorithms, we would like to state here a few important lemmas.
+
+```{lemma, hadamard-on-bitstring, name="Hadamard on a bitstrong [@nielsen200quantum]"}
+Let $x \in \{0,1\}^n$ be a bitstring, and $H$ be an Hadamard gate. Then:
+
+$$H^{\otimes n}\ket{x} = \frac{1}{\sqrt{2^n}}\sum_{z_1, \dots z_n \in \{0,1\}^n} (-1)^{x_1z_1 + x_2z_2 + \dots + x_nz_n} \ket{z_1, \dots, z_n} = \frac{1}{\sqrt{2^n}}\sum_{z\in \{0,1\}^n} (-1)^{x^Tz} \ket{z}$$
+  Where $x^Tz$ is the bitwise inner product of strings in $Z_2^n$ modulo $2$.
+```
+
+
+
+
+
 
 
 ## Measuring complexity of quantum algorithms
@@ -192,20 +214,24 @@ There are various ways to measure the complexity of a quantum algorithm.  We den
 
 We use a standard notation of $\widetilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms: $O(\log(n))=\widetilde{O}(1)$. 
 
+```{definition, quantum-oracle-access, name="Quantum query or oracle access to a function"}
+Let $\mathcal{H}$ be a finite-dimensional Hilbert space with basis $\{0,1\}^{n}$. Given $f:\{0,1\}^n\to\{0,1\}^m$, we say that we have quantum query access to $f$ if we have access to a unitary operator $U_f$ on $\mathcal{H}\otimes\mathbb{C}^{2^n}$ such that $U\ket{x}\ket{b} = \ket{x}\ket{b \oplus f(x)}$ for any bit string $b\in\{0,1\}^m$. One application of $U_f$ costs T_f operations$.
+```
 
 
 
-```{definition, quantum-computation, name="Quantum computation"}
+```{definition, quantum-computation, name="Quantum computation in the query model"}
 Let $O_x$ be a unitary operator that encodes the input of our computation, and acts in a non-trivial way on its associated Hilbert space.
-A quantum computation with $T$ queries to an oracle $O_x : \ket{i,b,z} \mapsto \ket{i,b \otimes x_i, z}$ is a sequence of unitary transformations:
+A quantum computation with $T$ queries to an oracle $O_x : \ket{i,b,z} \mapsto \ket{i,b \oplus x_i, z}$ is a sequence of unitary transformations:
 
   $$U_0O_xU_1O_x \dots U_{T-1}O_xUT$$
 Where each $U_t$ is a unitary that does not depend on the input of the algorithm. The output of the computation is obtained by measuring the rightmost register (by convention).
 ```
 
 Note that the second register holds the XOR of the $i$-th component of the input with the previous state of the register (i.e. the b). This is to make the computation reversible. 
+Importantly, the definition \@ref(quantum-oracle-access) is just an example of function for which we can have query access. We can assume query access to unitaries creating various kind of quantum states as output. We will see many examples of oracles as definition \@ref(qram), \@ref(oracle-access-adjacencymatrix), \@ref(oracle-access-adjacencylist), and \@ref(KP-trees). 
 
-
+This is the so-called query model, or oracle model of computation. The important thing here is the last statement of \@ref{quantum-oracle-access} about the cost of applying $U_f$ is $O(1)$. There are multiple reasons for working in this model. First, it is often the case that queries to these oracles are actually efficient (as we will see in many example), so the query complexity is actually equivalent (up to multiplicative polylogarithmic factors) to the depth of the quantum circuit that is going to be executed. Another reason is that in the oracle model is relatively simple to prove lower bounds and results about the complexity of an algorithm in terms of the number of queries to an oracle that encodes the input of the problem. It is customary, for complex results in quantum algorithms to separate the study of the query complexity of the problem and the depth of the quantum circuit which is executed on the real hardware. We formalize more this difference in the following definitions. 
 
 ```{definition, query-complexity, name="Query complexity"}
 The quantum query complexity of a quantum algorithm $\mathcal{A}$ is the number of queries to a black-box made by $\mathcal{A}$ in order to compute $f$.
@@ -262,13 +288,54 @@ A function $f :\{0,1\}^n \mapsto \{0,1\}$ is constant if $f(x)=0 \forall x \in \
 A function $f :\{0,1\}^n \mapsto \{0,1\}$ is balanced if $f(x)=0$ for half of the inputs and $f(x)=1$ for the other half.
 ```
 
-```{theorem, name="Deutsch-Josza"}
-Assume to have quantum access to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which is either constant or balanced. There is a quantum algorithm that decides which is the case with probabiliy $1$, using $U_f$ only once and using $O(\log(n))$ other gates. 
+```{theorem, name="Deutsch-Josza [@deutsch1992rapid]"}
+Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) ) to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which we are promised to be either constant or balanced. There is a quantum algorithm that decides which is the case with probabiliy $1$, using $U_f$ only once and using $O(\log(n))$ other gates. 
 ```
 
-```{theorem, name="Bernstein-Vazirani"}
-Assume to have quantum access to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f(x \cdot a) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$.  There is a quantum algorithm that learns $a$ with probability $1$, using $U_f$ only once and $O(\log(n))$ other gates. 
+```{proof}
+We start our quantum computer initializing $n$ qubit as $\ket{0}$ state follwed by a single ancilla qubit initialized in state $\ket{1}$, which we will use for the phase-kickback. Then, we apply the Hadamard transform on each of them. Mathematically, we are performing the following mapping:
+
+\begin{equation}
+\ket{0}^{\otimes n}\ket{1} \mapsto \left(\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x} \right)\ket{-}
+\end{equation}
+Now we apply $U_f$ using the first register as input and the ancilla register as output. Our quantum computer is now in the state
+$$\left(\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n}(-1)^{f(x)}\ket{x} \right)\ket{-}$$
+Now we apply $n$ Hadamard gates to the $n$ qubits in the first registers. Recalling lemma \@ref(lem:hadamard-on-bitstring), this gives the state
+
+$$\left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n}(-1)^{f(x)} \sum_{j \in \{0,1\}^n }(-1)^{xj} \ket{j} \right) \ket{+} = \left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n}\sum_{j \in \{0,1\}^n} (-1)^{f(x)+ xj} \ket{j} \right)\ket{+}$$
+
+In this state, note that the normalization factor has changed from $\frac{1}{\sqrt{2^n}}$ to $\frac{1}{2^n}$, and recall that $(-1)^{xj}$ is read as $(-1)^{ \sum_{p} x_pj_p \text{mod}2 }$.
+The key idea of the proof of this algorithm lies in asking the right question to the previous state: what is the probability of measuring the state $\ket{0}^n$ in the first register? The answer to this question will conclude the proof of this theorem. Before looking at the probability, observe that the amplitude of the state $\ket{j=0}$ we will see that it is just $\frac{1}{2^n}\sum_{x}(-1)^{f(x)}$, as $x^Tj=0$ if $j=0_1\dots 0_n$, for all $x$. Then,
+
+\begin{equation}
+\frac{1}{2^n} \sum_{i \in \{0,1\}^n } (-1)^f(x) = \begin{cases}
+      1 & \text{if } f(x)=0 \forall x   \\
+      -1 & \text{if } f(x)=1 \forall x  \\
+      0 & \text{if } f(x) \text{is balanced}
+      \end{cases}
+      \end{equation}
+
+
+To conclude, reckon that if the function $f$ is constant (first two cases), we will measure $\ket{0}^{\otimes n}$ with probability $1$, and if the function is balanced, we will measure some bitstring of $n$ bits that is different than the string $0_1\dots 0_n$. 
+
 ```
+
+
+
+It's simple to see that if we want to solve this problem with a classical *deterministic* algorithm, we need exactly $2^n/2 + 1$ queries. However, with the usage of a randomized algorithm we can drastically reduce the number of queries by admitting a small probability of failure.
+
+```{exercise} 
+Can you think of an efficient randomized classical algorithm for solving this problem? Perhaps you can use the tools in the Appendix for randomized algorithms.
+```
+
+We now turn our attention to the first learning problem of this book. This is rarely stressed that the following algorithm can be interpreted as a learning algorithm - perhaps because the settings is quite simple and unnatural. 
+
+
+
+```{theorem, name="Bernstein-Vazirani"}
+Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) )  to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f(x \cdot a) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$.  There is a quantum algorithm that learns $a$ with probability $1$, using $U_f$ only once and $O(\log(n))$ other gates. 
+```
+
 
 
 ## Representing data in quantum computers
@@ -385,7 +452,7 @@ in quantum metrology and sensing). Techniques that use a certain precision in th
 
 Along with a fully fledged quantum computer, we also assume to have access to a quantum memory, i.e. a classical data structure that store classical information, but that is able to answer queries in quantum superposition. This model is commonly called the \emph{QRAM model}. As we will see in greater details soon, the task of building the data structure classically requires time that is linear (up to polylogarithmic factors) in the dimension of the data. This observation is better detailed in definition \@ref(def:QRAM-model). For instance, if we want to have quantum  access to a dense matrix $M \in \mathbb{R}^{n \times d}$ the preprocessing runtime will be $O(nd \log (nd))$. To stress more the fact that we are linear in the effective number of elements contained in the matrix (which can often be sparse) can write $\tilde{O}(\norm{A}_0)$. The name QRAM is meant to evoke the way classical RAM address the data in memory using a tree structure. In the data structure one can write down the real entries $m_{ij}$ with some precision $\delta$ using $\log 1/\delta$ bits.
 
-Note that sometimes, QRAM goes under the name of QROM, as actually it is not something that can be written during the runtime of the quantum algorithm, but just queried, i.e. read.  Furthermore, a QRAM is said to be \emph{efficient} if can be updated by adding, deleting, or modifying an entry in polylogarithmic time w.r.t the size of the data it is storing. Using the following definition, we can better define the computational model we are working with.
+Note that sometimes, QRAM goes under the name of QROM, as actually it is not something that can be written during the runtime of the quantum algorithm, but just queried, i.e. read.  Furthermore, a QRAM is said to be *efficient* if can be updated by adding, deleting, or modifying an entry in polylogarithmic time w.r.t the size of the data it is storing. Using the following definition, we can better define the computational model we are working with.
 
 
 <!-- TODO
