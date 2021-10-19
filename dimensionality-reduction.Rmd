@@ -173,7 +173,7 @@ The error requirements of the two corollary propagate to the run-time of the mod
 ```{corollary, qpca-fitting, name="qPCA: fitting time"}
     Let $\epsilon$ be a precision parameter and $p=\frac{\sum_{i: \overline{\sigma}_i \geq \theta} \sigma_i^2}{\sum_j^r \sigma_j^2}$ the amount of variance to retain, where $\|\sigma_i - \overline{\sigma}_i\|\leq \epsilon$.
     Given efficient quantum access to a matrix $A \in \R^{n \times m}$,
-    the run-time to extract $V^{(k)} \in \R^{m \times k}$ for corollaries \ref{Coro:qPCAvector}, \ref{Coro:qPCAmatrix} is $\widetilde{O}\left(\frac{\mu(A)k^2m}{\theta\epsilon\xi^2}\right)$.
+    the run-time to extract $V^{(k)} \in \R^{m \times k}$ for corollaries \@ref(cor:qpca-vector), \@ref{cor:qpca:matrix} is $\widetilde{O}\left(\frac{\mu(A)k^2m}{\theta\epsilon\xi^2}\right)$.
 ```
 
 We state the proof for Corollary \@ref(cor:qpca-matrix), as its error is more demanding than the one of Corollary \@ref(cor:qpca-vector). This way, the proof stands for both cases.
@@ -196,10 +196,10 @@ is said to be PCA-representable if there exists $p \in [\frac{1}{2},1], \varepsi
 - for at least $\alpha n$ points $a_i$ it holds $\frac{\norm{y_i}}{\norm{a_i}} \geq \beta$, where $\norm{y_i} = \sqrt{\sum_i^k |\braket{a_i|v_j}|^2} \norm{a_i}$. 
 ```
 
-Thanks to the this statement, it is possible to bound the run-time of Corollary \ref{Coro:qPCAvector} with a certain probability. 
+Thanks to the this statement, it is possible to bound the run-time of Corollary \@ref(cor:qpca-vector) with a certain probability. 
 
 ```{lemma, qpca-vector-repr, name="qPCA on PCA-representable datasets"}
-Let $a_i$ be a row of $A \in  \R^{n\times d}$. Then, the runtime of Corollary \ref{Coro:qPCAvector} is $\frac{\norm{a_i}}{\norm{\overline{y}_i}} = \frac{1}{\beta} = O(1)$ with probability greater than $\alpha$.
+Let $a_i$ be a row of $A \in  \R^{n\times d}$. Then, the runtime of Corollary \@ref(cor:qpca-vector) is $\frac{\norm{a_i}}{\norm{\overline{y}_i}} = \frac{1}{\beta} = O(1)$ with probability greater than $\alpha$.
 ```
 
 It is known that, in practical machine learning datasets, $\alpha$ is a number fairly close to one.
