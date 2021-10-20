@@ -24,6 +24,9 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Classical and Quantum Algorithms for Orthogonal Neural Networks](https://arxiv.org/abs/2106.07198) `#algo`
 - [Quantum Semi Non-negative Matrix Factorization](https://books.google.com.sg/books?hl=en&lr=&id=LMcpEAAAQBAJ&oi=fnd&pg=PA135&dq=Quantum+Semi+Non-negative+Matrix+Factorization&ots=2UP_f_twTu&sig=fvkK9Z4hCCQcSSkbF0HkZ23SRAs&redir_esc=y#v=onepage&q=Quantum%20Semi%20Non-negative%20Matrix%20Factorization&f=false) `#algo`
 - [Quantum Algorithms based on the Block-Encoding Framework for Matrix Functions by Contour Integrals](https://arxiv.org/pdf/2106.08076.pdf)
+- [Quantum Alphatron](https://arxiv.org/abs/2108.11670) `#algo`
+- [Quantum SubGaussian Mean Estimator](https://arxiv.org/pdf/2108.12172.pdf) `#algo`
+
 
 #### 2020 {-}
 
@@ -33,6 +36,8 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [The power of quantum neural networks](https://arxiv.org/abs/2011.00027) `#variational`
 - [Robust quantum minimum finding with an application to hypothesis selection](https://arxiv.org/abs/2003.11777) `#algo`
 - [Quantum exploration algorithms for multi-armed bandits](https://arxiv.org/abs/2007.07049) `#algo`
+- [Sublinear classical and quantum algorithms for general matrix games](https://arxiv.org/pdf/2012.06519.pdf) `#algo`
+
 
 #### 2019 {-}
 
@@ -42,6 +47,8 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Quantum algorithms for zero-sum games](https://arxiv.org/abs/1904.03180) `#algo`
 - [Practical implementation of a quantum backtracking algorithm](https://arxiv.org/abs/1908.11291) `#experiment`
 - [Quantum speedup of branch-and-bound algorithms](https://arxiv.org/abs/1906.10375) `#algo`
+- [The Quantum Version Of Classification Decision Tree Constructing Algorithm C5.0](https://arxiv.org/pdf/1907.06840.pdf) `#algo`
+- [Sublinear quantum algorithms for training linear and kernel-based classifiers](http://proceedings.mlr.press/v97/li19b/li19b.pdf) `#algo`
 
 #### 2018 {-}
 
@@ -87,8 +94,7 @@ In the paper the authors were able to implement a neuron based on a thing called
 #### 2016 {-}
 - [Quantum Discriminant Analysis for Dimensionality Reduction and Classification](https://iopscience.iop.org/article/10.1088/1367-2630/18/7/073011)  `#algo`
 Here the authors wrote two different algorithm, one for dimensionality reduction and the second for classification, with the same capabilities
-
-
+- [An efficient quantum algorithm for spectral estimation](https://arxiv.org/abs/1609.08170) `#algo`
 - [Quantum Recommendation Systems](https://arxiv.org/pdf/1603.08675.pdf) `#algo`  
 It is where you can learn about QRAM and quantum singular value estimation.
 
@@ -110,15 +116,17 @@ The idea for k-NN is to calculate distances between the test point and the train
 This was one of the first example on how to use HHL-like algorithms in order to get something useful out of them.
 - [Improved Quantum Algorithm for Triangle Finding via Combinatorial Arguments](https://arxiv.org/abs/1407.0085) `#algo`
 
+
 - [Quantum Principal Component Analysis](https://arxiv.org/abs/1307.0401)  `#algo`
 The authors discovered how partial application of the swap test are sufficient to transform a quantum state $\sigma$ into $U\sigma U^\dagger$ where $U=e^{-i\rho}$ given the ability to create multiples copies of $\rho$.
 This work uses a particular access model of the data (sample complexity), which can be obtained from a QRAM
+
 
 #### 2013 {-}
 - [Quantum algorithms for supervised and unsupervised machine learning](https://arxiv.org/pdf/1307.0411.pdf) `#algo`
 This explain how to use swap test in order to calculate distances. Then it shows how this swap-test-for-distances can be used to do NearestCentroid and k-Means with adiabatic quantum computation
 - [Exponential improvement in precision for simulating sparse Hamiltonians](https://arxiv.org/abs/1312.1414) `#algo`
-- []
+
 
 #### 2010 {-}
 - [Variable time amplitude amplification and a faster quantum algorithm for solving systems of linear equations](https://arxiv.org/abs/1010.4458) `#algo`
@@ -135,6 +143,8 @@ This is the paper that started everything. :) Tecniques for sparse Hamiltonian s
 - [Fast quantum algorithm for numerical gradient estimation](https://arxiv.org/abs/quant-ph/0405146) `#algo`
 
 
+#### 1999 {-}
+- [The quantum query complexity of approximating the median and related statistics](https://arxiv.org/pdf/quant-ph/9804066.pdf) `#algo`
 
 #### 1996 {-}
 - [A fast quantum mechanical algorithm for estimating the median](https://arxiv.org/abs/quant-ph/9607024) `#algo`

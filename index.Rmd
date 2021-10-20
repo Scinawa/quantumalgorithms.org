@@ -7,7 +7,6 @@ documentclass: book
 bibliography: [book.bib]
 biblio-style: apalike
 link-citations: yes
-csl: csred.csl
 header-includes:
    - \usepackage{bm}
    - \usepackage{amsmath}
@@ -56,9 +55,14 @@ description: "Lecture notes on quantum algorithms for information processing and
 
 
 # Preface 
-I hope you can find here all the things that I would have liked to know when I started working on quantum algorithms. The first aspiration is that they will help bridge the gap between introductory material in quantum computation and high-level research material. Secondarily, I hope you can use this website as resource for state-of-the-art algorithms, so readers can find statements of theorems and runtimes of the best quantum algorithms proposed so far.
 
-These are [**open source lecture notes!**](https://github.com/Scinawa/quantumalgorithms.org/) easily accessible on [GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. Feel free to help by sending a pull request. You can find a list of issues and enhancements that would improve these lecture notes further, making them more accessible and covering more interesting and recent material that keeps popping up in quantum information.
+The aim of this book is twofold:
+
+- First, we want to bridge the gap between introductory material in quantum computation and research material. 
+- Secondarily, you should be able to use this book as resource for state-of-the-art algorithms. Readers and scholars should find statements of theorems (along with their citations) and runtimes of the best quantum subroutines in literature, ready to be used in new quantum algorithms or applications. 
+
+
+These is an [**open source project!**](https://github.com/Scinawa/quantumalgorithms.org/) accessible on [GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. We are searching for talented and researcher to contribute: you can find a list of issues and enhancements that would improve this book further, making recent material that keeps popping up in quantum information accessible to a larger audience. 
 
 These lecture notes were used to teach at:
 
