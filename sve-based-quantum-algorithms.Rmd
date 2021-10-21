@@ -74,7 +74,7 @@ We use the estimator
 $\overline{\lambda}^{(i)} = \frac{\zeta_{\overline{\sigma}_i}}{S}$,
 where $\zeta_{\overline{\sigma}_i}$ is the number of times $\overline{\sigma}_i$ appears in the measurements and $S$ is the number of total measurements.
 Given a confidence level $z$ and an absolute error $\gamma$, it is possible to use the Wald confidence interval to determine a value for $S$ such that $\|\lambda^{(i)} - \overline{\lambda}^{(i)}\| \leq \gamma$ with confidence level $z$.
-It is possible to show that $\gamma \leq \frac{z}{2\sqrt{S}}$ \cite{quantumsupervisedschuld}, from which we get $S=\frac{z^2}{4\gamma^2}$. 
+It is possible to show that $\gamma \leq \frac{z}{2\sqrt{S}}$ [@schuld2018supervised], from which we get $S=\frac{z^2}{4\gamma^2}$. 
 Since $z$ is a small number, we can state that the complexity of the algorithm is 
 $\widetilde{O}\left(\frac{1}{\gamma^2}\frac{\mu(A)}{\epsilon}\right)$.
 

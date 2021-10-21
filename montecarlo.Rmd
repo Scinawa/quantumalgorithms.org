@@ -32,23 +32,20 @@ The law of large numbers ensures that the sample mean $\widetilde{\mu}_N$ is a g
 
 **Law of Large Numbers** Let $X_1,\dots,X_N$ be independent and identically distributed random variables. Assume that their expected value is finite and call it $\mu$.
 Then, as $N$ tends to infinity:
-\begin{equation}\label{media}
-    \widetilde{\mu}_N = \frac{1}{N}\sum_{i=1}^N X_i \to \mu, \, (a.s),
-\end{equation} 
+$$  \widetilde{\mu}_N = \frac{1}{N}\sum_{i=1}^N X_i \to \mu, \, (a.s),$$
+
 which means that:
-\begin{equation}
-    P\left(\lim_{n\to\infty} \frac{1}{N}\sum_{k=1}^N X_k = \mu\right) = 1\, .
-\end{equation}
+$$    P\left(\lim_{n\to\infty} \frac{1}{N}\sum_{k=1}^N X_k = \mu\right) = 1\, .$$
 Note that since all the $X_i$ random variables have expected value $\mu$ the expected value of the sample mean $\widetilde{\mu}_N$ is:
-\begin{equation}
+$$
     \mathbb{E}[\widetilde{\mu}_N]=\frac{1}{N}\mathbb{E}[X_1+\dots+X_N] = \frac{1}{N}N\mu = \mu \, .
-\end{equation}
+$$
 When this happens we say that $\widetilde{\mu}_N$ is an unbiased estimator of $\mu$.
 The law of large numbers tells us that $\widetilde{\mu}_N$ converges to $\mu$ for $N$ going to infinity. However in a simulation we can not have $N$ going to infinity: we must choose a (hopefully large but) finite $N$. How close is $\widetilde{\mu}_N$ to $\mu$ for a given value of $N$? The law of large numbers does not reply to that question [@MonteCarlonotes]. To get a first answer,  suppose that $X_i$ have finite variance and call it $\sigma^2$. The variance of the sample mean is then:
 \begin{equation}
     var(\widetilde{\mu}_N) = \frac{1}{N^2} var(X_1+\dots+X_N) = \frac{1}{N^2}N\sigma^2 = \frac{\sigma^2}{N}\, .
 \end{equation}
-This shows that the difference of $\widetilde{\mu}_N$ from $\mu$ should be of order $\sigma/\sqrt{N}$ [@MonteCarlonotes]. 
+This shows that the difference of $\widetilde{\mu}_N$ from $\mu$ should be of order $\sigma/\sqrt{N}$ [@MonteCarlonotes].
 The central limit theorem gives a more refined statement on the accuracy of the approximation [@MonteCarlonotes].
 
 **Central Limit Theorem** Let $X_i$ be a sequence of independent and identically distributed random variables, such that they have finite mean $\mu$ and finite variance $\sigma^2$. The random variable:
@@ -78,8 +75,7 @@ To address this problem we use another estimator: the sample variance. It is def
 where the prefactor is chosen in such a way so that $\mathbb{E}[s^2]=\sigma^2$, i.e. $s^2$ is an unbiased estimator.
 One can prove that confidence intervals can be built as above but with $\sigma$ replaced by $s$ [@MonteCarlonotes].
 
-Second we highlight the main flaw of the Monte Carlo procedure. 
-We saw that estimating $\mu$ up to additive error $\epsilon$ with $99\%$ success probability requires $n = O(\sigma^2/\epsilon^2)$ repetitions, independently on the dimension of the sample space. This is remarkable but not so efficient. It means that if we want to maintain the confidence at $99\%$ and we want to decrease the additive error $\epsilon$ by a factor of $10$ we need to increase the number of iteration by a factor of $10^2$.
+Now we highlight the main flaw of the Monte Carlo procedure: to get high precision with high confidence, you need a big number of samples. We saw that estimating $\mu$ up to additive error $\epsilon$ with $99\%$ success probability requires $n = O(\sigma^2/\epsilon^2)$ repetitions, independently on the dimension of the sample space. This is remarkable but not so efficient. It means that if we want to maintain the confidence at $99\%$ and we want to decrease the additive error $\epsilon$ by a factor of $10$ we need to increase the number of iteration by a factor of $10^2$.
 Imagine if we want to estimate $\mu$ up to four digits. We would need to run $A$ more than $100$ million times [@montanaro2015quantum].
 
 
@@ -97,7 +93,7 @@ The algorithm $A$, as a classical randomized algorithm, is built in such a way t
 
 <!-- $A\ket{0} = \sum_{i \in \Omega} \sqrt{p_i}\ket{i} =\sum_{i \in \{0,1\}^n}  \sqrt{p_i}\ket{i}$ -->
 
-That is to say the random variable $\nu(A)$ is distributed according to the probabilities $p_x = |\alpha_x|^2$. We will see that with quantum computers, there is a smarter way to estimate $\mathbb{E}[\nu(A)]$, instead of repeatedly sampling from $A$? Using a quantum computer we can assume that $A$ is now a quantum algorithm (by taking the classical circuit, making it reversible, and then obtaining a quantum circuit for it). Then, we can use various tricks to encode the value of $\nu(A)$ in the amplitude of a quantum register, and then estimate it using amplitude estimation. 
+That is to say the random variable $\nu(A)$ is distributed according to the probabilities $p_x = |\alpha_x|^2$. We will see that with quantum computers, there is a smarter way to estimate $\mathbb{E}[\nu(A)]$, instead of repeatedly sampling from $A$? Using a quantum computer we can assume that $A$ is now a quantum algorithm (by taking the classical circuit, making it reversible, and then obtaining a quantum circuit for it). Then, we can use various tricks to encode the value of $\nu(A)$ in the amplitude of a quantum register, and then estimate it using amplitude estimation.
 
 ## Bounded output
 
@@ -108,33 +104,26 @@ The procedure when the output of $A$ is bounded between $0$ and $1$ is the follo
 
 <!-- SISTEMARE DA QUI -->
 This is a controlled operation which in general requires to first encode $\Phi(x)$ in the $|x\rangle$ register. This is done by performing $k$ subsequent controlled rotations for some specific angle on the $k+1$th qubit for each of the $k$ controlling qubits. Then it is easy to rotate back the $k$ register to $\ket{x}$ (more on this can be found in [@duan2020survey]).
-<!-- A QUI. --> 
+<!-- A QUI. -->
 
 Assuming that we know how to do $W$, when $A$ is run with its final measurement replaced with operation $W$, we would formally end up in a state of the form:
 \begin{equation}
     |\psi\rangle=(I \otimes W)(A\otimes I)|0^n\rangle|0\rangle=\sum_x \alpha_x|\psi_x\rangle|x\rangle(\sqrt{1-\Phi(x)}|0\rangle+\sqrt{\Phi(x)}|1\rangle)\, .
 \end{equation}
-Why is this state useful? 
+Why is this state useful?
 
-When the sum over $x$ is developed, it turns out that $|\psi\rangle$ is such that it can be viewed as a superposition of two orthogonal states. A "good" state, $|\Psi_G\rangle$ which is a superposition of all the states in the expansion whose qubit sequence ends up with a $1$ (i.e. the ancilla qubit is in state $\ket{1}$ and a "bad" state $|\Psi_B\rangle$, which is a superposition of all the other states. Unfortunately there is no ugly state, otherwise we would have been screening a spaghetti western cult.
+When the sum over $x$ is developed, it turns out that $|\psi\rangle$ is such that it can be viewed as a superposition of two orthogonal states. A "good" state, $\ket{\Psi_G}$ which is a superposition of all the states in the expansion whose qubit sequence ends up with a $1$ (i.e. the ancilla qubit is in state $\ket{1}$ and a "bad" state $|\Psi_B\rangle$, which is a superposition of all the other states. Unfortunately there is no ugly state, otherwise we would have been screening a spaghetti western cult.
 The good and bad states are orthogonal to each other and thus they can be viewed as spanning two orthogonal sub-spaces in the Hilbert space, which without fantasy we'll call good and bad sub-spaces.
 
 Projecting $|\psi\rangle$ onto the good subspace is equivalent to find the amplitude of the good state, which for construction is the expected value of $\nu(A)$ (exaclty what we wanted!!). Indeed calling $P$ the projector onto the good subspace, which is in our case $P= I \otimes |1\rangle\langle 1|$, we have that:
-\begin{equation}
-\langle \psi|P|\psi\rangle = \sum_x |\alpha_x|^2\Phi(x) =\mathbb{E}[\nu(A)]\,.
-\end{equation}
-
+$$\braket{ \psi|P|\psi} = \sum_x |\alpha_x|^2\Phi(x) =\mathbb{E}[\nu(A)]\,.$$
 Notice that the bound on the output of $A$ between $0$ and $1$ and the form of the operation $W$ leads to a normalized state $|\psi\rangle$. This means that we can write:
-\begin{equation}
-    |\psi\rangle = \sin{\theta}|\Psi_G\rangle + \cos{\theta}|\Psi_B\rangle
-    \end{equation}
-for some angle $\theta$. We can restate our problem as follows: we want to estimate the amplitude squared of the good state, i.e. $\sin^2(\theta)$. Indeed we created a circuit that create a state where the expected value of $\nu(A)$ is now encoded in that amplitude of the quantum state, more specifically it is encoded in the probability of measuring $1$ in an ancilla qubit. The latter is estimated with amplitude estimation, see theorem \@ref(thm:thm-ampest-orig). This algorithm actually returns an estimate of the angle $\theta$ for which we can derive an estimate of $\sin^2(\theta)$, which in turns return the expectation of the random variable $\mathbb{E}[\nu(A)]$. 
+$$    \ket{\psi} = \sin{\theta}\ket{\Psi_G} + \cos{\theta}\ket{\Psi_B}$$
+for some angle $\theta$. We can restate our problem as follows: we want to estimate the amplitude squared of the good state, i.e. $\sin^2(\theta)$. Indeed we created a circuit that create a state where the expected value of $\nu(A)$ is now encoded in that amplitude of the quantum state, more specifically it is encoded in the probability of measuring $1$ in an ancilla qubit. The latter is estimated with amplitude estimation, see theorem \@ref(thm:thm-ampest-orig). This algorithm actually returns an estimate of the angle $\theta$ for which we can derive an estimate of $\sin^2(\theta)$, which in turns return the expectation of the random variable $\mathbb{E}[\nu(A)]$.
 
 
 Let's recap how to use this algorithm. Amplitude estimation takes as input a unitary operator on $n+1$ qubits such that:
-\begin{equation}
-    |\psi\rangle = \sqrt{1-a}|\Psi_B\rangle\ket{0} + \sqrt{a}|\Psi_G\rangle\ket{1}
-    \end{equation}
+$$\ket{\psi} = \sqrt{1-a}\ket{\Psi_B}\ket{0} + \sqrt{a}\ket{\Psi_G}\ket{1}$$
 The final qubit acts as a label to distinguish good states from bad states.
 
 Then it applies for a number of times $t$ the following sequence of projections: first apply $V=I-2P$ where $P$ is some projector and then $U=2|\psi\rangle\langle\psi|-I$. The form of $P$ depends in general on the good state (in our case $P = I\otimes |1\rangle\langle 1|$). The projector $U$ could be seen as a reflection through $|\psi\rangle$ and $V$ as a reflection through the bad state $|\Psi_B\rangle$ in a plane spanned by the good and the bad states [@DeWolf]. The output of amplitude estimation is an estimate $\widetilde{a}$ of $a = \langle \psi|P|\psi\rangle = \sin^2(\theta)$.
@@ -143,15 +132,13 @@ $U$ can also be written as $AS_0A^{-1}$ where $S_0$ changes the phase from $+1$ 
 $V$ is instead the operation of changing the phase of all the basis states of the good sub-space from $+1$ to $-1$. That is to say that the phase of the good state $|\Psi_G\rangle$ is changed from $+1$ to $-1$.
 <!-- SISTEMARE DA QUI  -->
 This operation is usually done by setting a target qubit to $1/\sqrt{2}(|0\rangle-|1\rangle)$ as we have:
-\begin{equation}
-    U_f |x\rangle1/\sqrt{2}(\frac{|0\rangle-|1\rangle}{\sqrt{2}}) = (-1)^{f(x)}|x\rangle(\frac{|0\rangle-|1\rangle}{\sqrt{2}})
-\end{equation}
+$$U_f \ket{x}(\frac{\ket{0}-\ket{1}}{\sqrt{2}}) = (-1)^{f(x)}|x\rangle(\frac{\ket{0}-\ket{1}}{\sqrt{2}})$$
 for any function $f(x)$ with binary values $0$ or $1$. The target qubit will always be just one and applying $U_f$ is an eigenstate. So we can ignore its presence and consider $U_f$ as acting only on the first register.
 <!-- A QUI  -->
 
 <!-- %Monte Carlo methods approximate expectations of functions of random variables f(X). X is distributed according to some probability distribution p. If we calculate the expected value through the sample mean for a number of times and we compute the expected value of the result, we will get the expected value of f(X). -->
 <!-- %The sample mean converges in probability to the expected value of f(X). Monte Carlo estimator are unbiased and consistent -->
-<!-- ALE BETTER, CITATION MISSING..  -->
+<!-- ALE BETTER, CITATION MISSING.. -->
 
 <!-- . The variance of the sample mean 1/n times the variance of f(X). The variance of f(X) is a constant. We need to assume that the variance is finite for the consistency property (Weak law of large number). -->
 
@@ -175,33 +162,32 @@ for any function $f(x)$ with binary values $0$ or $1$. The target qubit will alw
 
 
 
-<!-- THIS IS HOW YOU INCLUDE AN ALGORITHM -->
 
 We are then ready to state the quantum algorithm to estimate $\mathbb{E}[\nu(A)]$ when the output of $A$ is bounded between $0$ and $1$.
- ```{r, quantum-montecarlo-01, fig.cap="Quantum algorithm for Monte Carlo (bounded variables). A makes no measurement until the end of the algorithm and its final measurement is a measurement of the last k qubits in the computational basis.", echo=FALSE} 
+ ```{r, quantum-montecarlo-01, fig.cap="Quantum algorithm for Monte Carlo (bounded variables). A makes no measurement until the end of the algorithm and its final measurement is a measurement of the last k qubits in the computational basis.", echo=FALSE}
 knitr::include_graphics("algpseudocode/quantum-montecarlo-01.png")
-``` 
+```
 
 
 Applying amplitude estimation together with the powering lemma \@ref(lem:powering-lemma), one can prove the following theorem valid for algorithm \@ref(fig:quantum-montecarlo-01).
 
 ```{theorem, quantumbounded01, name="Quantum Monte Carlo with bounded output"}
-Let $|\psi\rangle = A|0^n\rangle$ and set $U=2|\psi\rangle\langle\psi|-I$. Algorithm in figure \@ref(fig:quantum-montecarlo-01) uses $O(\log(1/\delta))$ copies of $|\psi\rangle = A|0^n\rangle$, uses $U$ $O(t\log(1/\delta))$ times, and outputs an estimate $\widetilde{\mu}$ such that 
+Let $|\psi\rangle = A|0^n\rangle$ and set $U=2|\psi\rangle\langle\psi|-I$. Algorithm in figure \@ref(fig:quantum-montecarlo-01) uses $O(\log(1/\delta))$ copies of $|\psi\rangle = A|0^n\rangle$, uses $U$ $O(t\log(1/\delta))$ times, and outputs an estimate $\widetilde{\mu}$ such that
 \begin{equation*}
 |\widetilde{\mu}-\mathbb{E}[\nu(A)]|\leq C\bigg(\frac{\sqrt{\mathbb{E}[\nu(A)]}}{t}+\frac{1}{t^2}\bigg)
 \end{equation*}
 with probability at least $1-\delta$, where $C$ is a universal constant. In particular for any fixed $\delta>0$ and any $\epsilon$ such that $0\leq \epsilon \leq 1$, to produce an estimate $\widetilde{\mu}$ such that with probability at least $1-\delta$, $|\widetilde{\mu}-\mathbb{E}[\nu(A)]|\leq \epsilon\mathbb{E}[\nu(A)]$ it suffices to take $t=O(1/(\epsilon\sqrt{\mathbb{E}[\nu(A)]}))$. To achieve  $|\widetilde{\mu}-\mathbb{E}[\nu(A)]|\leq \epsilon$ with probability at least $1-\delta$ it suffices to take $t=O(1/\epsilon)$.
 ```
 
-We already described the main idea to get quantum speedup: encode the expected value of $\nu(A)$ in a suitably defined amplitude of the quantum register and then estimate it. The error bound of theorem \@ref(thm:quantumbounded01) is the error bound of the amplitude estimation algorithm \@ref(thm:thm-ampest-orig). The same applies to the success probability which, in this \@ref(thm:thm-ampest-orig) formulation of the amplitude estimation theorem, is $8/\pi^2$. This can be improved to $1-\delta$ with the powering lemma \@ref(lem:powering-lemma). That is why, for example, $U$ is used $O(t\log(1/\delta))$ times: $t$ times by amplitude estimation which is repeated $\log(1/\delta)$ to apply the powering lemma. To get the absolute error to $\epsilon$ we just need to set $t=O(1/\epsilon)$, and to obtain a relative error we set $t=O(1/(\epsilon\sqrt{\mathbb{E}[\nu(A)]}))$. 
+We already described the main idea to get quantum speedup: encode the expected value of $\nu(A)$ in a suitably defined amplitude of the quantum register and then estimate it. The error bound of theorem \@ref(thm:quantumbounded01) is the error bound of the amplitude estimation algorithm \@ref(thm:thm-ampest-orig). The same applies to the success probability which, in this \@ref(thm:thm-ampest-orig) formulation of the amplitude estimation theorem, is $8/\pi^2$. This can be improved to $1-\delta$ with the powering lemma \@ref(lem:powering-lemma). That is why, for example, $U$ is used $O(t\log(1/\delta))$ times: $t$ times by amplitude estimation which is repeated $\log(1/\delta)$ to apply the powering lemma. To get the absolute error to $\epsilon$ we just need to set $t=O(1/\epsilon)$, and to obtain a relative error we set $t=O(1/(\epsilon\sqrt{\mathbb{E}[\nu(A)]}))$.
 
 
 
 ## Bounded $\ell_2$ norm
 
-The algorithm described by theorem \@ref(thm:quantumbounded01) is remarkable, but it is limited by the requirement of having an output value bounded between $0$ and $1$. We want more. We want a quantum algorithm to compute the expected value of any (as we will see, we will have anyway some restrictions) random variable. 
+The algorithm described by theorem \@ref(thm:quantumbounded01) is remarkable, but it is limited by the requirement of having an output value bounded between $0$ and $1$. We want more. We want a quantum algorithm to compute the expected value of any (as we will see, we will have anyway some restrictions) random variable.
 
-To arrive at this result, the first step is to show quantum speedup for the class of algorithms whose output value is positive and has bounded $l_2$ norm. This means that there is a bound on $\|\nu(A)\|_2 = \sqrt{\mathbb{E}[\nu(A)^2]}$. 
+To arrive at this result, the first step is to show quantum speedup for the class of algorithms whose output value is positive and has bounded $l_2$ norm. This means that there is a bound on $\|\nu(A)\|_2 = \sqrt{\mathbb{E}[\nu(A)^2]}$.
 The key idea is the following: given an algorithm $A$ belonging to this class, we consider its possible output value as the sum of numbers belonging to intervals of the type $[0,1)$, $[1,2)$, $[2,4)$, $[4,8)$ and so on. Notice that besides the first interval ($[0,1]$), all the others can be compactly written as $[2^{l-1},2^{l}]$ for $l=1,...,k$. If we divide all of these intervals by $2^l$ we would get $k$ intervals bounded between $0$ and $1$ (actually $1/2$ and $1$). In this way we can apply algorithm \@ref(thm:quantumbounded01) for the interval $[0,1]$ and for all these other $k$ intervals. If we multiply each of the $k$ estimates we get by $2^l$ (for $l=1,...,k$ ) and add them together with the estimate for the $[0,1]$ interval, we would get an estimate for $\mathbb{E}[\nu(A)]$.
 
 You may have noticed that the index $l$ goes from $1$ to $k$ and wondered what is this $k$? If not, we wonder for you. Set for example $k=2$ and imagine that the expected value of the algorithm is $16$. Surely we can not obtain $16$ as a sum of three numbers in the intervals $[0,1]$, $[1,2]$, $[2,4]$. So how must $k$ be chosen? And even if $k$ is chosen properly, how we can be sure that what is left in this approximation is negligible? We will see in a moment that assuming a bound on the $l_2$ norm of $\nu(A)$ gives us a way to solve this problem elegantly.
@@ -216,7 +202,7 @@ Moreover whenever we have an algorithm $A$ and a function $f:\mathbb{R}\to\mathb
 
 We can now state the second quantum algorithm which estimates the mean value of $\nu(A)$ with bounded $\ell_2$ norm.
 
- 
+
 ```{r, quantum-montecarlo-bounded-norm, fig.cap="Quantum algorithm for Monte Carlo (bounded l2 norm)", echo=FALSE}
 knitr::include_graphics("algpseudocode/quantum-montecarlo-bounded-norm.png")
 ```
@@ -243,12 +229,12 @@ You can see that the last term is a term that we did not estimate with \@ref(thm
 \mathbb{E}[\nu(A_{\geq 2^k})]= \sum_{x\geq 2^k}p(x)x \leq \frac{1}{2^k}\sum_x p(x)x^2 = \frac{\|\nu(A)\|^2}{2^k}, .
 \end{equation}
 
-Getting the error bound of theorem \@ref(thm:quantum-monte-carlo-boundedl2) is not really interesting from the conceptual point of view. It is just a matter of math and the usage of previous results. 
+Getting the error bound of theorem \@ref(thm:quantum-monte-carlo-boundedl2) is not really interesting from the conceptual point of view. It is just a matter of math and the usage of previous results.
 Indeed, using the error bound obtained for algorithm in theorem  \@ref(thm:quantumbounded01) for $|\widetilde{\mu}_0-\mathbb{E}[\nu(A_{0,1})]|$ and all the $|\widetilde{\mu}_l-\mathbb{E}[\nu(A_{2^{l-1},2^l})/2^l]|$, Cauchy-Schwartz, and other techqnieus ( refer to [@montanaro2015quantum] for the full calculations), one could finally write that:
 \begin{equation}
 |\widetilde{\mu}-\mathbb{E}[\nu(A)]|= \epsilon\bigg(\frac{C}{D}\bigg(1+\frac{5}{D}+2||\nu(A)||_2\bigg) +||\nu(A)||^2_2\bigg)
 \end{equation}
-which for a sufficiently large constant $D$ is upper bounded by $\epsilon(||\nu(A)||_2+1)^2$. Here $C$ another constant that comes from the error bound of algorithm of theorem \@ref(thm:quantumbounded01), wich in turns comes from the constant factors of amplitude estimation. 
+which for a sufficiently large constant $D$ is upper bounded by $\epsilon(||\nu(A)||_2+1)^2$. Here $C$ another constant that comes from the error bound of algorithm of theorem \@ref(thm:quantumbounded01), wich in turns comes from the constant factors of amplitude estimation.
 
 Finally we comment on the success probability: it is at least $4/5$, when one uses the union bound, i.e. theorem \@ref(thm:unionbound) on the success probability of all the uses of theorem \@ref(thm:quantumbounded01). Note that we can exploit the powering lemma to increase this success probability up to $1-\delta$ for any $\delta$, by repeating this algorithm $O(\log(1/\delta)$ times and taking the median.
 
@@ -267,7 +253,7 @@ The first step of our algorithm is to run the algorithm $A'=A/\sigma$ obtained b
 P(|\nu(A')-\mu'|\geq 3) \leq \frac{1}{9}\, .
 \end{equation}
 Therefore we can assume with high confidence that $|\widetilde{m}-\mu'|\leq 3$.
-The second step is to consider algorithm $B$, which is produced by executing $A'$ and shift it by subtracting $\widetilde{m}$. 
+The second step is to consider algorithm $B$, which is produced by executing $A'$ and shift it by subtracting $\widetilde{m}$.
 The random variable $\nu(B)$ has a bound on the $\ell_2$ norm. Indeed:
 \begin{equation}
 \begin{split}
@@ -290,6 +276,13 @@ Let $\ket{\psi} = A\ket{0^n}$, $U=2|\psi\rangle\langle\psi|-I$. Algorithm \@ref(
 The additive error for this theorem is $\epsilon$ because we required accuracy $\epsilon/32\sigma$ for both uses of algorithm \@ref(fig:quantum-montecarlo-bounded-norm). Indeed, this implies that both the estimates we would get are accurate up to $(\epsilon/32\sigma)(||\nu(B_{\geq 0}/4)||_2+1)^2 \leq (\epsilon/32\sigma)(1+1)^2 = \epsilon/8\sigma$. Now we just multiply by a $4$ factor the estimates of $\mathbb{E}[\nu(B_{\geq 0})/4]$ and $\mathbb{E}[\nu(B_{< 0})/4]$ to get the estimates of $\mathbb{E}[\nu(B_{\geq 0})]$ and $\mathbb{E}[\nu(B_{< 0})]$. The error then gets $4\epsilon/8\sigma =\epsilon/2\sigma$. Combining these two errors, one has a total additive error for the estimate of $A'$ given by $\epsilon/\sigma$. Since $A=\sigma A'$ the error for $A$ is exactly $\epsilon = \sigma (\epsilon/\sigma)$.
 
 The success probability is at least $2/3$ when using the union bound (theorem \@ref(thm:unionbound) ) on the success probability of the uses of algorithm \@ref(fig:quantum-montecarlo-bounded-norm) and the success probability for $\widetilde{m}$ to be close to $\mu'$. Also in this case we can exploit the powering lemma to increase this probability up to $1-\delta$ for any $\delta$ by repeating this algorithm $O(\log(1/\delta)$ times and take the median.
+
+
+
+
+
+
+
 
 <!-- b -->
 <!-- ```{theorem, quantum-monte-carlo-variance2, name=""} -->
