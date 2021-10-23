@@ -66,7 +66,7 @@ Let $V$ be a well-clusterable data matrix, then $\mu(V):= \frac{\norm{V}_{F}}{\n
 We show that when we rescale $V$ so that $\norm{V} = 1$, then we have $\norm{V}_{F}= O(\sqrt{k})$ for the rescaled matrix.
 From the triangle inequality we have that
 $\norm{V}_F \leq \norm{V-V_k}_F + \norm{V_k}_F$.
-Using the fact that $\norm{V_k}_F^2 = \sum_{i \in [k]} \sigma_i^2 \leq k$ and Claim \@ref(low-rank), we have,
+Using the fact that $\norm{V_k}_F^2 = \sum_{i \in [k]} \sigma_i^2 \leq k$ and lemma \@ref(lem:low-rank), we have,
 $$\norm{V}_F \leq \sqrt{ (\lambda\beta^2+(1-\lambda)4\eta)} \norm{V}_F + \sqrt{k}$$
 Rearranging, we have that
 $\norm{V}_F \leq \frac{\sqrt{k}}{1-\sqrt{(\lambda\beta^2+(1-\lambda)4\eta)}} = O(\sqrt{k})$.
