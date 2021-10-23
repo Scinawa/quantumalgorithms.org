@@ -105,6 +105,10 @@ $$\widetilde O\left(\sqrt{T_1^2+\ldots+T_n^2}\right).$$
 
 
 
+<!-- TODO add Fixed-point quantum search with an optimal number of queries
+exact amplitude amplification -->
+<!-- TODO add oblivious amplitude amplification -->
+
 
 ### Example: estimating average and variance of a function
 
@@ -413,7 +417,7 @@ We can rewrite $\ket{1}\left(\ket{v_i} - \ket{c_j}\right)$ as $\ket{y_{ij},1}$ (
 
 Now that we know how to apply the transformation described in Equation \@ref(eq:QDE), we can use known techniques to conclude our subroutine to perform the distance estimation within additive error $\epsilon$ with high probability. The method uses two tools, amplitude estimation, and the median evaluation lemma \@ref(lem:median) from [@wiebe2018quantum], which is a quantum version of the well-known powering-lemma \@ref(lem:powering-lemma).
 
-First, using amplitude estimation (theorem \@ref(thm:thm-ampest-orig) ) with the unitary $A$ defined in Equation \ref{QDE}, we can create a unitary operation that maps
+First, using amplitude estimation (theorem \@ref(thm:thm-ampest-orig) ) with the unitary $A$ defined in Equation \@ref(eq:QDE), we can create a unitary operation that maps
 $$
 \mathcal{U}: \ket{i}\ket{j}  \ket{0} \mapsto \ket{i}\ket{j} \left( \sqrt{\alpha}  \ket{ \overline{p_{ij}}, G, 1} + \sqrt{ (1-\alpha ) }\ket{G', 0}  \right)
 $$
