@@ -127,7 +127,7 @@ What is the solution to the quation $A\ket{x} =\ket{b}$
 ```
 
 
-```{proposition, name="Postulate 3"}
+```{proposition, postulate3, name="Postulate 3"}
 Quantum measurements are described by a collection $\{M_m\}$ of measurement operators. These are operators acting on the state space of the system being measured. The index $m$ refers to the measurement outcomes that may occur in the experiment. If the state of the quantum system is
 $\ket{\psi}$ immediately before the measurement, then the probability that the result $m$ occurs is given by
 $$
@@ -156,7 +156,13 @@ Where $P_m$ is a projector into the eigenspace of $M$ associated with the eigenv
 
 
 Recall that an orthogonal projector $P$ has the properties that $P=P^{\dagger}$ and $P^2 = P$. Note that the second property derives from the first: all positive definite operators on $\mathbb{C}$ are Hermitian (this is not always the case for positive definite operators on $\mathbb{R}$, as it is simple to find positive definite matrices that are not symmetric). Projective measurements can be understood as a special case of Postulate 3: in addition to satisfy the completeness relation $\sum_m M_m^\dagger M_m = I$ they also are orthogonal projectors. Given a state $\ket{\psi}$, the probability of measuring outcome $m$ is given by:
-$$ p(m) = \bra{\psi}P_m\ket{\psi}.$$
+
+
+
+\begin{equation}
+p(m) = \bra{\psi}P_m\ket{\psi}.
+(\#eq:simple-measurement-probability)
+\end{equation}
 If we were to measure outcome $m$, then the state of the quantum system after the measurement would be:
 $$\frac{P_m\ket{\psi}}{\sqrt{p(m)}} .$$
 
@@ -210,7 +216,7 @@ $$H^{\otimes n}\ket{x} = \frac{1}{\sqrt{2^n}}\sum_{z_1, \dots z_n \in \{0,1\}^n}
 
 This section is an attempt to organize in a coherent way some fundamental concepts in quantum computer science. The formalization of some of these concepts comes from [@dorn2008quantum] and [@DeWolf]. 
 
-There are various ways to measure the complexity of a quantum algorithm.  We denote with $T(U)$ the time complexity needed to implement $U$, measured in terms of **depth** of the circuit, which is (very roughly) the number of time we execute a "block of depth 1" of quantum gates. This is a concept that bears some similarity with the cpu clock rate of classical CPUs, but as we are focusing on algorithms, we will leave this concept to the intuition of the reader. The reason for this choice will be clear in a few lines.
+There are various ways to measure the complexity of a quantum algorithm.  We denote with $T(U)$ the time complexity needed to implement $U$, measured in terms of **number of gates** of the circuit. This is a concept that bears some similarity with the clock rate of classical CPUs.
 
 We use a standard notation of $\widetilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms: $O(\log(n))=\widetilde{O}(1)$. 
 
@@ -280,6 +286,8 @@ So with probability $\geq 1-\frac{1}{k}$ we will have the output of the algorith
 ## Review of famous quantum algorithms
 In this chapter we will explore some introductory quantum algorithms. Some of them are not particularly related to data analysis or machine learning, but given their potential to help us better understand the model of quantum computation that we adopt, we decided it was important to report them here. Others will prove to be really useful subroutines for the quantum machine learning practitioner. 
 
+
+### Deutsch-Josza
 ```{definition, name="Constant function"}
 A function $f :\{0,1\}^n \mapsto \{0,1\}$ is constant if $f(x)=0 \forall x \in \{0,1\}^n$ or $f(x)=1 \forall x \in \{0,1\}^n$.
 ```
@@ -328,12 +336,66 @@ It's simple to see that if we want to solve this problem with a classical *deter
 Can you think of an efficient randomized classical algorithm for solving this problem? Perhaps you can use the tools in the Appendix for randomized algorithms.
 ```
 
-We now turn our attention to the first learning problem of this book. This is rarely stressed that the following algorithm can be interpreted as a learning algorithm - perhaps because the settings is quite simple and unnatural. 
+We now turn our attention to the first learning problem of this book. This is rarely stressed that the following algorithm can be interpreted as a learning algorithm. 
 
-
+### Bernstein-Vazirani
 
 ```{theorem, name="Bernstein-Vazirani"}
-Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) )  to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f(x \cdot a) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$.  There is a quantum algorithm that learns $a$ with probability $1$, using $U_f$ only once and $O(\log(n))$ other gates. 
+Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) )  to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f_a(x) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$.  There is a quantum algorithm that learns $a$ with probability $1$, using $U_f$ only once and $O(\log(n))$ other gates. 
+```
+
+```{proof}
+The algorithm follows exactly the same steps as the Deutsch-Josza algorithm. The proof is slightly different, and start by noting that, after the application of the oracle $U_f$, the register of our quantum computer is in the following state:
+  
+
+  $$\left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n}(-1)^{f(x)}  \ket{x} \right) \ket{+} = \left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n} (-1)^{a^T x}\ket{x} \right)\ket{+}$$
+
+Now we resort again to Lemma \ref(lem:hadamard-on-bitstring), and we use the fact that the Hadamard it is also a self-adjoint operator (i.e. it is the inverse of itself: $H^2 = I$). Thus applying $n$ Hadamard gates to the first register leads to the state $\ket{a}$ deterministically. 
+
+```
+
+<!-- TODO
+add proof of the lower bounds for the runtime of classical algorithms. 
+-->
+```{exercise}
+Can you think of an efficient randomized classical algorithm for solving Berstain-Vazirani problem? You can use the tools in the Appendix for randomized algorithms.
+```
+
+
+
+Other material for learning about Deutsch-Josza and Bernstein-Vazirani algorithms are the lecture notes of Ronald de Wolf that you can find [here](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf). 
+
+
+### Swap test
+The next algorithm was originally proposed in [@buhrman2001quantum], in the context of quantum fingerprinting, but it has been quickly extended to many other context. For us, the swap test is a way to obtain an estimate of an inner product between two quantum states.
+
+
+```{theorem, swap-test-no-amplification, name="Swap test (no amplitude amplification)"}
+Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \ket{\psi_1}$ and a unitary $U_2$ that produces a state $\ket{\psi_2}$, where $\ket{\psi_1},\ket{\psi_2} \in \mathbb{R}^N$ for $N=2^n, n\in\mathbb{N}$. There is a quantum algorithm that allows to estiamte the quantity $|\braket{\psi_1|\psi_2}|^2$ with additive precision $\epsilon$ using $U_1$ and $U_2$ $O(\frac{\log(1/\delta)}{\epsilon_2})$ times with probability $1-\delta$
+```
+
+```{proof}
+Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancilla qubit, and the second and third register have $n$ qubits. Then, apply an Hadamard gate to the first qubit, so to obtain $\ket{+}\ket{0}\ket{0}$. Then, apply $U_1$ and $U_2$ to the second and third register, and then apply a controlled swap gate controlled on the ancilla qubit, targeting the two registers. More precisely, we apply $n$ controlled swap gates, each controlling a single qubit of the second and third register. Thus, we obtain the state:
+  $$\frac{1}{\sqrt{2}}\left[\ket{0}(\ket{\psi_1}\ket{\psi_2}) + \ket{1}(\ket{\psi_2}\ket{\psi_1})  \right] $$
+
+  we now apply another Hadamard gate on the ancilla qubit, so to obtain the following state:
+
+\begin{align}
+\ket{\phi}=& \frac{1}{\sqrt{2}}\left[\frac{1}{\sqrt{2}}\left(\ket{0}(\ket{\psi_1}\ket{\psi_2}) + \ket{1}(\ket{\psi_1}\ket{\psi_2})\right) + \frac{1}{\sqrt{2}}\left(\ket{1}(\ket{\psi_2}\ket{\psi_1}) - \ket{0}(\ket{\psi_2}\ket{\psi_1}) \right)  \right] \\
+
+ =& \frac{1}{2}\left[\ket{0}\left(\ket{\psi_1}\ket{\psi_2}) + \ket{\psi_2}\ket{\psi_1} \right) +                          \ket{1}\left(\ket{\psi_1}\ket{\psi_2}) - \ket{\psi_2}\ket{\psi_1}\right)\right]
+\end{align}
+
+Now we consider the probability of measuring $0$ and $1$ in the ancilla qubit. More in detail, we want to estimate $p(0)=\bra{\phi}M_0\ket{\phi}$. For this, we recall our Postulate \ref{thm:postulate3}, and more precisely equation \ref{eq:simple-measurement-probability}, with $M_0=\ket{0}\bra{0}\otimes I$, where $I$ is the identiy operator over $n$ qubits.
+
+It is simple to see that $p(0)=\frac{2-|2\braket{\psi_1|\psi_2}|^2}{4}$.
+
+By repeating this measurement $O(\log(1/\delta)/\epsilon^2)$ times, because of the Chernoff bound in theorem \ref{thm:chernoff-bound2}, we have that the number of samples needed to obtain an error $\epsilon$ with probability $1-\delta$ is $t=\frac{\log(1/\delta)}{2\epsilon^2}$. Once we have obtained an estimate of $p(0)$, we can estiamte the sought-after quantity of interest as $|\braket{\psi_1|\psi_2}|^2 = 1-2p(0)$.
+```
+
+
+```{exercise, name="Obtain the absolute value of the inner product"}
+In the previous theorem we obtain an estimate of $|\braket{\psi_1|\psi_2}|^2$ with a certain error $\epsilon$. If we just take the square root of that number, what is the error in the estimation of $|\braket{\psi_1|\psi_2}|$? You are encouraged to read the section in the appendix \@ref(error-prop) on error propagation.
 ```
 
 
