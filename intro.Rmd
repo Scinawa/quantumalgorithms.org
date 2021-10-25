@@ -235,9 +235,9 @@ Where each $U_t$ is a unitary that does not depend on the input of the algorithm
 ```
 
 Note that the second register holds the XOR of the $i$-th component of the input with the previous state of the register (i.e. the b). This is to make the computation reversible. 
-Importantly, the definition \@ref(quantum-oracle-access) is just an example of function for which we can have query access. We can assume query access to unitaries creating various kind of quantum states as output. We will see many examples of oracles as definition \@ref(qram), \@ref(oracle-access-adjacencymatrix), \@ref(oracle-access-adjacencylist), and \@ref(KP-trees). 
+Importantly, the definition \@ref(def:quantum-oracle-access) is just an example of function for which we can have query access. We can assume query access to unitaries creating various kind of quantum states as output. We will see many examples of oracles as definition \@ref(def:qram), \@ref(def:oracle-access-adjacencymatrix), \@ref(def:oracle-access-adjacencylist), and \@ref(def:KP-trees). 
 
-This is the so-called query model, or oracle model of computation. The important thing here is the last statement of \@ref{quantum-oracle-access} about the cost of applying $U_f$ is $O(1)$. There are multiple reasons for working in this model. First, it is often the case that queries to these oracles are actually efficient (as we will see in many example), so the query complexity is actually equivalent (up to multiplicative polylogarithmic factors) to the depth of the quantum circuit that is going to be executed. Another reason is that in the oracle model is relatively simple to prove lower bounds and results about the complexity of an algorithm in terms of the number of queries to an oracle that encodes the input of the problem. It is customary, for complex results in quantum algorithms to separate the study of the query complexity of the problem and the depth of the quantum circuit which is executed on the real hardware. We formalize more this difference in the following definitions. 
+This is the so-called query model, or oracle model of computation. The important thing here is the last statement of \@ref(quantum-oracle-access) about the cost of applying $U_f$ is $O(1)$. There are multiple reasons for working in this model. First, it is often the case that queries to these oracles are actually efficient (as we will see in many example), so the query complexity is actually equivalent (up to multiplicative polylogarithmic factors) to the depth of the quantum circuit that is going to be executed. Another reason is that in the oracle model is relatively simple to prove lower bounds and results about the complexity of an algorithm in terms of the number of queries to an oracle that encodes the input of the problem. It is customary, for complex results in quantum algorithms to separate the study of the query complexity of the problem and the depth of the quantum circuit which is executed on the real hardware. We formalize more this difference in the following definitions. 
 
 ```{definition, query-complexity, name="Query complexity"}
 The quantum query complexity of a quantum algorithm $\mathcal{A}$ is the number of queries to a black-box made by $\mathcal{A}$ in order to compute $f$.
@@ -386,17 +386,49 @@ Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancil
  =& \frac{1}{2}\left[\ket{0}\left(\ket{\psi_1}\ket{\psi_2}) + \ket{\psi_2}\ket{\psi_1} \right) +                          \ket{1}\left(\ket{\psi_1}\ket{\psi_2}) - \ket{\psi_2}\ket{\psi_1}\right)\right]
 \end{align}
 
-Now we consider the probability of measuring $0$ and $1$ in the ancilla qubit. More in detail, we want to estimate $p(0)=\bra{\phi}M_0\ket{\phi}$. For this, we recall our Postulate \ref{thm:postulate3}, and more precisely equation \ref{eq:simple-measurement-probability}, with $M_0=\ket{0}\bra{0}\otimes I$, where $I$ is the identiy operator over $n$ qubits.
+Now we consider the probability of measuring $0$ and $1$ in the ancilla qubit. More in detail, we want to estimate $p(0)=\bra{\phi}M_0\ket{\phi}$. For this, we recall our Postulate \@ref(thm:postulate3), and more precisely equation \@ref(eq:simple-measurement-probability), with $M_0=\ket{0}\bra{0}\otimes I$, where $I$ is the identiy operator over $n$ qubits.
 
 It is simple to see that $p(0)=\frac{2-|2\braket{\psi_1|\psi_2}|^2}{4}$.
 
-By repeating this measurement $O(\log(1/\delta)/\epsilon^2)$ times, because of the Chernoff bound in theorem \ref{thm:chernoff-bound2}, we have that the number of samples needed to obtain an error $\epsilon$ with probability $1-\delta$ is $t=\frac{\log(1/\delta)}{2\epsilon^2}$. Once we have obtained an estimate of $p(0)$, we can estiamte the sought-after quantity of interest as $|\braket{\psi_1|\psi_2}|^2 = 1-2p(0)$.
+By repeating this measurement $O(\log(1/\delta)/\epsilon^2)$ times, because of the Chernoff bound in theorem \@ref(thm:chernoff-bound2), we have that the number of samples needed to obtain an error $\epsilon$ with probability $1-\delta$ is $t=\frac{\log(1/\delta)}{2\epsilon^2}$. Once we have obtained an estimate of $p(0)$, we can estiamte the sought-after quantity of interest as $|\braket{\psi_1|\psi_2}|^2 = 1-2p(0)$.
 ```
 
 
 ```{exercise, name="Obtain the absolute value of the inner product"}
 In the previous theorem we obtain an estimate of $|\braket{\psi_1|\psi_2}|^2$ with a certain error $\epsilon$. If we just take the square root of that number, what is the error in the estimation of $|\braket{\psi_1|\psi_2}|$? You are encouraged to read the section in the appendix \@ref(error-prop) on error propagation.
 ```
+
+### Hadamard test
+
+```{theorem, hadamard-test-no-amplification, name="Hadamard test (no amplitude amplification)"}
+Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \ket{\psi_1}$ and a unitary $U_2$ that produces a state $\ket{\psi_2}$, where $\ket{\psi_1},\ket{\psi_2} \in \mathbb{R}^N$ for $N=2^n, n\in\mathbb{N}$. There is a quantum algorithm that allows to estiamte the quantity $\braket{\psi_1|\psi_2}$ with additive precision $\epsilon$ using controlled applications of $U_1$ and $U_2$ $O(\frac{\log(1/\delta)}{\epsilon_2})$ times, with probability $1-\delta$
+```
+
+```{proof}
+Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancilla qubit, and the second and third register have $n$ qubits. Then, apply an Hadamard gate to the first qubit, so to obtain $\ket{+}\ket{0}\ket{0}$. Then, controlled on the first register being $0$, we apply the unitary $U_1$, and controlled on the register being $1$, we apply the unitary $U_2$. Then, we apply again the Hadamard gate on the ancilla qubit. The state that we obtain is the following: 
+  
+  
+\begin{equation}
+H\otimes I \otimes I \frac{1}{\sqrt{2}}\left( \ket{0}\ket{\psi_1}\ket{0} + \ket{1}\ket{0}\ket{\psi_2} \right) \\
+ = \frac{1}{2}\left(\ket{0}(\ket{\psi_1}\ket{0} + \ket{0}\ket{\psi_2}) +  \ket{1}(\ket{\psi_1}\ket{0} - \ket{0}\ket{\psi_2})  \right)
+\end{equation}
+  
+
+Agan, now it is easy to state that the probability of measuring $0$ is:
+
+\begin{equation}
+p(0)=\frac{2+2\braket{\psi_1|\psi_2}}{4}
+\end{equation}
+
+We conclude the proof by recalling the Chernoff bound in theorem \@ref(thm:chernoff-bound2), as we did for the proof of the swap test.
+
+```
+
+
+
+Can you think of the reasons that might lead one to prefer the swap test over the Hadamard test, or vice versa? At the end of the day, they are both computing the same thing? For instance, note that for the Hadamard test, we are requiring the ability to call the *controlled* version of the unitaries $U_1$, and $U_2$, while for the swap test, we can just trat them as black-box: these can be quantum states that we obtain from a quantum process, or that we obtain from a quantum communication channel. 
+
+
 
 
 

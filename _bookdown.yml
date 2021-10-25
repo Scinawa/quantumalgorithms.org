@@ -18,7 +18,6 @@ rmd_files: ["index.Rmd",
 "graphs.Rmd",
 "lower-bounds.Rmd",
 "selected-works.Rmd",
-#"virtual-quantum-labs.Rmd",
 #"glossary.Rmd",
 "appendix.Rmd"
 ]

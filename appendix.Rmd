@@ -939,7 +939,7 @@ Let $X=\sum_i^n X_i$ where $X_i =1$ with probability $p_i$ and $X_i=0$ with prob
 
 
 
-# Error propagation and approximation
+# Error propagation and approximation {#error-prop}
 
 <!-- 
 # TODO Finish notes on error propagation
