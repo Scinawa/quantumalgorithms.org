@@ -895,6 +895,17 @@ Let $X=\sum_i^n X_i$ where $X_i =1$ with probability $p_i$ and $X_i=0$ with prob
 
 ```
 
+
+```{theorem, chernoff-bound2, name="Chernoff bound"}
+Suppose $X_1, \dots, X_t$ are independent random variables taking values in $\{0,1\}$. Let $M_t= (X_1 + \dots X_t)/t$ denote their average value. Then for any $0 < \epsilon < 1$,
+
+- (Multiplicative) $Pr[M_t - \mu \leq -\epsilon \mu] \leq exp^{-\frac{t\mu\epsilon^2}{2}}$ and $Pr[M_t - \mu \geq \epsilon \mu] \leq exp^{-\frac{t\mu\epsilon^2}{3}}$
+- (Additive)  $Pr[M_t - \mu \leq -\epsilon ] \leq exp^{-2t\epsilon^2}$ and $Pr[M_t - \mu \geq \epsilon ] \leq exp^{-2t\epsilon^2}$
+
+```
+
+
+
 <!-- ```{theorem, chernoff-bound-multiplicative, name="Chernoff bound multiplicative form"} -->
 
 <!-- ``` -->
