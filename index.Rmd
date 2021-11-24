@@ -1,5 +1,5 @@
 --- 
-title: "Quantum algorithms for data analysis"
+title: Quantum algorithms for data analysis
 author: "Alessandro Luongo"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -22,7 +22,7 @@ output:
 #     html_document:
 #         includes:
 #             in_header: preamble.tex
-description: "Lecture notes on quantum algorithms for information processing and machine learning"
+description: "Open-source book on quantum algorithms for information processing and machine learning"
 ---
 
 
@@ -62,7 +62,7 @@ The aim of this book is twofold:
 - Secondarily, you should be able to use this book as resource for state-of-the-art algorithms. Readers and scholars should find statements of theorems (along with their citations) and runtimes of the best quantum subroutines in literature, ready to be used in new quantum algorithms or applications. 
 
 
-These is an [**open source project!**](https://github.com/Scinawa/quantumalgorithms.org/) accessible on [GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. We are searching for talented and researcher to contribute: you can find a list of issues and enhancements that would improve this book further, making recent material that keeps popping up in quantum information accessible to a larger audience. 
+These is an [open source project accessible on GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. We are searching for talented and researcher to contribute: you can find a list of issues and enhancements that would improve this book further, making recent material that keeps popping up in quantum information accessible to a larger audience. 
 
 These lecture notes were used to teach at:
 
@@ -73,7 +73,7 @@ Are you using these lecture notes as support for your course? [Write us an email
 
 
 <p style="text-align:right"> 
- This book is dedicated to all [**cypherpunks**](https://luongo.pro/cypherpunks/): *civil liberties through complex mathematics*. </p> 
+ This book is dedicated to all [cypherpunks: *civil liberties through complex mathematics*.](https://luongo.pro/cypherpunks/) </p> 
 
 
 ## Abstract
@@ -117,7 +117,7 @@ We will see that, for a new QML algorithm, one often needs to make sure that the
 These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefits society and humankind, as soon as the hardware that supports this kind of computation will become ready.
 
 
-While reading these lecture notes you should always remember the good [**Simon Martiel**](https://scholar.google.fr/citations?user=upaq0vIAAAAJ&hl=en): 
+While reading these lecture notes you should always remember the good [Simon Martiel](https://scholar.google.fr/citations?user=upaq0vIAAAAJ&hl=en): 
 <p style="text-align:center">
 "(quantum) Theoretical computer science is the fun part of mathematics."
 </p>
@@ -148,3 +148,11 @@ Coming soon:
 - quantum algorithms for dynamic programming
 - quantum convolutional neural networks
 - quantum random feature sampling
+
+
+
+```{js, echo = FALSE}
+title=document.getElementById('header');
+title.innerHTML = '<img src="images/mainlogo.png" alt="logo of quantumalgorithms.org">' + title.innerHTML
+```
+

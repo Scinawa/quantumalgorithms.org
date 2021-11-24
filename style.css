@@ -14,7 +14,7 @@ pre code {
 }
 */
 
-@import url("https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono|Roboto+Condensed|Lato|Lora|Fira+Sans");
+@import url("https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono|Roboto+Condensed|Lato|Lora|Fira+Sans|Jost");
 
 /* title page */
 .book .book-body .page-wrapper .page-inner section.normal h1.title {
@@ -35,7 +35,7 @@ pre code {
 }
 
 .noem {
-  color: #2661bf;
+  color: #2c424a;            /* ed */
 }
 
 .book .book-body .page-wrapper .page-inner section.normal a.uri {
@@ -54,25 +54,26 @@ pre code {
 }
 
 .date, .author {
-  color: #2661bf;
+  color: #2c424a;                 /* ed */
   font-style: normal;
 }
 
 /* main */
 
 .book  {
-  background-color: #fffff8;
+  background-color: #f2f2f1;       /* ed */
+
 }
 
 .section {
-  background-color: #fffff8;
+  background-color: #f2f2f1;      /* ed */
 }
 
 
 
 .book .book-body .page-wrapper .page-inner section.normal {
     display: block;
-    background-color: #fffff8;
+    background-color: #f2f2f1;       /* ed */
     color: #585858;
     padding: 5px 15px;
 /*    font-family: Roboto, 'Helvetica Neue', sans-serif;*/
@@ -86,7 +87,7 @@ pre code {
 }
 
 .book .book-body {
-    background: #fffff8;
+    background: #f2f2f1;           /* ed */
     -webkit-transition: left 250ms ease;
     -moz-transition: left 250ms ease;
     -o-transition: left 250ms ease;
@@ -110,7 +111,7 @@ uri class is for urls
 .book .book-body .page-wrapper .page-inner section.normal a,
 .book .book-body .page-wrapper .page-inner section.normal a.uri {
     display: inline-block;
-    color: #D34600;
+    color: #d74648;                                    /* ed */
     text-decoration: none;
 }
 
@@ -120,7 +121,7 @@ uri class is for urls
     display: block;
     width: 0;
     height: 1.5px;
-    background: #2661bf;
+    background: #2c424a;                     /* ed */
     transition: width .3s;
 }
 
@@ -132,13 +133,13 @@ uri class is for urls
 
 
 .body-inner {
-    background-color: #fffff8;
+    background-color: #f2f2f1;             /* ed */
 }
 
 .book .book-body .page-wrapper {
     position: relative;
     outline: 0;
-    background-color: #fffff8;
+    background-color: #f2f2f1;             /* ed */
 }
 
 .book .book-body .page-wrapper .page-inner {
@@ -155,18 +156,18 @@ uri class is for urls
     font-family: Roboto sans-serif;
     font-size: .85em;
     color: #7e888b;
-    background-color: #fffff8;
+    background-color: #f2f2f1;             /* ed */
     /* background: 0 0; */
 }
 
 /* only way to set bgcolor of top bar?*/
 .book-body.fixed {
-  background-color: #fffff8;
+  background-color: #f2f2f1;             /* ed */
 }
 
 /* Rather than resize the header, just get rid of line */
 .book.with-summary .book-header.fixed {
-  background-color: #fffff8;
+  background-color: #f2f2f1;             /* ed */
   font-variant: small-caps;
   /*font-family: Stalemate Roboto Sans; ignored as all it is doing is taking from index title*/
   border-bottom: 0 solid rgba(0,0,0,.07);  /*just remove it; this makes height in .book-header above moot*/
@@ -176,7 +177,7 @@ uri class is for urls
 }
 
 i {
-  background-color: #fffff8;
+  background-color: #f2f2f1;             /* ed */
 }
 
 /* toc area general */
@@ -214,13 +215,13 @@ i {
 
 
 .book .book-summary ul.summary li a:hover, .book .book-summary ul.summary li.active>a {
-  color: #fffff8;  /*#6197D5*/
-  background-color: #2661bf;
+  color: #f2f2f1;             /* ed */  /*#6197D5*/
+  background-color: #2c424a;              /* ed */
 }
 
 /* so that before and after aren't treated the same as the toc, because why would they? */
 .book .book-summary ul.summary li.before a {
-  color: #2661bf;
+  color: #2c424a;                                 /* ed */
   text-decoration: none;
   font-size: 125%;
   font-variant: small-caps;
@@ -231,8 +232,8 @@ i {
 
 .book .book-summary ul.summary li.before a:hover,
 .book .book-summary ul.summary li.before li.active>a {
-  color: #fffff8;  /*#6197D5*/
-  background-color: #2661bf;
+  color: #f2f2f1;             /* ed */  /*#6197D5*/
+  background-color: #2c424a;                         /* ed */
   text-decoration: none;
 }
 
@@ -282,8 +283,8 @@ i {
 /* headers */
 
 h1, h2, h3, h4, h5 {
-  color:#2661bf;
-  font-family: 'Roboto Condensed';
+  color:#2c424a;                    /* ed */
+  font-family: 'Jost';     /* ed */
 }
 
 /* notes */
@@ -391,18 +392,18 @@ img {
 
 /* creative commons, github icons */
 .fab .fa-creative-commons, .fa-creative-commons-sa, .fa-creative-commons-by, .fa-github, .fa-lg {
-  color: #2661bf;
+  color: #2c424a;               /* ed */
   background-color: transparent;
 }
 
 .fab, .fas, .far {
   vertical-align: middle;
-  color: #2661bfCC;
+  color: #2c424aCC;        /* ed */
 }
 
 /* text highlights */
 .book .book-body .page-wrapper .page-inner section.normal em, .emph {
-  color: #2661bfBF;  /*#E32D00 #ff5500 #D14300*/
+  color: #2c424aBF;  /*#E32D00 #ff5500 #D14300*/       /* ed */
   font-weight: 500;
   font-style: normal;
 }
@@ -498,7 +499,10 @@ div.datatables {
 .MJXc-inline {
 }
 
+
+/* hack for making sure that we can click the github logo */
 .book .book-body .navigation.navigation-next {
   margin-top: 75px;
 
 }
+
