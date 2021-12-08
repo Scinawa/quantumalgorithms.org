@@ -129,13 +129,13 @@ function showDivs(n) {
 
 <br>
 
-- **What**: quantum money and quantum key distributions 
-- 
+- **What**: quantum money and quantum key distributions
+-
 -
 
 
 #### Other
 
-- 
-- 
-- 
+-
+-
+-

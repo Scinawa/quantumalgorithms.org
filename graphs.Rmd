@@ -7,23 +7,23 @@ output:
 
 # Quantum algorithms for graph problems {#chap:graphs}
 
-In this chapter we are going to discuss quantum algorithms for graph theoretical problems. Initial focus of this chapter revolves around the work of [@durr2006quantum], which investigated the query complexity of problems like MINIMUM SPANNING TREE, CONNECTIVITY, STRONG CONNECTIVITY, and SINGLE SOURCE SHORTEST PATH. Classically, these problems can be solved efficiently i.e. in polynomial number of queries to the graph. In this chapter, we will see how to decrease the query complexity of the quantum algorithm further, by applying in a shrewd way amplitude amplification and related algorithms. 
-More specifically, in the work of [@durr2006quantum], they used three different versions of the Grover's algorithm. In particular, we state a slightly improved version here, with a quadratic improvement also in the runtime dependence on the probability of failure. 
+In this chapter we are going to discuss quantum algorithms for graph theoretical problems. Initial focus of this chapter revolves around the work of [@durr2006quantum], which investigated the query complexity of problems like MINIMUM SPANNING TREE, CONNECTIVITY, STRONG CONNECTIVITY, and SINGLE SOURCE SHORTEST PATH. Classically, these problems can be solved efficiently i.e. in polynomial number of queries to the graph. In this chapter, we will see how to decrease the query complexity of the quantum algorithm further, by applying in a shrewd way amplitude amplification and related algorithms.
+More specifically, in the work of [@durr2006quantum], they used three different versions of the Grover's algorithm. In particular, we state a slightly improved version here, with a quadratic improvement also in the runtime dependence on the probability of failure.
 
 ```{theorem, grover-improved, name="Grover's search algorithm, version of [@buhrman1999bounds]"}
-Let $N=2^n$ for $n>0$. 
-Given quantum oracle access $O_x: \ket{i}\mapsto\ket{i}\ket{x_i}$ to a vector $x \in [k]^{N}$ (for a fixed $k$) and access to an oracle $O_f \ket{x} = (-1)^{f(x)}\ket{x}$ for a function $f:[k] \mapsto \{0,1\}$, If $m$ is the number of elements of the vector $x$ that are evaluated to $1$ (called marked elements), there is a quantum algorithm that succeed with probability greater than $1-\delta$ and finds an index of a marked element using $O_x$ only $O(\sqrt{N/m \log(1/\delta)})$ times. 
+Let $N=2^n$ for $n>0$.
+Given quantum oracle access $O_x: \ket{i}\mapsto\ket{i}\ket{x_i}$ to a vector $x \in [k]^{N}$ (for a fixed $k$) and access to an oracle $O_f \ket{x} = (-1)^{f(x)}\ket{x}$ for a function $f:[k] \mapsto \{0,1\}$, If $m$ is the number of elements of the vector $x$ that are evaluated to $1$ (called marked elements), there is a quantum algorithm that succeed with probability greater than $1-\delta$ and finds an index of a marked element using $O_x$ only $O(\sqrt{N/m \log(1/\delta)})$ times.
 ```
 
-In fact, note that the "standard" version of bounding the probability of failure of a quantum or classical randomized algorithm consist in repeating the algorithm a certain number of time, and use the "powering lemma" \@ref(lem:powering-lemma). This will result in an increase of the runtime that is logarithmic in $\delta$. This version of Grover's algorithm achieves a quadratic speedup in the failure probability. 
+In fact, note that the "standard" version of bounding the probability of failure of a quantum or classical randomized algorithm consist in repeating the algorithm a certain number of time, and use the "powering lemma" \@ref(lem:powering-lemma). This will result in an increase of the runtime that is logarithmic in $\delta$. This version of Grover's algorithm achieves a quadratic speedup in the failure probability.
 
-Further discussions of some of the quantum algorithms for graphs can also be found in [@durr2006quantum] and also in [@dorn2008quantum]. 
+Further discussions of some of the quantum algorithms for graphs can also be found in [@durr2006quantum] and also in [@dorn2008quantum].
 
 
 As usual, we assume two different access to the graph: the "adjacecny matrix model" and the "adjacency array" (or list) model.
 
-- In the adjacecy matrix model we assume to have query access to the entries of an adjacecny matrix of a graph, as in definition \@ref(def:oracle-access-adjacencymatrix). 
-- In the adjacency list model we assume to have query access to the an oracle that tells us the number of adjacent nodes, and an oracle that gives us the index of the adjacent nodes, as in \@ref(def:oracle-access-adjacencylist). Note that sometimes this goes under the name "adjacency array", as in the quantum case we don't have to go through the whole list of adjacent nodes, but we can index them as an array. 
+- In the adjacecy matrix model we assume to have query access to the entries of an adjacecny matrix of a graph, as in definition \@ref(def:oracle-access-adjacencymatrix).
+- In the adjacency list model we assume to have query access to the an oracle that tells us the number of adjacent nodes, and an oracle that gives us the index of the adjacent nodes, as in \@ref(def:oracle-access-adjacencylist). Note that sometimes this goes under the name "adjacency array", as in the quantum case we don't have to go through the whole list of adjacent nodes, but we can index them as an array.
 
 
 <!-- The problem of the minimum spanning tree problem is stated below.  -->
@@ -54,32 +54,32 @@ As usual, we assume two different access to the graph: the "adjacecny matrix mod
 
 <!-- ```{proof} -->
 
-<!-- <!-- There are two inputs: the weighted matrix $\sum_{i = 0}^{i = 2m-1}\sum_{j = 0}^{j = N}{w_{ij}}$ and the list of outward edges of each vertex (the array model input) denoted as $e_{1} = {1, 2, ..., 2m-1}$. Recall we only encode the edges $2m -1$ times because each is encoded twice. In the paper, it applies two functions $f$ and $g$: --> 
+<!-- <!-- There are two inputs: the weighted matrix $\sum_{i = 0}^{i = 2m-1}\sum_{j = 0}^{j = N}{w_{ij}}$ and the list of outward edges of each vertex (the array model input) denoted as $e_{1} = {1, 2, ..., 2m-1}$. Recall we only encode the edges $2m -1$ times because each is encoded twice. In the paper, it applies two functions $f$ and $g$: -->
 
-<!-- <!-- $f(m) -> w_{m}$ (maps each edge to its corresponding weight)\\ --> 
-<!-- <!-- $g(m) -> k $ (maps each edge to the spanning tree $T_{j}$ --> 
+<!-- <!-- $f(m) -> w_{m}$ (maps each edge to its corresponding weight)\\ -->
+<!-- <!-- $g(m) -> k $ (maps each edge to the spanning tree $T_{j}$ -->
 
-<!-- <!-- From the perspective of the initialization for Find Min, it means there will be two operators acting to form the initial state. Therefore, --> 
+<!-- <!-- From the perspective of the initialization for Find Min, it means there will be two operators acting to form the initial state. Therefore, -->
 
-<!-- <!-- 1. Initialize:\\ --> 
-<!-- <!-- $W|0> = \sum_{i = 0}^{2m-1}{|e_{i}, w_{i}>}$\\ --> 
-<!-- <!-- $U|0> = \sum_{k = 1}^{N}|T_{j}>$ such that $|T_{j}>$ represents each spanning forest $T_{j}$\\ --> 
+<!-- <!-- 1. Initialize:\\ -->
+<!-- <!-- $W|0> = \sum_{i = 0}^{2m-1}{|e_{i}, w_{i}>}$\\ -->
+<!-- <!-- $U|0> = \sum_{k = 1}^{N}|T_{j}>$ such that $|T_{j}>$ represents each spanning forest $T_{j}$\\ -->
 
-<!-- <!-- while: $i != N$ (it has not investigated all vertices of $G$) --> 
+<!-- <!-- while: $i != N$ (it has not investigated all vertices of $G$) -->
 
-<!-- <!-- 2. Apply the Find Min subroutine using $\sum_{k = 1}^{N}|T_{j}>$ as input. Each iteration will find the smallest weighted edge for each vertex $i$ up until $N$ --> 
+<!-- <!-- 2. Apply the Find Min subroutine using $\sum_{k = 1}^{N}|T_{j}>$ as input. Each iteration will find the smallest weighted edge for each vertex $i$ up until $N$ -->
 
-<!-- <!-- 3. Output the edge set $E$ of a minimum spanning tree --> 
+<!-- <!-- 3. Output the edge set $E$ of a minimum spanning tree -->
 
-<!-- <!-- ## How the Finding the Minimum subroutine is used in the Minimum Spanning Tree problem --> 
+<!-- <!-- ## How the Finding the Minimum subroutine is used in the Minimum Spanning Tree problem -->
 
-<!-- <!-- In the array model, suppose there are $m_{i}$ edges coming out for vertex $i$. For each increment of $l$, apply the operator $O_{i}$ from the oracle such that\\ --> 
+<!-- <!-- In the array model, suppose there are $m_{i}$ edges coming out for vertex $i$. For each increment of $l$, apply the operator $O_{i}$ from the oracle such that\\ -->
 
-<!-- <!-- $O_{i}|T_{j}> = \sum_{i = 1}^{k}{p_{i}|e_{i}>}$ where $p_{i}$ represents the probability amplitude such that $e_{i}$ is a minimum edge.  --> 
+<!-- <!-- $O_{i}|T_{j}> = \sum_{i = 1}^{k}{p_{i}|e_{i}>}$ where $p_{i}$ represents the probability amplitude such that $e_{i}$ is a minimum edge.  -->
 
-<!-- <!-- Apply "finding the minimum value algorithm" to find the smallest possible weighted edge $e_ij$ --> 
+<!-- <!-- Apply "finding the minimum value algorithm" to find the smallest possible weighted edge $e_ij$ -->
 
-<!-- <!-- Interrupt the algorithm when it reaches $l = (l+2)c\sqrt{km}$ --> 
+<!-- <!-- Interrupt the algorithm when it reaches $l = (l+2)c\sqrt{km}$ -->
 
 
 <!-- ``` -->
@@ -100,9 +100,9 @@ As usual, we assume two different access to the graph: the "adjacecny matrix mod
 <!-- ``` -->
 
 
-## Connectivity 
+## Connectivity
 
-The problem of connectivity, as stated below can be seen as a special case of them minimum spanning tree problem, where all edges of $G$ carries equal weight.  
+The problem of connectivity, as stated below can be seen as a special case of them minimum spanning tree problem, where all edges of $G$ carries equal weight.
 
 ```{definition, problem-connectivity, name="GRAPH CONNECTIVITY problem"}
 Given an undirected graph $G=(V,E)$, decide if $G$ is connected.
@@ -123,11 +123,11 @@ Assume that $U_A$ is a unitary that gives you query access to the adjacency matr
 
 
 ```{proof}
-The whole algorithm tries to build a spanning tree for the graph. If we succeed, then the graph is connected. The algorithm start by creating a data structure that holds $n$ different connected components, one for each vertex. Then, we construct a spanning tree by finding an edge that connects any two of the connected components. 
+The whole algorithm tries to build a spanning tree for the graph. If we succeed, then the graph is connected. The algorithm start by creating a data structure that holds $n$ different connected components, one for each vertex. Then, we construct a spanning tree by finding an edge that connects any two of the connected components.
 
 Initialize the algorithm with an empty edge set $A$ for the spanning tree $T=(V,A)$. We use theorem \@ref(thm:grover-improved) on the operator $U_A$ and the oracle $U_{f_T}$. As usual, $U_A$ is defined as $U_A : \ket{i,j,c} \mapsto \ket{i,j,c\oplus A_{ij}}$. We ecapsulate into the oracle $U_{f_T}$ the data structure that stores the connected components, so we can have a unitary implementing the function $f_T : E \mapsto \{0,1\}$:
 
-$$ f_T(e) \begin{cases} 
+$$ f_T(e) \begin{cases}
       1 & \text{if } c(T \cup e) < c(T) \\
       0 & \text{otherwise}
       \end{cases}$$
@@ -135,7 +135,7 @@ Where $c(G)$ is the number of connected components of the graph $G$. It is basic
 
 
 The runtime analysis is concluded by noting that we need to repeat the search procedure of theorem \@ref(thm:grover-improved) up to $n$ times (because when we obtain $n$ nodes in the MST we stop the algorithm). Suppose that the graph is connected. The main loop of the algorithm is repeated exactly $n-1$ times, and each search withint the loop can be done in $O(\sqrt{n^2/k})$, where $k$ is the number of valid solutions to the search problem. These solutions correspond to the edges $e$ of $G$ that are linking any two connected components. It is simple to observe that at the first iteration we have at least $k=n-1$ solutions (i.e. any edge is a good solution), and the number of solutions decreases at each iteration. The number of queries to the oracle is:
-  
+
   $$\sum_{k=2}^n \sqrt{\frac{n^2}{(k-1)}} = n\sum_{k=2}^n \frac{1}{\sqrt{k-1}}$$
 With Cauchy-Schwartz we can see that:
 
@@ -143,11 +143,11 @@ $$\sum_{k=2}^n \frac{1}{\sqrt{k-1}} = \sum_{k=1}^{n-1} \frac{1}{\sqrt{k}} \leq \
 
 where $\gamma$ is the Bonferroni constant, and we just interpret the second norm as a [truncated Harmonic series approximated by Taylor expansion](https://en.wikipedia.org/wiki/Harmonic_number#Approximation_using_the_Taylor_series_expansion). Thus, overall we get
 $$\sum_{k=2}^n \sqrt{\frac{n^2}{k-1}} \leq n \sqrt{n-1} \left(\gamma + \log(n-1) + \frac{1}{2(n-1)} \right)^{1/2}  = O(n^{1.5}\log(n))$$
-  
-If the graph is not connected, at some point we will not be able to find any new edges, and the procedure of theorem \@ref(thm:grover-improved) will fail (we can repeat this procedure a certain number of times to be sure that there are indeed no more valid edges, leveraging the powering lemma, i.e. lemma \@ref(lem:powering-lemma)).  
 
-We need to set the failure probability of each run of theorem \@ref(thm:grover-improved). 
-It is simple to check that if we want the probability of failure to be bounded by $2/3$ we need to se the probability of failure for a single run of the algorithm as $\delta \geq \frac{1}{3n}$. This is relatively simple to obatin from the union bound (see exercise \@ref(exr:example-algorithm-unionbound)).  
+If the graph is not connected, at some point we will not be able to find any new edges, and the procedure of theorem \@ref(thm:grover-improved) will fail (we can repeat this procedure a certain number of times to be sure that there are indeed no more valid edges, leveraging the powering lemma, i.e. lemma \@ref(lem:powering-lemma)).
+
+We need to set the failure probability of each run of theorem \@ref(thm:grover-improved).
+It is simple to check that if we want the probability of failure to be bounded by $2/3$ we need to se the probability of failure for a single run of the algorithm as $\delta \geq \frac{1}{3n}$. This is relatively simple to obatin from the union bound (see exercise \@ref(exr:example-algorithm-unionbound)).
 
 ```
 
@@ -157,7 +157,7 @@ Can you show that   $\sum_{k=2}^n \sqrt{\frac{n^2}{(k-1)}}=O(n^{3/2})$, i.e. wit
 ```
 
 
-For the array model, we report the theorem of [@durr2006quantum]. 
+For the array model, we report the theorem of [@durr2006quantum].
 
 ````{theorem, algo-connectivity-array, name="Quantum algorithm for graph conectivity (array model)"}
 Assume that $U_A$ is a unitary that gives you query access to the array model of an undirected graph $G=(V,E)$. Then, deciding if a graph is connected has an expected number of queries to $U_{M}$ of $O(n)$. In particular, algorithm \ref{fig:quantum-algo-connectivity} returns a spanning tree for $G$ if $G$ is connected, otherwise runs forever.
@@ -166,10 +166,10 @@ Assume that $U_A$ is a unitary that gives you query access to the array model of
 
 ## Summary of results
 
-A summary of the query complexities is stated below. 
+A summary of the query complexities is stated below.
 
 
-Problem  | Adj. Matrix | Array 
+Problem  | Adj. Matrix | Array
 ------------- | ------------- | -------------
 Minimum Spanning Tree  | $O(n^{3/2})$   | $O(\sqrt{nm})$
 Connectivity  | $O(n^{3/2})$  | $O(n)$

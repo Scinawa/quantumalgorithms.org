@@ -6,11 +6,11 @@ output:
 
 # Glossary
 
-- **Heisenber principle**: 
+- **Heisenber principle**:
 $$\braket{\psi | M_1 M_2 |\psi } \neq \braket{\psi | M_1  |\psi } \braket{\psi | M_2 |\psi } $$
-- **Strong Turing-Church Hypotesis**: all model of computation are plynomially equivalent. 
+- **Strong Turing-Church Hypotesis**: all model of computation are plynomially equivalent.
 
-- **Exponential Time Hypothesis**: is believed that classical algorithm for NP problems can run in time $2^{\delta N}$ for a constant $0 < $\delta \leq 1$. 
+- **Exponential Time Hypothesis**: is believed that classical algorithm for NP problems can run in time $2^{\delta N}$ for a constant $0 < $\delta \leq 1$.
 
 - **Strong Exponential Time Hypothesis**: some believes that $\delta=1$.
 
@@ -20,7 +20,7 @@ $$\braket{\psi | M_1 M_2 |\psi } \neq \braket{\psi | M_1  |\psi } \braket{\psi |
 
 - **Collinearity**:
 
-- **Clifford group**: 
+- **Clifford group**:
 
 - **First order quantization**
 

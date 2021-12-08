@@ -5,7 +5,7 @@ output:
 ---
 
 
-# (APPENDIX) Appendix {-} 
+# (APPENDIX) Appendix {-}
 
 # Math and linear algebra
 
@@ -18,7 +18,7 @@ output:
 # labels: todo, help wanted, good first issue
 -->
 
-Take a look at [this](https://www.math.usm.edu/lambers/mat610/sum10/lecture2.pdf). 
+Take a look at [this](https://www.math.usm.edu/lambers/mat610/sum10/lecture2.pdf).
 
 
 <!-- ## Complex numbers -->
@@ -57,7 +57,7 @@ A function $f : \mathbb{R}^d \mapsto \mathbb{R}$ is called a norm if:
 
 Note that along with triangle inequality you might also need to know the [reverse triangle inequality](https://www.quora.com/What-is-an-intuitive-explanation-of-the-reverse-triangle-inequality)
 
-The triangle inequality is basically the [subadditivity](https://en.wikipedia.org/wiki/Subadditivity) property of the norm. It is simople to see that norms are **not** linear operators. 
+The triangle inequality is basically the [subadditivity](https://en.wikipedia.org/wiki/Subadditivity) property of the norm. It is simople to see that norms are **not** linear operators.
 
 
 ```{theorem, name="Cauchy(-Bunyakovsky)-Schwarz"}
@@ -157,10 +157,10 @@ $$V_1 \otimes V_2 : V_1 \otimes V_2 \mapsto W_1 \otimes W_2 $$
 - $( v_1 + v_2) \otimes w = (v_1 \otimes w) + (v_2 \otimes w)$ (and the symmetric of it)
 - $\ket{\psi_1}\bra{\phi_1} \otimes \ket{\psi_2}\bra{\phi_2} = \ket{\psi_1}\ket{\psi_2} \otimes \bra{\phi_1}\bra{\phi_2}$ <!-- improve, check.. -->
 
-When a basis is decided for representing linear maps between vector spaces, the tensor product becomes the Kroeneker product. 
+When a basis is decided for representing linear maps between vector spaces, the tensor product becomes the Kroeneker product.
 
 
-#### Useful inequalities 
+#### Useful inequalities
 
 ```{r, amgm-images, fig.cap="AMGM inequality from wikipedia and twitter", echo=FALSE}
 knitr::include_graphics("images/amgm1.png")
@@ -183,7 +183,7 @@ $$(a+b)^n = \sum_{k=0}^n {n \choose k} a^kb^{n-k}$$
 
 ## Linear algebra
 
-<!-- 
+<!--
 # TODO Adjust citations and labels
 -->
 
@@ -191,7 +191,7 @@ $$(a+b)^n = \sum_{k=0}^n {n \choose k} a^kb^{n-k}$$
 
 ### Eigenvalues, eigenvectors and eigendecomposition of a matrix
 
-Real matrices are important tools in Machine Learning as they allow to comfortably represent data and describe the operations to perform during an algorithm. Eigenvectors and eigenvalues are fundamental linear algebra concepts that provide important information about a matrix. 
+Real matrices are important tools in Machine Learning as they allow to comfortably represent data and describe the operations to perform during an algorithm. Eigenvectors and eigenvalues are fundamental linear algebra concepts that provide important information about a matrix.
 
 ```{definition, name="Eigenvalues and Eigenvectors (Section 6.1 page 289 from [@linearalgebragilbert] )"}
 Let $A$ be a $\mathbb{R}^{n\times n}$ square matrix, $q \in \mathbb{R}^{n}$ a non-zero vector and $\lambda$ a scalar. If the following equation is satisfied
@@ -208,7 +208,7 @@ $$det(A) = \prod_i^{n}\lambda_i.$$
 
 Moreover, a matrix $A$ with  eigenvalues $\{\lambda_1, ..., \lambda_k\}$ has an inverse only if all the eigenvalues are not zero. The inverse has eigenvalues $\{\frac{1}{\lambda_1}, ..., \frac{1}{\lambda_k}\}$.
 
-Generally, one eigenvalue can be associated with multiple eigenvectors. There might be a set of vectors $E(\lambda) \subseteq \mathbb{R}^n$ such that for all those vectors $q \in E(\lambda): Aq = \lambda q$. That is why for each eigenvalue we talk about an eigenspace. 
+Generally, one eigenvalue can be associated with multiple eigenvectors. There might be a set of vectors $E(\lambda) \subseteq \mathbb{R}^n$ such that for all those vectors $q \in E(\lambda): Aq = \lambda q$. That is why for each eigenvalue we talk about an eigenspace.
 
 ```{definition, eigenspace, name="Eigenspace (Definition 7.1.5 page 108 [@scapellato])"}
 Let $A$ be a $\mathbb{R}^{n\times n}$ square matrix and $\lambda$ be an eigenvalue of $A$. The eigenspace of $A$ related to $\lambda$ is the space defined over the set of vectors $E(\lambda) = \{ x: Ax = \lambda x\}$.
@@ -245,7 +245,7 @@ Every symmetric matrix is diagonalizable $A = Q\Lambda Q^{-1}$. Furthermore, its
 Recall that a matrix $Q$ is said to be orthogonal if $QQ^T=Q^TQ = \mathbb{I}$, therefore $Q^{-1} = Q^T$.
 The Spectral theorem, together with the fact that matrices like $A^TA$ and $AA^T$ are symmetric, will come in handy in later discussions.
 
-Being able to eigendecompose a matrix allows performing some computations faster than otherwise. Some examples of operations that gain speed-ups from the eigendecomposed representation are matrix inversion and matrix exponentiation. Indeed, if we have a matrix $A=Q\Lambda Q^{-1}$ its inverse can be computed as $A^{-1}=Q\Lambda^{-1}Q^{-1}$ 
+Being able to eigendecompose a matrix allows performing some computations faster than otherwise. Some examples of operations that gain speed-ups from the eigendecomposed representation are matrix inversion and matrix exponentiation. Indeed, if we have a matrix $A=Q\Lambda Q^{-1}$ its inverse can be computed as $A^{-1}=Q\Lambda^{-1}Q^{-1}$
 where $\Lambda^{-1} = diag([\frac{1}{\lambda_1}, ... \frac{1}{\lambda_n}])$. It is easy to check that this matrix is the inverse of $A$:
 $$AA^{-1} = (Q\Lambda Q^{-1})(Q\Lambda^{-1}Q^{-1}) = Q\Lambda\Lambda^{-1}Q^{-1} = QQ^{-1} = \mathbb{I}$$
 $$A^{-1}A = (Q\Lambda^{-1}Q^{-1})(Q\Lambda Q^{-1}) = Q\Lambda^{-1}\Lambda Q^{-1} = QQ^{-1} = \mathbb{I}.$$
@@ -263,7 +263,7 @@ Traditionally, the computational effort of performing the eigendecomposition of 
 -->
 Eigenvalues and eigenvectors can be computed only on square matrices. Moreover, not all matrices can be eigendecomposed. For this reason, we introduce the concepts of singular values and singular vectors, that are closely related to the ones of eigenvalues and eigenvectors, and offer a decomposition for all the kind of matrices.
 
-```{theorem, svd, name="Singular Value Decomposition (Sections 7.1, 7.2 from [@linearalgebragilbert])"} 
+```{theorem, svd, name="Singular Value Decomposition (Sections 7.1, 7.2 from [@linearalgebragilbert])"}
 \cite[Sections 7.1, 7.2]{linearalgebragilbert}
 Any matrix $A \in \mathbb{R}^{n \times n}$ can be decomposed as
 $$A = U\Sigma V^T$$
@@ -287,12 +287,12 @@ $\Sigma \in \mathbb{R}^{r \times r}$ is a diagonal matrix with real elements, as
 Similarly to how eigenvalues and eigenvectors have been defined previously, for each pair of left-right singular vector, and the associated singular value, the following equation stands:
 $$Av = \sigma u.$$
 
-If we consider the Singular Value Decomposition (SVD) under a geometric perspective, we can see any linear transformation as the result of a rotation, a scaling, and another rotation. Indeed, if we compute the product between a matrix $A \in \mathbb{R}^{n\times m}$ and a vector $x \in \mathbb{R}^m$ 
+If we consider the Singular Value Decomposition (SVD) under a geometric perspective, we can see any linear transformation as the result of a rotation, a scaling, and another rotation. Indeed, if we compute the product between a matrix $A \in \mathbb{R}^{n\times m}$ and a vector $x \in \mathbb{R}^m$
 $$Ax = U\Sigma V^Tx = (U(\Sigma (V^Tx))).$$
 $U$ and $V^T$, being orthogonal matrices, only rotate the vector without changing its magnitude, while $\Sigma$, being a diagonal matrix, alters its length.
 
 
-It is interesting to note that the singular values of $A$ - denoted as $\{\sigma_1,..., \sigma_r\}$ - are the square roots $\{\sqrt{\lambda_1},..., \sqrt{\lambda_r}\}$ of the eigenvalues of $AA^T$ (or $A^TA$) and that the left and right singular vectors of $A$ - denoted as $\{u_1, ..., u_r\}$ and $\{v_1, ..., v_r\}$ - are respectively the eigenvectors of $AA^T$ and $A^TA$.   
+It is interesting to note that the singular values of $A$ - denoted as $\{\sigma_1,..., \sigma_r\}$ - are the square roots $\{\sqrt{\lambda_1},..., \sqrt{\lambda_r}\}$ of the eigenvalues of $AA^T$ (or $A^TA$) and that the left and right singular vectors of $A$ - denoted as $\{u_1, ..., u_r\}$ and $\{v_1, ..., v_r\}$ - are respectively the eigenvectors of $AA^T$ and $A^TA$.
 
 The fact that each matrix can be decomposed in terms of its singular vectors and singular values, as in the theorem above, makes the relationship between singular values - singular vectors of a matrix and eigenvalues - eigenvectors of its products with the transpose clearer:
 $$AA^T = (U\Sigma V^T)(U\Sigma V^T)^T = U\Sigma V^TV\Sigma U^T = U\Sigma ^2U^T;$$
@@ -304,13 +304,13 @@ Note that the matrices $AA^T$ and $A^TA$ are symmetric matrices and so, for the 
 
 As the left and right singular vectors are eigenvectors of symmetric matrices, they can be chosen to be orthogonal as well. In particular, the left singular vectors of a matrix span the row space of the matrix, and the right singular vectors span the column space.
 
-```{definition, column_row_space, name="Column (row) Space (Definition 8.1 page 192 [@schlesinger])"} 
+```{definition, column_row_space, name="Column (row) Space (Definition 8.1 page 192 [@schlesinger])"}
  \cite[Definition 8.1 page 192]{schlesinger} Let $A$ be a $\mathbb{R}^{n\times m}$ matrix. The column (row) space of $A$ is the space spanned by the column (row) vectors of $A$. Its dimension is equal to the number of linearly independent columns (rows) of $A$.
 ```
 
 The number $r$ of singular values and singular vectors of a matrix is its rank.
 
-```{definition, rank, name="Rank of a matrix (Definition 8.3, Proposition 8.4 page 193-194 from [@schlesinger]) "} 
+```{definition, rank, name="Rank of a matrix (Definition 8.3, Proposition 8.4 page 193-194 from [@schlesinger]) "}
 The rank of a matrix is the number of linearly independent rows/columns of the matrix. If the matrix belongs to the $\mathbb{R}^{n\times m}$ space, the rank is less or equal than $min(n,m)$. A matrix is said to be full rank if its rank is equal to $min(n,m)$.
 ```
 
@@ -339,7 +339,7 @@ $$ \begin{pmatrix}
 	\end{pmatrix}
 	$$
 
-With $s(A)$ or simply with $s$   we denote the sparsity, that is, the maximum number of non-zero elements of the rows. 
+With $s(A)$ or simply with $s$   we denote the sparsity, that is, the maximum number of non-zero elements of the rows.
 
 
 
@@ -357,7 +357,7 @@ To begin with, the SVD representation of a matrix allows us to better understand
 ```
 
 
-It is pretty easy to see that 
+It is pretty easy to see that
 $$||A ||_2 = \sigma_{max}$$
 Where $\sigma_{max}$ is the greatest singular value of $A$. In particular, if we consider again the matrix $A =U \Sigma V ^T$ as a linear transformation, we see that $U$ and $V ^T$ only rotate vectors $||U x ||=||x ||$, $||V x ||=||x ||$ while $\Sigma$ changes their magnitude $||\Sigma x || \leq \sigma_{max}||x ||$. For this reason, the $l_2$ Norm of a matrix is also referred to as the Spectral Norm. During the rest of the work we will also use the notation $||A ||$ to refer to the Spectral Norm.
 
@@ -384,7 +384,7 @@ From the cyclic property of the trace $Tr[A B ] = Tr[B A ]$ it follows that $Tr[
 
 
 
-Another interesting result about the SVD of a matrix is known as the Eckart–Young–Mirsky theorem. 
+Another interesting result about the SVD of a matrix is known as the Eckart–Young–Mirsky theorem.
 ```{theorem, eckart-young-mirsky, name="Best F-Norm Low Rank Approximation"}
  \cite{eckart1936approximation}\cite{mirsky1960symmetric} \label{Theo:eckart-young-mirsky}
 Let $A  \in \mathbb{R}^{n \times m}$ be a matrix of rank $r$ and singular value decomposition $A  = U \Sigma V ^T$. The matrix $A ^{(k)} = U ^{(k)}\Sigma ^{(k)}V ^{(k)T}$ of rank $k \leq r$, obtained by zeroing the smallest $r-k$ singular values of $A$, is the best rank-k approximation of $A$.
@@ -393,13 +393,13 @@ Let $A  \in \mathbb{R}^{n \times m}$ be a matrix of rank $r$ and singular value 
 ```
 
 
-To get a clearer understanding of this result, we could rewrite $A  = U \Sigma V ^T = \sum_i^r\sigma_iu _iv _i^T$ and notice that matrix $A$ is the sum of $r$ matrices $u _iv _i^T$ each scaled by a scalar $\sigma_i$. 
+To get a clearer understanding of this result, we could rewrite $A  = U \Sigma V ^T = \sum_i^r\sigma_iu _iv _i^T$ and notice that matrix $A$ is the sum of $r$ matrices $u _iv _i^T$ each scaled by a scalar $\sigma_i$.
 
-In practice, SVD decomposes matrix $A$ in matrices of rank one, ordered by importance according to the magnitude of the singular values: the smaller the $\sigma_i$, the smaller is the contribution that the rank-1 matrix gives to the reconstruction of $A$. 
+In practice, SVD decomposes matrix $A$ in matrices of rank one, ordered by importance according to the magnitude of the singular values: the smaller the $\sigma_i$, the smaller is the contribution that the rank-1 matrix gives to the reconstruction of $A$.
 When the smallest singular values are set to 0, we still reconstruct a big part of the original matrix, and in practical cases, we will see that matrices can be approximated with a relatively small number of singular values.
 
 
-Unfortunately though, calculating the singular vectors and singular values of a matrix is a computationally intensive task. Indeed, for a matrix $A  \in \mathbb{R}^{n\times m}$ the cost of the exact SVD is $O\left( min(n^2m, nm^2) \right)$. Recently, there have been developed approximate methods that compute the Eckart-Young-Mirsky approximations of matrices in 
+Unfortunately though, calculating the singular vectors and singular values of a matrix is a computationally intensive task. Indeed, for a matrix $A  \in \mathbb{R}^{n\times m}$ the cost of the exact SVD is $O\left( min(n^2m, nm^2) \right)$. Recently, there have been developed approximate methods that compute the Eckart-Young-Mirsky approximations of matrices in
 time $O(knm)$, where k is the rank of the output matrix \cite{partridge1997fastpca}, or in times that scale super-linearly on the desired rank and one dimension of the input matrix \cite{bhojanapalli2014tighter}.
 
 ## Useful theorems around linear algebra
@@ -459,7 +459,7 @@ $$e^{x} = \sum_{k=0}^\infty \frac{x^k}{k!}$$
   Note that this series is convergent for all $x$
 ```
 
-From that, it is easy to derive that: 
+From that, it is easy to derive that:
 $$e^{\pm ix}= cos (x) \pm i sin(x) $$
 ```{theorem, name="Nunzio's version of Euler's identity"}
 For $\tau = 2\pi$,
@@ -471,7 +471,7 @@ Because of this, we can rewrite $\sin$ and $\cos$ as:
 $$\cos(x) = \frac{e^{ix} + e^{-ix}}{2}$$
 $$\sin(x)= \frac{e^{ix} - e^{-ix}}{2i}$$
 
-Note that we can do a similar thing of \@ref{thm:taylor-exponential} for matrices. In this case, we *define* the exponential of a matrix via it's Taylor expansion: 
+Note that we can do a similar thing of \@ref{thm:taylor-exponential} for matrices. In this case, we *define* the exponential of a matrix via it's Taylor expansion:
 
 $$e^A = \sum_{k=0}^\infty \frac{A^k}{k!}$$
 The matrix exponential has the following nice properties [@symmetryquantum]:
@@ -500,7 +500,7 @@ $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)
 
 # Series
 
-<!-- 
+<!--
 # TODO Finish section on series (geometric, telescopic, and so on.. )
 # This should be a straight-to-the point section on series, with specific focus on CS.
 # These series pops up very often in the analysis of algorithms so having them here is really helpful.
@@ -539,7 +539,7 @@ $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)
 
 <!-- Also, TOADD: $\frac{1}{x-a} = ?$ -->
 
-<!-- <!-- Perhaps include the beautiful image of wikipedia of the geometric series! --> 
+<!-- <!-- Perhaps include the beautiful image of wikipedia of the geometric series! -->
 
 <!-- So, if we wanted to find the Taylor series of $\frac{1}{x}$ we would only need to find some way of representing the new function via the old one. This can be done by changing $x$ to $(1-x)$ in the sum. So our new series is $\frac{1}{1-(1-x)}=\frac{1}{x}=\sum_{n=0}^\infty (1-x)^n$. -->
 
@@ -570,7 +570,7 @@ Let $\Omega$ be a set, and $\Sigma$ be a subset of the power set of $\Omega$ (or
 
 ```
 
-Observe that thanks to de Morgan's law, we can equivalently define the sigma algebra to be closed under countable intersection. Oftentimes, it's common to conflate $\Sigma$ and $(\Omega, \Sigma)$, and call both $\sigma$-algebra. 
+Observe that thanks to de Morgan's law, we can equivalently define the sigma algebra to be closed under countable intersection. Oftentimes, it's common to conflate $\Sigma$ and $(\Omega, \Sigma)$, and call both $\sigma$-algebra.
 
 ```{definition, measurable-space, name="Measurable space"}
 Let $\Omega$ be a set, and $\Sigma$ a $\sigma$-algebra. The tuple $(\Omega, \Sigma)$ is a measurable space (or Borel space).
@@ -593,7 +593,7 @@ Let $(X, \mathbb{X}), (Y, \mathbb{Y})$ two topological spaces. Let $f$ be a func
 ```{definition, measure-space, name="Measure space"}
 The tuple $(\Omega, \Sigma, \mathbb{P})$ is a measure space if:
 
-- $(\Omega, \Sigma)$ is a measurable space. 
+- $(\Omega, \Sigma)$ is a measurable space.
 - $\mu(E)$ is a measure on $(\Omega, \Sigma)$:
   - $\mu : \Sigma \mapsto \mathbb{R}+\{-\infty, +\infty\}$
   - non-negativity: $\mu(E) \geq 0 \forall E \in \Sigma$
@@ -678,7 +678,7 @@ We know that the failure probability $f_i$ is $\delta$ for all $i \in [4]$. Than
 $P(\cup_i^k f_i ) \leq \sum_i^4 \delta = 4\delta$.
 It follows that the have 4 success in a row is *lower* bounded by $1-4\delta$.
 
-Note that we could have also bypassed the union bound and compute this quantity analitically, as the probability of getting 4 success in a row would be $(1-\delta)^4$, which we can compute with the binomial theorem \@ref(thm:binomial-theorem). 
+Note that we could have also bypassed the union bound and compute this quantity analitically, as the probability of getting 4 success in a row would be $(1-\delta)^4$, which we can compute with the binomial theorem \@ref(thm:binomial-theorem).
 ```
 
 
@@ -724,9 +724,9 @@ A probability density function or probability mass function $p(v|\nu)$ for $v = 
 
 ### Boosting probabilities with "median lemma" (or powering lemma )
 
-In this section we discuss the following, widely known result in CS. It's used not only in writing algorithms, but also in complexity theory. 
+In this section we discuss the following, widely known result in CS. It's used not only in writing algorithms, but also in complexity theory.
 
-```{lemma, powering-lemma, name="Powering lemma [@jerrum1986random]"} 
+```{lemma, powering-lemma, name="Powering lemma [@jerrum1986random]"}
 Let $\mathcal{A}$ be a quantum or classical algorithm which aims to estimate some quantity $\mu$, and whose output $\widetilde{\mu}$ satisfies $|\mu-\widetilde{\mu} |\leq \epsilon$ except with probability $\gamma$, for some fixed $\gamma \leq 1/2$. Then, for any $\gamma > 0$ it suffices to repeat $\mathcal{A}$ $O(\log 1/\delta)$ times and take the median to obtain an estimate which is accurate to within $\epsilon$ with probability at least $1-\delta$.
 ```
 
@@ -797,7 +797,7 @@ THIS IS A NICE TUTORIAL!! Let's expand and integrate and formalize it better!
 http://www.stat.rice.edu/~jrojo/PASI/lectures/TyronCMarticle.pdf -->
 
 
-### Markov inequality 
+### Markov inequality
 The Markov inequality is an *upper bound for the probability that a non-negative function of a random variable*, that is greater than or equal to a positive constant. Especially in analysis, people refer to it as Chebyshev's inequality (sometimes, calling it the *first* Chebyshev inequality, while referring to the ["usual"](https://en.wikipedia.org/wiki/Chebyshev%27s_inequality) Chebyshev's inequality as the second Chebyshev inequality or Bienaym{\'e}'s inequality).
 
 ```{theorem, markov, name="Markov inequality"}
@@ -817,7 +817,7 @@ $$E[X] \geq P(X > a) \dot E[X|X>a] $$
 Now is easy to observe that $E[X|X>a]$ is at least $a$, and by rearranging we obtain that:
 $$ \frac{E[X]}{a} \geq P(X > a) $$
 
-The second statement of the theorem follows from substitution, i.e. setting $b=aE[X]$ and using the previous statement. 
+The second statement of the theorem follows from substitution, i.e. setting $b=aE[X]$ and using the previous statement.
 ```
 
 ```{theorem, coro-markov, name="Corollary of Markov inequality"}
@@ -941,7 +941,7 @@ Suppose $X_1, \dots, X_t$ are independent random variables taking values in $\{0
 ```
 
 
-<!-- 
+<!--
 # TODO Add explaination on how to do the polynomial approximation of 1/x
 # It mightbe cool to have the polynomial approximatoin used for ridge regression. Can we do it?
 # labels: help wanted, enhancement
@@ -951,7 +951,7 @@ Suppose $X_1, \dots, X_t$ are independent random variables taking values in $\{0
 
 # Error propagation and approximation {#error-prop}
 
-<!-- 
+<!--
 # TODO Finish notes on error propagation
 # It would be very clarifying to understand the error propagation from the point of view of theoretical computer science.
 # There are many places on the internet that discuss tihs, but from the point of view of physicists that needs to run an experiment.
@@ -981,7 +981,7 @@ We will study the relation between the two errors, often leveraging the idea of 
 
 
 
-Let's imagine an algorithm $\mathcal{A}$ that estimates a quantity $A$ in time $O(\text{poly}(\epsilon^{-1}))$. We would like to move from a relative to absolute precision, or vice versa. 
+Let's imagine an algorithm $\mathcal{A}$ that estimates a quantity $A$ in time $O(\text{poly}(\epsilon^{-1}))$. We would like to move from a relative to absolute precision, or vice versa.
 
 ##### From absolute to relative precision
 
@@ -989,7 +989,7 @@ Suppose that we have an algorithm that in time $O(f(\frac{1}{\epsilon_{Abs}}))$ 
 
 - If $|A| < 1$, then we need to set $\epsilon_{Abs} = \epsilon_R A$. For this, we need to have a lower bound $\lambda^{-1}$ on $A$. If we have it, we can just set $\epsilon_{Abs} = \epsilon_R \lambda^{-1}$ and run our algorithm in time  $O(f(\frac{\lambda}{\epsilon_{Abs}}))$
 
-- If $|A| > 1$, If we want a relative error $\epsilon_R$, then by running the algorithm with $\epsilon_{Abs}=\epsilon_R$ we have already a relative error bound, as $\frac{|A- \overline{A}|}{A} \leq |A- \overline{A}| \leq \epsilon_{Abs}$Note that we $\epsilon_{Abs}$ is meant to stay $\in (0,1]$ as it wouldn't make sense to have a runtime of $O(\frac{1}{\epsilon_{abs}})$ for $\epsilon_{abs} > 1$. 
+- If $|A| > 1$, If we want a relative error $\epsilon_R$, then by running the algorithm with $\epsilon_{Abs}=\epsilon_R$ we have already a relative error bound, as $\frac{|A- \overline{A}|}{A} \leq |A- \overline{A}| \leq \epsilon_{Abs}$Note that we $\epsilon_{Abs}$ is meant to stay $\in (0,1]$ as it wouldn't make sense to have a runtime of $O(\frac{1}{\epsilon_{abs}})$ for $\epsilon_{abs} > 1$.
 
 <!-- TODO  -->
 <!-- - Are there cases of algorithms with $\epsilon_{abs} > 1$? -->
@@ -1156,7 +1156,7 @@ $$\leq \left|\frac{\alpha\theta}{3\tilde{\beta}} \right| + \frac{\alpha}{\tilde\
 ```
 
 
-We can have a more general version of the bound. 
+We can have a more general version of the bound.
 ```{lemma, ratio-relative-general, name="[@hamoudi2020quantum]"}
 Let $\tilde a$ be an estimate of $a>0$ such that $\vert \tilde a- a \vert \leq \epsilon_a a$.
 with $\epsilon_a \in (0,1)$.
@@ -1203,7 +1203,7 @@ Now we can combine the previous observation:
 We will often make use of a tool developed in [@wiebe2018quantum]. It is standard technique in classical computer science to boost the success probability of a randomized algorithm by repeating it and computing some statistics in the results. For the case of quantum algorithms, in high level, we take multiple copies of the output of the amplitude estimation procedure, compute the median, and reverse the circuit in order to get rid of the garbage.
 
 
-```{lemma, median, name="Median evaluation [@wiebe2018quantum]"} 
+```{lemma, median, name="Median evaluation [@wiebe2018quantum]"}
 Let $\mathcal{U}$ be a unitary operation that maps
 $$\mathcal{U}:\ket{0^{\otimes n}}\mapsto \sqrt{a}\ket{x,1}+\sqrt{1-a} \ket{G,0}$$
 for some $1/2 < a \le 1$ in time $T$. Then there exists a quantum algorithm that, for any $\Delta>0$ and for any $1/2<a_0 \le a$, produces a state $\ket{\Psi}$ such that $\|\ket{\Psi}-\ket{0^{\otimes nL}}\ket{x}\|\le \sqrt{2\Delta}$ for some integer $L$, in time
@@ -1260,7 +1260,7 @@ The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contr
 
 This website is supported by:
 
-- [unitary.fund](https://unitary.fund). 
+- [unitary.fund](https://unitary.fund).
 - [Centre for Quantum Technologies](https://www.quantumlah.org/)
 
 # License and citation
@@ -1288,7 +1288,7 @@ To cite this work:
 
 The CSS style file comes from [here](https://m-clark.github.io/data-processing-and-visualization/).
 
-# Cookie Policy 
+# Cookie Policy
 
 The website [https://quantumalgorithms.org](https://quantumalgorithms.org) (the “Website”) uses cookies for the following purposes: allowing
 online authentication, monitoring sessions and memorising information on specific configurations of users

@@ -1,4 +1,4 @@
---- 
+---
 title: Quantum algorithms for data analysis
 author: "Alessandro Luongo"
 date: "`r Sys.Date()`"
@@ -54,15 +54,15 @@ description: "Open-source book on quantum algorithms for information processing 
 
 
 
-# Preface 
+# Preface
 
 The aim of this book is twofold:
 
-- First, we want to bridge the gap between introductory material in quantum computation and research material. 
-- Secondarily, you should be able to use this book as resource for state-of-the-art algorithms. Readers and scholars should find statements of theorems (along with their citations) and runtimes of the best quantum subroutines in literature, ready to be used in new quantum algorithms or applications. 
+- First, we want to bridge the gap between introductory material in quantum computation and research material.
+- Secondarily, you should be able to use this book as resource for state-of-the-art algorithms. Readers and scholars should find statements of theorems (along with their citations) and runtimes of the best quantum subroutines in literature, ready to be used in new quantum algorithms or applications.
 
 
-These is an [open source project accessible on GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. We are searching for talented and researcher to contribute: you can find a list of issues and enhancements that would improve this book further, making recent material that keeps popping up in quantum information accessible to a larger audience. 
+These is an [open source project accessible on GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. We are searching for talented and researcher to contribute: you can find a list of issues and enhancements that would improve this book further, making recent material that keeps popping up in quantum information accessible to a larger audience.
 
 These lecture notes were used to teach at:
 
@@ -72,13 +72,13 @@ These lecture notes were used to teach at:
 Are you using these lecture notes as support for your course? [Write us an email!](mailto://scinawa@luongo.pro)
 
 
-<p style="text-align:right"> 
- This book is dedicated to all [cypherpunks: *civil liberties through complex mathematics*.](https://luongo.pro/cypherpunks/) </p> 
+<p style="text-align:right">
+ This book is dedicated to all [cypherpunks: *civil liberties through complex mathematics*.](https://luongo.pro/cypherpunks/) </p>
 
 
 ## Abstract
 
-In these lecture notes, we explore how we can leverage quantum computers and quantum algorithms for information processing. It has long been known that quantum computation can offer computational advantages with respect to classical computation, and in this place we explore more the consequences of this intuition in current domains of computer sciences. 
+In these lecture notes, we explore how we can leverage quantum computers and quantum algorithms for information processing. It has long been known that quantum computation can offer computational advantages with respect to classical computation, and in this place we explore more the consequences of this intuition in current domains of computer sciences.
 
 Why are we studying quantum algorithms? Studying how to use quantum mechanical
 systems is already fascinating in itself, but we argue that having faster
@@ -112,22 +112,22 @@ You might often hear that there are only two real quantum algorithms: phase esti
 
 The common thread of these algorithms is that they are faster than their best classical counterpart. Oftentimes, (especially for ML) the runtime will depend only [poly-logarithmically](https://en.wikipedia.org/wiki/Polylogarithmic_function) in the number of elements of the dataset, and it is usually only linear in the number of features (classical algorithms are often either linear in the number of elements and quadratic in the number of features, or depend on the number of nonzero components of the matrix and depend polynomially on other parameters of the matrix). The runtime of a quantum machine learning algorithm also often depends on characteristics of the matrix that represents the data under analysis, such as its rank, the Frobenius norm (or other matrix norms), the sparsity, the condition number, and the error we tolerate in the analysis. For this, along with an error-corrected quantum computer, we assume to have quantum access to a dataset. In other words, we assume that the data is stored in a quantum memory: the corresponding quantum version of the classical random-access memory.
 
-We will see that, for a new QML algorithm, one often needs to make sure that the real performances of the quantum algorithms offer concrete advantages with respect to the effective runtime and the accuracy that is offered by the best classical algorithms. As we don't have access to big-enough quantum computers *yet*, we can only assess the performance of these quantum algorithms via a classical simulation. 
+We will see that, for a new QML algorithm, one often needs to make sure that the real performances of the quantum algorithms offer concrete advantages with respect to the effective runtime and the accuracy that is offered by the best classical algorithms. As we don't have access to big-enough quantum computers *yet*, we can only assess the performance of these quantum algorithms via a classical simulation.
 
 These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefits society and humankind, as soon as the hardware that supports this kind of computation will become ready.
 
 
-While reading these lecture notes you should always remember the good [Simon Martiel](https://scholar.google.fr/citations?user=upaq0vIAAAAJ&hl=en): 
+While reading these lecture notes you should always remember the good [Simon Martiel](https://scholar.google.fr/citations?user=upaq0vIAAAAJ&hl=en):
 <p style="text-align:center">
 "(quantum) Theoretical computer science is the fun part of mathematics."
 </p>
 
-To all of you, happy reading. 
+To all of you, happy reading.
 
 
 
 
-<!-- 
+<!--
 it would be nice to make just a preface, and put the text above this one without any heading..
 https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter-header  -->
 
@@ -138,7 +138,7 @@ https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter
 - January 2021: First system for typesetting algorithms, more appendix on linear algebra
 - February 2021: New subroutines for estimating $\ell_1$ norms.
 - March 2021: quantumalgorithms.org is proudly supported by the [Unitary Fund](https://unitary.fund/), and quantumalgorithms.org is a project of the [QOSF](https://qosf.org) mentorship program: 5 students started creating new content!
-- April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation. 
+- April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation.
 - June 2021: Quantum Monte Carlo algorithms, lower bounds techniques for query complexity of quantum algorithms, quantum algorithms for graph problems. The output of the mentorship program of the QOSF foundation!
 
 

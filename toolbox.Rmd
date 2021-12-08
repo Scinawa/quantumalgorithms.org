@@ -271,7 +271,7 @@ V^{T} &0 \\
 \end{matrix}  \right ).$$
 
 
-## Linear combination of unitaries    
+## Linear combination of unitaries
 
 We continue our journey in quantum linear algebra by discussing the state-of-the-art technique beneath quantum linear algebra, called singular value transformation.
 

@@ -8,18 +8,18 @@ output: html_document
 # Between the software and the hardware TODO
 
 <!--
-# TODO Write chapter on developement, compilation, erro correction, and optimization of quantum circuits on real hardware. 
-# There is a lot going on between 
+# TODO Write chapter on developement, compilation, erro correction, and optimization of quantum circuits on real hardware.
+# There is a lot going on between
 # Somehow, it is pretty dounting to understand all the possibile process that can going
 # from the moment we finished writing our algorithm in a high level langauge
-# such as python and the moment when we execute our code on a platform. 
-# Here we shold give the high-level understanding of what is going on, so the practicioner in quantum algorithms 
-# can have an idea of all the layers of abstractions that are between the software and the hardware. 
+# such as python and the moment when we execute our code on a platform.
+# Here we shold give the high-level understanding of what is going on, so the practicioner in quantum algorithms
+# can have an idea of all the layers of abstractions that are between the software and the hardware.
 # labels: help wanted, good first issue
---> 
+-->
 
 
-```{theorem, solovay-kitaev, name="Solovay-Kitaev Theorem"} 
+```{theorem, solovay-kitaev, name="Solovay-Kitaev Theorem"}
 Fix two universal gate sets that are closed under inverses.  Then any t-gate circuit using one gate set can be implemented to precision $\epsilon$ using a circuit of $t poly(\log t )$ gates from other set (indeed, there is a classical algorithm for finding this circuit in time $t poly(\log \frac{t}{\epsilon})$).
 ```
 

@@ -116,10 +116,10 @@ Since this chapter has proven to be a veritable notational house of horrors, we 
 
 To start with pleasantries, we denote the complex conjugation of $z\in\C$ by $\overline{z}$. Components of vectors such as $x\in\R^D$ will be denoted with a superscript, as $x=(x^1,\ldots,x^D)$; bold letters will be reserved for finite-dimensional square matrices, and will always be quantum operators of some kind.
 
-We will overload and abuse notation for some objects. 
+We will overload and abuse notation for some objects.
 \begin{itemize}
   \item $\mathcal{I}$ ($=\mathcal{I}_{b,G}$) will refer to the set $\{0,\delta_b,2\delta_b,\ldots,G-\delta_b\}$ of points that represent a real interval $[0,G]$ to $b$-bits of precision ($\delta_b=2^{-b}$), but will also interchangeably be used to refer to the set $\{0,1,\ldots,G-1\}$ with which it is in bijection under $\mathcal{I}\ni x\mapsto 2^b x$; basically, we interpret the bit strings representing the fixed-point notation as both discretised reals in $[0,G]$ and as all the integers in $[0,2^b G]$. Furthermore, we will overload $G$ to mean $2^b G$ when the distinction is either clear from context or unimportant.
-  
+
   \item The kernel $k:\sX\times\sX\to\R$ is a function of two variables, but translation invariance imbues it with the property $\forall x',x\in\sX,~k(x',x)=k(x'-x,0)$. We will use the same symbol $k$ to denote the function of a single variable defined by $k(x):=k(x,0)$.
 \end{itemize}
 
@@ -154,7 +154,7 @@ We can prepare the state $\frac{\A\Ket{\psi}}{\left\|\A\Ket{\psi}\right\|_2}$ wi
 \section{Supervised learning by optimised random features}
 \label{featureSamp:learning}
 
-We now proceed to introduce the supervised learning setting which we shall work with in this chapter. We will  also formulate an approximate version of it in \cref{featureSamp:assumptions}. 
+We now proceed to introduce the supervised learning setting which we shall work with in this chapter. We will  also formulate an approximate version of it in \cref{featureSamp:assumptions}.
 Suppose we are given $N$ ordered pairs of data points,
 $(x_0,y_0),\ldots,(x_{N-1},y_{N-1})\in\sX\times\mathcal{Y}$,
 where $y_n=f(x_n)$, $f:\sX\to\mathcal{Y}$ is an unknown function to be learned, $\sX=\R^D$ is the domain for $D$-dimensional input data, $\mathcal{Y}=\R$ is the range for output data.
@@ -181,12 +181,12 @@ The kernel is then normalised by requiring that
 
 To specify a model of $f$,
 we use the reproducing kernel Hilbert space $\mathcal{F}$ (RKHS) associated with the kernel $k$. %\footnote{We assume that the norm of $f$ on the RKHS $\mathcal{F}$ is bounded, in particular, $\|f\|_\mathcal{F}\leq 1$, following \cite{B1}.}
-Assuming that the map $x\mapsto k(x,x)$ is integrable with respect to the measure $d\rho$, $\mathcal{F}$ becomes a subset of the set of functions that are square-integrable for $d\rho$, i.e.\ $L_2(d\rho)$ (we leave out the domain $\sX$ and co-domain $\mathcal{Y}$ for brevity in this notation). We make the further technical assumption that $\mathcal{F}$ is dense in $L_2(d\rho)$, enabling us to approximate any function in $L_2(d\rho)$ by a function in $\mathcal{F}$, for any desired accuracy; this assumption can, however, be removed by careful functional analytic arguments, which it will be unneccesary for us to discuss. 
+Assuming that the map $x\mapsto k(x,x)$ is integrable with respect to the measure $d\rho$, $\mathcal{F}$ becomes a subset of the set of functions that are square-integrable for $d\rho$, i.e.\ $L_2(d\rho)$ (we leave out the domain $\sX$ and co-domain $\mathcal{Y}$ for brevity in this notation). We make the further technical assumption that $\mathcal{F}$ is dense in $L_2(d\rho)$, enabling us to approximate any function in $L_2(d\rho)$ by a function in $\mathcal{F}$, for any desired accuracy; this assumption can, however, be removed by careful functional analytic arguments, which it will be unneccesary for us to discuss.
 
 Before proceeding further, we introduce a so-called integral operator, $\Sigma:L_2\left(d\rho\right)\to L_2\left(d\rho\right)$, which will be the focus of much of the analysis in this chapter and is defined by \cite{C2}
 \begin{equation}
   \left(\Sigma f\right)\left(x'\right):=\int_\sX d\rho(x)\,k\left(x',x\right)f(x).
-\end{equation} 
+\end{equation}
 The inner product of two square-integrable  functions $f,g\in L_2(d\rho)$ is given by their standard inner product in $L_2(d\rho)$
 \[
   \Braket{f|g}:=\int_{\sX}d\rho(x)\overline{f(x)}g(x).
@@ -195,7 +195,7 @@ Inner products on $\mathcal{F}\subset L_2(d\rho)$ can then be defined using the 
 \[
   \Braket{f|g}_{\mathcal{F}}:=\Braket{\Sigma^{-\nicefrac12}f|\Sigma^{-\nicefrac12}g}.
 \]
-We correspondingly have two norms, the usual one on $L_2(d\rho)$, and one on our space of interest 
+We correspondingly have two norms, the usual one on $L_2(d\rho)$, and one on our space of interest
 \[\Norm{f}_{\mathcal{F}}^2:=\Braket{f|f}_{\mathcal{F}}.\]
 
 We aim to learn an approximation of $f$ from the given data, so that the generalisation error between $f$ and our approximant can be bounded to a desired accuracy ${\epsilon}>0$. Our approximant is $\hat{f}$ of \cref{eq:f_linComb_fhat}, the linear combination over features $\varphi(v_m,\cdot)$, to which we shall append a subscript $\alpha$ to indicate that it is parametrised by the coefficient vector $\alpha\in\R^M$:
@@ -252,14 +252,14 @@ To learn from such an input distribution, we may without loss of generality pick
 \end{align}
 Notice that $\tk$ is also translation invariant. We shall restrict our attention to the interval $[0,G]$ and use $\tk$ as the kernel in place of $k$.
 
-While at first sight, $\tk$ appears to be more expensive to compute, we shall see in \cref{featureSamp:perfect_reconstruction} that it is the addition of this periodicity to shift invariant kernels that will enable us to diagonalise the matrix of the kernel via the Discrete (and hence Quantum) Fourier Transform, by exploiting its circulant form\footnote{A circulant matrix is a square matrix in which each row is shifted by one element to the right relative to the preceding row.}. 
+While at first sight, $\tk$ appears to be more expensive to compute, we shall see in \cref{featureSamp:perfect_reconstruction} that it is the addition of this periodicity to shift invariant kernels that will enable us to diagonalise the matrix of the kernel via the Discrete (and hence Quantum) Fourier Transform, by exploiting its circulant form\footnote{A circulant matrix is a square matrix in which each row is shifted by one element to the right relative to the preceding row.}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Discretising continuous data}
 \label{featureSamp:discretisation}
 
-As is standard in digital computation, we represent real numbers approximately, with a finite number of bits. Such fixed-point number representation to $b$ bits has precision $\delta_b:=2^{-b}>0$, and uses a finite set $\mathcal{I}:=\{0,\delta_b,2\delta_b,\ldots,{G}-\delta_b\}$ to represent the real interval $[0,G]$. 
+As is standard in digital computation, we represent real numbers approximately, with a finite number of bits. Such fixed-point number representation to $b$ bits has precision $\delta_b:=2^{-b}>0$, and uses a finite set $\mathcal{I}:=\{0,\delta_b,2\delta_b,\ldots,{G}-\delta_b\}$ to represent the real interval $[0,G]$.
 
 The data domain $\sX=\R^D$, an infinite set, is then represented by the finite grid
 $\tsX=\mathcal{I}^D$. We quotient out real-valued points $x\in\sX$ by the equivalence relation of being closest to a unique grid point $\tx\in\tsX$, which will subsequently represent $x$.
@@ -296,7 +296,7 @@ Strictly speaking, we will also be discretising the feature space, so that this 
 \subsection{Discretised representation of our inputs}
 \label{featureSamp:data}
 
-Real-valued input data points $x\in\sX$ sampled according to $d\rho$ get replaced by the closest grid point $\tx\in\tsX$. Each $\tx$ occurs with a probability $\int_{\Delta_{\tx}}d\rho(x)$, where $\Delta_{\tx}$ is the $D$-dimensional hypercube of side $\delta_b$ centred at $\tx$. 
+Real-valued input data points $x\in\sX$ sampled according to $d\rho$ get replaced by the closest grid point $\tx\in\tsX$. Each $\tx$ occurs with a probability $\int_{\Delta_{\tx}}d\rho(x)$, where $\Delta_{\tx}$ is the $D$-dimensional hypercube of side $\delta_b$ centred at $\tx$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -350,13 +350,13 @@ Given this Lipschitz continuity, we have, for any relevant function $h$
     \Abs{h(x)-h(\tx)}&=\O\left(L\Norm{x-\tx}_2\right)\nonumber \\
                     &=\O\left(L\delta_b\sqrt{D}\right),
 \end{align}
-since $x$ lies in the $D$-dimensional hypercube of side $\delta_b$ centred at $\tx$. Errors caused by discretisation, such as $|f(x)-f(\tx)|$ and $|q^{\rho}(x)-q^{\rho}(\tx)|$, hence become negligible if $L\delta_b\sqrt{D}\to 0$ as the data dimension $D$ gets large. 
+since $x$ lies in the $D$-dimensional hypercube of side $\delta_b$ centred at $\tx$. Errors caused by discretisation, such as $|f(x)-f(\tx)|$ and $|q^{\rho}(x)-q^{\rho}(\tx)|$, hence become negligible if $L\delta_b\sqrt{D}\to 0$ as the data dimension $D$ gets large.
 
 These errors can then be made as small as desired by having $L\delta_b$ decay faster than $\nicefrac{1}{\sqrt{D}}$, i.e.\ $L\delta_b=\smallO ( D^{-1/2} )$. It is clear that $L$ should be beyond our control, depending on the input data and model. Thus we can choose $\delta_b=2^{-b}=\smallO(D^{-1/2})$ by increasing the number of bits of precision for the fixed-point representation. In particular we need to choose $b=\Omega(\log D)$ bits, which is a reassuringly familiar conclusion.
 
 It turns out that we can also control $L$ in a sense, by defining rescaled versions the data and relevant functions on a larger domain. In particular, to achieve $L=\smallO ( D^{-1/2} )$, we need to rescale $G$ to ${G}_r=\Omega(L\sqrt{D})$, thereby \textit{artificially} expanding the domain interval $[0,G]$ (i.e.\ without changing the input data, but by simply zooming in on it, so to speak). This rescaling can be done such as to leave both the model $\hat{f}$ and the learning accuracy \textit{invariant}. \cref{table:rescaling} summarises how different quantities and objects behave under this rescaling scheme.
 
-That increasing the precision of fixed point representations and allowing larger cutoff thresholds for input functions and data both lead to suppression of discretisation errors in essentially the same fashion does not come as a surprise. Our goal was simply to illustrate that these two slightly different flavoured techniques are available, and touch upon how they work. 
+That increasing the precision of fixed point representations and allowing larger cutoff thresholds for input functions and data both lead to suppression of discretisation errors in essentially the same fashion does not come as a surprise. Our goal was simply to illustrate that these two slightly different flavoured techniques are available, and touch upon how they work.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[htb]
@@ -383,10 +383,10 @@ That increasing the precision of fixed point representations and allowing larger
 
 \subsubsection*{How rescaling changes Lipschitz constants}
 Fix a parameter $r>1$ and set $\xi=rx$. For probability density functions $q(x)$ on the interval $[0,G]$, consider $q_r(x)$ defined by
-\begin{align*} 
+\begin{align*}
   q_r(\xi)=\frac{1}{r}~q\left(\frac{\xi}{r}\right),
 \end{align*}
-and for all other functions $h$, define $h_r$ by 
+and for all other functions $h$, define $h_r$ by
 \[
   h_r(\xi)=h\left(\frac{\xi}{r}\right).
 \]
@@ -402,7 +402,7 @@ This scheme of rescaling for probability densities and functions is designed to 
 \end{align*}
 where $d\rho_r(\xi)=q_r^{\rho}\left(\xi\right)d\xi$ is the probability measure obtained from rescaling $d\rho$.
 
-We thus focus on asymptotic runtime analysis of our algorithm for ${G}_r=\Omega(\sqrt{D})$, to suppress the discretisation error. With this understood, we will omit the subscript and write $G$ interchangeably for $G_r$. 
+We thus focus on asymptotic runtime analysis of our algorithm for ${G}_r=\Omega(\sqrt{D})$, to suppress the discretisation error. With this understood, we will omit the subscript and write $G$ interchangeably for $G_r$.
 The error due to discretisation using a finite and bounded ${G}$ is well studied in the classical literature, wherein it is often called `quantisation': for example, \cite{proakis2001digital} analyses this error using established procedures in signal processing.
 
 
@@ -410,13 +410,13 @@ The error due to discretisation using a finite and bounded ${G}$ is well studied
 \section{Input model}
 \label{featureSamp:input_model}
 
-The time required for accessing data is an important consideration in machine learning, where large amounts of data are concerned. This crucially depends on the computational architecture and data structures used. Turing machines rooted in theory can only access data sequentially, while modern computers actually have random access memory (RAM). 
+The time required for accessing data is an important consideration in machine learning, where large amounts of data are concerned. This crucially depends on the computational architecture and data structures used. Turing machines rooted in theory can only access data sequentially, while modern computers actually have random access memory (RAM).
 We shall assume the availability of classical random access query oracles
 \begin{equation}
   \label{eq:classical_oracles}
  \Or_{\tx}(n)=\tx_n,\quad \Or_y(n)=y_n,
 \end{equation}
-that map addresses or indices $n\in\left\{0,\ldots,N-1\right\}$ to the corresponding data point. For all practical purposes, the runtime per query is $\O(1)$ and does not depend on the data. 
+that map addresses or indices $n\in\left\{0,\ldots,N-1\right\}$ to the corresponding data point. For all practical purposes, the runtime per query is $\O(1)$ and does not depend on the data.
 
 Here we have another opportunity to clarify the setting for kernel-based learning via feature expansions that we summarised in \cref{featureSamp:assumptions}: the input that such algorithms require is $N$ points $x\in\sX$ sampled according to $q^{\rho}$, along with their function evaluations $f(x)$. It is important to note here that the function values or labels, $y$, only come into play \textit{after} the random feature expansion has been decided upon. In sampling good features only the points $x$ have a role to play.
 
@@ -426,32 +426,32 @@ Analogous to this ability to request samples $\tx$ with probability $\hq(\tx)$ (
 \Or_\rho\Ket{0}&=\sum_{\tx\in\tsX}\sqrt{\hq^{\rho}(\tx)}\Ket{\tx}\nonumber\\
               &=\sqrt{\hbq^{\rho}}\left(\sum_{\tx\in\tsX}\Ket{\tx}\right),
 \end{align}
-where the second line indicates that this state can be considered as the square root of the (positive) operator $\hbq^{\rho}$ applied to an unnormalised uniform superposition over all grid points in $\tsX$. 
+where the second line indicates that this state can be considered as the square root of the (positive) operator $\hbq^{\rho}$ applied to an unnormalised uniform superposition over all grid points in $\tsX$.
 
-Access to this state allows us to sample $\tx$ with probability $\hq(\tx)$ by a measurement on this state in the computational basis $\{\Ket{\tx}\}$, but also potentially do much more since we have these samples in superposition. At first sight, what this oracle provides may look similar to ``quantum examples'' that were introduced by \citeauthor{Bshouty1995} \cite{Bshouty1995} and are commonly considered in the quantum statistical learning literature \cite{Arunachalam2017}; however, these are not quantum examples in that sense. Rather, all we need here is the ability to request samples from the input domain $\sX$ of the target function $f$, and the corresponding quantum state does not carry information about $f(x)$. 
+Access to this state allows us to sample $\tx$ with probability $\hq(\tx)$ by a measurement on this state in the computational basis $\{\Ket{\tx}\}$, but also potentially do much more since we have these samples in superposition. At first sight, what this oracle provides may look similar to ``quantum examples'' that were introduced by \citeauthor{Bshouty1995} \cite{Bshouty1995} and are commonly considered in the quantum statistical learning literature \cite{Arunachalam2017}; however, these are not quantum examples in that sense. Rather, all we need here is the ability to request samples from the input domain $\sX$ of the target function $f$, and the corresponding quantum state does not carry information about $f(x)$.
 
 The implementation of the oracle $\Or_\rho$ incurs a preprocessing overhead. From the $N$ input data points,
 \cite{Kerenidis2016QuantumSystems} build a binary tree that stores the signed inputs in its leaves, and the squared sums of its children in non-leaf nodes. This results in the root note containing the $2$-norm of the data vector. This classical data structure can be initialised in $\O(N{(D\log{G})}^2)$ time using $\O(N{(D\log{G})}^2)$ bits of memory, and can be updated efficiently with incoming data. It has a RAM-like $\O(1)$ lookup time for individual data points. Loosely speaking, QRAM \cite{PhysRevA.78.052310,PhysRevLett.100.160501} uses this data structure along with state preparation subroutines to implement the unitary oracle $\Or_\rho$ that can initialise a register in a superposition whose amplitudes encode the input data. Querying the underlying binary tree, $\Or_\rho$ can be implemented to precision $\delta$ with a gate complexity that scales as
-\[T_\rho=\widetilde{O}\left(TD\log G \right)\] 
-using the basic method of preparing states using controlled rotations \cite{Grover2002CreatingDistributions}, hiding a $\O(\polylog\frac{1}{\delta})$ overhead. 
+\[T_\rho=\widetilde{O}\left(TD\log G \right)\]
+using the basic method of preparing states using controlled rotations \cite{Grover2002CreatingDistributions}, hiding a $\O(\polylog\frac{1}{\delta})$ overhead.
 We do not include the time for collecting the data or preparing the above data structure in runtime of our learning algorithm.
 The use of QRAM is fairly in QML, seeing as there are no other real alternatives for dealing with big data.
 Even with a data structure as powerful as QRAM, achieving quantum speedups has proven to be nontrivial. The physical realisation of QRAM is an active area of research \cite{jiang2019experimental,PhysRevLett.123.250501}.
 
-The runtime $T_\rho$ of the data access oracle is independent of $N$ since we keep track of frequencies rather than individual points for our quantum algorithm, and this quantity, rather than $N$ explicitly, will appear in the runtime of our algorithm. 
+The runtime $T_\rho$ of the data access oracle is independent of $N$ since we keep track of frequencies rather than individual points for our quantum algorithm, and this quantity, rather than $N$ explicitly, will appear in the runtime of our algorithm.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Perfect reconstruction of kernel}
 \label{featureSamp:perfect_reconstruction}
-One of our technical contributions, and a key ingredient that makes our quantum algorithm possible, is the \textit{perfect reconstruction} of the kernel from its Fourier modes. Let us now look at this in more detail. 
+One of our technical contributions, and a key ingredient that makes our quantum algorithm possible, is the \textit{perfect reconstruction} of the kernel from its Fourier modes. Let us now look at this in more detail.
 
 We mentioned in passing in \cref{featureSamp:learning} that our kernel $k$ can be expressed in the form of \cref{eq:kernel_as_exp_of_features}, namely
 \[
   k(x',x) = \int d\tau(v)\overline{\varphi(v,x')}\varphi(v,x).
-\] 
-The right hand side in this equation is an expectation of the inner product $\Braket{\varphi(\cdot,x')|\varphi(\cdot,x)}$, over the measure $d\tau$ defined on the feature space $\mathcal{V}$. 
+\]
+The right hand side in this equation is an expectation of the inner product $\Braket{\varphi(\cdot,x')|\varphi(\cdot,x)}$, over the measure $d\tau$ defined on the feature space $\mathcal{V}$.
 For the discretised kernel $\tk$, we can go one step further and exactly represent it in the form
 \begin{equation}
   \tk(x',x) = \sum_{v\in \Z^D} q^{\tau}(v)\overline{\varphi(v,x')}\varphi(v,x),
@@ -491,13 +491,13 @@ $\F$ here is the one-dimensional Discrete Fourier Transform (DFT) on $\Z_G$, whi
   \label{eq:F}
   \F\ket{\tx} = \frac{1}{\sqrt{G}}\sum_{\tx'=0}^{{G}-1}\ee^{-2\pi\ii \tx'\tx/G}\Ket{\tx'}, % \frac{2\pi\ii \tx'\tx}{G}
 \end{equation}
-where it will be convenient for us to relabel the kets by $\tv=\tx'/G$, enabling the rewrite 
+where it will be convenient for us to relabel the kets by $\tv=\tx'/G$, enabling the rewrite
 \begin{align}
   \F\ket{\tx} = \frac{1}{\sqrt{G}}\sum_{\tv\in\{0,\nicefrac{1}{{G}},\ldots,1-\nicefrac{1}{{G}}\}}\ee^{-2\pi\ii \tv\tx}\Ket{\tv}. % \frac{2\pi\ii \tx'\tx}{G}
 \end{align}
 $\F_{D}:=\F^{\otimes D}$ is then the $D$-dimensional DFT between the spaces $\tsX$ and $\tsV$.
 
-Note that since $\tk$ is a real-valued symmetric function, i.e., $\tk(x',x)=\tk(x,x')$ and $\overline{\tk(x',x)}=\tk(x',x)$, we also have 
+Note that since $\tk$ is a real-valued symmetric function, i.e., $\tk(x',x)=\tk(x,x')$ and $\overline{\tk(x',x)}=\tk(x',x)$, we also have
 \[
   \Braket{\tx'|\F_{D}^\dag \Q^{\tau} \F_{D}|\tx} = \Braket{\tx'|\F_{D} \Q^{\tau} \F_{D}^\dag|\tx}.
 \]
@@ -510,7 +510,7 @@ We delegate the proof of this claim to \cref{app:perfect_recon}.
   P^{\tau}(\tv):=\frac{Q^{\tau}(\tv)}{\displaystyle\sum_{\tv'\in\tsV}Q^{\tau}(\tv')},
 \end{equation}
 corresponding to $d\tau$,
-we could combine them with the DFT to learn a target $f$ with kernel $\tk(\tx',\tx)$, for some sufficiently large $M$. But $P^{\tau}(\tv)$ is not optimised for the data. 
+we could combine them with the DFT to learn a target $f$ with kernel $\tk(\tx',\tx)$, for some sufficiently large $M$. But $P^{\tau}(\tv)$ is not optimised for the data.
 % It is this point that we take up in our work, developing a quantum algorithm to sample random features from a distribution that minimises $M$.
 
 % "which kernels can we use" used to be here was defined in
@@ -548,14 +548,14 @@ We can now write down the quantum state that \cref{alg:random_feature_revised} w
   \begin{equation}
     \Ket{\Psi}\propto\sum_{\tv\in\tsX}\hSgOp_{\epsilon}^{-\frac{1}{2}}\Ket{\tv}^X\otimes \sqrt{\uQ^{\tau}}\F_D^\dag\sqrt{\hbq^{\rho}}\Ket{\tv}^{X'}
   \end{equation}
-  defined on two registers $X$ and $X'$ of $\lceil D\log G\rceil$ qubits each produces the outcome $\tv$ with probability 
+  defined on two registers $X$ and $X'$ of $\lceil D\log G\rceil$ qubits each produces the outcome $\tv$ with probability
   \begin{align}
     \Pr(\tv) &= Q_{\epsilon}^\ast(\tv)P^{\tau}(\tv).
               % &=Q_{\epsilon}^\ast\left(\frac{\tx}{{G}}\right)P^{\tau}\left(\frac{\tx}{{G}}\right)
   \end{align}
 \end{proposition}
 
-\noindent Samples $\tv$ obtained by measuring this state are therefore optimised random features. Note that as mentioned before, we interchangeably interpret $\ket{\tv}$ as the corresponding $\ket{\tx}$. 
+\noindent Samples $\tv$ obtained by measuring this state are therefore optimised random features. Note that as mentioned before, we interchangeably interpret $\ket{\tv}$ as the corresponding $\ket{\tx}$.
 
 
 Proving that this state does what we profess it to do involves only a straightforward linear algebraic calculation, which we relegate to \cref{app:featureSamp_state}.
@@ -564,7 +564,7 @@ Proving that this state does what we profess it to do involves only a straightfo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quantum algorithm for sampling optimised random features}
 \label{featureSamp:sampling}
-The route is now clear to present our main subroutine --- \cref{alg:random_feature_revised} prepares, with high probability, a copy of the state $\ket{\Psi}$ presented in \cref{prop:state}, and measures it to obtain an optimised random feature $\tv\in\tsV$ sampled from a probability distribution $Q\left(\tv\right)P^{\tau}(\tv)$ that is within total variation distance $\Delta$ of the true optimised one: 
+The route is now clear to present our main subroutine --- \cref{alg:random_feature_revised} prepares, with high probability, a copy of the state $\ket{\Psi}$ presented in \cref{prop:state}, and measures it to obtain an optimised random feature $\tv\in\tsV$ sampled from a probability distribution $Q\left(\tv\right)P^{\tau}(\tv)$ that is within total variation distance $\Delta$ of the true optimised one:
 \[\sum_{\tv\in\tsV}\Abs{Q(\tv)P^{\tau}(\tv)-Q_\epsilon^\ast(\tv)P^{\tau}(\tv)}\leq\Delta\]
 
 We present the algorithm below in pseudocode, and the following discussion will lead us on towards bounding the asymptotic runtime (measured by a combination of circuit size and number of QRAM/oracle invocations).
@@ -598,7 +598,7 @@ We present the algorithm below in pseudocode, and the following discussion will 
 As we discussed in detail in the introduction to this chapter, sampling from $Q_{\epsilon}^\ast P^{\tau}$ poses a bottleneck for classical algorithms, arising from the need to invert the ${G}^D$-dimensional operator $\hSgOp_{\epsilon}$; furthermore, $\hSgOp_{\epsilon}$ being regularised has full rank \textit{by design}, and also may not be sparse. Recent techniques for developing ``quantum-inspired'' classical algorithms~\cite{Tang2019,arXiv:1910.05699,arXiv:1910.06151} are not applicable either, since they make use of low-rank approximations.
 
 But having defined the quantum state $\Ket{\Psi}$,  we can immediately see that given an efficient implementation of a block encoding of $\hSgOp_{\epsilon}$, the techniques for implementing matrix functions that we saw in \cref{chap:matFunc} come to our aid once again. In particular, the quantum singular value transformation (QSVT) method \cite{Gilyen2018QuantumArithmetics} gives the most efficient way in the literature for implement a block encoding of $\hSgOp_{\epsilon}^{-\frac{1}{2}}$.
-However, it turns out that constructing an efficient block encoding for $\hSgOp_{\epsilon}$ is by no means straightforward, as long as we use conventional methods that take advantage of sparsity, row-computability, or low-rank. 
+However, it turns out that constructing an efficient block encoding for $\hSgOp_{\epsilon}$ is by no means straightforward, as long as we use conventional methods that take advantage of sparsity, row-computability, or low-rank.
 
 
 One of our technical contribution is to overcome this difficulty by constructing an efficient block encoding of $\hSgOp_{\epsilon}$ using Quantum Fourier Transform (QFT)\@.
@@ -607,7 +607,7 @@ The perfect reconstruction of the kernel described in \cref{prop:perfect_recon} 
 The discovery that the DFT on several groups of interest can be implemented with a quantum circuit of size that scales logarithmically in the size of the group led to the development of Shor's algorithm, and a flurry of related results for the Hidden Subgroup Problem. $\F_D$ (and $\F_D^\dag$) can be implemented to precision $\delta'$ by a quantum circuit with a gate complexity that scales as ~\cite{H2}
 \[\O\left(D\log G \cdot \log\log G \cdot \polylog \frac{1}{\delta'}\right).\]
 
-The QSVT can be applied to construct a block encoding of $\hSgOp_{\epsilon}^{-\frac{1}{2}}$ with precision $\delta$, using the block encoding of $\hSgOp_{\epsilon}$ 
+The QSVT can be applied to construct a block encoding of $\hSgOp_{\epsilon}^{-\frac{1}{2}}$ with precision $\delta$, using the block encoding of $\hSgOp_{\epsilon}$
 \[\text{reps}=\widetilde{O}\left(\frac{Q_{\max}^{\tau}}{{\epsilon}}\polylog\frac{1}{\delta}\right)\] times, where $\frac{Q_{\max}^{\tau}}{{\epsilon}}$ is within a constant factor of the condition number of $\hSgOp_{\epsilon}$ \cite{Gilyen2018QuantumArithmetics}.
 Combining these ingredients lets us go beyond all known classical algorithms, and achieve this sampling with complexity sub-exponential, in fact linear, in the data dimension $D$.
 
@@ -620,7 +620,7 @@ Combining these ingredients lets us go beyond all known classical algorithms, an
   $$\sum_{\tv\in\tsV}{|(Q(\tv)-Q_\epsilon^\ast(\tv))P^{\tau}(\tv)|}\leq\delta$$,
   with a net runtime that scales as
   \begin{align*}
-    T &=\widetilde{\O}\left(D\cdot\log G\cdot \frac{Q_{\max}^{\tau}}{\epsilon}\polylog\frac{1}{\Delta} \right)~\times        
+    T &=\widetilde{\O}\left(D\cdot\log G\cdot \frac{Q_{\max}^{\tau}}{\epsilon}\polylog\frac{1}{\Delta} \right)~\times
   \end{align*}
   where $Q_{\max}^{\tau}$ is defined as in~\cref{eq:q_tau_g_max}.
 \end{theorem}
@@ -648,7 +648,7 @@ Recall that we choose $G$ to scale polynomially in $D$ for convergence (\cref{fe
 \end{algorithm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Now that we can sample to our heart's content $v_0,\ldots,v_{M-1}\in\tsV$ some $M$ optimised random features using \cref{alg:random_feature_revised}, let us see how to achieve supervised learning to accuracy $\O({\epsilon})$. 
+Now that we can sample to our heart's content $v_0,\ldots,v_{M-1}\in\tsV$ some $M$ optimised random features using \cref{alg:random_feature_revised}, let us see how to achieve supervised learning to accuracy $\O({\epsilon})$.
 The idea is to perform linear regression efficiently by a classical algorithm, to obtain coefficients $\alpha={(\alpha_0,\ldots,\alpha_{M-1})}^\mathrm{T}\in\R^M$ for learning $\sum_{m=0}^{M-1}\alpha_m\varphi(v_m,\cdot)\approx f$.
 As discussed in \cref{featureSamp:assumptions}, we aim to clarify the runtime of the learning in the large-scale limit.
 The optimal coefficient $\alpha$ minimises the generalisation error
@@ -702,7 +702,7 @@ Combining \cref{alg:random_feature_revised} with this SGD, we achieve the learni
 
 In particular, this is as fast as linear in $M$ and $D$, i.e. $\O\left(MD\right)$. The proof of this final learning algorithm primarily involves classical elements, and we present it in \cref{app:featureSamp_runtime}.
 
-Since we've used optimised random features, $M$ the number of features required is expected to be nearly minimal; and since \cref{alg:random_feature_revised} or quOptRF (`kwop-turf') resolves the classical bottleneck of sampling optimised random features, this marriage of SGD and quOptRF thus speeds up learning with random features. 
+Since we've used optimised random features, $M$ the number of features required is expected to be nearly minimal; and since \cref{alg:random_feature_revised} or quOptRF (`kwop-turf') resolves the classical bottleneck of sampling optimised random features, this marriage of SGD and quOptRF thus speeds up learning with random features.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -713,5 +713,5 @@ Combining $M$ features sampled by this quantum algorithm with stochastic gradien
 
 There are several interesting questions that arise out of our work in this chapter. Most interesting among these is the wider applicability of using periodicity and translation invariance to diagonalise an operator by Fourier transforms. Can we find other examples where a full rank and dense input operator can be decomposed in this form? This is what we referred to as circulantisation in the introduction, and it is also noteworthy that it is also unknown if this can be taken advantage of in classical algorithms to speed them up. In this regard, since the sampling tasks are rather well defined, we also wonder if proving hardness results about the simulability of our algorithm is a plausible goal. We also speculate that we can reduce the runtime to $\O(M\log D)$, by using the notion of orthogonal random features in~\cite{L1,NIPS2016_6246} --- but modifying them to \textit{optimised} orthogonal random features to achieve minimal $M$.
 
-With quOptRF, we draw the curtains on our tryst with matrix functions in this thesis. In the next, and final, chapter of this thesis, we carry forth the ideas of machine learning and big data. But we turn away from supervised learning, to the wilder and richer landscape of unsupervised learning in the context of Natural Language Processing. We will attach this problem with quantum search, and we shall see some expected runtime analyses that are reminiscent of \cref{chap:entropy}. 
+With quOptRF, we draw the curtains on our tryst with matrix functions in this thesis. In the next, and final, chapter of this thesis, we carry forth the ideas of machine learning and big data. But we turn away from supervised learning, to the wilder and richer landscape of unsupervised learning in the context of Natural Language Processing. We will attach this problem with quantum search, and we shall see some expected runtime analyses that are reminiscent of \cref{chap:entropy}.
 
