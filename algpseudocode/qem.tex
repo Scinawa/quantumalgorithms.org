@@ -11,13 +11,13 @@
 
 
 \begin{algorithm}[ht]
-	\caption{QEM for GMM  } \label{qGMMEM}
+	\caption{QEM for GMM  }
 	\begin{algorithmic}[1]
 
 			\Require Quantum access to a GMM model, precision parameters $\delta_\theta, \delta_\mu,$ and threshold $\epsilon_\tau$.
 			\Ensure  A GMM $\overline{\gamma}^t$ that maximizes locally the likelihood $\ell(\gamma;V)$, up to tolerance $\epsilon_\tau$.
 			\vspace{10pt}
-			\State Use a heuristic (like lemma \ref{$q$-means++} in Chapter \ref{chap:qmeans}) to determine the initial guess  $\gamma^0=(\theta^0, \vec \mu^0, \vec \Sigma^0)$, and build quantum access as in definition \ref{def:quantumaccess-GMM} those parameters.
+			\State Use a heuristic (like lemma $q$-means++) to determine the initial guess  $\gamma^0=(\theta^0, \vec \mu^0, \vec \Sigma^0)$, and build quantum access those parameters.
 			\State Use lemma \ref{lemma: absolute error logdet} to estimate the log determinant of the matrices $\{ \Sigma_j^0 \}_{j=1}^k$.
 			\State t=0
 			\Repeat
