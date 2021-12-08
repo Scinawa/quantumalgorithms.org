@@ -3,7 +3,7 @@ output:
   pdf_document: default
   html_document: default
 ---
-# (PART) Part (Bridging the gap) {-}
+# (PART) - Bridging the gap {-}
 
 # Quantum computing and quantum algorithms
 In this chapter we will introduce the notation used throughout the rest of the lecture notes. We will extensively use linear algebra (norm of matrices, SVD, properties of particular matrices, and so on), so the reader is higly encouraged to skim the appendix on his/her own, so to know the notation adopted here.
@@ -198,7 +198,7 @@ The same thing can be done for operators. Let $U_1$ be the unitary describing th
 
 Before delving into a review of quantum algorithms, we would like to state here a few important lemmas.
 
-```{lemma, hadamard-on-bitstring, name="Hadamard on a bitstrong [@nielsen200quantum]"}
+```{lemma, hadamard-on-bitstring, name="Hadamard on a bitstring [@NC02]"}
 Let $x \in \{0,1\}^n$ be a bitstring, and $H$ be an Hadamard gate. Then:
 
 $$H^{\otimes n}\ket{x} = \frac{1}{\sqrt{2^n}}\sum_{z_1, \dots z_n \in \{0,1\}^n} (-1)^{x_1z_1 + x_2z_2 + \dots + x_nz_n} \ket{z_1, \dots, z_n} = \frac{1}{\sqrt{2^n}}\sum_{z\in \{0,1\}^n} (-1)^{x^Tz} \ket{z}$$

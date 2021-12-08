@@ -134,6 +134,8 @@ uri class is for urls
 
 .body-inner {
     background-color: #f2f2f1;             /* ed */
+    text-align: justify;
+
 }
 
 .book .book-body .page-wrapper {
@@ -400,6 +402,33 @@ img {
   vertical-align: middle;
   color: #2c424aCC;        /* ed */
 }
+
+.definition, .theorem, .lemma, .claim {
+  background-color: #8dbef13b;
+  border: 2px;
+  padding: 10px;
+  border-radius: 25px;
+  margin: 5px;
+}
+
+
+.proof {
+    background-color: #f1e08d3b;
+  border: 2px;
+  padding: 10px;
+  border-radius: 25px;
+  margin: 5px;
+}
+
+.exercise {
+      background-color: #8ff18d3b;
+  border: 2px;
+  padding: 10px;
+  border-radius: 25px;
+  margin: 5px;
+
+}
+
 
 /* text highlights */
 .book .book-body .page-wrapper .page-inner section.normal em, .emph {

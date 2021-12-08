@@ -4,7 +4,7 @@ output:
   html_document: default
 ---
 
-# (PART) Part (other) {-} 
+# (PART) Everything else {-} 
 
 
 # Selected works in QML 
@@ -26,6 +26,12 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Quantum Algorithms based on the Block-Encoding Framework for Matrix Functions by Contour Integrals](https://arxiv.org/pdf/2106.08076.pdf)
 - [Quantum Alphatron](https://arxiv.org/abs/2108.11670) `#algo`
 - [Quantum SubGaussian Mean Estimator](https://arxiv.org/pdf/2108.12172.pdf) `#algo`
+- [A randomized quantum algorithm for statistical phase estimation](https://arxiv.org/abs/2110.12071) `#algo`
+- [Near-Optimal Quantum Algorithms for String Problems](https://arxiv.org/pdf/2110.09696.pdf) `#algo`
+- [Quantum Algorithms and Lower Bounds for Linear Regression with Norm Constraints](https://arxiv.org/pdf/2110.13086.pdf) `#algo`
+- [Dequantizing the Quantum Singular Value Transformation: Hardness and Applications to Quantum Chemistry and the Quantum PCP Conjecture](https://arxiv.org/abs/2111.09079) `#algo`
+- [A randomized quantum algorithm for statistical phase estimation](https://arxiv.org/abs/2110.12071) `#algo`
+- [Nearly Optimal Quantum Algorithm for Estimating Multiple Expectation Values](https://arxiv.org/abs/2111.09283) `#algo`
 
 
 #### 2020 {-}
@@ -109,10 +115,10 @@ It cover things up to 2015, so here you can find descriptions of Neural Networks
 
 #### 2014 {-}
 
-- [Quantum Algorithms for Nearest-Neighbor Methods for Supervised and Unsupervised Learning]() `#tools`, `#algorithms`  
+- [Quantum Algorithms for Nearest-Neighbor Methods for Supervised and Unsupervised Learning]() `#algo`  
 This paper offer two approaches for calculating distances between vectors.
 The idea for k-NN is to calculate distances between the test point and the training set in superposition and then use amplitude amplification tecniques to find the minimum, thus getting a quadratic speedup.
-- [Quantum support vector machine for big data classification Patrick]() `#algo`
+- [Quantum support vector machine for big data classification](https://arxiv.org/abs/1307.0471) `#algo`
 This was one of the first example on how to use HHL-like algorithms in order to get something useful out of them.
 - [Improved Quantum Algorithm for Triangle Finding via Combinatorial Arguments](https://arxiv.org/abs/1407.0085) `#algo`
 
@@ -134,7 +140,7 @@ This explain how to use swap test in order to calculate distances. Then it shows
 
 
 #### 2009 {-}
-- [Quantum algorithms for linear systems of equations]() `#algo`
+- [Quantum algorithms for linear systems of equations](https://arxiv.org/abs/0811.3171) `#algo`
 This is the paper that started everything. :) Tecniques for sparse Hamiltonian simulation and phase estimation were applied in order to estimate the singular values of a matrix. Then a controleld rotation on ancilla qubit + postselection creates a state proportional to the solution of a system of equation. You can learn more about it [here](HHL).
 
 

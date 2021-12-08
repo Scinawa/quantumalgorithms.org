@@ -4,7 +4,6 @@ output:
   html_document: default
 ---
 
-# (PART) Part (appendix) {-} 
 
 # (APPENDIX) Appendix {-} 
 
@@ -1262,7 +1261,7 @@ The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contr
 This website is supported by:
 
 - [unitary.fund](https://unitary.fund). 
-
+- [Centre for Quantum Technologies](https://www.quantumlah.org/)
 
 # License and citation
 
