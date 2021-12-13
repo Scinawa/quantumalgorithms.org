@@ -3,7 +3,7 @@ output:
   pdf_document: default
   html_document: default
 ---
-# (PART) - Quantum Machine Learning) {-}
+# (PART) - Quantum Machine Learning {-}
 
 
 # SVE-based quantum algorithms {#chap:svebased}

@@ -62,7 +62,7 @@ The aim of this book is twofold:
 - Secondarily, you should be able to use this book as resource for state-of-the-art algorithms. Readers and scholars should find statements of theorems (along with their citations) and runtimes of the best quantum subroutines in literature, ready to be used in new quantum algorithms or applications.
 
 
-These is an [open source project accessible on GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. We are searching for talented and researcher to contribute: you can find a list of issues and enhancements that would improve this book further, making recent material that keeps popping up in quantum information accessible to a larger audience.
+This is an [open source project accessible on GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. We are searching for talented and researcher to contribute: you can find a list of issues and enhancements that would improve this book further, making recent material that keeps popping up in quantum information accessible to a larger audience.
 
 These lecture notes were used to teach at:
 

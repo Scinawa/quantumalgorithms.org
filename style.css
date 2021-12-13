@@ -535,3 +535,161 @@ div.datatables {
 
 }
 
+
+/* @media (max-width: 789px) and (min-width: 200px)
+
+{
+
+.book .book-body .page-wrapper .page-inner section.normal img {
+
+margin-top: 9%;
+padding-bottom: 0px;
+
+}
+
+div#preface p:nth-child(2) {
+text-align: left;
+}
+
+div#preface p a:first-child {
+
+display: unset;
+}
+
+div#preface p:nth-child(2) a:after {
+display: unset;
+
+}
+
+.body-inner {
+text-align: left !important;
+}
+
+}
+*/
+
+
+
+
+
+
+/*@media (max-width: 789px) and (min-width: 200px)
+
+{
+
+.book .book-body .page-wrapper .page-inner section.normal img {
+
+margin-top: 9%;
+padding-bottom: 0px;
+
+}
+
+div#preface p:nth-child(2) {
+text-align: left;
+}
+
+div#preface p a:first-child {
+
+display: unset;
+}
+
+div#preface p:nth-child(2) a:after {
+display: unset;
+
+}
+
+.body-inner {
+text-align: left !important;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal b, .book .book-body .page-wrapper .page-inner section.normal strong {
+font-size: 12px !important;
+text-align: left !important;
+display: unset !important;
+
+}
+.theorem span {
+
+width:100%;
+}
+.theorem strong {
+
+width:100%;
+}
+
+}
+
+.theorem span {
+display:block;
+width:55%;
+}
+
+.theorem strong {
+display:block;
+width:55%;
+}*/
+
+
+
+
+
+@media (max-width: 789px) and (min-width: 200px)
+
+{
+
+.book .book-body .page-wrapper .page-inner section.normal img {
+
+margin-top: 9%;
+padding-bottom: 0px;
+
+}
+
+div#preface p:nth-child(2) {
+text-align: left;
+}
+
+div#preface p a:first-child {
+
+display: unset;
+}
+
+div#preface p:nth-child(2) a:after {
+display: unset;
+
+}
+
+.body-inner {
+text-align: left !important;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal b, .book .book-body .page-wrapper .page-inner section.normal strong {
+/*font-size: 12px !important;
+text-align: left !important;
+display: unset !important;
+*/
+
+}
+
+}
+
+/*.theorem span {
+display:block !important;
+
+}
+
+.theorem strong {
+display:block !important;
+
+}*/
+
+.definition {
+  display:inline-block;
+  text-align:left;
+}
+
+.chapter > a{
+  font-weight:bold;
+}
+.chapter > ul > li a{
+  font-weight:normal;
+}

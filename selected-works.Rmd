@@ -141,7 +141,6 @@ This explain how to use swap test in order to calculate distances. Then it shows
 
 #### 2009 {-}
 - [Quantum algorithms for linear systems of equations](https://arxiv.org/abs/0811.3171) `#algo`
-This is the paper that started everything. :) Tecniques for sparse Hamiltonian simulation and phase estimation were applied in order to estimate the singular values of a matrix. Then a controleld rotation on ancilla qubit + postselection creates a state proportional to the solution of a system of equation. You can learn more about it [here](HHL).
 
 
 
