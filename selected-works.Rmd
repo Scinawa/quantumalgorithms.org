@@ -32,6 +32,12 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Dequantizing the Quantum Singular Value Transformation: Hardness and Applications to Quantum Chemistry and the Quantum PCP Conjecture](https://arxiv.org/abs/2111.09079) `#algo`
 - [A randomized quantum algorithm for statistical phase estimation](https://arxiv.org/abs/2110.12071) `#algo`
 - [Nearly Optimal Quantum Algorithm for Estimating Multiple Expectation Values](https://arxiv.org/abs/2111.09283) `#algo`
+- [Quantum Algorithms for Reinforcement Learning with a Generative Model](https://arxiv.org/abs/2112.08451) `#algo` `#qrl` `#qmc` 
+- [Quantum Monte-Carlo Integration: The Full Advantage in Minimal Circuit Depth](https://arxiv.org/abs/2105.09100) `#algo` `#qmc`
+- [Near-Optimal Quantum Algorithms for Multivariate Mean Estimation](https://arxiv.org/abs/2111.09787) `#algo` `#qmc`
+- [Quantum algorithms for multivariate Monte Carlo estimation](https://arxiv.org/abs/2107.03410) `#algo` `#qmc` 
+- [Quantum Sub-Gaussian Mean Estimator](https://arxiv.org/abs/2108.12172) `#algo` `#qmc`
+- [Quantum algorithm for stochastic optimal stopping problems](https://arxiv.org/abs/2111.15332) `#qfinance` `#algo`
 
 
 #### 2020 {-}
@@ -55,6 +61,8 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Quantum speedup of branch-and-bound algorithms](https://arxiv.org/abs/1906.10375) `#algo`
 - [The Quantum Version Of Classification Decision Tree Constructing Algorithm C5.0](https://arxiv.org/pdf/1907.06840.pdf) `#algo`
 - [Sublinear quantum algorithms for training linear and kernel-based classifiers](http://proceedings.mlr.press/v97/li19b/li19b.pdf) `#algo`
+- [Quantum Algorithms for Classical Probability Distributions](https://arxiv.org/pdf/1904.02192.pdf) `#algo` `#qmc`
+
 
 #### 2018 {-}
 
@@ -76,6 +84,7 @@ This is a very nice review of some of the most known qml algorithms.
 - [Quantum singular value transformation and beyond: exponential improvements for quantum matrix arithmetics](https://arxiv.org/abs/1806.01838) `#algo`
 - [The power of block-encoded matrix powers: improved regression techniques via faster Hamiltonian simulation](https://arxiv.org/abs/1804.01973) `#algo`
 - [Applying quantum algorithms to constraint satisfaction problems](https://arxiv.org/abs/1810.05582) `#resource-estimation`
+- [Quantum Chebyshev's Inequality and Applications](https://arxiv.org/abs/1807.06456) `#qmc`
 
 
 
