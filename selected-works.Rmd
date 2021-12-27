@@ -4,12 +4,12 @@ output:
   html_document: default
 ---
 
-# (PART) Part (other) {-} 
+# (PART) Everything else {-}
 
 
-# Selected works in QML 
+# Selected works in QML
 
-This is a work in progress, as the vast majority of works are not present here, yet. Obviously, feel free to write at "scinawa [at] luongo . pro" for suggestions, or open an issue on [github](https://github.com/scinawa/quantumalgorithms.org). Please understand that the aim of this section if to select relevant *algorithms* that can be applied for data analysis or used as other subroutines for other QML algorithms. 
+This is a work in progress, as the vast majority of works are not present here, yet. Obviously, feel free to write at "scinawa [at] luongo . pro" for suggestions, or open an issue on [github](https://github.com/scinawa/quantumalgorithms.org). Please understand that the aim of this section if to select relevant *algorithms* that can be applied for data analysis or used as other subroutines for other QML algorithms.
 
 #### 2021 {-}
 
@@ -22,6 +22,24 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Fast algorithm for quantum polar decomposition, pretty-goodmeasurements, and the Procrustes problem](https://arxiv.org/abs/2106.07634) `#algo`
 - [Quantum Algorithms based on the Block-Encoding Framework for Matrix Functions by Contour Integrals](https://arxiv.org/abs/2106.08076) `#algo`
 - [Classical and Quantum Algorithms for Orthogonal Neural Networks](https://arxiv.org/abs/2106.07198) `#algo`
+- [Quantum Semi Non-negative Matrix Factorization](https://books.google.com.sg/books?hl=en&lr=&id=LMcpEAAAQBAJ&oi=fnd&pg=PA135&dq=Quantum+Semi+Non-negative+Matrix+Factorization&ots=2UP_f_twTu&sig=fvkK9Z4hCCQcSSkbF0HkZ23SRAs&redir_esc=y#v=onepage&q=Quantum%20Semi%20Non-negative%20Matrix%20Factorization&f=false) `#algo`
+- [Quantum Algorithms based on the Block-Encoding Framework for Matrix Functions by Contour Integrals](https://arxiv.org/pdf/2106.08076.pdf)
+- [Quantum Alphatron](https://arxiv.org/abs/2108.11670) `#algo`
+- [Quantum SubGaussian Mean Estimator](https://arxiv.org/pdf/2108.12172.pdf) `#algo`
+- [A randomized quantum algorithm for statistical phase estimation](https://arxiv.org/abs/2110.12071) `#algo`
+- [Near-Optimal Quantum Algorithms for String Problems](https://arxiv.org/pdf/2110.09696.pdf) `#algo`
+- [Quantum Algorithms and Lower Bounds for Linear Regression with Norm Constraints](https://arxiv.org/pdf/2110.13086.pdf) `#algo`
+- [Dequantizing the Quantum Singular Value Transformation: Hardness and Applications to Quantum Chemistry and the Quantum PCP Conjecture](https://arxiv.org/abs/2111.09079) `#algo`
+- [A randomized quantum algorithm for statistical phase estimation](https://arxiv.org/abs/2110.12071) `#algo`
+- [Nearly Optimal Quantum Algorithm for Estimating Multiple Expectation Values](https://arxiv.org/abs/2111.09283) `#algo`
+- [Quantum Algorithms for Reinforcement Learning with a Generative Model](https://arxiv.org/abs/2112.08451) `#algo` `#qrl` `#qmc` 
+- [Quantum Monte-Carlo Integration: The Full Advantage in Minimal Circuit Depth](https://arxiv.org/abs/2105.09100) `#algo` `#qmc`
+- [Near-Optimal Quantum Algorithms for Multivariate Mean Estimation](https://arxiv.org/abs/2111.09787) `#algo` `#qmc`
+- [Quantum algorithms for multivariate Monte Carlo estimation](https://arxiv.org/abs/2107.03410) `#algo` `#qmc` 
+- [Quantum Sub-Gaussian Mean Estimator](https://arxiv.org/abs/2108.12172) `#algo` `#qmc`
+- [Quantum algorithm for stochastic optimal stopping problems](https://arxiv.org/abs/2111.15332) `#qfinance` `#algo`
+
+
 #### 2020 {-}
 
 - [Variational Quantum Algorithms](https://scirate.com/arxiv/2012.09265) `#review`
@@ -30,6 +48,8 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [The power of quantum neural networks](https://arxiv.org/abs/2011.00027) `#variational`
 - [Robust quantum minimum finding with an application to hypothesis selection](https://arxiv.org/abs/2003.11777) `#algo`
 - [Quantum exploration algorithms for multi-armed bandits](https://arxiv.org/abs/2007.07049) `#algo`
+- [Sublinear classical and quantum algorithms for general matrix games](https://arxiv.org/pdf/2012.06519.pdf) `#algo`
+
 
 #### 2019 {-}
 
@@ -39,10 +59,14 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Quantum algorithms for zero-sum games](https://arxiv.org/abs/1904.03180) `#algo`
 - [Practical implementation of a quantum backtracking algorithm](https://arxiv.org/abs/1908.11291) `#experiment`
 - [Quantum speedup of branch-and-bound algorithms](https://arxiv.org/abs/1906.10375) `#algo`
+- [The Quantum Version Of Classification Decision Tree Constructing Algorithm C5.0](https://arxiv.org/pdf/1907.06840.pdf) `#algo`
+- [Sublinear quantum algorithms for training linear and kernel-based classifiers](http://proceedings.mlr.press/v97/li19b/li19b.pdf) `#algo`
+- [Quantum Algorithms for Classical Probability Distributions](https://arxiv.org/pdf/1904.02192.pdf) `#algo` `#qmc`
+
 
 #### 2018 {-}
 
-- [Continuous-variable quantum neural networks](https://arxiv.org/pdf/1806.06871.pdf)  
+- [Continuous-variable quantum neural networks](https://arxiv.org/pdf/1806.06871.pdf)
 A work presented at TQC2018 that exploit deep similarities between the mathematical formulation of NN and photinics
 - [Classification with quantum neural networks on near term processors](https://arxiv.org/pdf/1802.06002.pdf)   `#variational`
 - [Artificial Quantum Neural Network: quantum neurons, logical elements and tests of convolutional nets.](https://arxiv.org/pdf/1806.09664.pdf)
@@ -60,6 +84,7 @@ This is a very nice review of some of the most known qml algorithms.
 - [Quantum singular value transformation and beyond: exponential improvements for quantum matrix arithmetics](https://arxiv.org/abs/1806.01838) `#algo`
 - [The power of block-encoded matrix powers: improved regression techniques via faster Hamiltonian simulation](https://arxiv.org/abs/1804.01973) `#algo`
 - [Applying quantum algorithms to constraint satisfaction problems](https://arxiv.org/abs/1810.05582) `#resource-estimation`
+- [Quantum Chebyshev's Inequality and Applications](https://arxiv.org/abs/1807.06456) `#qmc`
 
 
 
@@ -70,7 +95,7 @@ This is a very nice review of some of the most known qml algorithms.
 
 #### 2017 {-}
 
-- [Implementing a distance based classifier with a quantum interference circuit](https://arxiv.org/abs/1703.10793)  `#algo`  
+- [Implementing a distance based classifier with a quantum interference circuit](https://arxiv.org/abs/1703.10793)  `#algo`
 - [Quantum SDP solvers: Large speed-ups, optimality, and applications to quantum learning](https://arxiv.org/pdf/1710.02581) `#algo`
 - [Quantum machine learning for quantum anomaly detection](https://arxiv.org/abs/1710.07405) `#algo`
 Here the authors used previous technique to perform anomaly detection. Basically they project the data on the 1-dimensional subspace of the covariance matrix of the data. In this way anomalies are supposed to lie furhter away from the rest of the dataset.
@@ -84,38 +109,39 @@ In the paper the authors were able to implement a neuron based on a thing called
 #### 2016 {-}
 - [Quantum Discriminant Analysis for Dimensionality Reduction and Classification](https://iopscience.iop.org/article/10.1088/1367-2630/18/7/073011)  `#algo`
 Here the authors wrote two different algorithm, one for dimensionality reduction and the second for classification, with the same capabilities
-
-
-- [Quantum Recommendation Systems](https://arxiv.org/pdf/1603.08675.pdf) `#algo`  
+- [An efficient quantum algorithm for spectral estimation](https://arxiv.org/abs/1609.08170) `#algo`
+- [Quantum Recommendation Systems](https://arxiv.org/pdf/1603.08675.pdf) `#algo`
 It is where you can learn about QRAM and quantum singular value estimation.
 
 #### 2015 {-}
 
-- [Advances in quantum machine learning]( https://arxiv.org/pdf/1512.02900.pdf ) `#implementations`,  `#review`   
+- [Advances in quantum machine learning]( https://arxiv.org/pdf/1512.02900.pdf ) `#implementations`,  `#review`
 It cover things up to 2015, so here you can find descriptions of Neural Networks, Bayesian Networks, HHL, PCA, Quantum Nearest Centroid, Quantum k-Nearest Neighbour, and others.
 -[Quantum walk speedup of backtracking algorithms](https://arxiv.org/abs/1509.02374) `#algo`
 
 
-- [Quantum algorithms for topological and geometric analysis of data]() `#algo`  
+- [Quantum algorithms for topological and geometric analysis of data]() `#algo`
 
 #### 2014 {-}
 
-- [Quantum Algorithms for Nearest-Neighbor Methods for Supervised and Unsupervised Learning]() `#tools`, `#algorithms`  
+- [Quantum Algorithms for Nearest-Neighbor Methods for Supervised and Unsupervised Learning]() `#algo`
 This paper offer two approaches for calculating distances between vectors.
 The idea for k-NN is to calculate distances between the test point and the training set in superposition and then use amplitude amplification tecniques to find the minimum, thus getting a quadratic speedup.
-- [Quantum support vector machine for big data classification Patrick]() `#algo`
+- [Quantum support vector machine for big data classification](https://arxiv.org/abs/1307.0471) `#algo`
 This was one of the first example on how to use HHL-like algorithms in order to get something useful out of them.
 - [Improved Quantum Algorithm for Triangle Finding via Combinatorial Arguments](https://arxiv.org/abs/1407.0085) `#algo`
+
 
 - [Quantum Principal Component Analysis](https://arxiv.org/abs/1307.0401)  `#algo`
 The authors discovered how partial application of the swap test are sufficient to transform a quantum state $\sigma$ into $U\sigma U^\dagger$ where $U=e^{-i\rho}$ given the ability to create multiples copies of $\rho$.
 This work uses a particular access model of the data (sample complexity), which can be obtained from a QRAM
 
+
 #### 2013 {-}
 - [Quantum algorithms for supervised and unsupervised machine learning](https://arxiv.org/pdf/1307.0411.pdf) `#algo`
 This explain how to use swap test in order to calculate distances. Then it shows how this swap-test-for-distances can be used to do NearestCentroid and k-Means with adiabatic quantum computation
 - [Exponential improvement in precision for simulating sparse Hamiltonians](https://arxiv.org/abs/1312.1414) `#algo`
-- []
+
 
 #### 2010 {-}
 - [Variable time amplitude amplification and a faster quantum algorithm for solving systems of linear equations](https://arxiv.org/abs/1010.4458) `#algo`
@@ -123,8 +149,7 @@ This explain how to use swap test in order to calculate distances. Then it shows
 
 
 #### 2009 {-}
-- [Quantum algorithms for linear systems of equations]() `#algo`
-This is the paper that started everything. :) Tecniques for sparse Hamiltonian simulation and phase estimation were applied in order to estimate the singular values of a matrix. Then a controleld rotation on ancilla qubit + postselection creates a state proportional to the solution of a system of equation. You can learn more about it [here](HHL).
+- [Quantum algorithms for linear systems of equations](https://arxiv.org/abs/0811.3171) `#algo`
 
 
 
@@ -132,6 +157,8 @@ This is the paper that started everything. :) Tecniques for sparse Hamiltonian s
 - [Fast quantum algorithm for numerical gradient estimation](https://arxiv.org/abs/quant-ph/0405146) `#algo`
 
 
+#### 1999 {-}
+- [The quantum query complexity of approximating the median and related statistics](https://arxiv.org/pdf/quant-ph/9804066.pdf) `#algo`
 
 #### 1996 {-}
 - [A fast quantum mechanical algorithm for estimating the median](https://arxiv.org/abs/quant-ph/9607024) `#algo`

@@ -14,7 +14,7 @@ output:
 
 <!--
 # TODO Improve QFT part with other non-Fourier transform (wavelet, fourier on groups..)
-# It would be cool to have some non-trivial facts about the QFT 
+# It would be cool to have some non-trivial facts about the QFT
 # (like how to see it as a mapping between elements of a group to a Hilbert space).
 # But also it would be even better to have more quantum transform, like the Wavelet transfrom.
 # This can be really helpful in the context of group-theoretical machine learning.
@@ -60,15 +60,15 @@ While the standard implementation of phase estimation is based on the quantum Fo
 <!-- TODO: with high probability? how many other gates? -->
 
 ```{theorem, grover, name="Grover's algorithm"}
-Let $N=2^n$ for $n>0$. 
+Let $N=2^n$ for $n>0$.
 Given quantum oracle access $O_x: \ket{i}\mapsto\ket{i}\ket{x_i}$ to a vector $x=\{0,1\}^N$ where only one element of $x$ is 1, there is a quantum algorithm that finds the index of that element
-using $O_x$ only $O(\sqrt{N})$ times. 
+using $O_x$ only $O(\sqrt{N})$ times.
 ```
 
-This problem can be generalized to the case where there are multiple elements "marked" as good solutions. If we know the number of solutions in advance, the algorithm can be modified such that it fails with probability 0. 
+This problem can be generalized to the case where there are multiple elements "marked" as good solutions. If we know the number of solutions in advance, the algorithm can be modified such that it fails with probability 0.
 
 
-Amplitude amplification and amplitude estimation are two of the workhorses of quantum algorithms. 
+Amplitude amplification and amplitude estimation are two of the workhorses of quantum algorithms.
 
 ```{theorem, thm-ampest-orig, name="Amplitude estimation, [@brassard2002quantum]"}
 Given a quantum algorithm $$A:\ket{0} \to \sqrt{p}\ket{y,1} + \sqrt{1-p}\ket{G,0}$$ where $\ket{G}$ is some garbage state, then the amplitude estimation algorithm, using exactly $P$ iterations of the algorithm $A$ for any positive integer $P$, outputs $\tilde{p}$ $(0 \le \tilde p \le 1)$ such that
@@ -79,19 +79,19 @@ Given a quantum algorithm $$A:\ket{0} \to \sqrt{p}\ket{y,1} + \sqrt{1-p}\ket{G,0
 	If $p=0$ then $\tilde{p}=0$ with certainty, and if $p=1$ and $P$ is even, then $\tilde{p}=1$ with certainty.
 ```
 
-```{theorem, thm-ampest-orig-precise, name="Amplitude estimation [@brassard2002quantum], formulation of [@montanaro2015quantum]"} 
-There is a quantum algorithm called amplitude estimation which takes as input one copy of a quantum state $\ket{\psi}$, a unitary transformation $U=2\ket{\psi}\bra{\psi}-I$, a unitary transformation $V=I-2P$ for some projector $P$, and an integer $t$. The algorithm outputs $\tilde{a}$, an estimate of $a=\braket{\psi|P|\psi}$, such that: 
-  $$|\tilde{a}-a| \leq 2\pi\frac{\sqrt{a(1-a)}}{t} + \frac{\pi^2}{t^2}$$ 
-with probability at least $8/\pi^2$, using $U$ and $V$ $t$ times each. If $a=0$ then $\tilde{a}=0$ with certainty, and if $a=1$ and $t$ is even, then $\tilde{a}=1$ with certainty. 
+```{theorem, thm-ampest-orig-precise, name="Amplitude estimation [@brassard2002quantum], formulation of [@montanaro2015quantum]"}
+There is a quantum algorithm called amplitude estimation which takes as input one copy of a quantum state $\ket{\psi}$, a unitary transformation $U=2\ket{\psi}\bra{\psi}-I$, a unitary transformation $V=I-2P$ for some projector $P$, and an integer $t$. The algorithm outputs $\tilde{a}$, an estimate of $a=\braket{\psi|P|\psi}$, such that:
+  $$|\tilde{a}-a| \leq 2\pi\frac{\sqrt{a(1-a)}}{t} + \frac{\pi^2}{t^2}$$
+with probability at least $8/\pi^2$, using $U$ and $V$ $t$ times each. If $a=0$ then $\tilde{a}=0$ with certainty, and if $a=1$ and $t$ is even, then $\tilde{a}=1$ with certainty.
 ```
 
 In the original version of the Grover's algorithm we assume to know the number of marked elements, and therefore we can derive the correct number of iterations. Later on, a fixed-point version of amplitude amplification was proposed [@brassard2002quantum]  [@grover2005fixed], which was then optimized in [@yoder2014fixed]. These versions do not require to know the number of iterations in advance. These results foundamentally leverage the observation reprted in Proposition \@ref(prp:qesa-observation).
 
-Recently, various researches worked on improvements of amplitude estimation by getting rid of the part of the original algorithm that performed the phase estimation (i.e. the Quantum Fourier Transform [@NC02]) [@grinko2019iterative], [@aaronson2020quantum]. As the QFT is not a NISQ subroutine, these results bring more hope to apply these algorithms in useful scenarios in the first quantum computers. 
+Recently, various researches worked on improvements of amplitude estimation by getting rid of the part of the original algorithm that performed the phase estimation (i.e. the Quantum Fourier Transform [@NC02]) [@grinko2019iterative], [@aaronson2020quantum]. As the QFT is not a NISQ subroutine, these results bring more hope to apply these algorithms in useful scenarios in the first quantum computers.
 
 Perhaps a simpler formulation, which hides the complexity of the low-level implementation of the algorithm, and is thus more suitable to be used in quantum algorithms for machine learning is the following:
 
-```{lemma, amp-amp-est-simple, name="Amplitude amplification and estimation [@kerenidis2017quantumsquares]" } 
+```{lemma, amp-amp-est-simple, name="Amplitude amplification and estimation [@kerenidis2017quantumsquares]" }
 If there is a unitary operator $U$ such that $U\ket{0}^{l}= \ket{\phi} = \sin(\theta) \ket{x, 0} + \cos(\theta) \ket{G, 0^\bot}$ then  $\sin^{2}(\theta)$ can be estimated to multiplicative error $\eta$ in time $O(\frac{T(U)}{\eta \sin(\theta)})$ and $\ket{x}$ can be generated in expected time $O(\frac{T(U)}{\sin (\theta)})$ where $T(U)$ is the time to implement $U$.
 ```
 
@@ -105,14 +105,18 @@ $$\widetilde O\left(\sqrt{T_1^2+\ldots+T_n^2}\right).$$
 
 
 
+<!-- TODO add Fixed-point quantum search with an optimal number of queries
+exact amplitude amplification -->
+<!-- TODO add oblivious amplitude amplification -->
+
 
 ### Example: estimating average and variance of a function
 
-Albeit the ideas treated in this post are somehow well-digested in the mind of many quantum algorithms developers, this example is very useful to get a practical understanding of amplitude estimation. Notably, much more precise and involved discussion around this topic can be found in chapter \@ref(chap:montecarlo). 
+Albeit the ideas treated in this post are somehow well-digested in the mind of many quantum algorithms developers, this example is very useful to get a practical understanding of amplitude estimation. Notably, much more precise and involved discussion around this topic can be found in chapter \@ref(chap:montecarlo).
 
 Suppose we have a random variable $X$ described by a certain probability distribution over $N$ different outcomes, and a function $f: \{0,\cdots N\} \to [0,1]$ defined over this distribution. How can we use quantum computers to evaluate some properties of $f$ such as expected value and variance faster than classical computers?
 
-Let's start by translating into the quantum realm these two mathematical objects. The probability distribution is (surprise surprise) represented in our quantum computer by a quantum state over $n=\lceil \log N \rceil$ qubits. 
+Let's start by translating into the quantum realm these two mathematical objects. The probability distribution is (surprise surprise) represented in our quantum computer by a quantum state over $n=\lceil \log N \rceil$ qubits.
 $$\ket{\psi} = \sum_{i=0}^{N-1} \sqrt{p_i} \ket{i} $$
 where the probability of measuring the state $\ket{i}$ is $p_i,$ for $p_i \in [0, 1]$. Basically, each bases of the Hilbert space represent an outcome of the random variable.
 
@@ -124,7 +128,7 @@ If we apply $F$ with $\ket{\psi}$ as input state we get:
 
 $$ \sum_{i=0}^{N-1} \sqrt{1-f(i)}\sqrt{p_i}\ket{i}\ket{0} + \sum_{i=0}^{N-1} \sqrt{f(i)}\sqrt{p_i}\ket{i}\ket{1} $$
 
-Observe that the probability of measuring $\ket{1}$ in the ancilla qubit is $\sum_{i=0}^{N-1}p_if(i)$, which is $E[f(X)]$. 
+Observe that the probability of measuring $\ket{1}$ in the ancilla qubit is $\sum_{i=0}^{N-1}p_if(i)$, which is $E[f(X)]$.
 By sampling the ancilla qubit we won't get any speedup compared to a classical randomized algorithm with oracle access to the function, but applying [amplitude estimation](https://arxiv.org/abs/quant-ph/0005055) [@brassard2002quantum] to the ancilla qubit on the right, we can get an estimate of $E[F(X)]$ with precision $\epsilon$, quadratically faster than a classical computer: in only $O(\frac{1}{\epsilon})$ queries to $f$.
 
 Finally, observe that:
@@ -134,14 +138,14 @@ Finally, observe that:
 
 ## Finding the minimum {#subsec:findmin}
 
-We now want to show an algorithm that finds the minimum among $N$ unsorted values $u_{j\in[N]}$. As the Grover's algorithm, we work in the oracle model, so we assume to have quantum access to a the vector $u$. Without loss of generality we can take $N=2^n$, but if the length of our list is not a power of 2, we can just pad the rest of the elements in the list with zeroes. The statement of the theorem is the following. 
+We now want to show an algorithm that finds the minimum among $N$ unsorted values $u_{j\in[N]}$. As the Grover's algorithm, we work in the oracle model, so we assume to have quantum access to a the vector $u$. Without loss of generality we can take $N=2^n$, but if the length of our list is not a power of 2, we can just pad the rest of the elements in the list with zeroes. The statement of the theorem is the following.
 
 
 ```{lemma, find-minimum-orig, name="Quantum minimum finding [@durr1996quantum]"}
 Given quantum access to a vector $u \in [0,1]^N$ via the operation $\ket j \ket{\bar 0} \to \ket j \ket{ u_j}$ on $\Ord{\log N}$ qubits, where $u_j$ is encoded to additive accuracy $\Ord{1/N}$. Then, we can find the minimum $u_{\min} = \min_{j\in[N]}  u_j$ with success probability $1-\delta$ with $\Ord{\sqrt N \log \left (\frac{1}{\delta}\right) }$ queries and $\tOrd{\sqrt N  \log \left( \frac{1}{\delta}\right )}$ quantum gates.
 ```
 
-Another formulation is the following: 
+Another formulation is the following:
 ```{theorem, finding-minimum-2, name="Quantum Minimum Finding [@durr1996quantum] formulation of [@ambainis2019quantum]"}
 Let $a_1, \ldots, a_n$ be integers, accessed by a procedure $\mathcal P$.
 There exists a quantum algorithm that finds $\min_{i=1}^n \{a_i\}$ with success probability at least $2/3$ using $O(\sqrt n)$ applications of $\mathcal P$.
@@ -175,7 +179,7 @@ As QESA is expected to be done in $O(\sqrt{N/t})$ queries, one can deduce that t
 
 
 
-## Quantum linear algebra {#subsec:linearalgebra} 
+## Quantum linear algebra {#subsec:linearalgebra}
 
 In our algorithms, we will also use subroutines for quantum linear algebra. From the first work of \cite{HarrowHassidim2009HHL} (known in the literature as HHL algorithm) that proposed a quantum algorithm for matrix inversion, a lot of progress has been made. In this section, we briefly recall some of the results in quantum linear algebra. We conclude by citing the state-of-the art techniques for performing not only matrix inversion and matrix multiplication, but also for applying a certain class of functions to the singular values of a matrix. A notable result after HHL was the ability to perform a quantum version of the singular value decomposition. This idea is detailed in the following theorem.
 
@@ -245,7 +249,6 @@ Recall that we denote as $V_{\geq \tau}$ the matrix  $\sum_{i=0}^\ell \sigma_i u
 <!-- We can therefore use the SVE algorithm with precision $\epsilon_{1} = \frac{\delta} { \kappa(A)} $ for both cases to obtain a solution state $\norm{ \ket{\mathcal{A}x} - \ket{z}} \leq \delta$. The success probability for step 2 of the algorithm is $\frac{1}{\kappa^{2}(A)}$ for both matrix multiplication and matrix inversion. We apply Amplitude Amplification as in theorem \ref{tampa} with the unitary $V$ that represents the first two steps of the algorithm to obtain an expected running time $\widetilde{O}(\frac{\kappa^2 (A) \mu(A)}{ \delta } )$.  -->
 <!-- ``` -->
 
-  
 
 
 
@@ -259,7 +262,8 @@ Recall that we denote as $V_{\geq \tau}$ the matrix  $\sum_{i=0}^\ell \sigma_i u
 
 
 
-For a symmetric matrix $M \in \mathbb{R}^{d\times d}$ with spectral norm $\|M\|=1$ for which we have quantum access, the running time of these algorithms depends on the condition number $\kappa(M)$ of the matrix, that can be replaced by $\kappa_\tau(M)$, a condition threshold where we keep only the singular values bigger than $\tau$, and the parameter $\mu(M)$, a matrix dependent parameter defined in definition \@ref(def:mu).  The running time also depends logarithmically on the relative error $\epsilon$ of the final outcome state. Recall that these linear algebra procedures above can also be applied to any rectangular matrix $V \in \mathbb{R}^{n \times d}$ by considering instead the symmetric matrix 
+
+For a symmetric matrix $M \in \mathbb{R}^{d\times d}$ with spectral norm $\|M\|=1$ for which we have quantum access, the running time of these algorithms depends on the condition number $\kappa(M)$ of the matrix, that can be replaced by $\kappa_\tau(M)$, a condition threshold where we keep only the singular values bigger than $\tau$, and the parameter $\mu(M)$, a matrix dependent parameter defined in definition \@ref(def:mu).  The running time also depends logarithmically on the relative error $\epsilon$ of the final outcome state. Recall that these linear algebra procedures above can also be applied to any rectangular matrix $V \in \mathbb{R}^{n \times d}$ by considering instead the symmetric matrix
 
 $$ \overline{V} = \left ( \begin{matrix}
 0  &V \\
@@ -267,7 +271,7 @@ V^{T} &0 \\
 \end{matrix}  \right ).$$
 
 
-## Linear combination of unitaries, normal forms, and singular value transformations {#subsec:svt}
+## Linear combination of unitaries
 
 We continue our journey in quantum linear algebra by discussing the state-of-the-art technique beneath quantum linear algebra, called singular value transformation.
 
@@ -284,6 +288,7 @@ for all states $\ket{\psi}$, where $U := \sum_i \ket{i}\bra{i} \otimes U_i$ and 
 ```
 
 
+## Singular value transformation {#subsec:svt}
 
 In recent years a new framework for performing operations on matrices with a quantum computer was developed, which can be found in works [@CGJ18], [@gilyen2019quantum]. We now briefly go through the machinery behind these results, as it will be used throughout this thesis.
 
@@ -336,10 +341,10 @@ Let $c \in (0,\infty), \kappa \geq 2$, and let $A$ be an Hermitian matrix such t
 
 Nevertheless, the algorithm that emerges by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2012variable]. Hence, we can restate the theorem  \@ref(thm:matrix-algebra-sve), with the improved runtimes, as follows.
 
-  
+
 ```{theorem, qla, name="Quantum linear algebra [@CGJ18],[@gilyen2019quantum]"}
 Let $M := \sum_{i} \sigma_iu_iv_i^T \in \mathbb{R}^{d \times d}$ such that $\norm{M}_2 =1$, and a vector $x \in \mathbb{R}^d$ for which we have quantum access in time $T_\chi$. There exist quantum algorithms that with probability at least $1-1/poly(d)$ return
-	
+
 - a state $\ket{z}$ such that $| \ket{z} - \ket{Mx}| \leq \epsilon$ in time $\tilde{O}(\kappa(M)(\mu(M)+T_\chi)\log(1/\epsilon))$
 - a state $\ket{z}$ such that $|\ket{z} - \ket{M^{-1}x}| \leq \epsilon$ in time $\tilde{O}(\kappa(M)(\mu(M)+T_\chi)\log(1/\epsilon))$
 - a state $\ket{M_{\leq \theta, \delta}^+M_{\leq \theta, \delta}x}$  in time $\tilde{O}(T_\chi \frac{ \mu(M) \norm{x}}{\delta \theta \norm{M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta}x}})$
@@ -366,11 +371,11 @@ More generally, applying a matrix $M$ which is the product of $k$ matrices, i.e.
 ## Estimation of distances, inner products, norms, and quadratic forms {#sub:distances}
 
 
-In this section, we report two lemmas that can be used to estimate the inner products, distances, and quadratic forms between vectors. The lemma \@ref(lem:innerproductestimation) has been developed in the work [@kerenidis2019qmeans]. The lemma \@ref(lem:qsp-l1norm) and the other lemmas for inner product estimation in the query model come from [@hamoudi2020quantum]. 
+In this section, we report two lemmas that can be used to estimate the inner products, distances, and quadratic forms between vectors. The lemma \@ref(lem:innerproductestimation) has been developed in the work [@kerenidis2019qmeans]. The lemma \@ref(lem:qsp-l1norm) and the other lemmas for inner product estimation in the query model come from [@hamoudi2020quantum].
 
 ### Inner products and quadratic forms with KP-trees
 
-We can rephrase this theorem saying that we have quantum access to the matrices, but for simplicity we keep the original formulation. 
+We can rephrase this theorem saying that we have quantum access to the matrices, but for simplicity we keep the original formulation.
 
 ```{lemma, innerproductestimation, name="Distance and Inner Products Estimation [@kerenidis2019qmeans]"}
 Assume for a matrix $V \in \mathbb{R}^{n \times d}$ and a matrix $C \in \mathbb{R}^{k \times d}$ that the following unitaries
@@ -413,7 +418,7 @@ We can rewrite $\ket{1}\left(\ket{v_i} - \ket{c_j}\right)$ as $\ket{y_{ij},1}$ (
 
 Now that we know how to apply the transformation described in Equation \@ref(eq:QDE), we can use known techniques to conclude our subroutine to perform the distance estimation within additive error $\epsilon$ with high probability. The method uses two tools, amplitude estimation, and the median evaluation lemma \@ref(lem:median) from [@wiebe2018quantum], which is a quantum version of the well-known powering-lemma \@ref(lem:powering-lemma).
 
-First, using amplitude estimation (theorem \@ref(thm:thm-ampest-orig) ) with the unitary $A$ defined in Equation \ref{QDE}, we can create a unitary operation that maps
+First, using amplitude estimation (theorem \@ref(thm:thm-ampest-orig) ) with the unitary $A$ defined in Equation \@ref(eq:QDE), we can create a unitary operation that maps
 $$
 \mathcal{U}: \ket{i}\ket{j}  \ket{0} \mapsto \ket{i}\ket{j} \left( \sqrt{\alpha}  \ket{ \overline{p_{ij}}, G, 1} + \sqrt{ (1-\alpha ) }\ket{G', 0}  \right)
 $$
@@ -480,8 +485,8 @@ U_2 \ket{i}\ket{0} \mapsto \frac{1}{2}\ket{i} \left(\sqrt{\alpha}\ket{p_i(0),y_i
 \end{equation}
 
 and estimate $p_i(0)$ such that $|p_i(0) - \overline{p_i(0)}| < \epsilon$ for the case of $v_i^TAv_i$ and we choose a precision $\epsilon/C$ for the case of $v_i^TA^{-1}v_i$ to get the same accuracy. Amplitude estimation theorem, i.e. theorem \@ref(thm:ampest_orig) fails with probability $\leq \frac{8}{\pi^2}$. The runtime of this procedure is given by combining the runtime of creating the state $\ket{\psi_i}$, amplitude estimation, and the median lemma. Since the error in the matrix multiplication step is negligible, and assuming quantum access to the vectors is polylogarithmic, the final runtime is $O(\log(1/\delta)\mu(A)\log(1/\epsilon_2) / \epsilon)$, with an additional factor $\kappa(A)$ for the case of the quadratic form of $A^{-1}$.
-		
-		
+
+
 Note that if we want to estimate a quadratic form of two unnormalized vectors, we can just multiply this result by their norms. Note also that the absolute error $\epsilon$ now becomes relative w.r.t the norms, i.e. $\epsilon \norm{v_i}^2$.  If we want to obtain an absolute error $\epsilon'$, as in the case with normalized unit vectors, we have to run amplitude estimation with precision $\epsilon'=O(\epsilon/\norm{v_i}^2)$.
 		To conclude, this subroutine succeeds with probability $1-\gamma$ and requires time $O(\frac{\mu(A) \log (1/\gamma) \log (1/\epsilon_?)}{\epsilon_1})$, with an additional factor of $\kappa(A)$ if we were to consider the quadratic form for $A^{-1}$, and an additional factor of $\norm{v_i}^2$ if we were to consider the non-normalized vectors $v_i$. This concludes the proof of the lemma.
 ```
@@ -537,7 +542,7 @@ Also, there is an inaccuracy arising from the additive error $\eta$ of each $u_j
  $O\left(\frac{\sqrt{ N }}{\epsilon} \left(\log N + \log (N / \epsilon)  \right) \right)$
  gates.
 
- 
+
 
   For part 3, rewrite the state from part 1
  as
@@ -548,13 +553,13 @@ Also, there is an inaccuracy arising from the additive error $\eta$ of each $u_j
  $\sum_{j=1}^N \ket j   \sqrt{ \frac{u_j}{\Vert u \Vert_1}}$ with success probability $1-\delta$.
  The amplification requires $O(\sqrt{ \frac{N }{ \Vert u \Vert_1}}\log (1/\delta))= O(\sqrt N \log (1/\delta))$ calls to the unitary of part 1, as ${\Vert u \Vert_1} \geq 1$. The gate complexity derives from the gate complexity of part 1.
 
- 
+
 Denote the  $\eta$-additive approximation to $u_j$ by $\tilde u_j$,
 and evaluate the $\ell_1$-distance of the probabilities.
  First, $\left \vert \Vert u\Vert_1 - \Vert \tilde u\Vert_1\right \vert \leq N \eta$.
  One obtains $\left \Vert   \tilde p -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 =\left \Vert  \frac{\tilde u}{{\Vert \tilde u\Vert_1}}  -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 \leq \sum_j \left \vert \frac{\tilde u_j}{{\Vert \tilde  u\Vert_1}}  -  \frac{u_j}{{\Vert \tilde u\Vert_1}} \right \vert + \sum_j \left \vert \frac{ u_j}{{\Vert \tilde u\Vert_1}}  -  \frac{u_j}{\Vert u\Vert_1}\right \vert  \leq \frac{N \eta} {{\Vert \tilde u\Vert_1}} + \frac{ N \eta } {{\Vert \tilde u\Vert_1}}$.
 
- We also obtain $$\frac{1}{ {\Vert \tilde u\Vert_1} } \leq \frac{1}{ \Vert u\Vert_1 -N\eta } \leq \frac{2}{ \Vert u\Vert_1}$$ for $\eta \leq  \Vert u\Vert_1 / 2 N.$$ 
+ We also obtain $$\frac{1}{ {\Vert \tilde u\Vert_1} } \leq \frac{1}{ \Vert u\Vert_1 -N\eta } \leq \frac{2}{ \Vert u\Vert_1}$$ for $\eta \leq  \Vert u\Vert_1 / 2 N.$$
 Since $\eta \leq \Vert u\Vert_1 \xi/(4N)$, the distance is $\left \Vert   \tilde p -  \frac{u}{\Vert u\Vert_1} \right \Vert_1 \leq \xi$ as desired.
 
 ```
@@ -680,9 +685,9 @@ The total success probability of all the probabilistic steps is at least $1-4\de
 
 These notes based on Childs' [Lecture notes](https://www.cs.umd.edu/~amchilds/qa/), i.e. [@ChildsLectureNotes], Section 5
 
-### Introduction to Hamiltonians 
+### Introduction to Hamiltonians
 
-The only way possible to start a chapter on Hamiltonian simulation would 
+The only way possible to start a chapter on Hamiltonian simulation would
 be to start from the work of Feynman, who had the first intuition on the
 power of quantum mechanics for simulating physics with computers. We
 know that the Hamiltonian dynamics of a closed quantum system, weather
@@ -694,14 +699,14 @@ $$\frac{d}{dt}\ket{\psi(t)} = H(t)\ket{\psi(t)}$$
 Given the initial conditions of the system (i.e. $\ket{\psi(0)}$ ) is
 it possible to know the state of the system at time $t: \ket{\psi(t)} = e^{-i (H_1t/m)}\ket{\psi(0)}$.
 
-As you can imagine, classical computers are supposed to struggle to simulate the process that builds $\ket{\psi(t)}$, since this equation describes the dynamics of any quantum system, and we don’t think classical computers can simulate that efficiently for any general Hamiltonian $H$. But we understood that quantum computers can help to simulate the dynamics of another quantum system. 
+As you can imagine, classical computers are supposed to struggle to simulate the process that builds $\ket{\psi(t)}$, since this equation describes the dynamics of any quantum system, and we don’t think classical computers can simulate that efficiently for any general Hamiltonian $H$. But we understood that quantum computers can help to simulate the dynamics of another quantum system.
 
 Why we might want to do that?
 
 An example would be the following. Imagine you are a quantum machine learning scientist, and you have just found a new mapping between an optimization problem and an Hamiltonian
 dynamics, and you want to use quantum computer to perform the optimization [@otterbach2017unsupervised]. You expect a quantum computers to run the Hamiltonian simulation for you, and then sample useful information from the resulting quantum sate. This result might be fed again into your classical algorithm to perform ML related task, in a virtuous cycle of hybrid quantum-classical computation, which we will discuss more in another chapter.
 
-Another example, perhaps more akin to the original scope of Hamiltonian simulation, is related to quantum chemistry. Imagine that are a chemist, and you have developed a hypothesis for the Hamiltonian dynamics of a chemical compound. Now you want to run some experiments to see if the formula behaves according to the experiments (and you cannot simulate numerically the experiment). Or maybe you are testing the properties of complex compounds you don’t want to synthesize. 
+Another example, perhaps more akin to the original scope of Hamiltonian simulation, is related to quantum chemistry. Imagine that are a chemist, and you have developed a hypothesis for the Hamiltonian dynamics of a chemical compound. Now you want to run some experiments to see if the formula behaves according to the experiments (and you cannot simulate numerically the experiment). Or maybe you are testing the properties of complex compounds you don’t want to synthesize.
 
 We can formulate the problem of Hamiltonian simulation in this way:
 

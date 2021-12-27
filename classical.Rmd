@@ -10,7 +10,7 @@ Machine learning, also called narrow artificial intelligence, has been defined a
 
 
 The dataset that we manipulate in this work are represented by a matrix $V \in \mathbb{R}^{n \times d}$, i.e. each row can be thought as a vector $v_i \in \mathbb{R}^{d}$ for $i \in [n]$ that represents a single data point. We denote as $V_k$ the optimal rank $k$ approximation of $V$, that is  $V_{k} = \sum_{i=0}^k \sigma_i u_i v_i^T$, where $u_i, v_i$ are the row and column singular vectors respectively and the sum is over the largest $k$ singular values $\sigma_{i}$.  We denote as $V_{\geq \tau}$ the matrix  $\sum_{i=0}^\ell \sigma_i u_i v_i^T$ where $\sigma_\ell$ is the smallest singular value which is greater than $\tau$.
- For a matrix $M$ and a vector $x$, we define as $M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta} x$ the projection of $x$ onto the space spanned by the singular vectors of $M$ whose corresponding singular values are smaller than $\theta$, and some subset of singular vectors whose corresponding singular values are in the interval $[\theta, (1+\delta)\theta]$. 
+ For a matrix $M$ and a vector $x$, we define as $M^{+}_{\leq \theta, \delta}M_{\leq \theta, \delta} x$ the projection of $x$ onto the space spanned by the singular vectors of $M$ whose corresponding singular values are smaller than $\theta$, and some subset of singular vectors whose corresponding singular values are in the interval $[\theta, (1+\delta)\theta]$.
 
 
 ## Supervised learning
@@ -31,7 +31,7 @@ There is another insightful way of organizing machine learning models. They can 
 	L(\gamma;X) := \prod_{i =1}^n p(x_i | \gamma)
 \end{equation}
 
-From this formula, we can see that in order to find the best parameters $\gamma^*$ of our model we need to solve an optimization problem. For numerical and analytical reasons, instead of maximizing the likelihood $L$, it is common practice to find the best model by maximizing the _log-likelihood_ function $\ell(\gamma;X) = \log L(\gamma;X) = \sum_{i=1}^n \log p(x_i|\gamma).$ In this context, we want to find the model that maximizes the log-likelihood: 
+From this formula, we can see that in order to find the best parameters $\gamma^*$ of our model we need to solve an optimization problem. For numerical and analytical reasons, instead of maximizing the likelihood $L$, it is common practice to find the best model by maximizing the _log-likelihood_ function $\ell(\gamma;X) = \log L(\gamma;X) = \sum_{i=1}^n \log p(x_i|\gamma).$ In this context, we want to find the model that maximizes the log-likelihood:
 \begin{equation}
 \gamma^*_{ML} := \argmax_{\gamma}  \sum_{i=1}^n \log p(x_i|\gamma).
 \end{equation}
@@ -44,7 +44,7 @@ The procedure to calculate the log-likelihood depends on the specific algorithm 
 The choice of the right DR algorithm depends on the nature of the data as well as on the type of algorithm that will be applied after the dimensionality reduction.  A very well-known DR algorithm is the Principal Component Analysis (PCA), which projects the data points onto the subspace spanned by the eigenvectors associated to the $k$ largest eigenvalues of the covariance matrix of the data. In this way, the projection holds ``most of the information'' of the dataset. It is possible to show [@murphy2012machine] that for a subspace of dimension $k$, this choice of eigenvectors minimizes the reconstruction error, i.e. the distance between the original and the projected vectors. However, PCA is not always the best choice of dimensionality reduction. PCA projects the data into the subspace along which the data has more variance. This does not take into consideration the information that different points might belong to different classes, and there are cases in which PCA can worsen the performance of the classifier. Other methods, like Fisher Linear Discriminant and Slow Feature Analysis take into account the variance of every single class of points. Indeed, FLD projects the data in a subspace trying to maximize the distance between points belonging to different clusters and minimizing the distance between points belonging to the same cluster, thus preserving or increasing the accuracy.
 
 
-## Eigenvalue problems and generalized eigenvalue problems in Machine Learning 
+## Eigenvalue problems and generalized eigenvalue problems in Machine Learning
 Here we review the connection between the so-called Generalized Eigenvalue Problem (GEP) and some models in machine learning. In classical literature, this is a well-known subject [@ghojogh2019eigenvalue], [@de2005eigenproblems], [@borga1997unified].
 
 ```{definition, gep, name="Generalized Eigenvalue Problem"}

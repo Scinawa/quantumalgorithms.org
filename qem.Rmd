@@ -12,14 +12,14 @@ In this chapter we discuss the quantum version of Expectation-Maximization (EM).
 
 
 ## Expectation-Maximization for Gaussian mixture models
-The intuition behind mixture models is to model complicated distributions by using a group of simpler (usually [uni-modal](https://en.wikipedia.org/wiki/Unimodality)) distributions. In this setting, the purpose of the learning algorithm is to model the data by fitting the joint probability distribution which most likely have generated our samples. It might not be surprising thinking that, given a sufficiently large number of mixture components, it is possible to approximate any density defined in $\mathbb{R}^d$ [@murphy2012machine]. In this section we describe formally GMM, which is a popular mixture model used to solve unsupervised classification problems. Then we propose the first quantum algorithm to fit a GMM with a quantum computer. While there are many classical algorithms that can be used to fit a mixture of Gaussians (which we detail later), this quantum algorithm resemble as much as possible Expectation-Maximization: a iterative method to find (local) maxima of maximum likelihood and maximum a posteriori optimization problems, especially used in unsupervised settings. 
+The intuition behind mixture models is to model complicated distributions by using a group of simpler (usually [uni-modal](https://en.wikipedia.org/wiki/Unimodality)) distributions. In this setting, the purpose of the learning algorithm is to model the data by fitting the joint probability distribution which most likely have generated our samples. It might not be surprising thinking that, given a sufficiently large number of mixture components, it is possible to approximate any density defined in $\mathbb{R}^d$ [@murphy2012machine]. In this section we describe formally GMM, which is a popular mixture model used to solve unsupervised classification problems. Then we propose the first quantum algorithm to fit a GMM with a quantum computer. While there are many classical algorithms that can be used to fit a mixture of Gaussians (which we detail later), this quantum algorithm resemble as much as possible Expectation-Maximization: a iterative method to find (local) maxima of maximum likelihood and maximum a posteriori optimization problems, especially used in unsupervised settings.
 
-	
+
 Recall that in the unsupervised case, we are given a training set of unlabeled vectors $v_1 \cdots v_n \in \mathbb{R}^d$ which we represent as rows of a matrix $V \in \mathbb{R}^{n \times d}$. 	Let $y_i \in [k]$ one of the $k$ possible labels for a point $v_i$. We posit that for a GMM the joint probability distribution of the data $p(v_i, y_i)=p(v_i | y_i)p(y_i)$, is defined as follow: $y_i \sim \text{Multinomial}(\theta)$ for $\theta \in \mathbb{R}^{k-1}$,  and $p(v_i|y_i = j) \sim \mathcal{N}(\mu_j, \Sigma_j)$. The $\theta_j$ are the *mixing weights*, i.e. the probabilities that $y_i = j$, and $\mathcal{N}(\mu_j, \Sigma_j)$ is the Gaussian distribution centered in $\mu_j \in \mathbb{R}^d$ with covariance matrix $\Sigma_j \in \mathbb{R}^{d \times d}$.
 
 Note that the variables $y_i$ are unobserved, and thus are called *latent* variables. There is a simple interpretation for this model. We assume the data is created by first selecting an index $j \in [k]$ by sampling according to Multinomial($\theta)$, and then a vector $v_i$ is sampled from $\mathcal{N}(\mu_j, \Sigma_j)$. Fitting a GMM to a dataset reduces to finding an assignment for the parameters:
 
-$$\gamma = (\theta, \vec{\mu}, \vec{\Sigma}) = (\theta, \mu_1, \cdots, \mu_k, \Sigma_1, \cdots, \Sigma_k)$$ 
+$$\gamma = (\theta, \vec{\mu}, \vec{\Sigma}) = (\theta, \mu_1, \cdots, \mu_k, \Sigma_1, \cdots, \Sigma_k)$$
 
 
 <!-- \begin{equation} -->
@@ -97,7 +97,7 @@ knitr::include_graphics("algpseudocode/cem.png")
 
 
 
-### Initialization strategies for EM {#sec:initialization} 
+### Initialization strategies for EM {#sec:initialization}
 Unlike k-means clustering, choosing a good set of initial parameters for a mixture of Gaussian is by no means trivial, and in multivariate context is known that the solution is problem-dependent. There are plenty of proposed techniques, and here we describe a few of them. Fortunately, these initialization strategies can be directly translated into quantum subroutines without impacting the overall running time of the quantum algorithm.
 
 The simplest technique is called *random EM*, and consists in selecting initial points at random from the dataset as centroids, and sample the dataset to estimate the covariance matrix of the data. Then these estimates are used as the starting configuration of the model, and we may repeat the random sampling until we get satisfactory results.
@@ -110,7 +110,7 @@ There are other possible choices for parameter initialization in EM, for instanc
 
 
 
-#### Special cases of GMM 
+#### Special cases of GMM
 What we presented in the previous section is the most general model of GMM. For simple datasets, it is common to assume some restrictions on the covariance matrices of the mixtures. The translation into a quantum version of the model should be straightforward. We distinguish between these cases:
 
 - *Soft k-means*. This algorithm is often presented as a generalization of k-means, but it can actually be seen as special case of EM for GMM - albeit with a different assignment rule. In soft $k$-means, the assignment function is replaced by a softmax function with \emph{stiffness} parameter $\beta$. This $\beta$ represents the covariance of the clusters. It is assumed to be equal for all the clusters, and for all dimensions of the feature space. Gaussian Mixtures with constant covariance matrix (i.e. $\Sigma_j = \beta I$ for $\beta \in \mathbb{R}$) can be interpreted as a kind of soft or fuzzy version of k-means clustering. The probability of a point in the feature space being assigned to a certain cluster $j$ is:
@@ -132,12 +132,12 @@ where $\beta>0$ is the stiffness parameter. This is the case where all the Gauss
 ### Dataset assumptions in GMM {#dataset-assumption}
 We make explicit an assumption on the dataset, namely that all elements of the mixture contribute proportionally to the total responsibility:
 
-\begin{equation} 
-\frac{\sum_{i=1}^n r_{ij}}{\sum_{i=1}^n r_{il}} = \Theta(1) \quad \forall j,l \in [k]  
+\begin{equation}
+\frac{\sum_{i=1}^n r_{ij}}{\sum_{i=1}^n r_{il}} = \Theta(1) \quad \forall j,l \in [k]
 (\#eq:assump)
 \end{equation}
 
-This is equivalent to assuming that $\theta_j/\theta_l = \Theta(1) \quad \forall j,l \in [k]$. This resembles the assumption of ``well-clusterability'' in q-means, which we saw in the previous chapter. 
+This is equivalent to assuming that $\theta_j/\theta_l = \Theta(1) \quad \forall j,l \in [k]$. This resembles the assumption of ``well-clusterability'' in q-means, which we saw in the previous chapter.
 The algorithm can be used even in cases where this assumption does not hold. In this case, the running time will include a factor as in Eq. \@ref(eq:assump) which for simplicity we have taken as constant in what follows. Note that classical algorithms would also find it difficult to fit the data in certain cases, for example when some of the clusters are very small. In fact, it is known (and not surprising) that if the statistical distance between the probability density function of two different Gaussian distributions is smaller than $1/2$, then we can not tell for a point $v$ from which Gaussian distribution it belongs to, even if we knew the parameters [@moitra2018algorithmic]. Only for convenience in the analysis, we also assume the dataset as being normalized such that the shortest vector has norm $1$ and define $\eta:=max_i \norm{v_i}^2$ to be the maximum norm squared of a vector in the dataset.
 
 
@@ -152,7 +152,7 @@ Besides fitting mixture models based on the exponential family, the EM algorithm
 
 
 
-TODO check in the paper if these are the correct versions. 
+TODO check in the paper if these are the correct versions.
 
 ```{theorem, name="Multivariate mean-value theorem [@rudin1964principles]"}
 Let $U$ be an open set of $\mathbb{R}^d$. For a differentiable functions $f : U \mapsto \mathbb{R}$ it holds that  $\forall x,y \in U, \exists c$ such that  $f(x) - f(y) = \nabla f(c) \cdot (x-y)$.
@@ -328,14 +328,14 @@ Applying Claim \@ref(lem:kereclaim), the error for the normalized vector $\ket{R
 
 ### Maximization
 Now we need to get a new estimate for the parameters of our model. This is the idea: at each iteration we recover the new parameters from the quantum algorithms as quantum states, and then by performing tomography we can update the QRAM that gives us quantum access to the GMM for the next iteration. In these sections we will show how.
-	
+
 #### Updating mixing weights $\theta$
 
 ```{lemma, theta, name="Computing mixing weights"}
 We assume quantum access to a GMM with parameters $\gamma^{t}$ and let $\delta_\theta > 0$ be a precision parameter. There exists an algorithm that estimates $\overline{\theta}^{t+1} \in \mathbb{R}^k$ such that $\norm{\overline{\theta}^{t+1}-\theta^{t+1}}\leq \delta_\theta$ in time
 $$T_\theta = O\left(k^{3.5} \eta^{1.5} \frac{ \kappa(\Sigma)\mu(\Sigma) }{\delta_\theta^2}  \right)$$
 ```
-	
+
 ```{proof}
 An estimate of $\theta^{t+1}_j$ can be recovered from the following operations. First, we use lemma \@ref(lem:responsibility) (part 1) to compute the responsibilities to error $\epsilon_1$, and then perform the following mapping, which consists of a controlled rotation on an auxiliary qubit:
 
@@ -367,10 +367,10 @@ $T_\theta = O(k^{1.5} \frac{T_{R_1,\epsilon_1}}{\epsilon}) = O\left(k^{3.5} \fra
 
 
 
-#### Updating the centroids $\mu_j$ 
+#### Updating the centroids $\mu_j$
 We use quantum linear algebra to transform the uniform superposition of responsibilities of the $j$-th mixture into the new centroid of the $j$-th Gaussian. Let $R_j^{t} \in \R^{n}$ be the vector of responsibilities for a Gaussian $j$ at iteration $t$. The following claim relates the vectors  $R_j^{t}$ to the centroids $\mu_j^{t+1}$.
 
-```{lemma, centroid-claim} 
+```{lemma, centroid-claim}
 Let $R_j^t \in \mathbb{R}^n$ be the vector of responsibilities of the points for the Gaussian $j$ at time $t$, i.e. $(R_j^t)_{i} = r_{ij}^{t}$. Then $\mu_j^{t+1} \leftarrow \frac{\sum_{i=1}^n r^{t}_{ij} v_i }{ \sum_{i=1}^n r^{t}_{ij}} = \frac{V^T R^t_j}{n\theta_j}$.
 ```
 The proof is straightforward.
@@ -407,15 +407,15 @@ We assume we have quantum access to a GMM with parameters $\gamma^{t}$. We also 
 ```
 
 ```{proof}
-It is simple to check, that the update rule of the covariance matrix during the maximization step can be reduced to [@murphy2012machine] Exercise 11.2. 
+It is simple to check, that the update rule of the covariance matrix during the maximization step can be reduced to [@murphy2012machine] Exercise 11.2.
 
 \begin{align}\Sigma_j^{t+1} \leftarrow \frac{\sum_{i=1}^n r_{ij}  (v_i - \mu_j^{t+1})(v_i - \mu_j^{t+1})^T}{\sum_{i=1}^n r_{ij}} & = \frac{\sum_{i=1}^n r_{ij}v_iv_i^T }{n\theta_j} - \mu_j^{t+1}(\mu_j^{t+1})^T \\
-		&=\Sigma_j'- \mu_j^{t+1}(\mu_j^{t+1})^T 
+		&=\Sigma_j'- \mu_j^{t+1}(\mu_j^{t+1})^T
 		(\#eq:covmat)
 \end{align}
 
 First, let's note that we can use the previously obtained estimates of the centroids to compute the outer product $\mu_j^{t+1} (\mu_j^{t+1})^T$ with error $\delta_\mu \norm{ \mu} \leq \delta_\mu \sqrt{\eta}$. The error in the estimates of the centroids is $\overline{\mu} = \mu + e$ where $e$ is a vector of norm $\delta_\mu$. Therefore $\norm{\mu \mu^T - \overline{\mu}\:\overline{\mu}^T} < 2\sqrt{\eta}\delta_\mu + \delta_\mu^2 \leq 3\sqrt{\eta}\delta_\mu$. Because of this, we allow an error of $\sqrt{\eta}\delta_\mu$ also for the term $\Sigma'_j$.
-Now we discuss the procedure for estimating $\Sigma_j'$. We estimate $\ket{\text{vec}[\Sigma_j']}$ and $\norm{\text{vec}[\Sigma_j']}$. To do it, we start by using quantum access to the norms and part 1 of lemma \@ref(responsibility). With them, for a cluster $j$, we start by creating the state $\ket{j}\frac{1}{\sqrt{n}}\sum_i \ket{i}\ket{r_{ij}}$, Then, we use quantum access to the norms to store them into another register $\ket{j}\frac{1}{\sqrt{n}}\sum_i \ket{i}\ket{r_{ij}}\ket{\norm{v_i}}$. Using an ancilla qubit we can obtain perform a rotation, controlled on the responsibilities and the norm, and obtain the following state:
+Now we discuss the procedure for estimating $\Sigma_j'$. We estimate $\ket{\text{vec}[\Sigma_j']}$ and $\norm{\text{vec}[\Sigma_j']}$. To do it, we start by using quantum access to the norms and part 1 of lemma \@ref(lem:responsibility). With them, for a cluster $j$, we start by creating the state $\ket{j}\frac{1}{\sqrt{n}}\sum_i \ket{i}\ket{r_{ij}}$, Then, we use quantum access to the norms to store them into another register $\ket{j}\frac{1}{\sqrt{n}}\sum_i \ket{i}\ket{r_{ij}}\ket{\norm{v_i}}$. Using an ancilla qubit we can obtain perform a rotation, controlled on the responsibilities and the norm, and obtain the following state:
 
 $$\ket{j}\frac{1}{\sqrt{n}}\sum_i^n \ket{i}\ket{r_{ij}}\ket{\norm{v_i}}\left(\frac{r_{ij}\norm{v_i}}{\sqrt{\eta}} \ket{0} + \gamma\ket{1} \right)$$
 We undo the unitary that created the responsibilities in the second register and the query on the norm on the third register, and we perform amplitude amplification on the ancilla qubit being zero. The resulting state can be obtained in time $O(R_{R_1,\epsilon_1}\frac{\sqrt{n\eta}}{\norm{V_R}})$, where $\norm{V_R}$ is $\sqrt{\sum_i r_{ij}^2\norm{v_i}^2}$. Successively, we query the QRAM for the vectors $v_i$ and we obtain the following state:
@@ -465,7 +465,7 @@ TODO Fix log-det citations in QEM-GMM work
 Now we are going to show how it is possible to get an estimate of the log-likelihood using a quantum procedure. A good estimate of the log-likelihood is crucial, as it is used as stopping criteria for the quantum algorithm. Recall that the log-likelihood is defined as:
 	$$\ell(\gamma;V)  = \sum_{i =1}^n \log \sum_{j \in [k]} \theta_j\phi(v_i; \mu_j, \Sigma_j) = \sum_{i=1}^n  \log p(v_i; \gamma)$$
 
-Classically, we stop to iterate the EM algorithm when $|\ell(\gamma^{t}; V) - \ell(\gamma^{t+1}; V)|< n\epsilon$, or equivalently, we can set a tolerance on the average increase of the $\log$ of the probability: $| \mathbb{E}[ \log p(v_i ; \gamma^t)] -  \mathbb{E}[ \log p(v_i ; \gamma^{t+1})] |< \epsilon$. 
+Classically, we stop to iterate the EM algorithm when $|\ell(\gamma^{t}; V) - \ell(\gamma^{t+1}; V)|< n\epsilon$, or equivalently, we can set a tolerance on the average increase of the $\log$ of the probability: $| \mathbb{E}[ \log p(v_i ; \gamma^t)] -  \mathbb{E}[ \log p(v_i ; \gamma^{t+1})] |< \epsilon$.
 In the quantum algorithm it is more practical to estimate 	$\mathbb{E}[ p(v_i ; \gamma^t)] = \frac{1}{n}\sum_{i=1}^n  p(v_i; \gamma)$.  From this we can estimate an upper bound on the $\log$-likelihood (with the help of the  the Jensen inequality) as:
 $$n \log \mathbb{E}[p(v_i)] = \sum_{i=1}^n \log \mathbb{E}[p(v_i)] \geq \sum_{i=1}^n \log p(v_i) = \ell(\gamma; V)$$.
 
@@ -480,7 +480,7 @@ We assume we have quantum access to a GMM with parameters $\gamma^{t}$. For $\ep
 ```{proof}
 We obtain the likelihood from the ability to compute the value of a Gaussian distribution and quantum arithmetic. Using the mapping of lemma \@ref(lem:gaussian) with precision $\epsilon_1$, we can compute $\phi(v_i|\mu_j, \Sigma_j)$ for all the Gaussians.  We can build the state $\ket{i} \bigotimes_{j=0}^{k-1} \ket{j}\ket{\overline{p(v_i|j;\gamma_j)}}$. Then, by knowing $\theta$, and by using quantum arithmetic we can compute in a register the probability of a point belonging to the mixture of Gaussian's: $p(v_i; \gamma)  = \sum_{j\in[k]} \theta_j p(v_i|j;\gamma )$ (note that this operation require undoing the previous steps). for simplicity, we now drop the notation for the model $\gamma$ and write $p(v_i)$ instead of $p(v_i; \gamma)$. Doing the previous calculations in a quantum computer, leads to the creation of the state $\ket{i}\ket{p(v_i)}$. To get an estimate of $\mathbb{E}[p(v_i)]$, we perform the mapping $\ket{i}\ket{p(v_i)}\mapsto \ket{i}\left( \sqrt{p(v_i)|}\ket{0} + \sqrt{1 - p(v_i)}\ket{1} \right)$ and estimate $p(\ket{0}) \simeq \mathbb{E}[p(v_i)]$ with amplitude estimation on the ancilla qubit being zero.
 
-To get a $\epsilon_\tau$-estimate of $p(0)$ we need to decide the precision parameter we use for estimating $\overline{p(v_i|j;\gamma)}$ and the precision required by amplitude estimation.	Let $\overline{p(0)}$ be the $\epsilon_1$-error introduced by using lemma \ref{lemma:gaussian} and $\widehat{p(0)}$ the error introduced by amplitude estimation. Using triangle inequality we set $\norm{p(0) - \widehat{p(0)}} < \norm{\widehat{p(0)} - \overline{p(0)}} + \norm{\overline{p(0)} - p(0)} < \epsilon_\tau$.
+To get a $\epsilon_\tau$-estimate of $p(0)$ we need to decide the precision parameter we use for estimating $\overline{p(v_i|j;\gamma)}$ and the precision required by amplitude estimation.	Let $\overline{p(0)}$ be the $\epsilon_1$-error introduced by using lemma \@ref(lem:gaussian) and $\widehat{p(0)}$ the error introduced by amplitude estimation. Using triangle inequality we set $\norm{p(0) - \widehat{p(0)}} < \norm{\widehat{p(0)} - \overline{p(0)}} + \norm{\overline{p(0)} - p(0)} < \epsilon_\tau$.
 
 To have $| p(0) - \widehat{p(0)}| < \epsilon_\tau$, we should set $\epsilon_1$ such that $| \overline{p(0)} - p(0) | < \epsilon_\tau/4$, and we set the error in amplitude estimation and in the estimation of the probabilities to be $\epsilon_\tau/2$. The runtime of this procedure is therefore:
 		$$\widetilde{O}\left(k \cdot T_{G,\epsilon_\tau} \cdot \frac{1}{\epsilon_\tau \sqrt{p(0)}}\right) = \widetilde{O}\left(k^{1.5}\eta^{1.5} \cdot \frac{\kappa(\Sigma)\mu(\Sigma)}{\epsilon_\tau^2 }\right)$$
@@ -510,13 +510,13 @@ We assume we have quantum access to a GMM with parameters $\gamma^t$. For parame
 For the range of parameters of interest, the running time is dominated by $T_\Sigma$.
 ```
 
-The proof follows directly from the previous lemmas. Note that the cost of the whole algorithm is given by repeating the Estimation and the Maximization steps several times, until the threshold on the log-likelihood is reached. Note also that the expression of the runtime can be simplified from the observation that the cost of performing tomography on the covariance matrices $\Sigma_j$ dominates the cost. 
+The proof follows directly from the previous lemmas. Note that the cost of the whole algorithm is given by repeating the Estimation and the Maximization steps several times, until the threshold on the log-likelihood is reached. Note also that the expression of the runtime can be simplified from the observation that the cost of performing tomography on the covariance matrices $\Sigma_j$ dominates the cost.
 
 
 
 <!--
 TODO See if it makes sense to add MAP version of GMM
---> 
+-->
 
 
 <!-- \subsection{Quantum MAP estimate of GMM} -->

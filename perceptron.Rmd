@@ -12,7 +12,7 @@ The following work is an investigation into the quantum version of the classical
 
 However, before we can explore the idea of the quantum perceptron in a meaningful way, we must first understand the fundamentals of the classical version of the perceptron, which is what we will cover first in this chapter.
 
-## Classical Perceptron 
+## Classical Perceptron
 
 The perceptron is a machine learning algorithm that can be thought of as the most basic fundamental building block of more complex artificial neural networks (ANNs), or alternatively as a very simple form of neural network in and of itself.
 
@@ -29,7 +29,7 @@ Geometrically it is easy to see that these two sets,
 Let us also introduce the concept of linear separability using mathematical formalism.
 
 ```{definition, name="Linear Separability"}
-Two sets two 
+Two sets two
 [$\mathrm{A}$]{style="color: orange"} and
 [$\mathrm{B}$]{style="color: blue"} of points in an $n$-dimensional space are called absolutely linearly separable if $n+1$ real numbers $w_{1}$, $\ldots$, $w_{n+1}$ exist, such that every point $(x_{1}$, $x_{2}$, $\ldots$, $x_{n})$ in [$\mathrm{A}$]{style="color: orange"} satisfies :
 $$
@@ -102,7 +102,7 @@ The following pseudocode highlights the structure of the perceptron algorithm an
 
 Taking a closer look at how the step containing the calculation of the error gets used in order to adjust $w_{i}^{'}$:
 
-$$w_{i}^{'}=w_{i}+\Delta w_{i}$$ 
+$$w_{i}^{'}=w_{i}+\Delta w_{i}$$
 $$\Delta w_{i}=\eta \cdot error \cdot x_{i}$$
 
 where,
@@ -142,7 +142,7 @@ Batch learning is a technique which generates an output by learning on the entir
 
 *Key Features:*
 
-- Learning takes place over groups, or "batches", of data. 
+- Learning takes place over groups, or "batches", of data.
 
 - Updates to the weights, $w$, only happen after each epoch.
 
@@ -150,7 +150,7 @@ Batch learning is a technique which generates an output by learning on the entir
 
    Grovers algorithm @grover1996fast, also often referred to as the "quantum search algorithm", refers to a quantum algorithm for unstructured search that successfully determines the unique input to a black box function that produces a particular output value. Specifically, the algorithm consists of two oracle steps: a phase inversion oracle step, and an amplitude amplification oracle step. Grover's search algorithm is ubiquitous in the realm of established quantum algorithms, and is used as the overarching quantum resource in both of the formulations of the quantum perceptron algorithm that will be presented in the following sections. For a more robust investigation of Grover's search, the reader is encouraged to review section 4.2 \@ref(sec:4.2) of this book, \@ref(subsec:findmin), and also section II B in [@kapoor2016quantum], where specifics on how Grover's is leveraged in context of the quantum perceptron can be found.
 
-## Quantum Perceptron: Algorithm 1 
+## Quantum Perceptron: Algorithm 1
 
 **General Idea:**  Uses Grover’s search as a technique to more efficiently and more quickly identify misclassified data points in the data set, which in turn allows the perceptron algorithm to more quickly converge on a correct classifying hyperplane.
 
@@ -230,7 +230,7 @@ Assuming that the training vectors $\left\{\phi_{1}, \ldots, \phi_{N}\right\}$ a
 
 With the results from these lemmas, one can fully prove Theorem 1, and the reader is encouraged to view said proof on page 6. of @wiebe2016quantum
 
-The following pseudocode can be taken as a template to implement the steps discussed above in order to construct this particular version of the quantum perceptron algorithm. 
+The following pseudocode can be taken as a template to implement the steps discussed above in order to construct this particular version of the quantum perceptron algorithm.
 
 <img src="images/quantperceptronalgo1.png" alt="drawing" width="600">
 
@@ -302,7 +302,7 @@ K \in \Omega\left(\frac{1}{\gamma} \log (1 / \delta)\right).
 $$
 Its sufficient to pick $K \in \Theta\left(\frac{1}{\gamma} \log (1 / \delta)\right)$ for the algorithm. The union bound implies that the probability that either none of the vectors lie in the version space or that Grover's search failing to find such an element is at most $\epsilon^{\prime}+\delta \leq \epsilon$. Therefore, it's enough to pick $\epsilon^{\prime} \in \Theta(\epsilon)$ and $\delta \in \Theta(\epsilon)$ to ensure that the total probability is at most $\epsilon$, and ergo the total number of queries made to $\hat{\mathcal{F}}_{\phi, y}$ is in $O\left(\frac{N}{\sqrt{\gamma}} \log ^{3 / 2}(1 / \epsilon)\right)$.
 
-The classical algorithm discussed in @wiebe2016quantum claimed complexity $O(N \log (1 / \epsilon) / \gamma)$ (proven in the appendix of @wiebe2016quantum), which was argued to follow from the fact that $K \in \Theta(\log (1 / \epsilon) / \gamma)$ suffices to make the probability of *not* drawing an element of the version space at most $\epsilon$. This demonstrates a quantum advantage if $\frac{1}{\gamma} \gg \log (1 / \epsilon)$, and illustrates that quantum computing can be used to boost the effective margins of the training data. 
+The classical algorithm discussed in @wiebe2016quantum claimed complexity $O(N \log (1 / \epsilon) / \gamma)$ (proven in the appendix of @wiebe2016quantum), which was argued to follow from the fact that $K \in \Theta(\log (1 / \epsilon) / \gamma)$ suffices to make the probability of *not* drawing an element of the version space at most $\epsilon$. This demonstrates a quantum advantage if $\frac{1}{\gamma} \gg \log (1 / \epsilon)$, and illustrates that quantum computing can be used to boost the effective margins of the training data.
 
 The following pseudocode can be used to glean the methodical steps involved in constructing this particular version of the quantum perceptron algorithm.
 
@@ -311,6 +311,6 @@ The following pseudocode can be used to glean the methodical steps involved in c
 For a detailed explanation of the upper range stated in steps 3 and 4 of the pseudocode, refer to section II B in @wiebe2016quantum.
 
  It is clear from our previous discussion that, just as in the first formulation of the quantum perceptron that was given in algorithm 1, algorithm 2 also carries out Grover's search, but instead of searching for a $\phi$ that is misclassified it instead searches for a $w$ in version space.
- 
+
  Quantum models of perceptrons therefore not only provide advantages in terms of the number of vectors that need to be queried in the training process, they also can make the perceptron much more perceptive by making training less sensitive to small margins.
 

@@ -7,43 +7,43 @@ output:
 
 # q-means {#chap:q-means}
 
-In this section we detail a quantum algorithm for unsupervised learning, which can be seen as the quantum version of the well known k-means algorithm. This algorithm is one of the simplest, yet most commonly used clustering algorithms. We first introduce the classical algorithm, then propose a definition of the k-mean model that makes is robust to error in the model. Then, we explain how to derive a quantum version of the k-means algorithm and show its performance on experimental data. 
+In this section we detail a quantum algorithm for unsupervised learning, which can be seen as the quantum version of the well known k-means algorithm. This algorithm is one of the simplest, yet most commonly used clustering algorithms. We first introduce the classical algorithm, then propose a definition of the k-mean model that makes is robust to error in the model. Then, we explain how to derive a quantum version of the k-means algorithm and show its performance on experimental data.
 
 
 ## The k-means algorithm
-The $k$-means algorithm was introduced in [@lloyd1982least], and is extensively used for unsupervised problems. The inputs to $k$-means algorithm are vectors $x_{i} \in \R^{d}$ for $i \in [n]$. These points must be partitioned in $k$ subsets according to a similarity measure,  which in k-means is the Euclidean distance between points. The output of the $k$-means algorithm is a list of $k$ cluster centers, which are called *centroids*. The algorithm starts by selecting $k$ initial centroids randomly or using efficient heuristics like the $k$-means++ [@arthur2007k]. It then alternates between two steps: (i) Each data point is assigned the label of the closest centroid. (ii) Each centroid is updated to be the average of the data points assigned to the corresponding cluster. These two steps are repeated until convergence, that is, until the change in the centroids during one iteration is sufficiently small. 
+The $k$-means algorithm was introduced in [@lloyd1982least], and is extensively used for unsupervised problems. The inputs to $k$-means algorithm are vectors $x_{i} \in \R^{d}$ for $i \in [n]$. These points must be partitioned in $k$ subsets according to a similarity measure,  which in k-means is the Euclidean distance between points. The output of the $k$-means algorithm is a list of $k$ cluster centers, which are called *centroids*. The algorithm starts by selecting $k$ initial centroids randomly or using efficient heuristics like the $k$-means++ [@arthur2007k]. It then alternates between two steps: (i) Each data point is assigned the label of the closest centroid. (ii) Each centroid is updated to be the average of the data points assigned to the corresponding cluster. These two steps are repeated until convergence, that is, until the change in the centroids during one iteration is sufficiently small.
 
 
 
 
 
-More precisely, we are given a dataset $X$ of vectors $x_{i} \in \R^{d}$ for $i \in [n]$. At step $t$, we denote the $k$ clusters by the sets $C_j^t$ for $j \in [k]$, and each corresponding centroid by the vector $c_{j}^{t}$. At each iteration, the data points $x_i$ are assigned to a cluster $C_j^t$ such that $C_1^t \cup C_2^t \cdots \cup C_K^t = V$ and $C_i^t \cap C_l^t = \emptyset$ for $i \neq l$. Let $d(x_{i}, c_{j}^{t})$ be the Euclidean distance between vectors $x_{i}$ and $c_{j}^{t}$.  The first step of the algorithm assigns each $x_{i}$ a label $\ell(x_{i})^t$ corresponding to the closest centroid, that is 
+More precisely, we are given a dataset $X$ of vectors $x_{i} \in \R^{d}$ for $i \in [n]$. At step $t$, we denote the $k$ clusters by the sets $C_j^t$ for $j \in [k]$, and each corresponding centroid by the vector $c_{j}^{t}$. At each iteration, the data points $x_i$ are assigned to a cluster $C_j^t$ such that $C_1^t \cup C_2^t \cdots \cup C_K^t = V$ and $C_i^t \cap C_l^t = \emptyset$ for $i \neq l$. Let $d(x_{i}, c_{j}^{t})$ be the Euclidean distance between vectors $x_{i}$ and $c_{j}^{t}$.  The first step of the algorithm assigns each $x_{i}$ a label $\ell(x_{i})^t$ corresponding to the closest centroid, that is
 $$\ell(x_{i})^{t} = \text{argmin}_{j \in [k]}(d(x_{i}, c_{j}^{t})).$$ The centroids are then updated, $c_{j}^{t+1} = \frac{1}{ |C_{j}^t|} \sum_{i \in C_{j}^t } x_{i},$
 so that the new centroid is the average of all points that have been assigned to the cluster in this iteration. We say that we have converged if for a small threshold $\tau$ (which might be data dependent) we have:
-$$\frac{1}{k}\sum_{j=1}^{k}{d(c_{j}^{t},c_{j}^{t-1}}) \leqslant \tau.$$ 
-The loss function that this algorithm aims to minimize is the RSS (residual sums of squares), the sum of the squared distances between points and the centroid of their cluster. 
+$$\frac{1}{k}\sum_{j=1}^{k}{d(c_{j}^{t},c_{j}^{t-1}}) \leqslant \tau.$$
+The loss function that this algorithm aims to minimize is the RSS (residual sums of squares), the sum of the squared distances between points and the centroid of their cluster.
 $$ \text{RSS} := \sum_{j \in [k]}\sum_{i\in C_j} d(c_j, x_i)^2$$
-As the RSS decrease at each iteration of the $k$-means algorithm, the algorithm therefore converges to a local minimum for the RSS. The number of iterations $T$ for convergence depends on the data and the number of clusters.  A single iteration has complexity of $O(kn d)$ since the $n$ vectors of dimension $d$ have to be compared to each of the $k$ centroids. The centroids obtained at time $t$ are stored in the matrix $C^t \in \R^{k \times d}$, such that the $j^{th}$ row $c_{j}^{t}$ for $j\in [k]$ represents the centroid of the cluster $\mathcal{C}_j^t$. 
+As the RSS decrease at each iteration of the $k$-means algorithm, the algorithm therefore converges to a local minimum for the RSS. The number of iterations $T$ for convergence depends on the data and the number of clusters.  A single iteration has complexity of $O(kn d)$ since the $n$ vectors of dimension $d$ have to be compared to each of the $k$ centroids. The centroids obtained at time $t$ are stored in the matrix $C^t \in \R^{k \times d}$, such that the $j^{th}$ row $c_{j}^{t}$ for $j\in [k]$ represents the centroid of the cluster $\mathcal{C}_j^t$.
 
 
-From a computational complexity point of view, we recall that it is NP-hard to find a clustering that achieves the global  minimum for the RSS. There are classical clustering algorithms based on optimizing different loss functions, however the k-means algorithm uses the RSS as the objective function. 
-The algorithm can be super-polynomial in the worst case (the number of iterations is $2^{\omega(\sqrt{n})}$  [@arthur2006slow]), 
+From a computational complexity point of view, we recall that it is NP-hard to find a clustering that achieves the global  minimum for the RSS. There are classical clustering algorithms based on optimizing different loss functions, however the k-means algorithm uses the RSS as the objective function.
+The algorithm can be super-polynomial in the worst case (the number of iterations is $2^{\omega(\sqrt{n})}$  [@arthur2006slow]),
 but the number of iterations is usually small in practice. The $k$-means algorithm with a suitable heuristic like $k$-means++ ( described later on ) to initialize the centroids finds a clustering such that the value for the RSS objective function is within a multiplicative $O(\log n)$ factor of the minimum value [@arthur2007k].
 
 
 ### $\delta-$k-means
-We now consider a $\delta$-robust version of the $k$-means in which we introduce some noise. The noise affects the algorithms in both of the steps of k-means: label assignment and centroid estimation. 
+We now consider a $\delta$-robust version of the $k$-means in which we introduce some noise. The noise affects the algorithms in both of the steps of k-means: label assignment and centroid estimation.
 
 - Let $c^{*}_i$ be the closest centroid to the data point $x_i$. Then, the set of possible labels $L_{\delta}(x_i)$ for $x_i$ is defined as follows:
-$$L_{\delta}(x_i)  =  \{c_p  : | d^2(c^*_i, x_i ) - d^2(c_p, x_i) | \leq \delta \: \}$$ 
-The assignment rule selects arbitrarily a cluster label from the set $L_{\delta}(x_i)$.  
+$$L_{\delta}(x_i)  =  \{c_p  : | d^2(c^*_i, x_i ) - d^2(c_p, x_i) | \leq \delta \: \}$$
+The assignment rule selects arbitrarily a cluster label from the set $L_{\delta}(x_i)$.
 -  We add $\delta/2$ noise during the calculation of the centroid. Let $\mathcal{C}_j^{t+1}$ be the set of points which have been labeled by $j$ in the previous step. For $\delta$-k-means we pick a centroid $c^{t+1}_j $ with the property that:
 $$\norm{ c^{t+1}_j - \frac{1}{|\mathcal{C}^{t+1}_j|}\sum_{x_i \in \mathcal{C}^{t+1}_j} x_i} < \frac{\delta}{2}.$$
 
 
-One way to see this is to perturb the centroid with some noise. 
+One way to see this is to perturb the centroid with some noise.
 
-Let us add two remarks on the $\delta$-$k$-means. First, for a dataset that is expected to have clusterable data, and for a small $\delta$, the number of vectors on the boundary that risk to be misclassified in each step, that is the vectors for which $|L_{\delta}(x_i)|>1$ is typically much smaller compared to the vectors that are close to a unique centroid. Second, we also increase by $\delta/2$  the convergence threshold from the $k$-means algorithm. All in all, $\delta$-$k$-means is able to find a clustering that is robust when the data points and the centroids are perturbed with some noise of magnitude $O(\delta)$. 
+Let us add two remarks on the $\delta$-$k$-means. First, for a dataset that is expected to have clusterable data, and for a small $\delta$, the number of vectors on the boundary that risk to be misclassified in each step, that is the vectors for which $|L_{\delta}(x_i)|>1$ is typically much smaller compared to the vectors that are close to a unique centroid. Second, we also increase by $\delta/2$  the convergence threshold from the $k$-means algorithm. All in all, $\delta$-$k$-means is able to find a clustering that is robust when the data points and the centroids are perturbed with some noise of magnitude $O(\delta)$.
 As we will see in this work, $q$-means is the quantum equivalent of $\delta$-$k$-means.
 
 
@@ -53,7 +53,7 @@ As we will see in this work, $q$-means is the quantum equivalent of $\delta$-$k$
 
 ## The $q$-means algorithm
 
-The $q$-means algorithm is given as Algorithm \@ref(fig:q-means-algo). At a high level, it follows the same steps as the classical $k$-means algorithm (and the EM algorithm for GMM), where we now use quantum subroutines for distance estimation, finding the minimum value among a set of elements, matrix multiplication for obtaining the new centroids as quantum states, and efficient tomography. First, we pick some random initial points, using the quantum version of a classical techniques (like the $k$-means$++$ idea  [@arthur2007k], for which we give a quantum algorithm later ). Then, in Steps 1 and 2 all data points are assigned to a cluster. In Steps 3 and 4 we update the centroids of the clusters and retrieve the information classically. The process is repeated until convergence. 
+The $q$-means algorithm is given as Algorithm \@ref(fig:q-means-algo). At a high level, it follows the same steps as the classical $k$-means algorithm (and the EM algorithm for GMM), where we now use quantum subroutines for distance estimation, finding the minimum value among a set of elements, matrix multiplication for obtaining the new centroids as quantum states, and efficient tomography. First, we pick some random initial points, using the quantum version of a classical techniques (like the $k$-means$++$ idea  [@arthur2007k], for which we give a quantum algorithm later ). Then, in Steps 1 and 2 all data points are assigned to a cluster. In Steps 3 and 4 we update the centroids of the clusters and retrieve the information classically. The process is repeated until convergence.
 
 
 ```{r, q-means-algo, fig.cap="The q-means algorithm", echo=FALSE}
@@ -63,13 +63,13 @@ knitr::include_graphics("algpseudocode/qmeans.png")
 
 ### Step 1: Centroid distance estimation
 
-The first step of the algorithm estimates the square distance between data points and clusters using a quantum procedure. 
+The first step of the algorithm estimates the square distance between data points and clusters using a quantum procedure.
 
 ```{theorem, dist-centroids, name="Centroid Distance estimation"}
 Let a data matrix $V \in \mathbb{R}^{n \times d}$ and a centroid matrix $C \in \mathbb{R}^{k \times d}$ be stored in QRAM, such that the following unitaries $\ket{i}\ket{0} \mapsto \ket{i}\ket{x_i}$, and $\ket{j}\ket{0} \mapsto \ket{j}\ket{c_j}$ can be performed in time $O(\log (nd))$ and the norms of the vectors are known.
 For any $\Delta > 0$ and $\epsilon_1>0$, there exists a quantum algorithm that performs the mapping
-$$\frac{1}{\sqrt{n}}\sum_{i=1}^{n}  \ket{i} \otimes_{j \in [k]} ( \ket{j}\ket{0}) \mapsto\ \frac{1}{\sqrt{n}}\sum_{i=1}^{n}  \ket{i} \otimes_{j \in [k]}(\ket{j}\ket{\overline{d^2(x_i,c_j)}}),$$ 
-where $|\overline{d^{2}(x_i,c_j)}-d^{2}(x_i,c_j)| \leqslant  \epsilon_1$ with probability at least $1-2\Delta$, in time $\widetilde{O}\left(k \frac{ \eta}{\epsilon_1} \log(1/\Delta) \right)$ where $\eta=\max_{i}(\norm{x_i}^2)$. 
+$$\frac{1}{\sqrt{n}}\sum_{i=1}^{n}  \ket{i} \otimes_{j \in [k]} ( \ket{j}\ket{0}) \mapsto\ \frac{1}{\sqrt{n}}\sum_{i=1}^{n}  \ket{i} \otimes_{j \in [k]}(\ket{j}\ket{\overline{d^2(x_i,c_j)}}),$$
+where $|\overline{d^{2}(x_i,c_j)}-d^{2}(x_i,c_j)| \leqslant  \epsilon_1$ with probability at least $1-2\Delta$, in time $\widetilde{O}\left(k \frac{ \eta}{\epsilon_1} \log(1/\Delta) \right)$ where $\eta=\max_{i}(\norm{x_i}^2)$.
 ```
 
 
@@ -79,18 +79,18 @@ The proof of the theorem follows rather straightforwardly from lemma \@ref(lem:i
 
 
 ### Step 2: Cluster assignment
-At the end of Step 1, we have coherently estimated the square distance between each point in the dataset and the $k$ centroids in separate registers. We can now select the index $j$ that corresponds to the centroid closest to the given data point, written as $\ell(x_{i}) = \text{argmin}_{j \in [k]}(d(x_{i}, c_{j}))$. 
-As taking the square of a number is a monotone function, we do not need to compute the square root of the distance in order to find $\ell(x_{i})$. 
+At the end of Step 1, we have coherently estimated the square distance between each point in the dataset and the $k$ centroids in separate registers. We can now select the index $j$ that corresponds to the centroid closest to the given data point, written as $\ell(x_{i}) = \text{argmin}_{j \in [k]}(d(x_{i}, c_{j}))$.
+As taking the square of a number is a monotone function, we do not need to compute the square root of the distance in order to find $\ell(x_{i})$.
 
 ```{lemma, circuit-minimum, name="Circuit for finding the minimum of $k$ registers"}
 Given $k$ different $\log p$-bit registers $\otimes_{j \in [k]} \ket{a_j}$, there is a quantum circuit $U_{min}$ that maps in time ${O}(k \log p)$
-	$$(\otimes_{j \in [p]} \ket{a_j})\ket{0} \to (\otimes_{j \in [k]}\ket{a_j})\ket{\text{argmin}(a_j)}.$$ 
+	$$(\otimes_{j \in [p]} \ket{a_j})\ket{0} \to (\otimes_{j \in [k]}\ket{a_j})\ket{\text{argmin}(a_j)}.$$
 ```
 
 ```{proof}
-We append an additional register for the result that is initialized to $\ket{1}$. We then repeat the following operation for $2\leq j \leq k$, we compare registers $1$ and $j$, if the value in register $j$ is smaller we swap registers $1$ and $j$ and update the result register to $j$. The cost of the procedure is ${O}(k \log p)$.   	
+We append an additional register for the result that is initialized to $\ket{1}$. We then repeat the following operation for $2\leq j \leq k$, we compare registers $1$ and $j$, if the value in register $j$ is smaller we swap registers $1$ and $j$ and update the result register to $j$. The cost of the procedure is ${O}(k \log p)$.
 ```
-The cost of finding the minimum is $\widetilde{O}(k)$ in step 2 of the $q$-means algorithm, while we also need to uncompute the distances by repeating Step 1. 
+The cost of finding the minimum is $\widetilde{O}(k)$ in step 2 of the $q$-means algorithm, while we also need to uncompute the distances by repeating Step 1.
 Once we apply the minimum finding lemma \@ref(lem:circuit-minimum) and undo the computation we obtain the state
 \begin{equation}
 \ket{\psi^t} := \frac{1}{\sqrt{N}}\sum_{i=1}^{n} \ket{i} \ket{ \ell^t(x_{i})}.
@@ -99,10 +99,10 @@ Once we apply the minimum finding lemma \@ref(lem:circuit-minimum) and undo the 
 
 
 
-### Step 3: Centroid state creation 
+### Step 3: Centroid state creation
 The previous step gave us the state $\ket{\psi^t}= \frac{1}{\sqrt{N}}\sum_{i=1}^{n} \ket{i} \ket{ \ell^t(x_{i})}$.
-The first register of this state stores the index of the data points while the second register stores the label for the data point in the current iteration. 
-Given these states, we need to find the new centroids  $\ket{c_j^{t+1}}$, which are the average of the data points having the same label. 
+The first register of this state stores the index of the data points while the second register stores the label for the data point in the current iteration.
+Given these states, we need to find the new centroids  $\ket{c_j^{t+1}}$, which are the average of the data points having the same label.
 
 Let $\chi_{j}^{t} \in \R^{N}$ be the characteristic vector for cluster $j \in [k]$ at iteration $t$ scaled to unit $\ell_{1}$ norm, that is $(\chi_{j}^{t})_{i} = \frac{1}{  |C_{j}^{t}|}$ if $i\in \mathcal{C}_{j}$ and $0$ if $i \not \in \mathcal{C}_{j}$. The creation of the quantum states corresponding to the centroids is based on the
 following simple claim.
@@ -170,7 +170,7 @@ Instead, here as in some other applications we need the consistent phase estimat
 For what follows, we assume that indeed the state in Equation \@ref(eq:labels) is almost a pure state, meaning that when we repeat the procedure we get the same state with very high probability.
 
 
-### Initialization of $q$-means++ 
+### Initialization of $q$-means++
 Before running $k$-means, one usually chooses the first $k$ centroids by using the $k$-means++ technique from [@arthur2007k]. A first centroid is chosen uniformly at random and we compute its distance to all points of the dataset. Then we sample one point with a weighted probability distribution corresponding to their squared distance to the centroid. We repeat the previous step with this new point as centroid, until $k$ centroids have been chosen.
 
 A quantum analogue, $q$-means++, can be implemented efficiently using the distance subroutine, Lemma \@ref(lem:innerproductestimation). Starting with a random index $i$ we compute the following state in time $\tilde{O}(\frac{\eta}{\epsilon_1})$:
@@ -199,7 +199,7 @@ $$\widetilde{O}\left(    k d \frac{\eta}{\delta^2}\kappa(X)(\mu(X) + k \frac{\et
 
 We prove the theorem in the next two sections.
 
-### Error analysis 
+### Error analysis
 In this section we determine the error parameters in the different steps of the quantum algorithm so that the quantum algorithm behaves the same as the classical $\delta$-$k$-means. More precisely, we will determine the values of the errors $\epsilon_1, \epsilon_2, \epsilon_3,\epsilon_4$ in terms of $\delta$. In this way, the cluster assignment of all data points made by the $q$-means algorithm is consistent with a classical run of the $\delta$-$k$-means algorithm, and also that the centroids computed by the $q$-means after each iteration are again consistent with centroids that can be returned by the $\delta$-$k$-means algorithm.
 
 The cluster assignment in $q$-means happens in two steps. The first step estimates the square distances between all points and all centroids. The error in this procedure is of the form
@@ -240,7 +240,7 @@ $\epsilon_3 < \frac{\delta}{4\sqrt{\eta}}$ and $\epsilon_4 < \frac{\delta}{4\sqr
 
 
 
-### Runtime analysis 
+### Runtime analysis
 As the classical algorithm, the runtime of $q$-means depends linearly on the number of iterations, so here we analyze the cost of a single step. The cost of tomography for the $k$ centroid vectors is $O(\frac{kd \log k \log d}{{\epsilon_4}^{2}})$ times the cost of preparation of a single centroid state $\ket{c_{j}^{t}}$.
 A single copy of $\ket{c_{j}^{t}}$ is prepared applying the matrix multiplication by $V^{T}$ procedure on the state $\ket{\chi_{j}^{t}}$ obtained using square distance estimation. The time required for preparing a single copy of $\ket{c_{j}^{t}}$ is $O( \kappa(V) (\mu(V) + T_{\chi}) \log (1/\epsilon_{2}))$ by  theorem \@ref(thm:qla) where $T_{\chi}$ is the time for preparing $\ket{\chi_{j}^{t}}$.  The time $T_{\chi}$  is $\widetilde{O}\left(\frac{k\eta\log(\Delta^{-1})\log(n d)}{ \epsilon_1}\right)= \widetilde{O}(\frac{k\eta} { \epsilon_1} )$ by lemma \@ref(lem:innerproductestimation). The cost of norm estimation for $k$ different centroids is independent of the tomography cost and is $\widetilde{O}( \frac{k T_{\chi} \kappa(V) \mu(V) }{\epsilon_{3}} )$.
 Combining together all these costs and suppressing all the logarithmic factors we have a total running time of:

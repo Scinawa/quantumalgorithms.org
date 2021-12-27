@@ -1,4 +1,4 @@
---- 
+---
 output:
   pdf_document: default
   html_document: default
@@ -14,7 +14,7 @@ We have discussed about several important quantum algorithms. A large portion of
 The goal of a quantum query algorithm usually involves determining entirely or partially a function $f:\{0,1\}^n \rightarrow \{0,1\}$ given via an oracle $O_f: O_f|\mathbf{x},a\rangle = |\mathbf{x},a\oplus y\rangle$, where $y \in \{0,1\}$ is the evaluation of $f$ at the input $\mathbf{x} \in \{0,1\}^n$. The oracle basically swaps $|\mathbf{x},0\rangle$ and $|\mathbf{x},1\rangle$ when $y = 1$, and does nothing when $y=0$. For a general superposition of $|\psi\rangle = \sum_{i \in [N]}\alpha_{i,0}(\mathbf{x})|i,0\rangle + \alpha_{i,1}(\mathbf{x})|i,1\rangle$, where $\alpha_{i,a}(\mathbf{x})$ is an $N$-variate polynomial in terms of $x_i$'s, the degree of $\alpha_{i,a}(\mathbf{x})$ is increased by $O_f$ by at most $1$.
 
 $$O_f |\psi\rangle = \sum_{i\in [N]} \left[ (1-y_i) \alpha_{i,0}(\mathbf{x})  + y_i \alpha_{\mathbf{x},1}(\mathbf{x}) \right]|i,0\rangle + \left[ y_i \alpha_{i,0}(\mathbf{x}) + (1-y_i) \alpha_{i,1} (\mathbf{x}) \right] |i,1\rangle$$
-A quantum algorithm typically calls an interleaved chain of unitary operators and the oracles. Those unitary operators do not depend of $\mathbf{x}$, so $O_f$'s are the only contributors to any increase in the degree of $\alpha_{i,a}(\mathbf{x})$, with an increase of at most $1$ for each call to the oracle. 
+A quantum algorithm typically calls an interleaved chain of unitary operators and the oracles. Those unitary operators do not depend of $\mathbf{x}$, so $O_f$'s are the only contributors to any increase in the degree of $\alpha_{i,a}(\mathbf{x})$, with an increase of at most $1$ for each call to the oracle.
 
 The following lemmas come as consequences of the preceeding observation and the fact that $y_i^2 = y_i$.
 
@@ -43,7 +43,7 @@ $$
 
 A nice property of this symmetrized polynomial is that it is a uni-variate polynomial in $|x|$ that approximates $f$. Moreover, the uni-variate polynomial has a degree $d \leq \text{deg}(p)$. To see why this is the case, we observe that
 
-$\bar{p}(\mathbf{x}) = c_0 + c_1Q_1 + c_2Q_2 + \cdots + c_dQ_d$, where $Q_1 = x_1 + x_2 + \cdots + x_n$, $Q_2 = x_1x_2 + \dots + x_1x_n + x_2x_1 + \dots + x_{n}x_{n-1}$, etc. Consider 
+$\bar{p}(\mathbf{x}) = c_0 + c_1Q_1 + c_2Q_2 + \cdots + c_dQ_d$, where $Q_1 = x_1 + x_2 + \cdots + x_n$, $Q_2 = x_1x_2 + \dots + x_1x_n + x_2x_1 + \dots + x_{n}x_{n-1}$, etc. Consider
 
 $$Q_j = \sum_{{\substack{S\subset [N] \\|S| = j}}} \prod_{i \in S} x_i$$
 If $j>|x|$, each product within the representation of $Q_j$ is equal to zero, so $Q_j = 0$. If $j \leq |x|$, there are exactly $\binom{|x|}{j}$ nonzero products within $Q_j$. Those nonzero products equal $1$, so $Q_j = \binom{|x|}{j}$. Therefore the symmetrized polynomial is
@@ -53,7 +53,7 @@ Also, since $p$ approximates $f$ that only depends on $|\mathbf{x}|$, the sum ov
 ```{theorem, paturi-theorem, name="Paturi theorem [@paturi1992degbound]"}
 Suppose $f$ is a non-constant symmetric boolean function on \{0,1\}^n and $p$ is some approximating polynomial of $f$.
 
-Let $f_k \equiv f(\mathbf{x})$ when $|\mathbf{x}| = k$, and $\Gamma(f) \equiv \min\{|2k-n+1| : f_k \neq f_{k+1}$ for $0\leq k \leq n-1\}$. 
+Let $f_k \equiv f(\mathbf{x})$ when $|\mathbf{x}| = k$, and $\Gamma(f) \equiv \min\{|2k-n+1| : f_k \neq f_{k+1}$ for $0\leq k \leq n-1\}$.
 
 Then $\min{\text{deg}(p)} \in \Theta(\sqrt{n(n-\Gamma(f))})$
 ```
@@ -61,12 +61,12 @@ Then $\min{\text{deg}(p)} \in \Theta(\sqrt{n(n-\Gamma(f))})$
 
 A simple example is the black-box PARITY function $f(\mathbf{x}) = x_1 \oplus x_2 \oplus \dots \oplus x_n$. Symmetrizing $f$ induces a zero-error polynomial $r(x)$ such that
 $$r(k) = \left\{\begin{matrix}
-1, \text{ } k \text{ is even}\\ 
+1, \text{ } k \text{ is even}\\
 0, \text{ } k \text{ is odd}
 \end{matrix}\right.$$
 Note that $r(x)$ changes direction at least $n$ times, so $\text{deg}(r) \geq n$. Note that, for PARITY function, we have $\Gamma(f) = 1$ and $\min{\text{deg}(p)} \in \Theta(n)$. So $r(x)$ offers the optimal lower bound. Thus the computation of $f$ requires at least $n/2$ queries. According to this, Deutsch's algorithm is the optimal algorithm even in no-error case for $n=2$.
 
-We will look at another example of OR function. One way to learn the function from the corresponding oracle is using the Grover's algorithm. If the input has at least one $x_i = 1$, the algorithm can find some index $j$ such that $x_j=1$ with high probability using $\Theta(\sqrt{n})$ queries. As a result, one can compute the OR function with bounded error with $\Theta(\sqrt{n})$ queries. This result agrees with Paturi's theorem with $\Gamma(f) = n-1$ and $\min{\text{deg}(p)} \in \Theta(\sqrt{n})$. We can also prove the minimum number of query calls required independently: Computing the symmetric OR function with error $\leq 1/3$ induces a uni-variate approximating polynomial $r$ such that 
+We will look at another example of OR function. One way to learn the function from the corresponding oracle is using the Grover's algorithm. If the input has at least one $x_i = 1$, the algorithm can find some index $j$ such that $x_j=1$ with high probability using $\Theta(\sqrt{n})$ queries. As a result, one can compute the OR function with bounded error with $\Theta(\sqrt{n})$ queries. This result agrees with Paturi's theorem with $\Gamma(f) = n-1$ and $\min{\text{deg}(p)} \in \Theta(\sqrt{n})$. We can also prove the minimum number of query calls required independently: Computing the symmetric OR function with error $\leq 1/3$ induces a uni-variate approximating polynomial $r$ such that
 
 $$r(0) \in [0,1/3] \quad \text{and} \quad r(k) \in [2/3,1] \: \forall k\in \{1,2,\dots,n\}$$
 
@@ -90,7 +90,7 @@ $$
 \begin{matrix}
 |i\rangle \left(\frac{|0\rangle - |1\rangle}{\sqrt{2}}\right) &\mapsto& |i\rangle \left(\frac{|w_i\rangle - |1\oplus w_i\rangle}{\sqrt{2}}\right) \\
  &=& \left\{\begin{matrix}
-|i\rangle \left(\frac{|0\rangle - |1\rangle}{\sqrt{2}}\right), \quad  w_i=0\\ 
+|i\rangle \left(\frac{|0\rangle - |1\rangle}{\sqrt{2}}\right), \quad  w_i=0\\
 |i\rangle \left(\frac{|1\rangle - |0\rangle}{\sqrt{2}}\right), \quad w_i=1
 \end{matrix}\right. \\
  &=& (-1)^{w_i} |i\rangle \left(\frac{|0\rangle - |1\rangle}{\sqrt{2}}\right)
@@ -99,13 +99,13 @@ $$
 
 Our goal is to determine $f(\mathbf{x})$ with high probability, say at least $2/3$, for a given $\mathbf{x}$ using as few $O_{\mathbf{x}}$ queries as possible. An error-bounded algorithm must accept any $\mathbf{x} \in f^{-1}(0)$ with probability $\leq 1/3$ and accept any $\mathbf{y} \in f^{-1}(1)$ with probability $\geq 2/3$.
 
-For an arbitrary input $\mathbf{w}$, a general algorithm can be formulated as a sequence 
+For an arbitrary input $\mathbf{w}$, a general algorithm can be formulated as a sequence
 $$U_T O_{\mathbf{w}} U_{T-1} O_{\mathbf{w}} \dots O_{\mathbf{w}} U_1 O_{\mathbf{w}} U_0$$
 Denote $|\psi^t_{\mathbf{w}}\rangle$ be the state of the system after the $t$-th query to the oracle. Let $\mathbf{x} \in X \equiv \{\mathbf{x} | f(\mathbf{x}) =0 \}=f^{-1}(0)$ and $\mathbf{y} \in Y = f^{-1}(1)$. Define the _progress function_ of $\mathbf{x}$ and $\mathbf{y}$ as the inner product of their corresponding quantum state though the time period $\langle\psi^t_{\mathbf{x}} | \psi^t_{\mathbf{y}} \rangle$. Define the _progress measure_ over a subset $R$ of $X \times Y$  as
 
 $$S(t) = \sum_{(x,y)\in R} |\langle\psi^t_{\mathbf{x}} | \psi^t_{\mathbf{y}} \rangle|$$
 
-Observe that $\langle\psi^0_{\mathbf{x}} | \psi^0_{\mathbf{y}} \rangle = 1$ as the initial states for all inputs are necessarily the same. Also, non-oracle unitary operators $U_i$ do not alter $\langle\psi^t_{\mathbf{x}} | \psi^t_{\mathbf{y}} \rangle$. One can show $|\langle\psi^T_{\mathbf{x}} | \psi^T_{\mathbf{y}} \rangle| \leq \frac{17}{18}$ for an error-bounded algorithm. The proof is based on an inequality between total variation distance and $L_2$ norm distance. 
+Observe that $\langle\psi^0_{\mathbf{x}} | \psi^0_{\mathbf{y}} \rangle = 1$ as the initial states for all inputs are necessarily the same. Also, non-oracle unitary operators $U_i$ do not alter $\langle\psi^t_{\mathbf{x}} | \psi^t_{\mathbf{y}} \rangle$. One can show $|\langle\psi^T_{\mathbf{x}} | \psi^T_{\mathbf{y}} \rangle| \leq \frac{17}{18}$ for an error-bounded algorithm. The proof is based on an inequality between total variation distance and $L_2$ norm distance.
 
 
 ```{definition, total-variation-distance, name="Total variation distance"}
@@ -116,8 +116,8 @@ d(P,Q) & \equiv & \sup_{A \subseteq \Omega} |P(A) - Q(A)| \\
  &=& \frac{1}{2} \sum_{\omega \in \Omega} |P(\omega) - Q(\omega)|
 \end{matrix}$$
 ```
-  
-  
+
+
 In the context of quantum measurement, the decision problem involves a $2$-outcome measurement at time $t=T$. The probability of obtaining the outcome $m \in \{0,1\}$ by a measurement of quantum states $\phi$ and $\tau$ are $|\phi_m|^2$ and $|\tau_m|^2$ respectively.
 
 $$\begin{matrix}
@@ -133,20 +133,20 @@ $$\|\psi_\mathbf{x}^T - \psi_\mathbf{y}^T\|_2^2 = \langle \psi_\mathbf{x}^T - \p
 
 We can assume that $\langle \psi_x^T | \psi_y^T \rangle$ is real, otherwise multiply $| \psi_y^T \rangle$ by some scalar of norm $1$ to make the inner product real. Then it follows that $|\langle \psi_x^T | \psi_y^T \rangle| \leq 17/18$. Intuitively, as the inner product is bounded above, the measurement statistics can distinguish $\mathbf{x} \in f^{-1}(0)$ and $\mathbf{y} \in f^{-1}(1)$.
 
-However we should rather look at more than a fixed pair $\mathbf{x}, \mathbf{y}$ to obtain a meaningful result. This suggests us to look at some particular subset $R \subseteq X \times Y$. 
+However we should rather look at more than a fixed pair $\mathbf{x}, \mathbf{y}$ to obtain a meaningful result. This suggests us to look at some particular subset $R \subseteq X \times Y$.
 Observe that the progress measure before and after the algorithm are $S(0) = |R|$ and $S(T) \leq \frac{17}{18}|R|$. So, if one can come up with an upper bound $\Delta$ for $|S(t) - S(t-1)|$, then the number of queries needed is $T \geq |S(T) - S(0)| / \Delta = |R|/18\Delta$. We prove the following theorem based on that idea.
 
 ```{theorem, basic-adversary, name="Basic Adversary Method [@ambainis2002adversary]"}
 Let $f$ be a decision problem, $X \subseteq f^{-1}(0), Y \subseteq f^{-1}(1)$, and a _binary relation_ $R \subseteq X \times Y$. Suppose that
 
    1. $\forall \mathbf{x} \in X$, there are at least $m_0$ distinct $\mathbf{y} \in Y$ such that $(\mathbf{x},\mathbf{y}) \in R$
-      
+
    2. $\forall \mathbf{y} \in Y$, there are at least $m_1$ distinct $\mathbf{x} \in X$ such that $(\mathbf{x},\mathbf{y}) \in R$
-      
+
    3. $\forall \mathbf{x} \in X$ and $\forall i \in \{0,1,\dots,n\}$, there are at most $l_0$ distinct $\mathbf{y} \in Y$ such that $x_i \neq y_i$ and $(\mathbf{x},\mathbf{y}) \in R$
-      
+
    4. $\forall \mathbf{y} \in Y$ and $\forall i \in \{0,1,\dots,n\}$, there are at most $l_1$ distinct $\mathbf{x} \in X$ such that $x_i \neq y_i$ and $(\mathbf{x},\mathbf{y}) \in R$.
-   
+
 Then the quantum query complexity of $f$ is $\Omega{\sqrt{\frac{m_0m_1}{l_0l_1}}}$
 ```
 The following proof is modified from a proof for the case $l_0 = l_1 = 1$ given in the lecture note [@adversary-simple].
@@ -162,7 +162,7 @@ When the states pass through the $t$-th oracle, it flips the sign on each $a_i, 
 
 $$\langle \psi_\mathbf{x}^{t} | \psi_\mathbf{y}^{t} \rangle = \sum_{i \notin J_{\mathbf{x}\mathbf{y}}} a_i^* b_i \langle \phi_i | \chi_i \rangle - \sum_{j \in J_{\mathbf{x}\mathbf{y}}} a_j^* b_j \langle \phi_i | \chi_i \rangle$$
 
-The change in the inner product at two successive time is 
+The change in the inner product at two successive time is
 
 $$\langle \psi_\mathbf{x}^{t} | \psi_\mathbf{y}^{t} \rangle - \langle \psi_\mathbf{x}^{t-1} | \psi_\mathbf{y}^{t-1} \rangle = 2  \sum_{j \in J_{\mathbf{x}\mathbf{y}}} a_i^* b_i \langle \phi_i | \chi_i \rangle$$
 
@@ -171,7 +171,7 @@ $$\begin{matrix}
  &\leq&  \sum_{(\mathbf{x},\mathbf{y})\in R} \left| \langle \psi_\mathbf{x}^{t} | \psi_\mathbf{y}^{t} \rangle - \langle \psi_\mathbf{x}^{t-1} | \psi_\mathbf{y}^{t-1} \rangle \right| \\
  &=&  \sum_{(\mathbf{x},\mathbf{y})\in R} \left| 2  \sum_{j \in J_{\mathbf{x}\mathbf{y}}} a_{j(\mathbf{x},\mathbf{y})}^* b_{j(\mathbf{x},\mathbf{y})} \langle \phi_i | \chi_i \rangle \right| \\
  &\leq& \sum_{(\mathbf{x},\mathbf{y})\in R} \sum_{j \in J_{\mathbf{x}\mathbf{y}}} 2 \left| a_{j(\mathbf{x},\mathbf{y})}^* b_{j(\mathbf{x},\mathbf{y})} \right| \\
- &\leq& \sum_{(\mathbf{x},\mathbf{y})\in R} \sum_{j \in J_{\mathbf{x}\mathbf{y}}} \sqrt{\frac{m_0 l_1}{m_1 l_0}} \left| a_{j(\mathbf{x},\mathbf{y})} \right|^2 + \sqrt{\frac{m_1 l_0}{m_0 l_1}} \left| b_{j(\mathbf{x},\mathbf{y})} \right|^2 
+ &\leq& \sum_{(\mathbf{x},\mathbf{y})\in R} \sum_{j \in J_{\mathbf{x}\mathbf{y}}} \sqrt{\frac{m_0 l_1}{m_1 l_0}} \left| a_{j(\mathbf{x},\mathbf{y})} \right|^2 + \sqrt{\frac{m_1 l_0}{m_0 l_1}} \left| b_{j(\mathbf{x},\mathbf{y})} \right|^2
 \end{matrix}$$
 
 The last line comes from the simple inequality $|a|^2 + |b|^2 \geq 2|ab|$. Consider the first summand in the expression above.

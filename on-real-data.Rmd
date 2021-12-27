@@ -66,7 +66,7 @@ Let $V$ be a well-clusterable data matrix, then $\mu(V):= \frac{\norm{V}_{F}}{\n
 We show that when we rescale $V$ so that $\norm{V} = 1$, then we have $\norm{V}_{F}= O(\sqrt{k})$ for the rescaled matrix.
 From the triangle inequality we have that
 $\norm{V}_F \leq \norm{V-V_k}_F + \norm{V_k}_F$.
-Using the fact that $\norm{V_k}_F^2 = \sum_{i \in [k]} \sigma_i^2 \leq k$ and Claim \@ref(low-rank), we have,
+Using the fact that $\norm{V_k}_F^2 = \sum_{i \in [k]} \sigma_i^2 \leq k$ and lemma \@ref(lem:low-rank), we have,
 $$\norm{V}_F \leq \sqrt{ (\lambda\beta^2+(1-\lambda)4\eta)} \norm{V}_F + \sqrt{k}$$
 Rearranging, we have that
 $\norm{V}_F \leq \frac{\sqrt{k}}{1-\sqrt{(\lambda\beta^2+(1-\lambda)4\eta)}} = O(\sqrt{k})$.
@@ -110,32 +110,32 @@ The experiments bypassed the construction of the quantum circuit and directly pe
 ### Datasets
 
 #### MNIST
-MNIST [@lecun1998mnist] is probably the most used dataset in image classification. 
-It is a collection of $60000$ training plus $10000$ testing images of $28 \times 28 = 784$ pixels. 
-Each image is a black and white handwritten digit between 0 and 9 and it is paired with a label that specifies the digit. 
+MNIST [@lecun1998mnist] is probably the most used dataset in image classification.
+It is a collection of $60000$ training plus $10000$ testing images of $28 \times 28 = 784$ pixels.
+Each image is a black and white handwritten digit between 0 and 9 and it is paired with a label that specifies the digit.
 Since the images are black and white, they are represented as arrays of 784 values that encode the lightness of each pixel.
-The dataset, excluding the labels, can be encoded in a matrix of size $70000 \times 784$. 
+The dataset, excluding the labels, can be encoded in a matrix of size $70000 \times 784$.
 
 #### Fashon-MNIST
 Fashion MNIST [@xiao2017] is a recent dataset for benchmarking in image classification.
-Like the MNIST, it is a collection of 70000 images composed of $28 \times 28 = 784$ pixels. 
-Each image represents a black and white fashion item among {T-shirt/top, Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag, Ankle boot}. 
-Each image is paired with a label that specifies the item represented in the image. 
+Like the MNIST, it is a collection of 70000 images composed of $28 \times 28 = 784$ pixels.
+Each image represents a black and white fashion item among {T-shirt/top, Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag, Ankle boot}.
+Each image is paired with a label that specifies the item represented in the image.
 Since the images are black and white, they are represented as arrays of 784 values that encode the lightness of each pixel.
-The dataset, excluding the labels, can be encoded in a matrix of size $70000 \times 784$. 
+The dataset, excluding the labels, can be encoded in a matrix of size $70000 \times 784$.
 
-#### CIFAR-10 
-CIFAR-10 [@krizhevsky2009learning] is another widely used dataset for benchmarking image classification. 
+#### CIFAR-10
+CIFAR-10 [@krizhevsky2009learning] is another widely used dataset for benchmarking image classification.
 It contains $60000$ colored images of $32 \times 32$ pixel, with the values for each of the 3 RGB colors.
-Each image represents an object among {airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck} and is paired with the appropriate label. 
+Each image represents an object among {airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck} and is paired with the appropriate label.
 When the images are reshaped to unroll the three channels in a single vector, the resulting size of the dataset is $60000 \times 3072$.
 
 #### Research Paper
-Research Paper [@researchpaper] is a dataset for text classification, available on Kaggle. 
-It contains 2507 titles of papers together with the labels of the venue where they have been published. 
-The labels are {WWW, INFOCOM, ISCAS, SIGGRAPH, VLDB}. 
-We pre-process the titles to compute a contingency table of $papers \times words$: the value of the $i^{th}-j^{th}$ cell is the number of times that the $j^{th}$ word is contained in the $i^{th}$ title. 
-We remove the English stop-words, the words that appear in only one document, and the words that appear in more than half the documents. 
+Research Paper [@researchpaper] is a dataset for text classification, available on Kaggle.
+It contains 2507 titles of papers together with the labels of the venue where they have been published.
+The labels are {WWW, INFOCOM, ISCAS, SIGGRAPH, VLDB}.
+We pre-process the titles to compute a contingency table of $papers \times words$: the value of the $i^{th}-j^{th}$ cell is the number of times that the $j^{th}$ word is contained in the $i^{th}$ title.
+We remove the English stop-words, the words that appear in only one document, and the words that appear in more than half the documents.
 The result is a contingency table of size $2507 \times 2010$.
 
 #### VoxForge Dataset
@@ -332,12 +332,12 @@ As we said, the quantum running time saves the factor that depends on the number
 ### QPCA
 These experiment are extracted from a M.Sc. thesis [@bellante2020quantum] and from a soon-to-appear work.
 This section shows several experiments on the MNIST, Fashion MNIST, CIFAR-10 and Research Papers datasets.
-In all the experiments, the datasets have been shifted to row mean $0$ and normalized so that $\sigma_{max} \leq 1$. 
+In all the experiments, the datasets have been shifted to row mean $0$ and normalized so that $\sigma_{max} \leq 1$.
 
 ##### Explained variance distribution
-First, we explore the distribution of the factor score ratios in the MNIST, Fashion MNIST, CIFAR-10 and Research Papers datasets, showing that a small number of singular values is indeed able to explain a great amount of the variance of the data.  
+First, we explore the distribution of the factor score ratios in the MNIST, Fashion MNIST, CIFAR-10 and Research Papers datasets, showing that a small number of singular values is indeed able to explain a great amount of the variance of the data.
 For all the four datasets, we compute the singular values and their factor score ratios and we plot them.
-The results of Figure \@ref(fig:sv-distrib) show a rapid decrease of the factor score ratios in all the datasets, confirming the expectations. 
+The results of Figure \@ref(fig:sv-distrib) show a rapid decrease of the factor score ratios in all the datasets, confirming the expectations.
 
 ```{r, sv-distrib, echo=FALSE, out.width="33%", fig.ncol=2, fig.show='hold', fig.cap="Explained variance distribution in datasets for machine learning. In order: MNIST, Fashion MNIST, CIFAR 10, Research Papers.", fig.subcap= c("MNIST.", "Fashion MNIST.", "CIFAR 10.", "Research Papers.")}
 knitr::include_graphics("images/experiments/qpca/svdistribution/MNIST_sv_distribution.png")
@@ -347,18 +347,18 @@ knitr::include_graphics("images/experiments/qpca/svdistribution/ResearchPaper_sv
 ```
 
 #### Image classification with quantum PCA
-To provide the reader with a clearer view of the algorithms in Sections \@ref(sec:explainedvariance), \@ref(sec:qpca) and their use in machine learning, we provide experiments on quantum PCA for image classification. 
-We perform PCA on the three datasets for image classification (MNIST, Fashion MNIST and CIFAR 10) and classify them with a K-Nearest Neighbors. 
-First, we simulate the extraction of the singular values and the percentage of variance explained by the principal components (top $k$ factor score ratios' sum) using the procedure from Theorem \@ref(thm:factor-score-estimation). 
-Then, we study the error of the model extraction, using Lemma \@ref(lem:accuracyUSeVS), by introducing errors on the Frobenius norm of the representation to see how this affects the accuracy. 
+To provide the reader with a clearer view of the algorithms in Sections \@ref(sec:explainedvariance), \@ref(sec:qpca) and their use in machine learning, we provide experiments on quantum PCA for image classification.
+We perform PCA on the three datasets for image classification (MNIST, Fashion MNIST and CIFAR 10) and classify them with a K-Nearest Neighbors.
+First, we simulate the extraction of the singular values and the percentage of variance explained by the principal components (top $k$ factor score ratios' sum) using the procedure from Theorem \@ref(thm:factor-score-estimation).
+Then, we study the error of the model extraction, using Lemma \@ref(lem:accuracyUSeVS), by introducing errors on the Frobenius norm of the representation to see how this affects the accuracy.
 
 
 ##### Estimating the number of principal components
-We simulate Theorem \@ref(thm:factor-score-estimation) to decide the number of principal components needed to retain 0.85 of the total variance. 
-For each dataset, we classically compute the singular values with an exact classical algorithm and simulate the quantum state $\frac{1}{\sqrt{\sum_j^r \sigma_j^2}} \sum_i^r \sigma_i\ket{\sigma_i}$ 
+We simulate Theorem \@ref(thm:factor-score-estimation) to decide the number of principal components needed to retain 0.85 of the total variance.
+For each dataset, we classically compute the singular values with an exact classical algorithm and simulate the quantum state $\frac{1}{\sqrt{\sum_j^r \sigma_j^2}} \sum_i^r \sigma_i\ket{\sigma_i}$
 to emulate the measurement process.
-After initializing the random object with the correct probabilities, we measure it $\frac{1}{\gamma^2} = 1000$ times and estimate the factor score ratios with a frequentist approach (i.e., dividing the number of measurements of each outcome by the total number of measurements). 
-Measuring $1000$ times guarantees us an error of at most $\gamma=0.03$ on each factor score ratios. 
+After initializing the random object with the correct probabilities, we measure it $\frac{1}{\gamma^2} = 1000$ times and estimate the factor score ratios with a frequentist approach (i.e., dividing the number of measurements of each outcome by the total number of measurements).
+Measuring $1000$ times guarantees us an error of at most $\gamma=0.03$ on each factor score ratios.
 To determine the number of principal components to retain, we sum the factor score ratios until the percentage of explained variance becomes greater than $0.85$.
 We report the results of this experiments in Table \@ref(tab:principal-components).
 We obtain good results for all the datasets, estimating no more than 3 extra principal components than needed.
@@ -373,27 +373,27 @@ Table: (\#tab:principal-components) Results of the estimation of the number of p
 | Exact $p$ | 0.8580 | 0.8543| 0.8514|
 | $\gamma$ | 0.0316 | 0.0316 | 0.0316|
 
-The number of principal components can be further refined using Theorem \@ref(thm:check-explained-variance). 
+The number of principal components can be further refined using Theorem \@ref(thm:check-explained-variance).
 When we increase the percentage of variance to retain, the factor score ratios become smaller and the estimation worsens.
 When the factor score ratios become too small to perform efficient sampling, it is possible to establish the threshold $\theta$ for the smaller singular value to retain using Theorems \@ref(thm:check-explained-variance) and \@ref(thm:explained-variance-binarysearch).
 If one is interested in refining the exact number $k$ of principal components, rather than $\theta$, it is possible to obtain it using a combination of the algorithms from Theorems \@ref(thm:check-explained-variance), \@ref(thm:explained-variance-binarysearch) and the quantum counting algorithm [@brassard2002quantum] in time that scales with the square root of $k$.
-Once that the number of principal components has been set, the next step is to use Theorem \@ref(thm:top-k-sv-extraction) to extract the top singular vectors. 
-To do so, we can retrieve the threshold $\theta$ from the previous step by checking the gap between the last singular value to retain and the first to exclude. 
+Once that the number of principal components has been set, the next step is to use Theorem \@ref(thm:top-k-sv-extraction) to extract the top singular vectors.
+To do so, we can retrieve the threshold $\theta$ from the previous step by checking the gap between the last singular value to retain and the first to exclude.
 
 ###### Studying the error in the data representation
 We continue the experiment by checking how much error in the data representation a classifier can tolerate.
 We compute the exact PCA's representation for the three datasets and a perform 10-fold Cross-validation error using a k-Nearest Neighbors with $7$ neighbors.
 For each dataset we introduce error in the representation and check how the accuracy decreases.
-To simulate the error, we perturb the exact representation by adding truncated Gaussian error (zero mean and unit variance, truncated on the interval $[\frac{-\xi}{\sqrt{nm}},\frac{\xi}{\sqrt{nm}}]$) to each component of the matrix. 
-The graph in Figure \@ref{fig:error-matrix} shows the distribution of the effective error on $2000$ approximation of a matrix $A$, such that $\|A - \overline{A}\| \leq 0.1$. 
-The distribution is still Gaussian, centered almost at the half of the bound. 
+To simulate the error, we perturb the exact representation by adding truncated Gaussian error (zero mean and unit variance, truncated on the interval $[\frac{-\xi}{\sqrt{nm}},\frac{\xi}{\sqrt{nm}}]$) to each component of the matrix.
+The graph in Figure \@ref{fig:error-matrix} shows the distribution of the effective error on $2000$ approximation of a matrix $A$, such that $\|A - \overline{A}\| \leq 0.1$.
+The distribution is still Gaussian, centered almost at the half of the bound.
 
 ```{r, error-matrix, echo=FALSE, out.width="50%", fig.cap="Introducing some error in the Frobenius norm of a matrix $A$. The error was introduced such that $\\|A - \\overline{A}\\| \\leq 0.01$. The figure shows the distribution of the error over $2000$ measurements."}
 knitr::include_graphics("images/experiments/qpca/errordist/error_matrix_frobenious.png")
 ```
 
 The results show a reasonable tolerance of the errors, we report them in two set of figures.
-Figure \@ref(fig:class-bound) shows the drop of accuracy in classification as the error bound increases. Figure \@ref(fig:class-relative) shows the trend of the accuracy against the effective error of the approximation. 
+Figure \@ref(fig:class-bound) shows the drop of accuracy in classification as the error bound increases. Figure \@ref(fig:class-relative) shows the trend of the accuracy against the effective error of the approximation.
 
 ```{r, class-bound, echo=FALSE, out.width="33%", fig.ncol=3, fig.show='hold', fig.cap="Classification accuracy of $7$-Nearest Neighbor on three machine learning datasets after PCA's dimensionality reduction. The drop in accuracy is plotted with respect to the \\emph{bound} on the Frobenius norm of the difference between the exact data representation and its approximation. In order: MNIST, Fashion MNIST, CIFAR 10.", fig.subcap= c("MNIST.", "Fashion MNIST.", "CIFAR 10.")}
 knitr::include_graphics("images/experiments/qpca/classificationbound/MNIST_Classification_Fnorm.png")
@@ -411,18 +411,18 @@ knitr::include_graphics("images/experiments/qpca/classificationrelative/CIFAR_Cl
 As discussed in Section \@ref(sec:qpca), the model extraction's run-time is $\widetilde{O}\left(\left( \frac{1}{\gamma^2} + \frac{kz}{\theta\sqrt{p}\delta^2}\right)\frac{\mu(A)}{\epsilon}\right)$, where $A \in \R^{n\times m}$ is PCA's input matrix, $\mu(A)$ is a parameter bounded by $\min(\|A\|_F, \|A\|_\infty)$, $k$ is the number of principal components retained, $\theta$ is the value of the last singular value retained, $\gamma$ is the precision to estimate the factor score ratios, $\epsilon$ bounds the absolute error on the estimation of the singular values, $\delta$ bounds the $\ell_2$ norm of the distance between the singular vectors and their approximation, and $z$ is either $n$, $m$ depending on whether we extract the left singular vectors, to compute the classical representation, or the right ones, to retrieve the model and allow for further quantum/classical computation.
 This run-time can be further lowered using Theorem \@ref(thm:explained-variance-binarysearch) if we are not interested in the factor score ratios.
 The aim of this paragraph is to show how to determine the run-time parameters for a specific dataset.
-We enrich the parameters of Table \@ref(tab:principal-components) with the ones in Table \@ref(tab:supp-parameters) and we discuss how to compute them. 
-From the previous paragraphs it should be clear how to determine $k$, $\theta$, $\gamma$ and $p$, and 
+We enrich the parameters of Table \@ref(tab:principal-components) with the ones in Table \@ref(tab:supp-parameters) and we discuss how to compute them.
+From the previous paragraphs it should be clear how to determine $k$, $\theta$, $\gamma$ and $p$, and
 it is worth noticing again that $1/\sqrt{p} \simeq 1$.
 To bound $\mu(A)$ we have computed $\|A\|_F$ and $\|A\|_\infty$.
-To compute the parameter $\epsilon$ we have considered two situations: we need to allow for a correct ordering of the singular values; we need to allow for a correct thresholding. 
-We refer to the first as the ordering $\epsilon$ and to the second as the thresholding $\epsilon$. 
+To compute the parameter $\epsilon$ we have considered two situations: we need to allow for a correct ordering of the singular values; we need to allow for a correct thresholding.
+We refer to the first as the ordering $\epsilon$ and to the second as the thresholding $\epsilon$.
 To compute the first one it is sufficient to check the smallest gap between the first $k$ singular values of the dataset.
 For the last one, one should check the difference between the last retained singular value and the first that is excluded.
 It follows that the thresholding $\epsilon$ is always smaller than the ordering $\epsilon$.
-For sake of completeness, we have run experiments to check how the Coupon Collector's problem changes as $\epsilon$ increases. 
-Recall that in the proof of Theorem \@ref(thm:top-k_sv_extraction) we use that 
-$\frac{1}{\sqrt{\sum_{i}^k \frac{\sigma_i^2}{\overline{\sigma}_i^2}}}\sum_i^k\frac{\sigma_i}{\overline{\sigma}_i} \ket{u_i}\ket{v_i}\ket{\overline{\sigma}_i} \sim \frac{1}{\sqrt{k}}\sum_i^k \ket{u_i}\ket{v_i}\ket{\overline{\sigma}_i}$ to say that the number of measurements needed to observe all the singular values is $O(k\log(k))$, and this is true only if $\epsilon$ is small enough to let the singular values distribute uniformly. 
+For sake of completeness, we have run experiments to check how the Coupon Collector's problem changes as $\epsilon$ increases.
+Recall that in the proof of Theorem \@ref(thm:top-k_sv_extraction) we use that
+$\frac{1}{\sqrt{\sum_{i}^k \frac{\sigma_i^2}{\overline{\sigma}_i^2}}}\sum_i^k\frac{\sigma_i}{\overline{\sigma}_i} \ket{u_i}\ket{v_i}\ket{\overline{\sigma}_i} \sim \frac{1}{\sqrt{k}}\sum_i^k \ket{u_i}\ket{v_i}\ket{\overline{\sigma}_i}$ to say that the number of measurements needed to observe all the singular values is $O(k\log(k))$, and this is true only if $\epsilon$ is small enough to let the singular values distribute uniformly.
 We observe that the thresholding $\epsilon$ always satisfy the Coupon Collector's scaling, and we have plotted the results of our tests in Figure \@ref(fig:coupon-collector).
 
 ```{r, coupon-collector, echo=FALSE, out.width="33%", fig.ncol=3, fig.show='hold', fig.cap="Number of measurements needed to obtain all the $k$ singular values from the quantum state $\\frac{1}{\\sqrt{\\sum_i^r\\sigma_i^2}}\\sum_i^k \\frac{\\sigma_i}{\\overline{\\sigma}_i}\\ket{\\overline{\\sigma}_i}$, where $\\|\\sigma_i - \\overline{\\sigma}_i\\| \\leq \\epsilon$, as $\\epsilon$ increases. The benchmark line is $k\\log_{2.4}(k)$. In order: MNIST, Fashion MNIST, CIFAR 10.", fig.subcap= c("MNIST.", "Fashion MNIST.", "CIFAR 10.")}
@@ -431,9 +431,9 @@ knitr::include_graphics("images/experiments/qpca/couponcollector/Fashion_MNIST_C
 knitr::include_graphics("images/experiments/qpca/couponcollector/CIFAR_Coupon_Collect55.png")
 ```
 
-Furthermore, we have computed $\delta$ by using the fact that $\|A - \overline{A}\| \leq \sqrt{k}(\epsilon + \delta)$ (Lemma \@ref(lem:accuracyUSeVS)). 
-By inverting the equation and considering the thresholding $\epsilon$ we have computed an estimate for $\delta$. 
-In particular, we have fixed $\|A - \overline{A}\|$ to the biggest value in our experiments so that the accuracy doesn't drop more than $1\%$. 
+Furthermore, we have computed $\delta$ by using the fact that $\|A - \overline{A}\| \leq \sqrt{k}(\epsilon + \delta)$ (Lemma \@ref(lem:accuracyUSeVS)).
+By inverting the equation and considering the thresholding $\epsilon$ we have computed an estimate for $\delta$.
+In particular, we have fixed $\|A - \overline{A}\|$ to the biggest value in our experiments so that the accuracy doesn't drop more than $1\%$.
 
 Since we have considered the values of the effective errors instead of the bounds, our estimates are pessimistic.
 
@@ -449,11 +449,11 @@ Table: (\#tab:supp-parameters) Run-time parameters.
 | $\delta$ | 0.1124 | 0.0106| 0.0340|
 
 These results show that Theorem \@ref(thm:factor-score-estimation), \@ref(thm:check-explained-variance) and \@ref(thm:explained-variance-binarysearch) can already provide speed-ups on datasets as small as the MNIST.
-Even though their speed-up is not exponential, they still run sub-linearly on the number of elements of the matrix even though all the elements are taken into account during the computation, offering a polynomial speed-up with respect to their traditional classical counterparts. 
-On the other hand, Theorem \@ref(thm:top-k-sv-extraction) requires bigger datasets. 
+Even though their speed-up is not exponential, they still run sub-linearly on the number of elements of the matrix even though all the elements are taken into account during the computation, offering a polynomial speed-up with respect to their traditional classical counterparts.
+On the other hand, Theorem \@ref(thm:top-k-sv-extraction) requires bigger datasets.
 On big low-rank datasets that maintain a good distribution of singular values, these algorithms are expected to show their full speed-up.
 As a final remark, note that the parameters have similar orders of magnitude.
 
 ##### Projecting the quantum data in the new quantum feature space
-To end with, we have tested the value of $\alpha$ (Definition \@ref(def:pca-representable), Lemma \@ref(lem:qpca-vector-repr)) for the MNIST dataset, fixing $\varepsilon=0$ and trying $p \in \{0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9\}$. 
+To end with, we have tested the value of $\alpha$ (Definition \@ref(def:pca-representable), Lemma \@ref(lem:qpca-vector-repr)) for the MNIST dataset, fixing $\varepsilon=0$ and trying $p \in \{0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9\}$.
 We have observed that $\alpha = 0.96 \pm 0.02$, confirming that the run-time of Corollary \@ref(cor:qpca-vector) can be assumed constant for the majority of the data points of a PCA-representable dataset.
