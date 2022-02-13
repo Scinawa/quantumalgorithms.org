@@ -4,9 +4,11 @@ output:
   html_document: default
 header-includes:
     - \usepackage{subfig}
+description: "Quantum machine learning experiments. Lecture notes on quantum experiments in machine learning. Quantum simulation of machine learning algorithms"
+
 ---
 
-# QML on real datasets
+# QML on real datasets {#chap:QML-on-real-data}
 
 In this chapter, we discuss how to have a better idea on the performance of our algorithms on real dataset. This is very important, as the runtime of the algorithms we discuss here depends on the characteristics of the dataset, which might scale badly by increasing the size of the dataset. It's our duty to see if this is the case. In the worst case, this might be due for each single dataset that we analyze. It this section we discuss two main approaches. We could either start by proving some properties of a dataset that we know is well-suitable to be analyzed by a certain algorithm. The idea is the following: if (quantum or classical) data analysis works well for a certain dataset, it might be because the
 algorithms that exploits certain structure in the dataset possess. We can exploit this intuition to prove some properties of the dataset that are expected to be analyzed by that algorithm. For example, this is the case for section \@ref(qmeans-datasetassumption), where we exploit the "cloud" structure of dataset that we often cluster using k-means (or q-means).

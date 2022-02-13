@@ -2,6 +2,7 @@
 output:
   pdf_document: default
   html_document: default
+description: "Quantum algorithms on graphs. Quantum search on graphs."
 ---
 
 

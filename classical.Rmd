@@ -2,6 +2,7 @@
 output:
   pdf_document: default
   html_document: default
+description: "Introduction to classical machine learning for quantum algorithms and quantum machine learning"
 ---
 
 # Classical machine learning {#chap:machinelearning}

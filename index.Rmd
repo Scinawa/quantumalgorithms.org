@@ -13,7 +13,7 @@ header-includes:
 output:
   bookdown::gitbook:
     includes:
-      in_header: [analytics.html]
+      in_header: [header.html]
       after_body: [cookiebanner.html, ribbon_body.html]
 # output:
 #     pdf_document:
@@ -116,6 +116,7 @@ We will see that, for a new QML algorithm, one often needs to make sure that the
 
 These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefit society and humankind, as soon as the hardware that supports this kind of computation becomes ready.
 
+Last but not least, we will also cover important algorithms that are not necessarily related to machine learning, but are the quantum counterpart of important classical algorithms. Don't get swayed by the "lack" of exponential speedups. Remember: the square root of 365 days is a little less than 3 weeks. Besides this, big polynomial speedups, small polynomial speedups in important problems, or polynomial speedups proposing new algorithmic techniques are all much welcome in quantum computer science. All in all, quantum algorithms (to me) should be seen as a way for making **impossible things possible**. 
 
 While reading these lecture notes you should always remember the good [Simon Martiel](https://scholar.google.fr/citations?user=upaq0vIAAAAJ&hl=en):
 <p style="text-align:center">
@@ -140,6 +141,7 @@ https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter
 - March 2021: quantumalgorithms.org is proudly supported by the [Unitary Fund](https://unitary.fund/), and quantumalgorithms.org is a project of the [QOSF](https://qosf.org) mentorship program: 5 students started creating new content!
 - April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation.
 - June 2021: Quantum Monte Carlo algorithms, lower bounds techniques for query complexity of quantum algorithms, quantum algorithms for graph problems. The output of the mentorship program of the QOSF foundation!
+- January 2022: In the past months we improved the overall quality of the website (graphics, typos) and added some content (Deutsch-Josza, Bernstein-Vazirani, swap and Hadamard tests)
 
 
 Coming soon:

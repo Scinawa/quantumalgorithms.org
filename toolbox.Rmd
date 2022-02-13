@@ -2,6 +2,7 @@
 output:
   pdf_document: default
   html_document: default
+description: "Lecture notes and theorems on quantum phase estimation, quantum amplitude amplification and estimation, quantum minimum finding, linear combination of unitaries, distance estimation, inner product estimation on quantum computers, Hamiltonian simulation"
 ---
 
 # A useful toolbox {#chap:toolbox}
@@ -55,7 +56,7 @@ While the standard implementation of phase estimation is based on the quantum Fo
 <!-- % and the success probability, using the known distribution of outcomes for phase estimation.  -->
 
 
-## Grover's algorithm, amplitude amplification and amplitude estimation
+## Grover's algorithm, amplitude amplification and amplitude estimation {#sec:grover}
 
 <!-- TODO: with high probability? how many other gates? -->
 

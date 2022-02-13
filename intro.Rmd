@@ -2,10 +2,11 @@
 output:
   pdf_document: default
   html_document: default
+description: "The best up-to-date resource for algorithms and applications. From Theorems to applications. Deutsch-Josza, Bernstein-Vazirani, quantum swap test, quantum Hadamard test. Representing data on quantum computers. Retrieveing data on quantum computers"
 ---
 # (PART) - Bridging the gap {-}
 
-# Quantum computing and quantum algorithms
+# Quantum computing and quantum algorithms {#chapter-intro}
 In this chapter we will introduce the notation used throughout the rest of the lecture notes. We will extensively use linear algebra (norm of matrices, SVD, properties of particular matrices, and so on), so the reader is higly encouraged to skim the appendix on his/her own, so to know the notation adopted here.
 
 ## Getting rid of physics in quantum computing
@@ -43,7 +44,7 @@ From this last equation we can observe further (more on this in the appendix) th
 $$\ket{\psi(p+t)}=U(t)\ket{\psi(p)}$$
 Hopefully, this introduction should be enough for getting a better intuition of what comes next, and give you a "justification" for the axioms of quantum mechanics.
 
-## Axioms of quantum mechanics
+## Axioms of quantum mechanics {#section-axioms}
 The standard formalism used in Quantum Information is the Dirac's ``bra-ket'' notation, which we will introduce in this section. We also recall here the postulates of quantum mechanics, and take this opportunity to settle the rest of the notation and preliminaries used in this thesis. For the postulates, we follow the standard formulation in [@NC02].
 
 ```{proposition, name="Postulate 1"}
@@ -211,7 +212,7 @@ $$H^{\otimes n}\ket{x} = \frac{1}{\sqrt{2^n}}\sum_{z_1, \dots z_n \in \{0,1\}^n}
 
 
 
-## Measuring complexity of quantum algorithms
+## Measuring complexity of quantum algorithms {#measuring-complexity}
 
 
 This section is an attempt to organize in a coherent way some fundamental concepts in quantum computer science. The formalization of some of these concepts comes from [@dorn2008quantum] and [@DeWolf].
@@ -283,7 +284,7 @@ So with probability $\geq 1-\frac{1}{k}$ we will have the output of the algorith
 
 
 
-## Review of famous quantum algorithms
+## Review of famous quantum algorithms {#review-famous-quantum-algos}
 In this chapter we will explore some introductory quantum algorithms. Some of them are not particularly related to data analysis or machine learning, but given their potential to help us better understand the model of quantum computation that we adopt, we decided it was important to report them here. Others will prove to be really useful subroutines for the quantum machine learning practitioner.
 
 
@@ -409,12 +410,12 @@ Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancil
 
 
 \begin{equation}
-H\otimes I \otimes I \frac{1}{\sqrt{2}}\left( \ket{0}\ket{\psi_1}\ket{0} + \ket{1}\ket{0}\ket{\psi_2} \right) \\
+(H\otimes I \otimes I) \frac{1}{\sqrt{2}}\left( \ket{0}\ket{\psi_1}\ket{0} + \ket{1}\ket{0}\ket{\psi_2} \right) \\
  = \frac{1}{2}\left(\ket{0}(\ket{\psi_1}\ket{0} + \ket{0}\ket{\psi_2}) +  \ket{1}(\ket{\psi_1}\ket{0} - \ket{0}\ket{\psi_2})  \right)
 \end{equation}
 
 
-Agan, now it is easy to state that the probability of measuring $0$ is:
+Again, now it is easy to state that the probability of measuring $0$ is:
 
 \begin{equation}
 p(0)=\frac{2+2\braket{\psi_1|\psi_2}}{4}

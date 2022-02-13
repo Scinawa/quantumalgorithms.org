@@ -1255,6 +1255,7 @@ The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contr
 - Jinge Bao
 - Michele Vischi
 - Adrian Lee
+- Ethan Hansen
 
 **Funding**
 
@@ -1262,6 +1263,8 @@ This website is supported by:
 
 - [unitary.fund](https://unitary.fund).
 - [Centre for Quantum Technologies](https://www.quantumlah.org/)
+
+A big thanks to 42lf.it for the legal support. 
 
 # License and citation
 
