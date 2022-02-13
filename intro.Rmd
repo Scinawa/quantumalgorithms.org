@@ -39,13 +39,14 @@ $$\frac{d}{dt}\psi(t) = -i H \psi(t).$$
 But this is the well-known Schrödinger equation! Note that, as computer scientists, we take the right to remove some physical constant ($\hbar$) out of the equation. What should be the takeaway of these observations? Well, first we know that the Schrödinger equation is a differential equation whose solution is fully determined if we were to know the initial state of our system $\psi(p)$. Formally the solution can be written as:
 
 $$\psi(p+t)=e^{-iHt}\psi(p).$$
-From this last equation we can observe further (more on this in the appendix) that the exponential of an Hermitian matrix $e^{-iHt}$ is *defined* through its Taylor expansion is just a *unitary* matrix: $U(t)=e^{-itH}$. Unitary matrices are exactly those matrices that describe isometries: applying a matrix to a vector won't change its length. From this, we see that the two quantum states $\psi(p+t)$ and $\psi(p)$ could be just taken to be vectors of a fixed length, which - for practicality - we take to be unit vectors. Notation-wise, we denote unit vectors describing quantum states as "kets", i.e. we rewrite this equation as:
+From this last equation we can observe further (more on this in the appendix) that the exponential of an Hermitian matrix $e^{-iHt}$ is *defined* through its Taylor expansion is just a *unitary* matrix: $U(t)=e^{-itH}$. Unitary matrices are exactly those matrices that describe isometries: applying a unitary matrix to a vector won't change its length. From this, we see that the two quantum states $\psi(p+t)$ and $\psi(p)$ could be taken just to be vectors of a fixed length, which - for practicality - we take to be unit vectors. Notation-wise, we denote unit vectors describing quantum states as "kets", i.e. we rewrite this equation as:
 
 $$\ket{\psi(p+t)}=U(t)\ket{\psi(p)}$$
 Hopefully, this introduction should be enough for getting a better intuition of what comes next, and give you a "justification" for the axioms of quantum mechanics.
 
+
 ## Axioms of quantum mechanics {#section-axioms}
-The standard formalism used in Quantum Information is the Dirac's ``bra-ket'' notation, which we will introduce in this section. We also recall here the postulates of quantum mechanics, and take this opportunity to settle the rest of the notation and preliminaries used in this thesis. For the postulates, we follow the standard formulation in [@NC02].
+The standard formalism used in Quantum Information is the Dirac's "bra-ket" notation, which we will introduce in this section. We also recall here the postulates of quantum mechanics, and take this opportunity to settle the rest of the notation and preliminaries used in this thesis. For the postulates, we follow the standard formulation in [@NC02].
 
 ```{proposition, name="Postulate 1"}
 Associated to any isolated physical system is a complex vector space with inner product (that is, a Hilbert space) known as the state space of the system. The system is completely described by its state vector, which is a unit vector in the system's state space.
@@ -77,7 +78,7 @@ It is simple to see that any 2x2 diagonal matrix $A$ with entries $10$ and $1/10
 ```
 
 
-It will be useful to recall that if we have a unitary that perform the mapping $\ket{a_i} \mapsto \ket{b_i}$, we can have the "matrix" form of the opertaor as $\sum_i \ket{b_i}\bra{a_i}$.
+It will be useful to recall that if we have a unitary that performs the mapping $\ket{a_i} \mapsto \ket{b_i}$, we can have the "matrix" form of the operator as $\sum_i \ket{b_i}\bra{a_i}$.
 Recall also that the Pauli matrices are both unitary *and* Hermitian, and this fact will be useful in many places throughout this text.
 
 
@@ -124,7 +125,7 @@ Recall also that the Pauli matrices are both unitary *and* Hermitian, and this f
 ```{exercise, ntqls, name="From [@huang2019near]"}
 Let $k \in \{0,1\}^n$ be an arbitrary $n$-bitstring.
 Let $A=(\sigma_{x}^{(1)})^{k_1} \otimes \dots \otimes (\sigma_{x}^{(n)})^{k_n}$ and $\ket{b}=\ket{0^n}$.
-What is the solution to the quation $A\ket{x} =\ket{b}$
+What is the solution to the equation $A\ket{x} =\ket{b}$
 ```
 
 
@@ -156,7 +157,7 @@ Where $P_m$ is a projector into the eigenspace of $M$ associated with the eigenv
 
 
 
-Recall that an orthogonal projector $P$ has the properties that $P=P^{\dagger}$ and $P^2 = P$. Note that the second property derives from the first: all positive definite operators on $\mathbb{C}$ are Hermitian (this is not always the case for positive definite operators on $\mathbb{R}$, as it is simple to find positive definite matrices that are not symmetric). Projective measurements can be understood as a special case of Postulate 3: in addition to satisfy the completeness relation $\sum_m M_m^\dagger M_m = I$ they also are orthogonal projectors. Given a state $\ket{\psi}$, the probability of measuring outcome $m$ is given by:
+Recall that an orthogonal projector $P$ has the properties that $P=P^{\dagger}$ and $P^2 = P$. Note that the second property derives from the first: all positive definite operators on $\mathbb{C}$ are Hermitian (this is not always the case for positive definite operators on $\mathbb{R}$, as it is simple to find positive definite matrices that are not symmetric). Projective measurements can be understood as a special case of Postulate 3: in addition to satisfying the completeness relation $\sum_m M_m^\dagger M_m = I$ they also are orthogonal projectors. Given a state $\ket{\psi}$, the probability of measuring outcome $m$ is given by:
 
 
 
@@ -167,7 +168,7 @@ p(m) = \bra{\psi}P_m\ket{\psi}.
 If we were to measure outcome $m$, then the state of the quantum system after the measurement would be:
 $$\frac{P_m\ket{\psi}}{\sqrt{p(m)}} .$$
 
-They have some useful properties. Just to cite one, the average value of a projective measurement in a state $\ket{\psi}$ is define as:
+They have some useful properties. Just to cite one, the average value of a projective measurement in a state $\ket{\psi}$ is defined as:
 \begin{align}
 	E(M)&  = \sum_m p(m)\\
 & = \sum_m m \bra{\psi}P_m\ket{\psi}\\
@@ -185,7 +186,7 @@ The state space of a composite physical system is the tensor product of the stat
 To describe together two different quantum system we use the tensor product.
 The tensor product between two vectors $\ket{y} \in \mathbb{R}^{d_1}$ and $\ket{y} \in \mathbb{R}^{d_2}$ is a vector $\ket{z} \in \mathbb{R}^{d_1 \times d_2}$.
 We can use the tensor operation to describe the joint evolution of separate quantum system.
-TODO FIXME
+<!-- TODO FIXME -->
 
 Even if it's not explicitly used much in quantum algorithms, it's useful to recall the definition of entangled pure state.
 

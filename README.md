@@ -1,6 +1,11 @@
-# Welcome to the repository for quantumalgorithms.org
+
+
+[![quantumalgorithms.org](https://quantumalgorithms.org/images/mainlogo.png)](https://quantumalgorithms.org)
+
+# README
 
 [![Unitary Fund](https://img.shields.io/badge/Supported%20By-UNITARY%20FUND-brightgreen.svg?style=for-the-badge)](http://unitary.fund)
+
 
 
 This is the repository for [QuantumAlgorithms.org](https://quantumalgorithms.org). 
@@ -9,27 +14,23 @@ This webiste is meant to be a set of lecture notes for students in quantum algor
 It will be updated regularly with new research material. The scope is to bridge the gap between introductory material in quantum computing and research-grade papers, standardize notation, and be an overfiew on the state of useful algorithms for quantum machine learning and information processing.
 
 
+
+## How to contribute:
+
 The book is written in bookdown, an R-based extension of markdown (even if you don't need to know R at all, it's simply markdown with some latex). 
+Download RStudio and make sure you can compile a book with bookdown on your computer. Once you have it, you can work on the book and submit a PR. 
 
 
-## What to do
+Feel free to submit a PR with improvements in 
 
-The current issues that we have, for which we  are roughly organized as follows:
+- proofreading
+- checking and expanding steps in calculations,
+- pointing out sections are ambigious or hard to understand, or that can be explained better,
+- create and solve new exercise.
 
-- minor issues: 
-  - proofreading
-  - checking and expanding steps in calculations,
-  - making sure things are written in good and clearn english
-  - pointing out paragraphs that are not mathematically clear, or that could be expanded)
-- major contributions (like new chapters)
-- create and solve new exercise
-- address the TODOs that are inserted in the comments of the .Rmd files. 
+For major contributions (like new chapters or new content), [drop us a line](mailto://scinawa@luongo.pro)!
 
-Please refer to the file tipsandtricks.md for small but useful tips on Rmarkdown. 
-
-In any case, if you want to contribute, [drop me a line](mailto://scinawa@luongo.pro)!
-
-## How to render an algorithm for the book
+## How to write an algorithm
 
 The book has some algorithms that are rendered as latex algorithms with a package for writing pseudocode. 
 These algorithms are rendered as pdfs, and successively these files are rendered as png via a python script. 
@@ -40,7 +41,7 @@ There are countless examples of algorithms included in the book, so you can copy
 
 
 
-## Guidelines for writings
+## Style guide, tips&tricks. 
 
 - Use \ket{} and \bra{} instead of |x\rangle
 - \begin{equation} and \end{equation} in bookdown are not really working 100% of the time (check?), but they should be used throughout the whole book, as math book have all equation numbered. 
@@ -49,4 +50,17 @@ There are countless examples of algorithms included in the book, so you can copy
 - Every time you compile, (and before doing the pull request) be sure to compile also the pdf version of the document. This becuase there are cases where the generation of the book in htlm succeed, but the pdf is failing for some reasons. 
 - Use \~ before the citation.
 - We use runtime not run-time or run time.
-
+- no space between  a dollar sign for equations $ and the first character of the formula (otherwise you get an error)
+- currently, it's not possible to put latex in the names of the theorems,lemma, definitions. (do we know how to do it?) For example in the definition of the parametereization of the function $\mu$, I had to use the greek letter μ...
+- itemize made with - should start and end with a newline
+- the way to number equation is the following: (\#eq:raylight)
+- This is the templtae to use to create an issue automatically using the github action
+- always use thm, lem, cor, in references: \@ref(thm:qla). 
+- grep "\`{lemma" * to have the list of all lemmas (or theorems) so after we can check if they are used correctly with \@ref() and there are no wrong \ref{}. 
+- the correct way of doing todo is:
+<!-- 
+# TODO 
+# labels: 
+-->
+- If you need a fast way for translating citation from latex \cite{ciao} to markdown [@ciao], you can use \\cite{(.*?)} -----> [@$1]
+- 
