@@ -2,7 +2,6 @@
 output:
   pdf_document: default
   html_document: default
-description: "Selected works year by year on quantum algorithms. It's basically a zoo :) "
 ---
 
 # (PART) Everything else {-}

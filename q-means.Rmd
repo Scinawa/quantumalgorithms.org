@@ -2,7 +2,6 @@
 output:
   pdf_document: default
   html_document: default
-description: "Quantum machine learning algorithms. Lecture notes on quantum k-means algorithm, quantum clustering and quantum unsupervised methods, q-means."
 
 ---
 

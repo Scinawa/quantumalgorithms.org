@@ -2,7 +2,6 @@
 output:
   pdf_document: default
   html_document: default
-description: "Quantum machine learning algorithms. Lecture notes on quantum expectation maximization, quantum clustering and quantum unsupervised methods, quantum gaussian mixture models."
 ---
 
 # Quantum Expectation-Maximization {#chap:qem}

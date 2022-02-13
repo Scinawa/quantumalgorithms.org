@@ -2,7 +2,6 @@
 output:
   pdf_document: default
   html_document: default
-description: "The best up-to-date resource for algorithms and applications. From Theorems to applications. Deutsch-Josza, Bernstein-Vazirani, quantum swap test, quantum Hadamard test. Representing data on quantum computers. Retrieveing data on quantum computers"
 ---
 # (PART) - Bridging the gap {-}
 

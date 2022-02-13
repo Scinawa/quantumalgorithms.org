@@ -2,7 +2,6 @@
 output:
   pdf_document: default
   html_document: default
-description: "The best up-to-date resource for quantum monte carlo algorithms and applications to finance. Theorems and applications. Quantum MonteCarlo, Quantum speedup for monte carlo algorithms."
 ---
 
 

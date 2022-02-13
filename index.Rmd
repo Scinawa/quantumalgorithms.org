@@ -23,6 +23,9 @@ output:
 #         includes:
 #             in_header: preamble.tex
 description: "Open-source book on quantum algorithms for information processing and machine learning"
+url: 'https\://quantumalgorithms.org'
+github-repo: "scinawa/quantumalgorithms.org"
+
 ---
 
 

@@ -2,7 +2,6 @@
 output:
   pdf_document: default
   html_document: default
-description: "Quantum machine learning algorithms. Lecture notes quantum dimensionality reduction, quantum principal component analysis, quantum linear discriminant analysis, quantum slow feature analysis, quantum feature space."
 
 ---
 

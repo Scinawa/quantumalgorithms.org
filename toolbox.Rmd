@@ -2,7 +2,6 @@
 output:
   pdf_document: default
   html_document: default
-description: "Lecture notes and theorems on quantum phase estimation, quantum amplitude amplification and estimation, quantum minimum finding, linear combination of unitaries, distance estimation, inner product estimation on quantum computers, Hamiltonian simulation"
 ---
 
 # A useful toolbox {#chap:toolbox}

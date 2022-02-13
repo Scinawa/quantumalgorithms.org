@@ -2,7 +2,6 @@
 output:
   pdf_document: default
   html_document: default
-description: "Lecture notes on techniques for lower bounds in quantum query complexity"
 ---
 
 # Lower bounds on query complexity of quantum algorithms {#chap:lowerbounds}
