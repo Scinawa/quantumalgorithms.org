@@ -4,8 +4,6 @@ output:
   html_document: default
 header-includes:
     - \usepackage{subfig}
-description: "Quantum machine learning experiments. Lecture notes on quantum experiments in machine learning. Quantum simulation of machine learning algorithms"
-
 ---
 
 # QML on real datasets {#chap:QML-on-real-data}
