@@ -2,8 +2,6 @@
 output:
   pdf_document: default
   html_document: default
-description: "Quantum algorithms for machine learning and singular value estimation."
-
 ---
 # (PART) - Quantum Machine Learning {-}
 

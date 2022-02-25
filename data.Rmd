@@ -13,6 +13,10 @@ header-includes:
 <br>
 
 
+```{r, echo=FALSE, fig.cap="This section is heavily work in progress"}
+knitr::include_graphics("images/wip.png")
+```
+
 
 Before understanding how to process data with a quantum computer, we need to step back, and understand how we can represent and store data as a quantum state. This problem is of paramount importance, because knowing what is the best way of encoding data in a quantum computer might pave the way for intuitions in solving our problems. On the contrary, using the wrong encoding might prevent you from reasoning about the right algorithm design, and obtaining the desired advantages in the implementation of your algorithm. Indeed, Schuld et al.[@schuld2015introduction] are wisely saying: _In order to use the strengths of quantum mechanics without being confined by classical ideas of data encoding, finding “genuinely quantum” ways of representing and extracting information could become vital for the future of quantum machine learning_.
 
@@ -40,10 +44,10 @@ Eventually, we can use one more qubit for the sign. If we were to access more nu
 
 When programming quantum machine learning algorithms, it is common to use subroutines to perform arithmetic on real numbers. The numbers might come from other quantum procedures (like phase estimation or amplitude amplification) or might come directly from the memory (i.e.  like the norm of a vector). These numbers are simply encoded like the one shown above, as a binary expansion of $m$ bits.
 
-This encoding can be used to get speedup in the number of query to an oracle, like in [@kapoor2016quantum]. There, the authors encoded a real value representing each of the feature of a machine learning dataset with this encoding. In general, you can easily use this encoding if you aim at getting a speedup in oracle complexity using amplitude amplification and similar techniques, or in an intermediate step of your algorithm where you want to perform arithmetic on some values. As we said in the introduction, the oracle complexity is a measure of the complexity of an algorithm that counts the number of times a given oracle (which in our case is just a unitary) is called. Obviously, the precision you get in storing a number is given by the number of qubits you use in a quantum register.
+
+In reality, we might want to store as binary expansion non-integer numbers. Real numbers can be approximated with decimal numbers with a certain bits of precision. For this, we need a bit to store the sign, some bits to store the integer part, and some other bits to store the decimal part. We assume that we can have enough qubits for storing these numbers, represented as bit strings using the following definition. 
 
 
-We assume that we can have enough qubits for storing these numbers, represented as bit strings using the following definition. We also assume to work with enough precision so that numerical errors in the computation are negligible, and will not impact the final output of our algorithm. 
 
 
 ```{definition, fixed-point-encoding, name="Fixed-point encoding of real numbers[@rebentrost2021quantum]"}
@@ -57,10 +61,11 @@ where $R := 2^{c_1}-2^{-c_2}$. If $c_1,c_2$ are clear from the context, we can u
 the notation $\mathcal{Q}(v)$ means an $n$-dimensional vector whose $j$-th component is $\mathcal{Q}(v_j)$, for $j \in[n]$. 
 ```
 
-It might seem complicated, but it's really the (almost) only thing that a reasonable person might come up with when expressing numbers as (qu)bits with fixed-point precision. 
+It might seem complicated, but it's really the (almost) only thing that a reasonable person might come up with when expressing numbers as (qu)bits with fixed-point precision.We do this, because we want to work a model where we can assume to work with enough precision so that numerical errors in the computation are negligible, and will not impact the final output of our algorithm. 
 
+The choice of values for $c_1$ and $c_2$ in the previous definition depends on the problem and algorithm. For the purposes of optimizing the quantum circuit, these constants can be changed dynamically in various steps of the computation. While analyzing how error propagates and accumulates throughout the operations in the quantum circuit is essential to ensure a correct estimation of the final result, this analysis can only be done for a given choice of input functions, and is often done when implementing the algorithm on real hardware (or via simulation). 
 
-<!-- The choice of values for $c_1$ and $c_2$ depends on the choice of input functions used when running the algorithm. For the purposes of optimizing the quantum circuit, these constants can be changed dynamically in various steps of the computation. While analyzing how error propagates and accumulates throughout the operations in the quantum circuit is essential to ensure a correct estimation of the final result, this analysis can only be done for a given choice of input functions. We avoid the analysis of such details by using the quantum arithmetic model as in Definition~\ref{defQArith}. -->
+<!-- We avoid the analysis of such details by using the quantum arithmetic model as in Definition~\ref{defQArith}. -->
 <!-- A standard result is that any Boolean function can be reversibly computed. Any reversible computation can be realized with a circuit involving negation and three-bit Toffoli gates. Such a circuit can be turned into a quantum circuit with single-qubit NOT gates and three-qubit Toffoli gates. Since most circuits for arithmetic operations operate with a number of gates of $O(\text{poly}(c_1,c_2))$ this implies a number of quantum gates of $O(\text{poly}(c_1,c_2))$ for the corresponding quantum circuit. -->
 
 <!-- \begin{definition}[Quantum arithmetic model] -->
@@ -159,7 +164,7 @@ algorithms that use this state as input. For a more detailed description, look a
 
 
 
-## Quantum memory models {#sec:quantum-memory-models}
+## Access models {#sec:quantum-memory-models}
 
 The problem of loading data in a quantum computer is tightly coupled with the problem of data representation, which we discussed in the previous section. This section of the book is quite important for understanding quantum (machine learning) algorithms, and it's also hot topic in the quantum computing community. 
 
@@ -179,7 +184,7 @@ $$\ket{i}\ket{0} \mapsto \ket{i}\ket{?_i}$$
 
 As you can imagine from the previous section, the state $\ket{?_i}$ will be either a binary encoding or an amplitude encoding of something. 
 
-### The QRAM model {#subsec:qram-model}
+### Quantum memory models and QRAM {#subsec:qram-model}
 
 Along with a fully fledged quantum computer, it is often common to assume that we access to a quantum memory, i.e. a classical data structure that store classical information, but that is able to answer queries in quantum superposition. This model is commonly called the \emph{QRAM model}. This is often not the case for people opting more for a NISQ approach in quantum computer science. 
 
@@ -271,8 +276,11 @@ We have 4 ways of working with classical probability distributions in a quantum 
 - Query access to a frequency vector of a distribution
 - Drawing samples classically and perform some computation on a quantum computer
 
-```{definition, query-access-frequency-vector, name="Quantum query access to a frequency vector"}
 
+
+```{definition, query-access-frequency-vector, name="Quantum query access to a probability distribution in the frequency vector model"}
+Let $p=(p_1, p_2, \dots p_n)$ be a probability distribution on $\{1, 2, \dots, n\}$, and let $n\geq S \in \mathbb{N}$ be such that there is a set of indices $S_i \subseteq [S]$ for which $p_i = \frac{\left|S_i\right|}{S}.$
+We have quantum access to a probability distribution in the frequency vector model if there is an quantum oracle that, for $\forall s \in [S_i]$ performs the mapping $O_p \ket{s} \mapsto \ket{s}\ket{i}$.
 
 ```
 

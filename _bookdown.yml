@@ -5,6 +5,7 @@ language:
     chapter_name: "Chapter "
 rmd_files: ["index.Rmd",
 "intro.Rmd",
+"data.Rmd",
 "classical.Rmd",
 "toolbox.Rmd",
 "sve-based-quantum-algorithms.Rmd",
