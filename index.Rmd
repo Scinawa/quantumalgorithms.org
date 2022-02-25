@@ -59,13 +59,15 @@ github-repo: "scinawa/quantumalgorithms.org"
 
 # Preface
 
+This is an [open source project accessible on GitHub](https://github.com/Scinawa/quantumalgorithms.org/) - only possible because of its many [contributors.](contributions-and-acknowledgements.html) The website is licensed under CC BY-NC-SA 4.0. We are searching for talented people and researchers to contribute: you can find a list of issues and enhancements that would improve this book further on the [issues list](https://github.com/Scinawa/quantumalgorithms.org/issues) for the GitHub repo, making recent material that keeps popping up in quantum information accessible to a larger audience.
+
+
+
 The aim of this book is twofold:
 
 - First, we want to bridge the gap between introductory material in quantum computation and research material.
 - Secondarily, you should be able to use this book as a resource for state-of-the-art algorithms. Readers and scholars should find statements of theorems (along with their citations) and runtimes of the best quantum subroutines in literature, ready to be used in new quantum algorithms or applications.
 
-
-This is an [open source project accessible on GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. We are searching for talented people and researchers to contribute: you can find a list of issues and enhancements that would improve this book further on the [issues list](https://github.com/Scinawa/quantumalgorithms.org/issues) for the GitHub repo, making recent material that keeps popping up in quantum information accessible to a larger audience.
 
 These lecture notes were used to teach at:
 
@@ -145,6 +147,7 @@ https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter
 - April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation.
 - June 2021: Quantum Monte Carlo algorithms, lower bounds techniques for query complexity of quantum algorithms, quantum algorithms for graph problems. The output of the mentorship program of the QOSF foundation!
 - January 2022: In the past months we improved the overall quality of the website (graphics, typos) and added some content (Deutsch-Josza, Bernstein-Vazirani, swap and Hadamard tests)
+- February 2022: We are happy to bring our swag (t-shirts, stickers, lanyards) to QIP. We added a whole chapter on perceptron algorithms and we doubled the chapter on quantum monte carlo algorithms with applications to finance and trace distance!
 
 
 Coming soon:

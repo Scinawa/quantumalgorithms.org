@@ -1227,7 +1227,7 @@ Then, $\norm{x-y} \leq \epsilon$ implies $\norm{\ket{x} - \ket{y}} \leq \frac{\s
 
 
 
-# Contributions and  acknowledgements
+# Contributions and  acknowledgements {#appendix-contributors}
 
 These are my first lecture notes in Quantum Machine Learning (QML) and quantum algorithms. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. thesis (which I made at [IRIF](https://irif.fr) with the support of [Atos](https://atos.net), which I thank), and now are in this extended form with the hope to serve the future researchers in QML. I am not an expert in the broad field of "quantum computing", and these lecture notes are an attempt (while quite prolonged over time) of collecting useful knowledge for new researcher in quantum computing. While I strive to be as precise as the lecture notes of [Ronald de Wolf](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf) and [Andrew Childs](https://www.cs.umd.edu/~amchilds/qa/qa.pdf), I know this work is still far from them. Please be indulgent, and help! For instance by signaling imprecisions, errors, and things that can be made more clear.
 
@@ -1264,7 +1264,12 @@ This website is supported by:
 - [unitary.fund](https://unitary.fund).
 - [Centre for Quantum Technologies](https://www.quantumlah.org/)
 
-A big thanks to 42lf.it for the legal support. 
+**Suppliers**
+
+A big thanks to:
+
+- [42LF](https://42lf.it) for the legal support,
+- [Lorenzo Gecchelin](https://www.linkedin.com/in/gecchelinlorenzo/) for the graphics.
 
 # License and citation
 

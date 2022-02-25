@@ -7,6 +7,8 @@ output:
 
 # Quantum algorithms for Monte Carlo {#chap:montecarlo}
 
+<div style="text-align: right"> Contributors: Michele Vischi, Alessandro Luongo </div>
+<br>
 
 This notes are based on this paper [@montanaro2015quantum]. Previous works (upon which [@montanaro2015quantum] is based) on the same topic can be found in [@brassard2011optimal], [@wocjan2009quantum] and [@heinrich2002quantum].
 
