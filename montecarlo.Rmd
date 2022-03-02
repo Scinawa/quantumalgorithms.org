@@ -398,7 +398,7 @@ where $W_T$ is the Brownian motion at time $T$ and $v(x)$ is derived from the pa
 \begin{equation}
 p_T(x) = \frac{1}{\sqrt{2\pi T}}e^{-\frac{x^2}{2T}}
 \end{equation}
-To use our quantum algorithms, we need to prepare a state which is a superposition with the square root of these probabilities at each value $x$, which are infinitely many. In real life, we will have a finite register of qubits and we can only prepare approximately this quantum state because we can only take a finite set of values $x_i$. To do so, we take the support of the density distribution from $]-\infty,+\infty[$ to $[-x_{max},x_{max}]$ and discretize this interval with $2^{n}$ points, where $n$ is the integer number of qubits. We can define the discretization points as $x_j:= -x_{max}+j\Delta x$, with $\Delta x= 2x_{max}/(2^n-1)$ and $j = 0,\dots, (2^n-1)$. We then define the probabilities $p_j= p_T(x_j)/C$ where the normalization $C = \sum_{j=0}^{2^n-1}p_{T}(x_j)$ is required so to have $2^n$ probabilities that sum up to 1. Through an oracle that gives us quantum sampling access \@ref(sec:) to the probability distribution, we can run a quantum algorithm $G$ such that we can prepare:
+To use our quantum algorithms, we need to prepare a state which is a superposition with the square root of these probabilities at each value $x$, which are infinitely many. In real life, we will have a finite register of qubits and we can only prepare approximately this quantum state because we can only take a finite set of values $x_i$. To do so, we take the support of the density distribution from $]-\infty,+\infty[$ to $[-x_{max},x_{max}]$ and discretize this interval with $2^{n}$ points, where $n$ is the integer number of qubits. We can define the discretization points as $x_j:= -x_{max}+j\Delta x$, with $\Delta x= 2x_{max}/(2^n-1)$ and $j = 0,\dots, (2^n-1)$. We then define the probabilities $p_j= p_T(x_j)/C$ where the normalization $C = \sum_{j=0}^{2^n-1}p_{T}(x_j)$ is required so to have $2^n$ probabilities that sum up to 1. Through an oracle that gives us quantum sampling access \@ref(q-sampling-access) to the probability distribution, we can run a quantum circuit $G$ such that we can prepare:
 \begin{equation}
 G\ket{0^n} = \sum_{j=0}^{2^n-1}\sqrt{p_j}\ket{j}
 \end{equation}
@@ -415,7 +415,7 @@ One can find a binary approximation to this function over $n$ bits, i.e. $\tilde
 \ket{j}\ket{0^n}\to \ket{j}\ket{\tilde{v}(j)}
 \end{equation}
 
-thanks to an auxiliary register of $n$ qubits, initialized in the state $\ket{0^n}$. Using the arithmetic model , we can then apply the controlled rotation $W$ to a further ancillary qubit to end up with:
+thanks to an auxiliary register of $n$ qubits, initialized in the state $\ket{0^n}$. Using the arithmetic model \@ref(def:fixed-point-encoding), we can then apply the controlled rotation $W$ to a further ancillary qubit to end up with:
 \begin{equation}
 \ket{j}\ket{\tilde{v}(j)} \to \ket{j}\ket{\tilde{v}(j)}\bigg(\sqrt{1-\tilde{v}(j)}\ket{0}+\sqrt{\tilde{v}(j)}\ket{1}\bigg)
 \end{equation}
@@ -449,12 +449,12 @@ A_T^{geo} =\exp\frac{1}{L}\sum_{l=1}^L \log{S_{t_l}}
 \end{equation}
 for predefined time points $0<t_1< \ldots <t_L\leq T$ with $L\geq 1$. Note that if you develop the summation in the geometric mean, and use the facts that $a\log{x}= \log{x^a}$ and $\exp{\log{x}}= x$, one retrives the more common definition of the geometric mean $A_T^{geo}= \bigg(\prod_{l=1}^L S_{t_l}\bigg)^{1/L}$.
 We assume in the following that all adjacent time points are separated by the interval $\Delta t$, i.e. $t_{l+1}-t_{l} = \Delta t = T/L$ for all $l= 1,\dots,L-1$.
-Analogously to the European option, we can prepare a state that corresponds to the Gaussian distribution with variance $\Delta t$:
+Analogously to the European option, we assume to have quantum sampling access \@ref(q-sampling-access) to a state that corresponds to the Gaussian distribution with variance $\Delta t$:
 \begin{equation} 
 \ket{p_{\Delta t}} = G\ket{0^m} = \sum_{j=0}^{2^m-1}\sqrt{p_{\Delta t}(x_j)}\ket{j}
 \end{equation}
 where now $m$ is the number of discrete points over which one can define a value for the stock price.
-The above state has $m$ qubits and it can be prepared thanks to suitable quantum sampling access.
+The above state has $m$ qubits and it can be prepared thanks to suitable quantum sampling access \@ref(q-sampling-access).
 With such a state we performed the first key step to apply Monte Carlo techniques in the quantum regime: we stored the right probability distribution in the amplitudes of the qubit register for a given time $t_i$. Indeed for a given $i$, the stock price is distributed according to a normal random variable with variance $\Delta t$. We want to prepare the product of such states for every $t_i$ with $i=1,\dots,L$. 
 To do so, we use $L$ registers of $m$ qubits and prepare the state $\ket{p_{\Delta t}}$ in each register:
 \begin{equation}
@@ -465,15 +465,15 @@ Next we define the operation:
 \ket{j_1,\dots,j_L}\ket{0}\to \ket{j_1,\dots,j_L}\ket{A(S_{t_1}(x_{j_1}),\dots,S_{t_L}(x_{j_L}))}
 \end{equation}
 here $A(S_{t_1}(x_{j_1}),\dots,S_{t_L}(x_{j_L}))$ is the average stock price corresponding to the path $x_{j_1}, \dots x_{j_L}$.
-If you wonder why to introduce such operation, take some time. Consider a state $\ket{j_1,\dots,j_L}$. This is associated to the following stock price path: at time $t_1$ the stock price is $S_{t_1}(x_{j_1})$, at time $t_2$ the stock price is $S_{t_2}(x_{j_2})$ and so on (with their corresponding probabilities). To this stock price path is associated the corresponding average value $A(S_{t_1}(x_{j_1}),\dots,S_{t_L}(x_{j_L}))$.
+If you wonder why to introduce such operation, consider a state $\ket{j_1,\dots,j_L}$. This is associated to the following stock price path: at time $t_1$ the stock price is $S_{t_1}(x_{j_1})$, at time $t_2$ the stock price is $S_{t_2}(x_{j_2})$ and so on (with their corresponding probabilities). To this stock price path is associated the corresponding average value $A(S_{t_1}(x_{j_1}),\dots,S_{t_L}(x_{j_L}))$.
 In this way, when using such operation on the state $\ket{p}$ we will get a superposition in which the ancillary registers encode the averages associated to any possible stock price path. Since we want an estimate of the mean of these averages, we should be not surprised anymore.
 
 To be able to apply such a transformation, each index $j$ is mapped to its corresponding point $x_j$ via $x_j = -x_{max}+j\Delta x$. Starting from the known $S_0$, we can compute the stock price at each time point by iteration:
 \begin{equation} 
 S_{t_{l+1}}(x) = S_{t_l}e^{\sigma x+(r-\sigma^2/2)\Delta t}
 \end{equation}
-
-in this way we can get a state where the label $\ket{j_1,\dots,j_L}$ is associated to the corresponding stock price path 
+Notice that we embedded the values of $\sigma$ and $r$ in the circuit.
+In this way we can get a state where the label $\ket{j_1,\dots,j_L}$ is associated to the corresponding stock price path 
 \begin{equation}
 \ket{j_1,\dots,j_L}\ket{S_{t_1}(x_{j_1}),\dots,S_{t_L}(x_{j_L})}
 \end{equation}
@@ -492,14 +492,14 @@ Applying these operations to the product state prepared before one finally gets:
 where $\sqrt{p_{j_1,\dots,j_L}} =\sqrt{p_{\Delta t}(x_1)}\dots \sqrt{p_{\Delta t}(x_L)}$.
 Now we can use append an ancillary qubit in $\ket{0}$ state and apply the controlled rotation encoding the value of the payoff function on the $\ket{1}$ subspace. Using theorem \@ref(thm:quantum-monte-carlo-variance1) on this state gives the expectation value that we want.
 
-Notice that we are allowed to use theorem \@ref(thm:quantum-monte-carlo-variance1): Asian options have a bounded variance (the arithmetic mean upper bounds the geometric mean) and it is upper bounded by the expected maximum of the stock price $\max\{S_{t_1},\dots,S_{t_L}\}$. The variance of this maximum can be bounded. We thus get a quantum algorithms for the pricing of Asian option that needs $N$ queries for accuracy $\epsilon$, while classical Monte Carlo methods would need $N^2$ samples to get the same accuracy $\epsilon$.
+Notice that we are allowed to use theorem \@ref(thm:quantum-monte-carlo-variance1): Asian options have a bounded variance (the arithmetic mean upper bounds the geometric mean) and it is upper bounded by the expected maximum of the stock price $\max\{S_{t_1},\dots,S_{t_L}\}$. The variance of this maximum can be bounded. We thus get a quantum algorithms for the pricing of Asian option that needs $N$ queries for accuracy $\epsilon$, while, as we explained at the beginning of the chapter, classical Monte Carlo methods would need $N^2$ samples to get the same accuracy $\epsilon$.
 
 Note that the algorithms that we presented to price European and Asian options have a running time that depends on a bound on the variance of this variables. Of course if the bound is tight, this means that we can have an optimal running time. As we will see there exist a quantum algorithm to estimate the expectation value of random variables that does not require to know beforehand a bound on the variance.
 
 
 
 
-### Trace distance 
+<!--### Trace distance 
 Another application of the quantum speedup of classical Monte Carlo techniques is in the estimation of the total variation distance between probability distributions. In this problem, we are given two probability spaces $([n],\mathcal{F},p)$, $([n],\mathcal{F},q)$ and the ability to sample $n$ elements from two unknown probability distributions $p$ and $q$, and we would like to estimate their distance up to additive error $\epsilon$. Note that we consider probability distributions defined on sample spaces of the form $[n]$ where $n\in \mathbb{N}$. We will clarify this choice in a moment.
 There exists a quantum algorithm solving this problem using $O(\sqrt{n}/\epsilon^8)$ samples [@bravyi2011quantum], while no classical algorithm can achieve sub-linear dependence on $n$. We refer the reader to [@bravyi2011quantum] for the proof. We want to show that by using the quantum mean estimation algorithm \@ref(thm:quantumbounded01), we obtain a quantum algorithm for estimating the total variation distance running in time $O(\sqrt{n}/\epsilon^{5/2})$, thus improving the running time of the algorithm in [@bravyi2011quantum] for small enough $\epsilon$.
 
@@ -540,7 +540,7 @@ In particular by using theorem \@ref(thm:quantumbounded01), we can get an estima
 <!-- # ```{r, subroutine-variational-distance, fig.cap="Subroutine to estimate the total variational distance between $p$ and $q$", echo=FALSE} -->
 <!-- # knitr::include_graphics("algpseudocode/subroutine-variational-distance.png") -->
 <!-- # ``` -->
-Why is this subroutine of any use for our purposes?
+<!--Why is this subroutine of any use for our purposes?
 To answer that, first notice that if we have query access to $p$ and $q$, we also have query access to $r =1/2(p+q)$, as if we can sample $i$ from both $p$ and $q$ then by choosing randomly between these two options we can also sample $i$ from $r$ [@bravyi2011quantum].
 Second, notice that if the estimates $\tilde{p}(x)$, $\tilde{q}(x)$ were precisely accurate, the expected output of the subroutine would be:
 \begin{equation}
@@ -594,7 +594,7 @@ We can state the above in the following theorem for the trace distance:
 ```{theorem, quantum-vardist-ashley, name="Quantum trace distance estimation with frequency vector"}
 Assume to have quantum access to a frequency vector, as in Oracle \ref(def:oracle-frequency), to two probability distributions $p$ and $q$. For $\epsilon,\delta >0$ there is a quantum algorithm that estimates $1/2||p-q||_1$ up to additive error $\epsilon$, with success probability of $1-\delta$, using $O((\sqrt{n}/\epsilon^{5/2})\log(1/\epsilon)\log(1/\delta))$ samples.
 ```
-The overall complexity is $O((\sqrt{n}/\epsilon^{5/2})\log(1/\epsilon)\log(1/\delta))$. For small enough $\epsilon$ and $\delta$ this is a substantial improvement on the $O(\sqrt{n}/(\epsilon^8\delta^5))$ complexity found in [@bravyi2011quantum].
+The overall complexity is $O((\sqrt{n}/\epsilon^{5/2})\log(1/\epsilon)\log(1/\delta))$. For small enough $\epsilon$ and $\delta$ this is a substantial improvement on the $O(\sqrt{n}/(\epsilon^8\delta^5))$ complexity found in [@bravyi2011quantum].-->
 
 
 

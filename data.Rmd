@@ -213,7 +213,7 @@ The complexity of the algorithm in this model is measured by the cost for step 2
 Equipped with this definition we can load all kind of data in the quantum computer.
 
 
-### Quantum sampling access
+### Quantum sampling access {#q-sampling-access}
 
 The idea behind quantum sampling access is very simple: we want a state preparation routine that:
 
