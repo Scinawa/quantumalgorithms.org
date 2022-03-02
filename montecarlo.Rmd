@@ -7,6 +7,8 @@ output:
 
 # Quantum algorithms for Monte Carlo {#chap:montecarlo}
 
+<div style="text-align: right"> Contributors: Michele Vischi, Alessandro Luongo </div>
+<br>
 
 In this chapter we focus on how quantum computing speeds up classical Monte Carlo techniques. 
 Monte Carlo methods are ubiquitous across science and find many broad applications such as 

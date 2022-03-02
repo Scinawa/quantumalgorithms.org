@@ -2,10 +2,11 @@
 output:
   pdf_document: default
   html_document: default
+
 ---
 
 
-# Dimensionality reduction
+# Dimensionality reduction {#chap:dimensionality-reduction}
 
 
 
