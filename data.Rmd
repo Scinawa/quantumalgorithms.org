@@ -210,15 +210,24 @@ An algorithm in the QRAM data structure model that processes a data-set of size 
 The complexity of the algorithm in this model is measured by the cost for step 2.
 ```
 
-Equipped with this definition we can load all kind of data in the quantum computer.
+Equipped with this definition we can load all kind of data in the quantum computer. 
+
+
+### Quantum query access to a vector
+
+Equipped with the definition of QRAM we can better formalize what it means to have quantum query access to a vector $x \in \mathbb{R}^N$ stored in the QRAM.
+
+```{definition, quantum-query-access-vector, name="Quantum query access to a vector stored in the QRAM"}
+Given $x \in (\{0,1\}^m)^N$, we say that we have quantum query access to $x$ stored in the QRAM if we have access to a unitary operator $U_x$ on such that $U_x\ket{i}\ket{b} = \ket{i}\ket{b \oplus x_i}$ for any bit string $b\in\{0,1\}^m$. One application of $U_x$ costs $O(1)$ operations.
+```
+
+Other common names for this oralce is "QRAM access", or we simply say that "$x$ is in the QRAM". Note that this definition is very similar to Definition \@ref(def:quantum-oracle-access). The difference is that in the case of most boolean functions we know how to build an efficient classical (and thus quantum) boolean circuit for calculating the function's value. If we have just a list of numbers, we need to resort to a particular hardware device, akin to a classical memory, which further allows query in superposition.ß
+
 
 
 ### Quantum sampling access
 
-The idea behind quantum sampling access is very simple: we want a state preparation routine that:
-
-
-As we will see next, the idea behind the proof comes from a paper by Lov Grover and Therry Rudolph [@grover2002creating]. 
+As we will see next, the idea behind the proof comes from a paper by Lov Grover and Therry Rudolph [@GR02].
 
 
 
