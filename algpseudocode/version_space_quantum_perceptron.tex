@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{braket}
+\usepackage{amsmath, amsfonts, amssymb}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
+\begin{document}
+\pagestyle{empty}
+\begin{algorithm}[ht]
+	\caption{Quantum version space perceptron training} 
+	\begin{algorithmic}[1]
+	\Require Quantum access to a set of weight vectors $\{w^{(1)}, \ldots, w^{(k)}\}$ sampled from a Gaussian spherical distribution, via a unitary $U: |j\rangle|{0}\rangle \rightarrow |j\rangle|w^{(j)}\rangle$. An oracle $\mathcal{F}$ such that $\mathcal{F}|w^{(j)}\rangle=(-1)^{1+\left(f\left(w^{(j)},x^{(1)}, y^{(1)}\right) \vee \cdots \vee f\left(w^{(j)},x^{(n)}, y^{(n)}\right)\right)}|w^{(j)}\rangle$.
+    \Ensure A vector of weights $w$ such that $P\left(\exists j: f_{w}\left(x^{(j)}, y^{(j)}\right)=1\right) \leq \epsilon$
+
+		\State Initialize $k = \frac{1}{\gamma}\log(1/\epsilon)$.
+		\For {\(h = 1, \ldots,\left\lceil\log \epsilon\right\rceil\)}
+		
+			\State Apply Grover's algorithm using $U$ and $\mathcal{F}$ on $\frac{1}{\sqrt{k}}\sum_{j=1}^{k} |j\rangle|0\rangle$.
+						
+			\State Measure the first register of the resulting state $\sum_{j=1}^{n} \alpha_j|j\rangle|0\rangle$ and call the output $j$.
+			
+			\If{\(f\left(w^{(j)}, x^{(i)}, y^{(i)}\right)=0\) for all \(i \in\{1, \ldots, n\}\)}
+			
+				\State Return $w_j$.
+			
+			\EndIf
+					
+		\EndFor
+		
+		\State \Return $w=0$.
+	\end{algorithmic}
+\end{algorithm}
+
+\end{document}
