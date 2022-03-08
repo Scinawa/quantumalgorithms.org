@@ -13,7 +13,7 @@ header-includes:
 <br>
 
 
-```{r, echo=FALSE, fig.cap="This section is heavily work in progress"}
+```{r, echo=FALSE, fig.width=10, fig.cap="This section is heavily work in progress"}
 knitr::include_graphics("images/wip.png")
 ```
 
@@ -166,6 +166,10 @@ algorithms that use this state as input. For a more detailed description, look a
 
 ## Access models {#sec:quantum-memory-models}
 
+```{r, echo=FALSE, fig.width=6, fig.cap="", }
+knitr::include_graphics("images/wip.png")
+```
+
 The problem of loading data in a quantum computer is tightly coupled with the problem of data representation, which we discussed in the previous section. This section of the book is quite important for understanding quantum (machine learning) algorithms, and it's also hot topic in the quantum computing community. 
 
 Remember: we work in a **oracle model** of quantum computation, that we defined in Section \@ref(measuring-complexity). This section is devoted to the formalization and implementation of some of the oracles that are commonly assumed in literature, and thus in this book. Let's recall that a query to an oracle is anything that performs the following definition. 
@@ -277,7 +281,7 @@ It's important to remember that for Definition \@ref(def:oracle-access-adjacency
 
 The idea of these definitions is that we believe that we can build an efficient quantum circuit for performing these mappings. Of course, by efficient here we mean that it should *not* require particular hardware, like the QRAM model before. Of course, with a vector or a matrix stored in a QRAM, we can also have efficient (i.e. in time $O(\log(n))$) query access to a matrix or a vector. 
 
-### Classical probability distributions
+### Accessing classical probability distributions
 
 We have 4 ways of working with classical probability distributions in a quantum computer:
 
@@ -346,9 +350,6 @@ The original definition of QRAM, where $\mu(A)=\|A\|_F$ corresponds to the facto
 
 
 For details on how to use quantum access to this data structure and proving theorem \@ref(def:KP-trees), the reader is referred to [@KP16] (Appendix) for the original proof, and [@kerenidis2017quantumsquares] (theorem 4.4) for details on the choices of $\mu(A)$. More explicit proofs for the creation of quantum states with choices of $\mu$ different than the Frobenius norm can be found in [@CGJ18] (Lemma 25) and  [@gilyen2019quantum].
-
-
-
 
 
 

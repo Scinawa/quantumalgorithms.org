@@ -309,7 +309,7 @@ knitr::include_graphics("algpseudocode/logdet-sve.png")
 ```
 
 ```{theorem, logdet-sve, name="SVE based algorithm for log-determinant"}
-Assuming to have quantum access to an SPD matrix $A$, the algorithm in figure \@ref(algo:logdet-sve) returns
+Assuming to have quantum access to an SPD matrix $A$, the algorithm in figure \@ref(fig:algo-logdet-sve) returns
 $\overline{\log\det(A)}$ such that $|\overline{\log\det(A)} - \log\det(A)| < \epsilon |\log\det(A)|$ in time
 $\widetilde{O}(\mu \kappa^3/\epsilon^2).$
 ```

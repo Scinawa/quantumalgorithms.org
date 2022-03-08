@@ -226,7 +226,7 @@ There are various ways to measure the complexity of a quantum algorithm.  We den
 We use a standard notation of $\widetilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms: $O(\log(n))=\widetilde{O}(1)$.
 
 ```{definition, quantum-oracle-access, name="Quantum query or oracle access to a function"}
-Let $\mathcal{H}$ be a finite-dimensional Hilbert space with basis $\{0,1\}^{n}$. Given $f:\{0,1\}^n\to\{0,1\}^m$, we say that we have quantum query access to $f$ if we have access to a unitary operator $U_f$ on $\mathcal{H}\otimes\mathbb{C}^{2^n}$ such that $U\ket{x}\ket{b} = \ket{x}\ket{b \oplus f(x)}$ for any bit string $b\in\{0,1\}^m$. One application of $U_f$ costs T_f operations$.
+Let $\mathcal{H}$ be a finite-dimensional Hilbert space with basis $\{0,1\}^{n}$. Given $f:\{0,1\}^n\to\{0,1\}^m$, we say that we have quantum query access to $f$ if we have access to a unitary operator $U_f$ on $\mathcal{H}\otimes\mathbb{C}^{2^n}$ such that $U\ket{x}\ket{b} = \ket{x}\ket{b \oplus f(x)}$ for any bit string $b\in\{0,1\}^m$. One application of $U_f$ costs $T_f$ operations.
 ```
 
 
@@ -389,14 +389,13 @@ The initial operation leads to $(H\otimes V) \ket{0}\ket{0} = \ket{+}\ket{\psi}$
 
 Note that the last state could be written equivalenlty, by just factoring out the $\ket{\psi}$ state as $\ket{\psi_{\rm{final}}}=\frac{1}{2}\left(\ket{0}(I+U)\ket{\psi} + \ket{1}(I-U)\ket{\psi} \right)$. The probability of measuring $0$ in the first qubit is:
 \begin{align}
-p(o)= & \norm{(I+U)\ket{\psi} }_2^2 = \frac{1}{4} \left(\bra{\psi} + \bra{\psi}U^\dagger \right)\left(\ket{\psi} + U\ket{\psi} \right) \\
+p(0)= & \norm{\frac{1}{2}(I+U)\ket{\psi} }_2^2 = \frac{1}{4} \left(\bra{\psi} + \bra{\psi}U^\dagger \right)\left(\ket{\psi} + U\ket{\psi} \right) \\
 =& \frac{2+\braket{\psi(U+U^\dagger)\psi}}{4} = \frac{2+2\rm{Re}(\braket{\psi|U|\psi})}{4}
 \end{align}
 
 <!-- EXPLAIN WHY REAL PART! -->
 
-
-The probability of measuring $1$ in the first register follows trivially. 
+Where we used Postulate \@ref(prp:postulate3) with the observable $\ket{0}\bra{0}\otimes I$.The probability of measuring $1$ in the first register follows trivially. 
 
 
 ```{exercise}
@@ -477,19 +476,19 @@ Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \k
 
 ```{proof}
 Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancilla qubit, and the second and third register have $n$ qubits. Then, apply an Hadamard gate to the first qubit, so to obtain $\ket{+}\ket{0}\ket{0}$. Then, apply $U_1$ and $U_2$ to the second and third register, and then apply a controlled swap gate controlled on the ancilla qubit, targeting the two registers. More precisely, we apply $n$ controlled swap gates, each controlling a single qubit of the second and third register. Thus, we obtain the state:
-  $$\frac{1}{\sqrt{2}}\left[\ket{0}(\ket{\psi_1}\ket{\psi_2}) + \ket{1}(\ket{\psi_2}\ket{\psi_1})  \right] $$
+  
+  \begin{equation}
+\frac{1}{\sqrt{2}}\left[\ket{0}(\ket{\psi_1}\ket{\psi_2}) + \ket{1}(\ket{\psi_2}\ket{\psi_1})  \right] 
+\end{equation}
 
   we now apply another Hadamard gate on the ancilla qubit, so to obtain the following state:
 
 \begin{align}
 \ket{\phi}=& \frac{1}{\sqrt{2}}\left[\frac{1}{\sqrt{2}}\left(\ket{0}(\ket{\psi_1}\ket{\psi_2}) + \ket{1}(\ket{\psi_1}\ket{\psi_2})\right) + \frac{1}{\sqrt{2}}\left(\ket{1}(\ket{\psi_2}\ket{\psi_1}) - \ket{0}(\ket{\psi_2}\ket{\psi_1}) \right)  \right] \\
-
  =& \frac{1}{2}\left[\ket{0}\left(\ket{\psi_1}\ket{\psi_2}) + \ket{\psi_2}\ket{\psi_1} \right) +                          \ket{1}\left(\ket{\psi_1}\ket{\psi_2}) - \ket{\psi_2}\ket{\psi_1}\right)\right]
 \end{align}
 
-Now we consider the probability of measuring $0$ and $1$ in the ancilla qubit. More in detail, we want to estimate $p(0)=\bra{\phi}M_0\ket{\phi}$. For this, we recall our Postulate \@ref(prp:postulate3), and more precisely equation \@ref(eq:simple-measurement-probability), with $M_0=\ket{0}\bra{0}\otimes I$, where $I$ is the identiy operator over $n$ qubits.
-
-It is simple to see that $p(0)=\frac{2-|2\braket{\psi_1|\psi_2}|^2}{4}$.
+Now we consider the probability of measuring $0$ and $1$ in the ancilla qubit. More in detail, we want to estimate $p(0)=\bra{\phi}M_0\ket{\phi}$. For this, we recall our Postulate \@ref(prp:postulate3), and more precisely equation \@ref(eq:simple-measurement-probability), with $M_0=\ket{0}\bra{0}\otimes I$, where $I$ is the identiy operator over $n$ qubits. It is simple to see that $p(0)=\frac{2-2|\braket{\psi_1|\psi_2}|^2}{4}$.
 
 By repeating this measurement $O(\log(1/\delta)/\epsilon^2)$ times, duly following the statement of the Chernoff bound in theorem \@ref(thm:chernoff-bound2), we have that the number of samples needed to obtain an error $\epsilon$ with probability $1-\delta$ is $t=\frac{\log(1/\delta)}{2\epsilon^2}$. Once we have obtained an estimate of $p(0)$, we can estiamte the sought-after quantity of interest as $|\braket{\psi_1|\psi_2}|^2 = 1-2p(0)$.
 ```

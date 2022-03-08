@@ -6,6 +6,10 @@ output:
 
 # Classical machine learning {#chap:machinelearning}
 
+```{r, echo=FALSE, fig.width=6, fig.cap="", }
+knitr::include_graphics("images/wip.png")
+```
+
 Machine learning, also called narrow artificial intelligence, has been defined as ``the study of computer algorithms that allow computer programs to automatically improve through experience [@mitchell1997machine]. Machine learning is often divided into supervised and unsupervised methods. We use supervised learning when the dataset is supervised, i.e. when the dataset consist of pairs of input objects (usually vectors) and a desired output value (called the supervised signal), which can be a label or a number. In case the output is a label the supervised problem is said to be called classification, and we call regression the other case. Supervised learning can be thought of as the task of learning a mapping or a function form pairs of input and output. When the dataset in unsupervised, the problem is called clustering, and consist in finding hidden structure of the process that has generated the dataset. Computationally, much of the machine learning algorithms can be described by operations on vectors and matrices. For instance, many machine learning algorithms are reduced to computing the eigenvectors of matrices obtained from the data. In the last 15 years machine learning has been applied in all the sectors of information technology. In this chapter, we review and introduce some classical machine learning. Special emphasis is put on formalizing the connection between the machine learning problems and their linear-algebraic formulation.
 
 
