@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{braket}
+\usepackage{amsmath, amsfonts, amssymb}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}%
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
+\begin{document}
+\pagestyle{empty}
+% #Classical perceptron algorithm
+\begin{algorithm}[ht]
+	\caption{Classical online perceptron training} 	
+	\begin{algorithmic}[1]
+    \Require A dataset $\mathcal{D}=\{ (x^{(1)},y^{(1)}), (x^{(2)}, y^{(2)} ) ,\ldots, ( x^{(n)},y^{(n)})\} \in (\mathbb{R}^{m} \times\{0,1\})^{n}$
+    \Ensure A vector of weights $w$ such that $y^{(j)}(w^\top x^{(i)}) > 0$ for all $j \in \{1, \dots, n\}$
+		\State Initialize ${w}:={0} \in \mathbb{R}^{m+1}$
+		\State $\mathrm{continue}=0$
+		  \Do
+			\For {every data point $\left(x^{(j)}, y^{(j)}\right) \in \mathcal{D}$}
+				\State Compute the prediction $\hat{y}^{[i]}:=\sigma\left(\mathbf{x}^{[i]T} {w}_{i}+b\right)$
+        		\State Compute the $\mathrm{error}:=\left(\hat{y}^{(i)}-{y}^{(i)}\right)$
+        		\State $\mathrm{continue} = \mathrm{continue} + |\mathrm{error}|$
+        		\State Update the weights ${w}_{i}^{'}:={w}_{i}+\Delta{w}$
+        \EndFor
+        
+		\doWhile{$\mathrm{continue}!=0$}        
+	\end{algorithmic}
+\end{algorithm}
+
+\end{document}

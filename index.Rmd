@@ -165,7 +165,7 @@ Coming soon:
 - Lecture 2 - **Quantum computer science**: oracle model, BPP vs BQP, from boolean to quantum circuits, Solovay-Kitavev, randomized algorithms, Markov Inequality, Union bound and applications. Section \@ref(measuring-complexity).
 - Lecture 3 **Foundational quantum algorithms**, Section \@ref(review-famous-quantum-algos): Deutsch-Josza, Bernstein-Vazirani, Swap-test, Hadamard-test.
 - Lecture 4 - **Oracles, data representation and data loaders**: Oracles for accessing the data, data representation, sparse models. Chapter \@ref(chap:classical-data-quantum-computers).
-- Lecture 5 - **QFT and Grovers' algorithm**: Section \@ref(sec:grover), Section \@ref(section:phaseestimation)
+- Lecture 5 - **QFT and Grovers' algorithm**: Section \@ref(section:grover), Section \@ref(section:phaseestimation)
 - Lecture 6 - **Phase estimation, amplitude amplification, counting, finding the minimum, and applications**: Beginning of Chapter \@ref(chap:toolbox).
 - Lecture 7 (optional) - **More foundational quantum algorithms**: Simons's and Shor's algorithm (`#TODO`)
 - Lecture 8 (optional): **Quantum perceptron models**: This is a very simple quantum machine learning algorithm that shows the applications of different techniques seen so far.  (`#TODO`, very soon!)

@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{braket}
+\usepackage{amsmath, amsfonts, amssymb}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
+\begin{document}
+\pagestyle{empty}
+% #Classical perceptron algorithm
+\begin{algorithm}[ht]
+	\caption{Quantum online perceptron training} 
+	\begin{algorithmic}[1]
+	   \Require Quantum access to a dataset $\mathcal{D}=\{ (x^{(1)},y^{(1)}), (x^{(2)}, y^{(2)} ) ,\ldots, ( x^{(n)},y^{(n)})\} \in (\mathbb{R}^{m} \times\{0,1\})^{n}$ via a unitary $U: |j\rangle|{0}\rangle \rightarrow |j\rangle|x^{(j)}\rangle$. An oracle $\mathcal{F}_w$ that can be adapted to the weights $w$ at each iteration.
+    \Ensure A vector of weights $w$ such that $P\left(\exists j: f_{w}\left(x^{(j)}, y^{(j)}\right)=1\right) \leq \epsilon$
+
+    	\State Initialize the weights vector $w = 0 \in \mathbb{R}^{m+1}$.
+		\For {\(h=1, \ldots,\left\lceil \frac{1}{\gamma^{2}}\right\rceil\)} 
+
+			\For {\(k=1, \ldots,\left\lceil\log \left(\frac{1}{\gamma^{2} \epsilon}\right)\right\rceil\)} 
+		
+				\State Apply Grover's algorithm using $U$ and $\mathcal{F}_w$ on $\frac{1}{\sqrt{n}}\sum_{j=1}^{n} |j\rangle|0\rangle$.
+				
+				\State Measure the first register of the resulting state $\sum_{j=1}^{n} \alpha_j|j\rangle|0\rangle$.
+
+				\If{$f_{w}(x^{(j)}, y^{(j)})=1$ classically} 
+					\State Update $w^{\prime} \leftarrow w+\Delta w \phi$.
+					\State Update the oracle $\mathcal{F}_w = \mathcal{F}_{w^{\prime}}$.		
+				\EndIf
+
+			\EndFor
+		
+		\EndFor
+				
+		\Return $w^{\prime}=0$.
+	\end{algorithmic}
+\end{algorithm}
+
+\end{document}
