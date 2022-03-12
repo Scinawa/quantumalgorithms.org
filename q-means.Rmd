@@ -2,10 +2,15 @@
 output:
   pdf_document: default
   html_document: default
+
 ---
 
 
 # q-means {#chap:q-means}
+
+<div style="text-align: right"> Contributors: Alessandro Luongo - based on work [@kerenidis2019qmeans] </div>
+<br>
+
 
 In this section we detail a quantum algorithm for unsupervised learning, which can be seen as the quantum version of the well known k-means algorithm. This algorithm is one of the simplest, yet most commonly used clustering algorithms. We first introduce the classical algorithm, then propose a definition of the k-mean model that makes is robust to error in the model. Then, we explain how to derive a quantum version of the k-means algorithm and show its performance on experimental data.
 
@@ -32,6 +37,7 @@ but the number of iterations is usually small in practice. The $k$-means algorit
 
 
 ### $\delta-$k-means
+
 We now consider a $\delta$-robust version of the $k$-means in which we introduce some noise. The noise affects the algorithms in both of the steps of k-means: label assignment and centroid estimation.
 
 - Let $c^{*}_i$ be the closest centroid to the data point $x_i$. Then, the set of possible labels $L_{\delta}(x_i)$ for $x_i$ is defined as follows:

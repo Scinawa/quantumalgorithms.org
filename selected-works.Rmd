@@ -7,9 +7,14 @@ output:
 # (PART) Everything else {-}
 
 
-# Selected works in QML
+# Selected works on quantum algorithms
 
 This is a work in progress, as the vast majority of works are not present here, yet. Obviously, feel free to write at "scinawa [at] luongo . pro" for suggestions, or open an issue on [github](https://github.com/scinawa/quantumalgorithms.org). Please understand that the aim of this section if to select relevant *algorithms* that can be applied for data analysis or used as other subroutines for other QML algorithms.
+
+#### 2022 {-}
+- [An efficient quantum algorithm for lattice problems achieving subexponential approximation factor](https://arxiv.org/abs/2201.13450) `#algo` `#crypto`
+- [Improved quantum algorithms for linear and nonlinear differential equations](https://arxiv.org/abs/2202.01054) `#algo`
+
 
 #### 2021 {-}
 

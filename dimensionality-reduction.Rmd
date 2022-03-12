@@ -2,11 +2,15 @@
 output:
   pdf_document: default
   html_document: default
+
 ---
 
 
-# Dimensionality reduction
+# Dimensionality reduction {#chap:dimensionality-reduction}
 
+```{r, echo=FALSE, fig.cap="", }
+knitr::include_graphics("images/wip.png")
+```
 
 
 ## Unsupervised algorithms
@@ -409,7 +413,13 @@ We also need to satisfy the constraint on the average of the signal being zero a
 
 $$(x_i)_j := \frac{ (\tilde{x}_i)_j - E[(\tilde{x}_i)_j] }{ \sqrt{ E [ ( ( \tilde{x}_i)_j - E[( \tilde{x}_i)_j] )^2 ] } },$$
 
-where with $\tilde{x}(i)$ we define a raw signal with arbitrary mean and variance, $E[\tilde x_j(i)]$ the expected value of a single component of the vectors. This allows us to rewrite the minimization problem including the constraints of zero mean and unit variance. We can restate the definition of the delta function as the the GEP in Optimization Form \@ref(eq:opt1):
+where with $\tilde{x}(i)$ we define a raw signal with arbitrary mean and variance, $E[\tilde x_j(i)]$ the expected value of a single component of the vectors. This allows us to rewrite the minimization problem including the constraints of zero mean and unit variance. We can restate the definition of the delta function as a generalized eigenvalue problem: 
+
+<!-- 
+TODO
+the the GEP in Optimization Form \@ref(eq:opt1):
+once the section on GEP is ready remember to cite the right equation. 
+-->
 
 \begin{equation}\label{delta}
 \Delta(y_j) = \frac{ w^T_j A  w_j}{  w_j^T B  w_j} ,
