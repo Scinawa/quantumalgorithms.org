@@ -44,8 +44,9 @@ There are countless examples of algorithms included in the book, so you can copy
 ## Style guide, tips&tricks. 
 
 - Use \ket{} and \bra{} instead of |x\rangle
-- \begin{equation} and \end{equation} in bookdown are not really working 100% of the time (check?), but they should be used throughout the whole book, as math book have all equation numbered. 
-- Labels for equation equations are documented in the bookdown documentation https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html
+- \begin{equation} and \end{equation} should be used throughout the whole book, as math books have all equation numbered. 
+- Always put a citation with [@citationname] to theorems you are citing. 
+- Labels for equation equations in bookdown are documented in the bookdown documentation https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html
 - Take the references from google scholar. Select that paper you want, go to cite, and use the biblatex paper. Be sure to include always the year of the document, becuase otherwise you will get an error when trying to compile the pdf version of the document. 
 - Every time you compile, (and before doing the pull request) be sure to compile also the pdf version of the document. This becuase there are cases where the generation of the book in htlm succeed, but the pdf is failing for some reasons. 
 - Use \~ before the citation.

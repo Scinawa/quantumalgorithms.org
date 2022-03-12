@@ -13,7 +13,7 @@ header-includes:
 output:
   bookdown::gitbook:
     includes:
-      in_header: [analytics.html]
+      in_header: [header.html]
       after_body: [cookiebanner.html, ribbon_body.html]
 # output:
 #     pdf_document:
@@ -23,6 +23,9 @@ output:
 #         includes:
 #             in_header: preamble.tex
 description: "Open-source book on quantum algorithms for information processing and machine learning"
+url: 'https\://quantumalgorithms.org'
+github-repo: "scinawa/quantumalgorithms.org"
+
 ---
 
 
@@ -56,13 +59,15 @@ description: "Open-source book on quantum algorithms for information processing 
 
 # Preface
 
+This is an [open source project accessible on GitHub](https://github.com/Scinawa/quantumalgorithms.org/) - only possible thanks to its many [contributors.](contributions-and-acknowledgements.html) The website is licensed under CC BY-NC-SA 4.0. We are searching for talented people and researchers to contribute: you can find a list of issues and enhancements that would improve this book further on the [issues list](https://github.com/Scinawa/quantumalgorithms.org/issues) for the GitHub repo, making recent material that keeps popping up in quantum information accessible to a larger audience.
+
+
+
 The aim of this book is twofold:
 
 - First, we want to bridge the gap between introductory material in quantum computation and research material.
 - Secondarily, you should be able to use this book as a resource for state-of-the-art algorithms. Readers and scholars should find statements of theorems (along with their citations) and runtimes of the best quantum subroutines in literature, ready to be used in new quantum algorithms or applications.
 
-
-This is an [open source project accessible on GitHub](https://github.com/Scinawa/quantumalgorithms.org/). The website is licensed under CC BY-NC-SA 4.0. We are searching for talented people and researchers to contribute: you can find a list of issues and enhancements that would improve this book further on the [issues list](https://github.com/Scinawa/quantumalgorithms.org/issues) for the GitHub repo, making recent material that keeps popping up in quantum information accessible to a larger audience.
 
 These lecture notes were used to teach at:
 
@@ -116,6 +121,7 @@ We will see that, for a new QML algorithm, one often needs to make sure that the
 
 These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefit society and humankind, as soon as the hardware that supports this kind of computation becomes ready.
 
+Last but not least, we will also cover important algorithms that are not necessarily related to machine learning, but are the quantum counterpart of important classical algorithms. Don't get swayed by the "lack" of exponential speedups. Remember: the square root of 365 days is a little less than 3 weeks. Besides this, big polynomial speedups, small polynomial speedups in important problems, or polynomial speedups proposing new algorithmic techniques are all much welcome in quantum computer science. All in all, quantum algorithms (to me) should be seen as a way for making **impossible things possible**. 
 
 While reading these lecture notes you should always remember the good [Simon Martiel](https://scholar.google.fr/citations?user=upaq0vIAAAAJ&hl=en):
 <p style="text-align:center">
@@ -140,6 +146,8 @@ https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter
 - March 2021: quantumalgorithms.org is proudly supported by the [Unitary Fund](https://unitary.fund/), and quantumalgorithms.org is a project of the [QOSF](https://qosf.org) mentorship program: 5 students started creating new content!
 - April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation.
 - June 2021: Quantum Monte Carlo algorithms, lower bounds techniques for query complexity of quantum algorithms, quantum algorithms for graph problems. The output of the mentorship program of the QOSF foundation!
+- January 2022: In the past months we improved the overall quality of the website (graphics, typos) and added some content (Deutsch-Josza, Bernstein-Vazirani, swap and Hadamard tests)
+- February 2022: We are happy to bring our swag (t-shirts, stickers, lanyards) to QIP. We added a whole chapter on perceptron algorithms and we doubled the chapter on quantum monte carlo algorithms with applications to finance and trace distance!
 
 
 Coming soon:
@@ -148,6 +156,36 @@ Coming soon:
 - quantum algorithms for dynamic programming
 - quantum convolutional neural networks
 - quantum random feature sampling
+
+
+## Teaching using this book
+
+
+- Lecture 1 - **Axioms of quantum mechanics**: Chapter \@ref(chapter-intro), section \@ref(section-axioms)
+- Lecture 2 - **Quantum computer science**: oracle model, BPP vs BQP, from boolean to quantum circuits, Solovay-Kitavev, randomized algorithms, Markov Inequality, Union bound and applications. Section \@ref(measuring-complexity).
+- Lecture 3 **Foundational quantum algorithms**, Section \@ref(review-famous-quantum-algos): Deutsch-Josza, Bernstein-Vazirani, Swap-test, Hadamard-test.
+- Lecture 4 - **Oracles, data representation and data loaders**: Oracles for accessing the data, data representation, sparse models. Chapter \@ref(chap:classical-data-quantum-computers).
+- Lecture 5 - **QFT and Grovers' algorithm**: Section \@ref(section:grover), Section \@ref(section:phaseestimation)
+- Lecture 6 - **Phase estimation, amplitude amplification, counting, finding the minimum, and applications**: Beginning of Chapter \@ref(chap:toolbox).
+- Lecture 7 (optional) - **More foundational quantum algorithms**: Simons's and Shor's algorithm (`#TODO`)
+- Lecture 8 (optional): **Quantum perceptron models**: This is a very simple quantum machine learning algorithm that shows the applications of different techniques seen so far.  (`#TODO`, very soon!)
+- Lecture 9: **Quantum numerical linear algebra pt. 1**: HHL algorithm, block-encodings and quantum singular value estimation. Mostly from Chapter \@ref(chap:svebased).
+- Lecture 10: **Quantum numerical linear algebra pt. 2**: Quantum singular value transformation, Hamiltonian simulation. Theory and examples.
+- Lecture 11: **Distance, inner product, trace estimation**: From Chapter \@ref(chap:toolbox), especially Section \@ref(sub:distances), (`#TODO` trace estimations).
+- Lecture 12: **Quantum monte carlo algorithms and applications**: Content from Chapter \@ref(chap:montecarlo).
+- Lecture 13: **Quantum machine learning pt. 1**:  QPCA and QSFA. Chapter \@ref(chap:dimensionality-reduction) Hamiltonian simulation with density matrices (`#TODO`).
+- Lecture 14: **Quantum machine learning pt. 2**:   Random feature sampling (`#TODO`, to convert from .tex to markdown, check github repository).
+- Lecture 15: **Classical simulation of quantum algorithms**: How to simulate a quantum circuit? (`#TODO`) How to simulate a quantum machine learning algorithm? Section \@ref(chap:QML-on-real-data).
+- Lecture 16: **Lower bounds**: Adversarial and polynomial method in Chapter \@ref(chap:lowerbounds), state discrimination (missing).
+- Lecture 17 (optional): **Between the qubits and me**: what do we have between the theory of our algorithms and the hardware? An overview of different hardware architectures, error correction codes, and compilation techniques. (`#TODO`).
+- Lecture 18: **Quantum algorithms on graphs**: Backtracking algorithms, NP-complete problems on graphs (`#TODO`).
+- Lecture 19: **Quantum optimization**: Introduction to optimization. Quantum simplex, quantum zero-sum games. (`#TODO`).
+- Lecture 20: **Quantum optimization**:  Quantum SDP algorithms, quantum interior point methods, quantum branch-and-bound algorithms (`#TODO`).
+
+
+
+
+
 
 
 
