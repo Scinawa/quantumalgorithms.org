@@ -45,23 +45,14 @@ There are countless examples of algorithms included in the book, so you can copy
 
 - Use \ket{} and \bra{} instead of |x\rangle
 - \begin{equation} and \end{equation} should be used throughout the whole book, as math books have all equation numbered. 
-- Always put a citation with [@citationname] to theorems you are citing. 
-- Labels for equation equations in bookdown are documented in the bookdown documentation https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html
+- Always put a citation with [@citationname] to theorems you are citing from papers. 
+- Labels for equation equations in bookdown are documented in the bookdown documentation https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html ( tldr; the way to number equation is the following: (\#eq:raylight) )
 - Take the references from google scholar. Select that paper you want, go to cite, and use the biblatex paper. Be sure to include always the year of the document, becuase otherwise you will get an error when trying to compile the pdf version of the document. 
-- Every time you compile, (and before doing the pull request) be sure to compile also the pdf version of the document. This becuase there are cases where the generation of the book in htlm succeed, but the pdf is failing for some reasons. 
-- Use \~ before the citation.
+- Every time you compile, (and before doing the pull request) be sure to compile also the pdf version of the document. This becuase there are cases where the generation of the book in htlm succeed, but the pdf is failing. 
 - We use runtime not run-time or run time.
 - no space between  a dollar sign for equations $ and the first character of the formula (otherwise you get an error)
 - currently, it's not possible to put latex in the names of the theorems,lemma, definitions. (do we know how to do it?) For example in the definition of the parametereization of the function $\mu$, I had to use the greek letter μ...
 - itemize made with - should start and end with a newline
-- the way to number equation is the following: (\#eq:raylight)
-- This is the templtae to use to create an issue automatically using the github action
 - always use thm, lem, cor, in references: \@ref(thm:qla). 
-- grep "\`{lemma" * to have the list of all lemmas (or theorems) so after we can check if they are used correctly with \@ref() and there are no wrong \ref{}. 
-- the correct way of doing todo is:
-<!-- 
-# TODO 
-# labels: 
--->
+- Use the bash comand `grep "\`{lemma" * to have the list of all lemmas (or theorems) so after we can check if they are used correctly with \@ref() and there are no wrong \ref{}. 
 - If you need a fast way for translating citation from latex \cite{ciao} to markdown [@ciao], you can use \\cite{(.*?)} -----> [@$1]
-- 
