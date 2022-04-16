@@ -9,11 +9,16 @@ output:
 
 # Selected works on quantum algorithms
 
-This is a work in progress, as the vast majority of works are not present here, yet. Obviously, feel free to write at "scinawa [at] luongo . pro" for suggestions, or open an issue on [github](https://github.com/scinawa/quantumalgorithms.org). Please understand that the aim of this section if to select relevant *algorithms* that can be applied for data analysis or used as other subroutines for other QML algorithms.
+This is a work in progress, as the vast majority of works are not present here, yet. Obviously, feel free to write at "scinawa [at] luongo . pro" for suggestions, or open an issue on [github](https://github.com/scinawa/quantumalgorithms.org). Please understand that the aim of this section if to select relevant *quantum algorithms*. Special interested is devoted to works that can be applied for data analysis or used as other subroutines for other QML algorithms.
 
 #### 2022 {-}
 - [An efficient quantum algorithm for lattice problems achieving subexponential approximation factor](https://arxiv.org/abs/2201.13450) `#algo` `#crypto`
 - [Improved quantum algorithms for linear and nonlinear differential equations](https://arxiv.org/abs/2202.01054) `#algo`
+- [New Quantum Algorithms for Computing Quantum Entropies and Distances](https://arxiv.org/abs/2203.13522) `#algo`
+- [Quantum machine learning with subspace states](https://arxiv.org/abs/2202.00054) `#algo`
+- [A quantum algorithm for solving eigenproblem of the Laplacian matrix of a fully connected graph](https://arxiv.org/abs/2203.14451) `#algo`
+- [Quantum State Preparation with Optimal Circuit Depth: Implementations and Applications](https://arxiv.org/abs/2201.11495) `#algo, #theory`
+- [Quantum Meets Fine-Grained Complexity: Sublinear Time Quantum Algorithms for String Problems](https://drops.dagstuhl.de/opus/volltexte/2022/15693/) `#algo`
 
 
 #### 2021 {-}
@@ -43,7 +48,8 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Quantum algorithms for multivariate Monte Carlo estimation](https://arxiv.org/abs/2107.03410) `#algo` `#qmc` 
 - [Quantum Sub-Gaussian Mean Estimator](https://arxiv.org/abs/2108.12172) `#algo` `#qmc`
 - [Quantum algorithm for stochastic optimal stopping problems](https://arxiv.org/abs/2111.15332) `#qfinance` `#algo`
-
+- [Quantum Machine Learning For Classical Data](https://arxiv.org/abs/2105.03684) `#thesis`
+- [Quantum algorithms for anomaly detection using amplitude estimation](https://arxiv.org/pdf/2109.13820.pdf) `#algo`
 
 #### 2020 {-}
 
