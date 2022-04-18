@@ -14,7 +14,7 @@ output:
   bookdown::gitbook:
     includes:
       in_header: [header.html]
-      after_body: [cookiebanner.html, ribbon_body.html]
+      after_body: [cookiebanner.html, ribbon_body.html, googletag.html]
 # output:
 #     pdf_document:
 #         includes:
