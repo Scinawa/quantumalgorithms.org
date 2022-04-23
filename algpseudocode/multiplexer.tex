@@ -1,0 +1,31 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{quantikz}
+
+\usepackage[landscape, paperwidth=15cm, paperheight=30cm, margin=0mm]{geometry}
+
+\title{\vspace{-5ex}}
+\date{\vspace{-5ex}}
+
+\begin{document}
+
+\maketitle
+
+
+
+\begin{quantikz}
+\lstick{$\ket{0}$} & \octrl{1} & \ctrl{1} & \ctrl{1} & \\
+\lstick{$\ket{0}$} & \octrl{1} & \octrl{1} & \ctrl{1} &  \\
+\lstick{$\ket{0}$} & \targ{} & \targ{} & \targ{} &
+\end{quantikz}
+
+
+
+\end{document}

@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{graphicx}
+
+
+\usepackage[landscape, paperwidth=15cm, paperheight=30cm, margin=0mm]{geometry}
+
+\title{\vspace{-5ex}}
+\date{\vspace{-5ex}}
+
+\begin{document}
+
+\maketitle
+
+
+\begin{table}[]
+\centering
+\scalebox{1.5}{
+\begin{tabular}{ccccc}
+                              &                                & \multicolumn{2}{c}{Type of algorithm}                                                                                                                                                              &  \\
+                              &                                & \multicolumn{1}{c|}{Classical}                                                                              & Quantum                                                                              &  \\ \cline{3-4}
+\multirow{2}{*}{\parbox[t]{2mm}{\multirow{3}{*}{\rotatebox[origin=c]{90}{Type of data}}}} & \multicolumn{1}{c|}{Classical} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}CC\\ Classical ML\end{tabular}}                              & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}QC\\ Quantum ML\end{tabular}}         &  \\ \cline{2-4}
+                              & \multicolumn{1}{c|}{Quantum}   & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}CQ\\ Classical ML on \\ quantum experiments\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}QQ\\ Quantum-Quantum ML\end{tabular}} &  \\ \cline{3-4}
+                              &                                &                                                                                                             &                                                                                      & 
+\end{tabular}
+}
+\end{table}
+ 
+
+
+
+% \begin{center}
+% \begin{tabular}{  m{5em} | m{4cm}| m{4cm} | } 
+%   \hline
+%   oracle & numbers & quantum sampling access \\ 
+%   \hline
+%   cell1 dummy text dummy text dummy text & cell5 & cell6 \\ 
+%   \hline
+%   cell7 & cell8 & cell9 \\ 
+%   \hline
+% \end{tabular}
+% \end{center}
+
+
+\end{document}
+

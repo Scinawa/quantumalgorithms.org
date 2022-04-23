@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{graphicx}
+
+
+\usepackage[landscape, paperwidth=15cm, paperheight=30cm, margin=0mm]{geometry}
+
+\title{\vspace{-5ex}}
+\date{\vspace{-5ex}}
+
+\begin{document}
+
+\maketitle
+
+
+\begin{table}[]
+\centering
+\begin{tabular}{ccclclcl}
+\cline{2-7}
+\multicolumn{1}{c|}{Oracle}                          & \multicolumn{3}{c|}{Numbers}                                                                                     & \multicolumn{3}{c|}{Quantum sampling access}                                                     &  \\ \cline{2-7}
+\multicolumn{1}{c|}{\multirow{2}{*}{Implementation}} & \multicolumn{1}{c|}{\multirow{2}{*}{QRAM}} & \multicolumn{2}{c|}{Circuits}                                       & \multicolumn{1}{c|}{KP-trees} & \multicolumn{1}{c|}{Grover-Rudolph} & \multicolumn{1}{c|}{Other} &  \\ \cline{3-6}
+\multicolumn{1}{c|}{}                                & \multicolumn{1}{c|}{}                      & \multicolumn{1}{c|}{Sparse access} & \multicolumn{1}{c|}{Functions} & \multicolumn{2}{c|}{Oracle for numbers}                             & \multicolumn{1}{c|}{}      &  \\ \cline{2-7}
+\multicolumn{1}{l}{}                                 & \multicolumn{1}{l}{}                       & \multicolumn{1}{l}{}               &                                & \multicolumn{1}{l}{}          &                                     & \multicolumn{1}{l}{}       & 
+\end{tabular}
+\end{table}
+ 
+
+\end{document}
