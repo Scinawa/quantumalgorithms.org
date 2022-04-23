@@ -6,6 +6,8 @@
 
 [![Unitary Fund](https://img.shields.io/badge/Supported%20By-UNITARY%20FUND-brightgreen.svg?style=for-the-badge)](http://unitary.fund)
 
+> Program is an embodiment of an algorithm. Algorithms works on information Programs works on data. - Donald Knuth.
+
 
 
 This is the repository for [QuantumAlgorithms.org](https://quantumalgorithms.org). 
