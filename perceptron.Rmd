@@ -4,7 +4,20 @@ output:
   html_document: default
 ---
 
+# (PART) - Quantum Machine Learning {-}
+
+
 # Quantum perceptron
+
+<div style="text-align: right"> Contributors: Armando Bellante, Samantha Buck </div>
+<br>
+
+
+```{r, echo=FALSE, fig.width=10, fig.align = 'center', fig.cap="This section is a work in progress"}
+knitr::include_graphics("images/wip.png")
+```
+
+
 The following chapter is an investigation into the quantum version of the classical perceptron algorithm, and is based on the previous works of [@kapoor2016quantum]
 
 The chapter is organized as follows: we first introduce the fundamentals of the classical version of the perceptron, then we present the online quantum perceptron algorithm and the version space quantum perceptron algorithm. <!--, and finally the state-of-the-art results. -->
@@ -17,11 +30,11 @@ The perceptron is a linear classifier used for binary predictions: its goal is t
 
 Unlike more complex learners, the textbook perceptron can only deal with *linearly separable* datasets. A dataset is said to be linearly separable if there exists at least one hyperplane that can successfully separate the elements of the dataset into distinct groups.
 
-![Figure 1: Linearly Separable Data versus Nonlinearly Separable Data.](images/LinearvsNonlinear.png)
+<!-- ![Figure 1: Linearly Separable Data versus Nonlinearly Separable Data.](images/LinearvsNonlinear.png) -->
 
 Two sets,
 [$\mathrm{A}$]{style="color: orange"} and
-[$\mathrm{B}$]{style="color: blue"}, in an $n-$space are linearly separable only if there exists an $(n-1)$ hyperplane that shatters the two sets. In a 2-dimension space, as the one presented in Figure 1, the hyperplane is a line. In a 3D space it is a plane, and so on. (Note that in 2D, for instance, it could not be a curve! The linearity of this classifier make it so that you can only shatter the sets  using hyperplanes. One could overcome this limitation by introducing kernels in the perceptron formulation or by projecting the data in a space, via "feature engineering", so that they are linearly separable in the new space.)
+[$\mathrm{B}$]{style="color: blue"}, in an $n-$space are linearly separable only if there exists an $(n-1)$ hyperplane that shatters the two sets. In a 2-dimension space, the hyperplane is a line. In a 3D space it is a plane, and so on. (Note that in 2D, for instance, it could not be a curve! The linearity of this classifier make it so that you can only shatter the sets  using hyperplanes. One could overcome this limitation by introducing kernels in the perceptron formulation or by projecting the data in a space, via "feature engineering", so that they are linearly separable in the new space.)
 
 Let us introduce the concept of linear separability using proper mathematical formalism.
 
@@ -58,12 +71,10 @@ b
 \end{equation}
 From now on, we will write $x$ and $w$ assuming the bias is included in this way.
 
-**Classifying data points**
-
 We will soon focus on how the perceptron learns the weights $w_{i}$ and $b$. 
 However, assume for a while that the perceptron knows these numbers (i.e., it has been trained) and only needs to use them to classify the incoming data points in one of the two classes.
 
-![Figure 2: Schematic of the classical perceptron.](images/perceptron.png)
+<!-- ![Figure 2: Schematic of the classical perceptron.](images/perceptron.png) -->
 
 Given a data point $x$, its coordinates $x_{i}$ are weighted in a sum $\sum w_{i} x_{i}$ and this result is passed to one "neuron" that has an activation function $g$.
 The output of this activation function $y=g(\sum w_{i} x_{i})$ is a binary value that represents one of the two possible classes.
@@ -80,9 +91,9 @@ where $y(x)=-1$ means that the sample belongs to one class and $y(x)=+1$ means i
 
 The hyperplane identified by the weigths $w$ is also called decision boundary as, using the sign activation function, the position of the data points w.r.t. it determines the output class.
 
-![Figure 3: Schematic of a decision boundary in 2D.](images/boundary.png)
+<!-- ![Figure 3: Schematic of a decision boundary in 2D.](images/boundary.png) -->
 
-**Training the perceptron**
+### Training the perceptron
 
 In this book, we focus only on the *online training* algorithm, as this is handy for our quantum algorithms.
 We invite the interested reader to read more about the *batch training*.
