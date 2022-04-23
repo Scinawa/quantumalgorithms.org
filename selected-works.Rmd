@@ -19,7 +19,8 @@ This is a work in progress, as the vast majority of works are not present here, 
 - [A quantum algorithm for solving eigenproblem of the Laplacian matrix of a fully connected graph](https://arxiv.org/abs/2203.14451) `#algo`
 - [Quantum State Preparation with Optimal Circuit Depth: Implementations and Applications](https://arxiv.org/abs/2201.11495) `#algo, #theory`
 - [Quantum Meets Fine-Grained Complexity: Sublinear Time Quantum Algorithms for String Problems](https://drops.dagstuhl.de/opus/volltexte/2022/15693/) `#algo`
-
+- [Two-level Quantum Walkers on Directed Graphs II: An Application to qRAM](https://arxiv.org/abs/2204.08709) `#algo`
+- [Memory Compression with Quantum Random-Access Gates](https://arxiv.org/abs/2203.05599) 
 
 #### 2021 {-}
 
@@ -50,6 +51,7 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Quantum algorithm for stochastic optimal stopping problems](https://arxiv.org/abs/2111.15332) `#qfinance` `#algo`
 - [Quantum Machine Learning For Classical Data](https://arxiv.org/abs/2105.03684) `#thesis`
 - [Quantum algorithms for anomaly detection using amplitude estimation](https://arxiv.org/pdf/2109.13820.pdf) `#algo`
+- [Two-level Quantum Walkers on Directed Graphs I: Universal Quantum Computing](https://arxiv.org/abs/2112.08119) `#algo`
 
 #### 2020 {-}
 
