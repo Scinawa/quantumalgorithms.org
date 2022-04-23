@@ -1256,6 +1256,7 @@ The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contr
 - Michele Vischi
 - Adrian Lee
 - Ethan Hansen
+- Lei Fan
 
 **Funding**
 
