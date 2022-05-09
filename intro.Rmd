@@ -235,7 +235,7 @@ Let $\mathcal{H}$ be a finite-dimensional Hilbert space with basis $\{0,1\}^{n}$
 Let $O_x$ be a unitary operator that encodes the input of our computation, and acts in a non-trivial way on its associated Hilbert space.
 A quantum computation with $T$ queries to an oracle $O_x : \ket{i,b,z} \mapsto \ket{i,b \oplus x_i, z}$ is a sequence of unitary transformations:
 
-  $$U_0O_xU_1O_x \dots U_{T-1}O_xUT$$
+  $$U_0O_xU_1O_x \dots U_{T-1}O_xU_T$$
 Where each $U_t$ is a unitary that does not depend on the input of the algorithm. The output of the computation is obtained by measuring the rightmost register (by convention).
 ```
 
