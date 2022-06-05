@@ -235,8 +235,9 @@ Let $\mathcal{H}$ be a finite-dimensional Hilbert space with basis $\{0,1\}^{n}$
 Let $O_x$ be a unitary operator that encodes the input of our computation, and acts in a non-trivial way on its associated Hilbert space.
 A quantum computation with $T$ queries to an oracle $O_x : \ket{i,b,z} \mapsto \ket{i,b \oplus x_i, z}$ is a sequence of unitary transformations:
 
-  $$U_0O_xU_1O_x \dots U_{T-1}O_xU_T$$
-Where each $U_t$ is a unitary that does not depend on the input of the algorithm. The output of the computation is obtained by measuring the rightmost register (by convention).
+$$U_TO_xU_{T-1}O_x \dots U_1O_xU_0$$
+ 
+  Where each $U_t$ is a unitary that does not depend on the input of the algorithm. The output of the computation is obtained by measuring the rightmost register (by convention).
 ```
 
 Note that the second register holds the XOR of the $i$-th component of the input with the previous state of the register (i.e. the b). This is to make the computation reversible.
@@ -387,7 +388,7 @@ The initial operation leads to $(H\otimes V) \ket{0}\ket{0} = \ket{+}\ket{\psi}$
  & =\frac{1}{2}\left(\ket{0}\left(\ket{\psi} + U\ket{\psi} \right) + \ket{1}\left(\ket{\psi} - U\ket{\psi} \right) \right)
 \end{align}
 
-Note that the last state could be written equivalenlty, by just factoring out the $\ket{\psi}$ state as $\ket{\psi_{\rm{final}}}=\frac{1}{2}\left(\ket{0}(I+U)\ket{\psi} + \ket{1}(I-U)\ket{\psi} \right)$. The probability of measuring $0$ in the first qubit is:
+Note that the last state could be written equivalently, by just factoring out the $\ket{\psi}$ state as $\ket{\psi_{\rm{final}}}=\frac{1}{2}\left(\ket{0}(I+U)\ket{\psi} + \ket{1}(I-U)\ket{\psi} \right)$. The probability of measuring $0$ in the first qubit is:
 \begin{align}
 p(0)= & \norm{\frac{1}{2}(I+U)\ket{\psi} }_2^2 = \frac{1}{4} \left(\bra{\psi} + \bra{\psi}U^\dagger \right)\left(\ket{\psi} + U\ket{\psi} \right) \\
 =& \frac{2+\braket{\psi(U+U^\dagger)\psi}}{4} = \frac{2+2\rm{Re}(\braket{\psi|U|\psi})}{4}

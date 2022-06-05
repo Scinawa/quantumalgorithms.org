@@ -644,6 +644,13 @@ A (real-valued) random variable on a probability space $(\Omega, \Sigma, \mathbb
 <!-- - Conditional probability -->
 <!-- - Bayes' Theorem: $$ p(A=a | B=b) = \frac{p(A=a|B=b)}{p(B=b)} = \frac{p(A=a)p(B=b|A=a)}{\sum_{a'} p(A=a')p(B=b|A=a')}$$ -->
 
+Remember [that](https://www.johnmyleswhite.com/notebook/2013/03/22/modes-medians-and-means-an-unifying-perspective/), for a list of numbers $x_1, x_n$,
+
+- The mode can be defined as $\arg\min_x \sum_i |x_i - x|^0$
+- The median can be defined as $\arg\min_x \sum_i |x_i - x|^1$
+- The mean can be defined as $\arg\min_x \sum_i |x_i - x|^2$.
+
+
 #### Union bound
 
 The union bound is used to show that the probability of union fo some finte or countable set of events is less than some value.
@@ -951,14 +958,6 @@ Suppose $X_1, \dots, X_t$ are independent random variables taking values in $\{0
 
 # Error propagation and approximation {#error-prop}
 
-<!--
-# TODO Finish notes on error propagation
-# It would be very clarifying to understand the error propagation from the point of view of theoretical computer science.
-# There are many places on the internet that discuss tihs, but from the point of view of physicists that needs to run an experiment.
-# This is not really helpful sometimes, and require further "processing" to be understood and used in algorithms.
-# Moreover, I have some notes to share (here in the repository, commented in the code) as I am half-way through this part.
-# labels: todo, good first issue,
--->
 
 This part is based on many different sources, like [@hogan2006combine], [@ku1966notes].
 
