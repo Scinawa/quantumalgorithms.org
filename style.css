@@ -693,3 +693,30 @@ display:block !important;
 .chapter > ul > li a{
   font-weight:normal;
 }
+
+
+li.part > span   {
+
+  opacity: 1 !important
+}
+
+li.part > span > b {
+
+  color: #0000FF !important
+}
+
+.book.with-summary .book-header.fixed {
+  left: 500px;
+}
+
+.book.with-summary .book-body {
+  left: 500px;
+}
+
+.book .book-summary {
+  width: 500px;
+}
+
+.book .book-body .navigation {
+  color: #000000;
+}
