@@ -8,14 +8,19 @@ output:
 
 # Dimensionality reduction {#chap:dimensionality-reduction}
 
+<div style="text-align: right"> Contributors: Alessandro Luongo, Armando Bellante</div>
+<br>
+
 ```{r, echo=FALSE, fig.cap="", }
 knitr::include_graphics("images/wip.png")
 ```
 
+We devote this chapter to the study of quantum algorithms for dimensionality reduction. We first delve into unsupervised methods, and then look at the supervised case. In both case we discuss two main subroutines. In one case we can use quantum computers to fit a machine learning model. This means that we can obtain, from a quantum computer, a classical description of the machine learning model (i.e. a set of vectors). In the second case we can imagine using a quantum computer to perform the mapping from an original feature space to the dimensionality-reduced feature space. 
+
 
 ## Unsupervised algorithms
-The qPCA, qCA and qLSA algorithms are extracted from a M.Sc. thesis [@bellante2020quantum] and from an soon-to-appear work.
-The interested reader may wish to consult both for more details.
+In this section we describe three algorithms: the QPCA, QCA and QLSA. These algorithms are mainly from [@bellante2021quantum], which solves in a single framework many of these eigenvalue problems that appears in fitting some simple machine learning models. 
+
 
 ### Quantum PCA {#sec:qpca}
 Principal component analysis is a widely-used multivariate statistical method for continuous variables that finds many applications in machine learning, ranging from outlier detection to dimensionality reduction and data visualization.
@@ -49,21 +54,10 @@ When this is the case, the user might want to extract the top $k$ $u_i$ and $\si
 For this reason, we provide a lemma to bound the error on the retrieved mode. For sake of completeness, the error bound is also stated for $V\Sigma$.
 
 ```{lemma, accuracyUSeVS, name="Accuracy of qPCA's representation (classical)"}
-    Let $A \in \mathbb{R}^{n \times m}$ be a matrix with $\sigma_{max} \leq 1$.
-    Given some approximate procedures to retrieve estimates $\overline{\sigma}_i$ of the singular values $\sigma_i$ such that
-    $\|\sigma_i - \overline{\sigma}_i\| \leq \epsilon$
-    and unit estimates
-    $\overline{u}_i$
-    of the left singular vectors
-    $u_i$
-    such that
-    $\|\overline{u}_i - u_i\|_2 \leq \delta$,
-    the error on
-    $U\Sigma$
-    can be bounded as $\|U\Sigma - \overline{U}\overline{\Sigma}\|_F \leq \sqrt{k}(\epsilon+\delta)$.
-    Similarly,
-    $\| V\Sigma - \overline{V}\overline{\Sigma}\|_F \leq \sqrt{k}(\epsilon+\delta)$.
+Let $A \in \mathbb{R}^{n \times m}$ be a matrix with $\sigma_{max} \leq 1$. Given some approximate procedures to retrieve estimates $\overline{\sigma}_i$ of the singular values $\sigma_i$ such that
+    $\|\sigma_i - \overline{\sigma}_i\| \leq \epsilon$ and unit estimates $\overline{u}_i$ of the left singular vectors $u_i$ such that $\|\overline{u}_i - u_i\|_2 \leq \delta$, the error on $U\Sigma$ can be bounded as $\|U\Sigma - \overline{U}\overline{\Sigma}\|_F \leq \sqrt{k}(\epsilon+\delta)$. Similarly, $\| V\Sigma - \overline{V}\overline{\Sigma}\|_F \leq \sqrt{k}(\epsilon+\delta)$.
 ```
+
 ```{proof}
 The first step of the proof consists in bounding the error on the columns of the matrices: $||\overline{\sigma_i}\overline{u}_i - \sigma_i u_i||$.
 
@@ -97,13 +91,12 @@ $$\norm{\|A\|\overline{U}\overline{\Sigma} - ||A||U\Sigma}_F \leq \sqrt{k}\|A\|(
 ```
 
 Based on Lemma \@ref(lem:applicationBE), we also provide algorithms to produce quantum states proportional to the data representation in the new feature space.
-After $V^{(k)} \in \mathbb{R}^{m\times k}$ has been extracted, these routines create the new data points in almost constant time and are therefore useful when these states are used in a deep quantum machine learning pipeline.
+After $V^{(k)} \in \mathbb{R}^{m\times k}$ has been extracted, these routines create the new data points in almost constant time and are therefore useful when these states are used in a quantum machine learning pipeline.
 
 ```{corollary, qpca-vector, name="qPCA: vector dimensionality reduction"}
-    Let $\xi$ be a precision parameter.
-    Let there be efficient quantum access to the top k right singular vectors $\overline{V}^{(k)} \in \mathbb{R}^{m \times k}$ of a matrix $A = U \Sigma V^T \in \mathbb{R}^{n \times m}$, such that $\|V^{(k)} - \overline{V}^{(k)}\| \leq \frac{\xi}{\sqrt{2}}$.
-    Given efficient quantum access to a row $a_i$ of $A$, the quantum state $\ket{\overline{y}_{i}} = \frac{1}{\|\overline{y}_i\|}\sum_i^k \overline{y}_k \ket{i}$, proportional to its projection onto the PCA space, can be created in time $\widetilde{O}\left(\frac{\|a_i\|}{\|\overline{y}_i\|}\right)$ with probability at least $1-1/\text{poly}(m)$ and precision $\|\ket{y_i} - \ket{\overline{y}_i}\| \leq \frac{\|a_i\|}{\|\overline{y}_i\|}\xi$.
-    An estimate of $\|\overline{y}_i\|$, to relative error $\eta$, can be computed in $\widetilde{O}(1/\eta)$.
+Let $\xi$ be a precision parameter. Let there be efficient quantum access to the top $k$ right singular vectors $\overline{V}^{(k)} \in \mathbb{R}^{m \times k}$ of a matrix $A = U \Sigma V^T \in \mathbb{R}^{n \times m}$, such that $\|V^{(k)} - \overline{V}^{(k)}\| \leq \frac{\xi}{\sqrt{2}}$.
+Given efficient quantum access to a row $a_i$ of $A$, the quantum state $\ket{\overline{y}_{i}} = \frac{1}{\|\overline{y}_i\|}\sum_i^k \overline{y}_k \ket{i}$, proportional to its projection onto the PCA space, can be created in time $\widetilde{O}\left(\frac{\|a_i\|}{\|\overline{y}_i\|}\right)$ with probability at least $1-1/\text{poly}(m)$ and precision $\|\ket{y_i} - \ket{\overline{y}_i}\| \leq \frac{\|a_i\|}{\|\overline{y}_i\|}\xi$. 
+An estimate of $\|\overline{y}_i\|$, to relative error $\eta$, can be computed in $\widetilde{O}(1/\eta)$.
 ```
 
 ```{proof}
@@ -139,13 +132,7 @@ Note that $\frac{\|y_i\|}{\|a_i\|}$ is expected to be close to $1$, as it is the
 We formalize this better using Definition \@ref(def:pca-representable) below.
 
 ```{corollary, qpca-matrix, name="qPCA: matrix dimensionality reduction"}
-    Let $\xi$ be a precision parameter and $p$ be the amount of variance retained after the dimensionality reduction.
-    Let there be efficient quantum access to $A= U\Sigma V^T \in \R^{n \times m}$ and to its top k right singular vectors $\overline{V}^{(k)} \in \R^{m \times k}$, such that $\|V^{(k)} - \overline{V}^{(k)}\| \leq \frac{\xi\sqrt{p}}{\sqrt{2}}$.
-    There exists a quantum algorithm that, with probability at least $1-1/\text{poly}(m)$, creates the state
-     $\ket{\overline{Y}} = \frac{1}{\|Y\|_F}\sum_i^n \|y_{i,\cdot}\|\ket{i}\ket{y_{i,\cdot}}$,
-    proportional to the projection of $A$ in the PCA subspace,
-    with error $\|\ket{Y} - \ket{\overline{Y}}\| \leq \xi$ in time $\widetilde{O}(1/\sqrt{p})$.
-    An estimate of $\|\overline{Y}\|_F$, to relative error $\eta$, can be computed in $\widetilde{O}(\frac{1}{\sqrt{p}\eta})$.
+Let $\xi$ be a precision parameter and $p$ be the amount of variance retained after the dimensionality reduction. Let there be efficient quantum access to $A= U\Sigma V^T \in \R^{n \times m}$ and to its top k right singular vectors $\overline{V}^{(k)} \in \R^{m \times k}$, such that $\|V^{(k)} - \overline{V}^{(k)}\| \leq \frac{\xi\sqrt{p}}{\sqrt{2}}$. There exists a quantum algorithm that, with probability at least $1-1/\text{poly}(m)$, creates the state $\ket{\overline{Y}} = \frac{1}{\|Y\|_F}\sum_i^n \|y_{i,\cdot}\|\ket{i}\ket{y_{i,\cdot}}$, proportional to the projection of $A$ in the PCA subspace, with error $\|\ket{Y} - \ket{\overline{Y}}\| \leq \xi$ in time $\widetilde{O}(1/\sqrt{p})$. An estimate of $\|\overline{Y}\|_F$, to relative error $\eta$, can be computed in $\widetilde{O}(\frac{1}{\sqrt{p}\eta})$.
 ```
 
 ```{proof}
@@ -175,9 +162,8 @@ We can set $\delta = \frac{\xi}{\sqrt{2k}}\frac{\|Y\|_F}{\|A\|_F} = \frac{\xi\sq
 The error requirements of the two corollary propagate to the run-time of the model extraction in the following way.
 
 ```{corollary, qpca-fitting, name="qPCA: fitting time"}
-    Let $\epsilon$ be a precision parameter and $p=\frac{\sum_{i: \overline{\sigma}_i \geq \theta} \sigma_i^2}{\sum_j^r \sigma_j^2}$ the amount of variance to retain, where $\|\sigma_i - \overline{\sigma}_i\|\leq \epsilon$.
-    Given efficient quantum access to a matrix $A \in \R^{n \times m}$,
-    the run-time to extract $V^{(k)} \in \R^{m \times k}$ for corollaries \@ref(cor:qpca-vector), \@ref{cor:qpca:matrix} is $\widetilde{O}\left(\frac{\mu(A)k^2m}{\theta\epsilon\xi^2}\right)$.
+Let $\epsilon$ be a precision parameter and $p=\frac{\sum_{i: \overline{\sigma}_i \geq \theta} \sigma_i^2}{\sum_j^r \sigma_j^2}$ the amount of variance to retain, where $\|\sigma_i - \overline{\sigma}_i\|\leq \epsilon$.
+Given efficient quantum access to a matrix $A \in \R^{n \times m}$, the run-time to extract $V^{(k)} \in \R^{m \times k}$ for corollaries \@ref(cor:qpca-vector), \@ref{cor:qpca:matrix} is $\widetilde{O}\left(\frac{\mu(A)k^2m}{\theta\epsilon\xi^2}\right)$.
 ```
 
 We state the proof for Corollary \@ref(cor:qpca-matrix), as its error is more demanding than the one of Corollary \@ref(cor:qpca-vector). This way, the proof stands for both cases.
@@ -207,13 +193,11 @@ Let $a_i$ be a row of $A \in  \R^{n\times d}$. Then, the runtime of Corollary \@
 ```
 
 It is known that, in practical machine learning datasets, $\alpha$ is a number fairly close to one.
-We have tested the value of $\rho$ for the MNIST dataset, the interested reader can read more about it in the section about the experiments.
-Using the same framework and proof techniques, it is possible to produce similar results for the representations of Correspondence Analysis and Latent Semantic Analysis, that are introduced in the next two sections.
+We have tested the value of $\rho$ for the MNIST dataset, the interested reader can read more about it in the section about the experiments. Using the same framework and proof techniques, it is possible to produce similar results for the representations of Correspondence Analysis and Latent Semantic Analysis, that are introduced in the next two sections.
 
-*Remark:* Note that Theorem 1 from [@yu2019quantumdatacompression] propose a lower bound for a quantity similar to $\alpha$.
-However, their result seems to be a loose bound: using their notation and setting $\eta=1, \theta=1$ they bound this quantity with $0$, while a tight bound should be $1$.
+*Remark:* Note that Theorem 1 from [@yu2019quantumdatacompression] propose a lower bound for a quantity similar to $\alpha$. However, their result seems to be a loose bound: using their notation and setting $\eta=1, \theta=1$ they bound this quantity with $0$, while a tight bound should be $1$.
 
-### Quantum CA {#section:qca}
+### Quantum Correspondence Analysis {#section:qca}
 Correspondence analysis is a multivariate statistical tool, from the family of *factor analysis* methods, used to explore relationships among categorical variables.
 Consider two random variables $X$ and $Y$ with possible outcomes in $\{x_1, \cdots, x_n\}$ and $\{y_1, \cdots, y_m\}$ respectively, the model of Correspondence Analysis allows to represent the outcomes as vectors in two related Euclidean spaces.
 These spaces can be used for analysis purposes in data visualization, exploration and in other unsupervised machine learning tasks.
@@ -232,18 +216,11 @@ Similarly to what we have already discussed, it is possible to extract the model
 We provide a theoretical bound for the data representations in Lemma \@ref(lem:accuracyDUeDV).
 
 ```{lemma, accuracyDUeDV, name="Accuracy of qCA's representation (classical)"}
-    Let $A \in \R^{n \times m}$ be a matrix.
-    Given some approximate procedures to retrieve unit estimates
-    $\overline{u}_i$
-    of the left singular vectors
-    $u_i$
-    such that
-    $\|\overline{u}_i - u_i\| \leq \delta$,
-    the error on
-    $D_{X}^{-1/2}U$
-    can be bounded as  $\left|\left| D_{X}^{-1/2}U- D_{X}^{-1/2}\overline{U}\right|\right|_F \leq \|D_{X}^{-1/2}\|_F\sqrt{k}\delta$.
-    Similarly, $\left|\left|D_{Y}^{-1/2}V - D_{Y}^{-1/2}\overline{V}\right|\right|_F \leq \|D_{Y}^{-1/2}\|_F\sqrt{k}\delta.$
+Let $A \in \R^{n \times m}$ be a matrix. Given some approximate procedures to retrieve unit estimates $\overline{u}_i$  of the left singular vectors $u_i$ such that $\|\overline{u}_i - u_i\| \leq \delta$,
+ the error on $D_{X}^{-1/2}U$ can be bounded as  $\left|\left| D_{X}^{-1/2}U- D_{X}^{-1/2}\overline{U}\right|\right|_F \leq \|D_{X}^{-1/2}\|_F\sqrt{k}\delta$.
+Similarly, $\left|\left|D_{Y}^{-1/2}V - D_{Y}^{-1/2}\overline{V}\right|\right|_F \leq \|D_{Y}^{-1/2}\|_F\sqrt{k}\delta.$
 ```
+
 
 ```{proof}
 $$\left|\left|D_X^{-1/2}\overline{U} - D_X^{-1/2}U\right|\right|_F \leq \|D_X^{-1/2}\|_F\left|\left|\overline{U} - U\right|\right|_F \leq \|D_X^{-1/2}\|_F\sqrt{k}\delta.$$
@@ -251,7 +228,7 @@ $$\left|\left|D_X^{-1/2}\overline{U} - D_X^{-1/2}U\right|\right|_F \leq \|D_X^{-
 
 Note that CA's representation does is independent of the scaling of the singular vectors, so the normalization of the dataset does not affect the representation in any way.
 
-### Quantum LSA {#section:qlsa}
+### Quantum Latent Semantic Analysis {#section:qlsa}
 Latent semantic analysis is a data representation method to represent words and text documents as vectors in Euclidean spaces so that it is possible to make comparisons among terms, among documents and between terms and documents.
 The representation spaces of LSA automatically model synonymy and polysemy [@deerwester1990indexing], and their applications in machine learning range from topic modeling to document clustering and retrieval.
 
@@ -279,24 +256,11 @@ For what concerns the error bounds on the retrieved data representation models, 
 To provide bounds on the estimations of $U\Sigma ^{1/2}$, $V\Sigma ^{1/2}$, and $U\Sigma ^{-1}$ we introduce Lemma \@ref(lem:accuracyUS12eVS12) and Lemma \@ref{lem:accuracyUE-1eVE-1}.
 
 ```{lemma, accuracyUS12eVS12, name="Accuracy of qLSA's representations (classical)"}
-    Let $A \in \R^{n \times m}$ be a matrix with $\sigma_{max} \leq 1$.
-    Given some approximate procedures to retrieve estimates $\overline{\sigma}_i$ of the singular values $\sigma_i$ such that
-    $\|\overline{\sigma}_i - \sigma_i\| \leq \epsilon$
-    and unitary estimates
-    $\overline{u}_i$
-    of the left singular vectors
-    $u_i$
-    such that
-    $\|\overline{u}_i - u_i\| \leq \delta$,
-    the error on
-    $U\Sigma ^{1/2}$
-    can be bounded as
-    $\left|\left| U\Sigma ^{1/2} - \overline{U}\overline{\Sigma }^{1/2} \right|\right|_F \leq \sqrt{k}\left(\delta + \frac{1}{2\sqrt{\theta}}\right)$.
-    Similarly,
-    $\left|\left| V\Sigma ^{1/2} - \overline{V}\overline{\Sigma }^{1/2} \right|\right|_F \leq \sqrt{k}\left(\delta + \frac{1}{2\sqrt{\theta}}\right)$.
+Let $A \in \R^{n \times m}$ be a matrix with $\sigma_{max} \leq 1$. Given some approximate procedures to retrieve estimates $\overline{\sigma}_i$ of the singular values $\sigma_i$ such that $\|\overline{\sigma}_i - \sigma_i\| \leq \epsilon$ and unitary estimates $\overline{u}_i$ of the left singular vectors $u_i$ such that $\|\overline{u}_i - u_i\| \leq \delta$, the error on $U\Sigma ^{1/2}$ can be bounded as $\left|\left| U\Sigma ^{1/2} - \overline{U}\overline{\Sigma }^{1/2} \right|\right|_F \leq \sqrt{k}\left(\delta + \frac{1}{2\sqrt{\theta}}\right)$.
+Similarly, $\left|\left| V\Sigma ^{1/2} - \overline{V}\overline{\Sigma }^{1/2} \right|\right|_F \leq \sqrt{k}\left(\delta + \frac{1}{2\sqrt{\theta}}\right)$.
 ```
 
-We prove this result for $\|\overline{U}\overline{\Sigma }^{1/2} - U\Sigma ^{1/2}\|_F$.
+<!-- We prove this result for $\|\overline{U}\overline{\Sigma }^{1/2} - U\Sigma ^{1/2}\|_F$. -->
 
 ```{proof}
 We start by bounding $\|\sqrt{\overline{\sigma}_i} - \sqrt{\sigma_i}\|$. Let's define $\epsilon = \gamma \sigma_i$ as a relative error:
@@ -317,21 +281,8 @@ Finally, since $\sigma_{max} \leq 1$, we get that $\|\overline{U}\overline{\Sigm
 ```
 
 ```{lemma, accuracyUE-1eVE-1, name="Accuracy of qLSA's representation for new document queries (classical)"}
-    Let $A \in \R^{n \times m}$ be a matrix.
-    Given some approximate procedures to retrieve estimates $\overline{\sigma}_i$ of the singular values $\sigma_i$ such that
-    $|\overline{\sigma}_i - \sigma_i| \leq \epsilon$
-    and unitary estimates
-    $\overline{u}_i$
-    of the left singular vectors
-    $u_i$
-    such that
-    $\|\overline{u}_i - u_i\| \leq \delta$,
-    the error on
-    $U\Sigma ^{-1}$
-    can be bounded as
-    $\left|\left| U\Sigma ^{-1} - \overline{U}\overline{\Sigma }^{-1} \right|\right|_F \leq \sqrt{k}\left(\frac{\delta}{\theta} + \frac{\epsilon}{\theta^2 - \theta\epsilon}\right)$.
-    Similarly,
-    $\left|\left| V\Sigma ^{-1} - \overline{V}\overline{\Sigma }^{-1} \right|\right|_F \leq \sqrt{k}(\frac{\delta}{\theta} + \frac{\epsilon}{\theta^2 - \theta\epsilon})$.
+Let $A \in \R^{n \times m}$ be a matrix. Given some approximate procedures to retrieve estimates $\overline{\sigma}_i$ of the singular values $\sigma_i$ such that $|\overline{\sigma}_i - \sigma_i| \leq \epsilon$ and unitary estimates $\overline{u}_i$ of the left singular vectors $u_i$ such that $\|\overline{u}_i - u_i\| \leq \delta$, the error on $U\Sigma ^{-1}$ can be bounded as $\left|\left| U\Sigma ^{-1} - \overline{U}\overline{\Sigma }^{-1} \right|\right|_F \leq \sqrt{k}\left(\frac{\delta}{\theta} + \frac{\epsilon}{\theta^2 - \theta\epsilon}\right)$.
+Similarly, $\left|\left| V\Sigma ^{-1} - \overline{V}\overline{\Sigma }^{-1} \right|\right|_F \leq \sqrt{k}(\frac{\delta}{\theta} + \frac{\epsilon}{\theta^2 - \theta\epsilon})$.
 ```
 
 ```{proof}
@@ -348,27 +299,11 @@ $$ \norm{\overline{U}\overline{\Sigma }^{-1} - U\Sigma ^{-1}}_F = \sqrt{\sum_j^k
 As for qPCA, we provide the bounds in case we want to undo data normalization step. The proofs for these lemmas proceeds like the one of Lemma \@ref(lem:unnormalizeUSeVS).
 
 ```{lemma, nonnorm-accuracyUE12eVE12, name="Non-normalized accuracy of qLSA's representations (classical)"}
-    The estimated representations of Lemma \@ref(lem:accuracyUS12eVS12), for the not-normalized matrix $A$, are
-    $\sqrt{\|A\|}~\overline{U}\overline{\Sigma }^{1/2}$
-    and
-    $\sqrt{\|A\|}~\overline{V}\overline{\Sigma }^{1/2}$.
-    The error bounds become
-    $\left|\left|\sqrt{\|A\|}~\overline{U}\overline{\Sigma }^{1/2} - \sqrt{\|A\|}U\Sigma ^{1/2}\right|\right|_F \leq \sqrt{k\|A\|}(\epsilon+\delta)$
-    and \\
-    $\left|\left|\sqrt{\|A\|}~\overline{V}\overline{\Sigma }^{1/2} - \sqrt{\|A\|}V\Sigma ^{1/2}\right|\right|_F \leq \sqrt{k\|A\|}(\epsilon+\delta)$.
+The estimated representations of Lemma \@ref(lem:accuracyUS12eVS12), for the not-normalized matrix $A$, are $\sqrt{\|A\|}~\overline{U}\overline{\Sigma }^{1/2}$ and   $\sqrt{\|A\|}~\overline{V}\overline{\Sigma }^{1/2}$. The error bounds become $\left|\left|\sqrt{\|A\|}~\overline{U}\overline{\Sigma }^{1/2} - \sqrt{\|A\|}U\Sigma ^{1/2}\right|\right|_F \leq \sqrt{k\|A\|}(\epsilon+\delta)$ and $\left|\left|\sqrt{\|A\|}~\overline{V}\overline{\Sigma }^{1/2} - \sqrt{\|A\|}V\Sigma ^{1/2}\right|\right|_F \leq \sqrt{k\|A\|}(\epsilon+\delta)$.
 ```
 
 ```{lemma, nonnorm-accuracyUE-1eVE-1, name="Non-normalized accuracy of qLSA's representation for new document queries (classical)"}
-    The estimated representations of Lemma \@ref(lem:accuracyUE-1eVE-1), for the not-normalized matrix $A$, are
-    $\frac{1}{||A||}\overline{U}\overline{\Sigma }^{-1}$
-    and
-    $\frac{1}{||A||}\overline{V}\overline{\Sigma }^{-1}.$
-    The error bounds become
-        $\left|\left|\frac{1}{||A||}\overline{U}\overline{\Sigma }^{-1} - \frac{1}{||A||}U\Sigma ^{1/2}\right|\right| \leq
-        \frac{\sqrt{k}}{||A||}\left(\frac{\delta}{\theta} + \frac{\epsilon}{\theta^2 - \theta\epsilon}\right)$
-        and
-        $\left|\left|\frac{1}{||A||}\overline{V}\overline{\Sigma }^{-1} - \frac{1}{||A||}V\Sigma ^{1/2}\right|\right| \leq
-        \frac{\sqrt{k}}{||A||}\left(\frac{\delta}{\theta} + \frac{\epsilon}{\theta^2 - \theta\epsilon}\right)$.
+The estimated representations of Lemma \@ref(lem:accuracyUE-1eVE-1), for the not-normalized matrix $A$, are $\frac{1}{||A||}\overline{U}\overline{\Sigma }^{-1}$ and $\frac{1}{||A||}\overline{V}\overline{\Sigma }^{-1}.$ The error bounds become $\left|\left|\frac{1}{||A||}\overline{U}\overline{\Sigma }^{-1} - \frac{1}{||A||}U\Sigma ^{1/2}\right|\right| \leq \frac{\sqrt{k}}{||A||}\left(\frac{\delta}{\theta} + \frac{\epsilon}{\theta^2 - \theta\epsilon}\right)$ and $\left|\left|\frac{1}{||A||}\overline{V}\overline{\Sigma }^{-1} - \frac{1}{||A||}V\Sigma ^{1/2}\right|\right| \leq \frac{\sqrt{k}}{||A||}\left(\frac{\delta}{\theta} + \frac{\epsilon}{\theta^2 - \theta\epsilon}\right)$.
 ```
 
 
@@ -413,12 +348,12 @@ We also need to satisfy the constraint on the average of the signal being zero a
 
 $$(x_i)_j := \frac{ (\tilde{x}_i)_j - E[(\tilde{x}_i)_j] }{ \sqrt{ E [ ( ( \tilde{x}_i)_j - E[( \tilde{x}_i)_j] )^2 ] } },$$
 
-where with $\tilde{x}(i)$ we define a raw signal with arbitrary mean and variance, $E[\tilde x_j(i)]$ the expected value of a single component of the vectors. This allows us to rewrite the minimization problem including the constraints of zero mean and unit variance. We can restate the definition of the delta function as a generalized eigenvalue problem: 
+where with $\tilde{x}(i)$ we define a raw signal with arbitrary mean and variance, $E[\tilde x_j(i)]$ the expected value of a single component of the vectors. This allows us to rewrite the minimization problem including the constraints of zero mean and unit variance. We can restate the definition of the delta function as a generalized eigenvalue problem:
 
-<!-- 
+<!--
 TODO
 the the GEP in Optimization Form \@ref(eq:opt1):
-once the section on GEP is ready remember to cite the right equation. 
+once the section on GEP is ready remember to cite the right equation.
 -->
 
 \begin{equation}\label{delta}
@@ -511,6 +446,9 @@ This observation allow us to whiten the data with a quantum procedure. Recall th
 
 
 
+
+
+
 #### Quantum Slow Feature Analysis {#sec:qsfa}
 We are finally ready to put forward a quantum procedure for SFA. Specifically, we want to map the input matrix $X$ to the output matrix $Y=XW$, and then we will see how to estimate classically the slow feature vectors $W \in\mathbb{R}^{(K-1)\times d}$. For this, we assume to have quantum access to the matrices $X$ and $\dot{X}$, as in definition \@ref(def:KP-trees). We start by describing a circuit that approximately performs the unitary $U_{QSFA} : \ket{X}\to \ket{Y}$ where $\ket{X}$ is the quantum state we obtain by having quantum access to $X$, the dataset, and $\ket{Y} :=  \frac{1}{\norm{Y}_F} \sum_{i=0}^n\norm{y_i}\ket{i}\ket{y_i}$.
  As the classical algorithm, QSFA is divided in two parts. In the first step we whiten the data, i.e. we map the state $\ket{X}$ to the state $\ket{Z}=\ket{XB^{-1/2}}$, and in the second step we approximately project $\ket{Z}$ onto the subspace spanned by the smallest eigenvectors of the whitened derivative covariance matrix $A=\dot{Z}^T\dot{Z}$.
@@ -539,30 +477,6 @@ To perform the projection, we will need a threshold for the eigenvalues that wil
 
 As in the previous section, we note that the eigenvalues of $A_{\dot{Z}}$ are the squares of the singular values of $\dot{Z}$, and the two matrices share the same column space: $\dot{Z} = U\Sigma V^T$, and $A_{\dot{Z}} = V\Sigma^2 V^T$. Claim \@ref(lem:commutingderivatives) tells us that whitening the derivatives of the signal is equal to taking the derivatives of the whitened data.  theorem \@ref(thm:qlap) provides exactly the procedure for accessing the rows of $\dot{Z}$, since we know how to multiply with $\dot{X}$ and with $B^{-1/2}$.
 
-<!--  \begin{algorithm}[H] -->
-<!--  \floatname{algorithm}{QSFA} -->
-<!--  \label{alg_QSFA} -->
-<!--  \caption{Quantum Slow Feature Analysis} -->
-<!--  \begin{algorithmic}[1] -->
-<!--  \Require -->
-<!--        \Statex Quantum access to matrices $X \in \mathbb{R}^{n \times d}$ and $\dot{X} \in \mathbb{R}^{n \times d}$, parameters $\epsilon, \theta,\delta,\eta >0$.  -->
-<!--      \Ensure -->
-<!--        \Statex A state $\ket{\overline{Y}}$ such that $ | \ket{Y} - \ket{\overline{Y}} | \leq \epsilon$, with $Y = A^+_{\leq \theta, \delta}A_{\leq \theta, \delta} Z$ -->
-<!--        \Statex -->
-
-<!--  \State Create the state $\ket{X} :=  \frac{1}{\norm{X}_F} \sum_{i=1}^{n} \norm{x_i} \ket{i}\ket{x_i} $ -->
-
-<!--  \State (Whitening algorithm) Map $\ket{X}$ to $\ket{\overline{Z}}$ with $| \ket{\overline{Z}}  - \ket{Z} | \leq \epsilon $ and $Z=XB^{-1/2}.$ -->
-
-<!--  \State (Projection in slow feature space) Use theorem \ref{th:qla} project $\ket{\overline{Z}}$ onto the slow eigenspace of $A$ using threshold $\theta$ and precision $\delta$ (i.e. $A^+_{\leq \theta, \delta}A_{\leq \theta, \delta}\overline{Z}$)  -->
-
-<!--  \State Perform amplitude amplification and estimation on the register $\ket{0}$ with the unitary $U$ implementing steps 1 to 3, to obtain  -->
-<!--  $\ket{\overline{Y}}$ with $| \ket{\overline{Y}} - \ket{Y}  | \leq \epsilon $ and an estimator $\overline{\norm{Y}}$  with multiplicative error $\eta$. -->
-<!--  \end{algorithmic} -->
-<!--  \end{algorithm}  -->
-
-We conclude this section by stating the main dimensionality reduction theorem of this paper.
-
 
 
 ```{theorem, qsfa, name="QSFA algorithm"}
@@ -583,4 +497,9 @@ QSFA consists of two steps. The first step is the whitening, which can be perfor
 $$\tilde{O}\left(  \left( \kappa(X)\mu(X)\log (1/\varepsilon) + \frac{ ( \kappa(X) + \kappa(\dot{X})) ( \mu({X})+ \mu(\dot{X}) ) }{\delta\theta} \right)
  \frac{\norm{Z}}{ \norm{A^+_{\leq \theta, \delta}A_{\leq \theta, \delta} {Z} }} \right)$$
 Note that the last ratio in this runtime was defined as $\gamma_{K-1}$ in definition \@ref(def:slowlyvarying). From this, the runtime in the statement of the theorem follows.
+```
+
+
+```{r, qsfa-algo, fig.cap="Quantum algorithm for Slow Feature Analysis", echo=FALSE} 
+knitr::include_graphics("algpseudocode/qsfa.png")
 ```
