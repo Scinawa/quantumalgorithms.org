@@ -702,7 +702,7 @@ li.part > span   {
 
 li.part > span > b {
 
-  color: #0000FF !important
+  color: #8dbef13b !important
 }
 
 .book.with-summary .book-header.fixed {
@@ -719,4 +719,9 @@ li.part > span > b {
 
 .book .book-body .navigation {
   color: #000000;
+}
+
+i.fa {
+  border: 1px solid #ccc !important;
+  border-radius: 5px;
 }
