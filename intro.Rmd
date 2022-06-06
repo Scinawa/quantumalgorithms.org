@@ -1,13 +1,4 @@
----
-output:
-  pdf_document: default
-  html_document: default
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
-# (PART) - Bridging the gap {.unnumbered}
+# (PART) Bridging the gap {-}
 
 # Quantum computing and quantum algorithms {#chapter-intro}
 

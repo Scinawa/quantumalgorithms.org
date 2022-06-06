@@ -1,12 +1,5 @@
----
-output:
-  pdf_document: default
-  html_document: default
-header-includes:
-    - \usepackage{subfig}
----
 
-# Classical data in quantum computers {#chap:classical-data-quantum-computers}
+# Classical data in quantum computers {#chap-classical-data-quantum-computers}
 
 ```{r, echo=FALSE, fig.align = 'center', fig.width=10, fig.cap="This section is heavily work in progress. In this [TODO list](https://github.com/Scinawa/quantumalgorithms.org/issues/70) you can see the improvements of this Chapter in the following months."}
 knitr::include_graphics("images/wip.png")
@@ -304,7 +297,7 @@ where the value of $p_i$ is obtained from discretizing the distribution $p_i$. (
 
 Creating quantum sample access to a probability distribution is a task often used to obtain quadratic speedups. A recent work [@herbert2021no] stressed the fact that the time to prepare the oracle used to create $\ket{\psi}$ might cancel the benefits of the speedup in term of query complexity. Mitigating this problem is currently active area of research.
 
-Let's define $\mu$ as the mean of a probability distribution $p(x)$ and $\widehat{\mu}=\mathbb{E(x)}$ be an estimate of $\mu$. The error of choice for this kind of problem (which comes from applications that we will see in Section \@ref(chap:montecarlo) ) is called the Root Mean Square Error (RMSE):
+Let's define $\mu$ as the mean of a probability distribution $p(x)$ and $\widehat{\mu}=\mathbb{E(x)}$ be an estimate of $\mu$. The error of choice for this kind of problem (which comes from applications that we will see in Section \@ref(chap-montecarlo) ) is called the Root Mean Square Error (RMSE):
 
 
 \begin{equation}

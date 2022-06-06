@@ -1,38 +1,13 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
-
 # (APPENDIX) Appendix {-}
 
 # Math and linear algebra
 
 ## Norms, distances, trace, inequalities
 
-<!--
-# TODO Finish introductory part on linear algebra in appendix
-# I think we need an introduction on inner products, linearty, vector na matrix norms,
-# trigonometry, identities, and so on..
-# labels: todo, help wanted, good first issue
--->
+Take a look at [this](https://www.math.usm.edu/lambers/mat610/sum10/lecture2.pdf), and [this](http://www-math.mit.edu/~djk/calculus_beginners/chapter03/section03.html).
 
-Take a look at [this](https://www.math.usm.edu/lambers/mat610/sum10/lecture2.pdf).
+Just remember that for a complez number $z$, $z\overline{z} = a^2 + b^2= |z|^2$, and $\frac{1}{z} = \frac{\overline{z}}{\overline{z}z}$, and the conjugation is the mapping $z = (a+ib) \mapsto \overline{z} = (a-ib)$.
 
-
-<!-- ## Complex numbers -->
-<!-- - $z\overline{z} = a^2 + b^2= |z|$ -->
-<!-- - $\frac{1}{z} = \frac{\overline{z}}{\overline{z}z} $ -->
-<!-- - Conjugation (reflection over "horizontal axis"): $z \mapsto \overline{z} = (a-ib) = e^{ix}$ -->
-
-<!-- \begin{itemize} -->
-<!--     \item Linarity:  -->
-<!--     $$f(a+b) = f(a) + f(b)$$ -->
-<!--     $$f(\alpha a) = \alpha f(a) $$ -->
-<!-- maybe add this: \url{http://www-math.mit.edu/~djk/calculus_beginners/chapter03/section03.html} -->
-
-<!-- \end{itemize} -->
 
 
 ```{definition, name="Inner product"}
@@ -63,6 +38,7 @@ The triangle inequality is basically the [subadditivity](https://en.wikipedia.or
 ```{theorem, name="Cauchy(-Bunyakovsky)-Schwarz"}
 $$|(x,y)| \leq \|x\| \|y\|$$
 ```
+
 ```{proof}
 Note that by taking the square on both sides we get: $(x,y)^2 \leq (x,x)(y,y)$.
 Substituting $(x,y)=\|x\| \|y\| cos(\theta)$, we get:
@@ -182,12 +158,6 @@ $$(a+b)^n = \sum_{k=0}^n {n \choose k} a^kb^{n-k}$$
 
 
 ## Linear algebra
-
-<!--
-# TODO Adjust citations and labels
--->
-
-
 
 ### Eigenvalues, eigenvectors and eigendecomposition of a matrix
 
@@ -764,6 +734,8 @@ Let $\mathcal{A}$ be a quantum or classical algorithm which aims to estimate som
 <!-- \[\mathrm{Pr}\big(|z_K - \mu| \geq \epsilon m\big) \leq \delta. \] -->
 <!-- ``` -->
 
+
+
 ## Markov chains
 Useful resources: [here](https://www.probabilitycourse.com/chapter11/11_2_4_classification_of_states.php#:~:text=A%20Markov%20chain%20is%20said%20to%20be%20irreducible%20if%20all,always%20stay%20in%20that%20class.), [here](http://www.columbia.edu/~ww2040/4701Sum07/4701-06-Notes-MCII.pdf).
 
@@ -956,272 +928,269 @@ Suppose $X_1, \dots, X_t$ are independent random variables taking values in $\{0
 ### Hoeffding inequality
 
 ```{lemma, Hoeffding, name="Hoeffding inequality"}
-	Let $X_1,\ldots,X_k$ be independent random variables bounded by the interval $[a, b]$. Define the empirical mean of these variables by $\overline{X} = \frac{1}{k} (X_1+\cdots+X_k)$, then
-	$$
-	Pr(|\overline{X} - \mathbb{E}[X]|\leq \epsilon) \geq 1-2
-	\exp\left(-\frac{2k\epsilon^2}{b-a} \right).
-	$$
+Let $X_1,\ldots,X_k$ be independent random variables bounded by the interval $[a, b]$. Define the empirical mean of these variables by $\overline{X} = \frac{1}{k} (X_1+\cdots+X_k)$, then
+$$Pr(|\overline{X} - \mathbb{E}[X]|\leq \epsilon) \geq 1-2
+	\exp\left(-\frac{2k\epsilon^2}{b-a} \right).$$
 	Consequently, if $k\geq (b-a)\epsilon^{-2}\log(2/\eta)$, then
-	$\overline{X}$ provides an $\epsilon$-approximation of $\mathbb{E}[X]$
-	with probability at least $1-\eta$.
+	$\overline{X}$ provides an $\epsilon$-approximation of $\mathbb{E}[X]$ with probability at least $1-\eta$.
 ```
 
 
-# Polynomial approximations of useful functions
+<!-- # Polynomial approximations of useful functions -->
 
-```{lemma, poly-approx-ln, name="Polynomial approximations of logarithm [@distributional]"}
-		Let $\beta\in(0,1]$, $\eta\in(0,\frac{1}{2}]$ and $t\geq 1$. There exists a polynomial $\tilde{S}$ such that
-		$\forall x\in [\beta,1]$, $|\tilde{S}(x)-\frac{\ln(1/x)}{2\ln(2/\beta)}|\leq\eta$,	and $\,\forall x\in[-1,1]\colon -1\leq\tilde{S}(x)=\tilde{S}(-x)\leq 1$. Moreover $\text{deg}(\tilde{S})=O({\frac{1}{\beta}\log (\frac{1}{\eta} )})$.
-```
+<!-- ```{lemma, poly-approx-ln, name="Polynomial approximations of logarithm [@distributional]"} -->
+<!-- 		Let $\beta\in(0,1]$, $\eta\in(0,\frac{1}{2}]$ and $t\geq 1$. There exists a polynomial $\tilde{S}$ such that -->
+<!-- 		$\forall x\in [\beta,1]$, $|\tilde{S}(x)-\frac{\ln(1/x)}{2\ln(2/\beta)}|\leq\eta$,	and $\,\forall x\in[-1,1]\colon -1\leq\tilde{S}(x)=\tilde{S}(-x)\leq 1$. Moreover $\text{deg}(\tilde{S})=O({\frac{1}{\beta}\log (\frac{1}{\eta} )})$. -->
+<!-- ``` -->
 
 
-<!--
-# TODO Add explaination on how to do the polynomial approximation of 1/x
-# It mightbe cool to have the polynomial approximatoin used for ridge regression. Can we do it?
-# labels: help wanted, enhancement
--->
+<!-- <!-- -->
+<!-- # TODO Add explaination on how to do the polynomial approximation of 1/x -->
+<!-- # It mightbe cool to have the polynomial approximatoin used for ridge regression. Can we do it? -->
+<!-- # labels: help wanted, enhancement -->
+<!-- --> -->
 
 
 
-# Error propagation and approximation {#error-prop}
+<!-- # Error propagation and approximation {#error-prop} -->
 
 
-This part is based on many different sources, like [@hogan2006combine], [@ku1966notes].
+<!-- This part is based on many different sources, like [@hogan2006combine], [@ku1966notes]. -->
 
-```{definition, absolute-error, name="Absolute error"}
-$$|A - \overline{A} | = \epsilon_{Abs}$$
-```
+<!-- ```{definition, absolute-error, name="Absolute error"} -->
+<!-- $$|A - \overline{A} | = \epsilon_{Abs}$$ -->
+<!-- ``` -->
 
 
-```{definition, relative-error, name="Relative error"}
-$$\frac{| A - \overline{A}| }{A}  = \epsilon_R \text{ or equivalently}$$
-$$ A(1-\epsilon_{R}) \leq  \overline{A} \leq A(1+\epsilon_{R})$$
-```
+<!-- ```{definition, relative-error, name="Relative error"} -->
+<!-- $$\frac{| A - \overline{A}| }{A}  = \epsilon_R \text{ or equivalently}$$ -->
+<!-- $$ A(1-\epsilon_{R}) \leq  \overline{A} \leq A(1+\epsilon_{R})$$ -->
+<!-- ``` -->
 
-Thus observe that:
+<!-- Thus observe that: -->
 
-- If (and only if) $|A| < 1$, then, $\epsilon_{Abs} \leq \epsilon_{R}$
-- If (and only if) $|A| > 1$, then, $\epsilon_{Abs} \geq \epsilon_{R}$
+<!-- - If (and only if) $|A| < 1$, then, $\epsilon_{Abs} \leq \epsilon_{R}$ -->
+<!-- - If (and only if) $|A| > 1$, then, $\epsilon_{Abs} \geq \epsilon_{R}$ -->
 
-We will study the relation between the two errors, often leveraging the idea of seeing what happen when we set $\epsilon_{Abs} = \epsilon_R A$.
+<!-- We will study the relation between the two errors, often leveraging the idea of seeing what happen when we set $\epsilon_{Abs} = \epsilon_R A$. -->
 
 
 
-Let's imagine an algorithm $\mathcal{A}$ that estimates a quantity $A$ in time $O(\text{poly}(\epsilon^{-1}))$. We would like to move from a relative to absolute precision, or vice versa.
+<!-- Let's imagine an algorithm $\mathcal{A}$ that estimates a quantity $A$ in time $O(\text{poly}(\epsilon^{-1}))$. We would like to move from a relative to absolute precision, or vice versa. -->
 
-##### From absolute to relative precision
+<!-- ##### From absolute to relative precision -->
 
-Suppose that we have an algorithm that in time $O(f(\frac{1}{\epsilon_{Abs}}))$ gives us $|A-\overline{A}  | \leq \epsilon_{Abs}$ for $\epsilon_{Abs} \in (0, 1]$ and we want a relative error $\epsilon_R > 0$:
+<!-- Suppose that we have an algorithm that in time $O(f(\frac{1}{\epsilon_{Abs}}))$ gives us $|A-\overline{A}  | \leq \epsilon_{Abs}$ for $\epsilon_{Abs} \in (0, 1]$ and we want a relative error $\epsilon_R > 0$: -->
 
-- If $|A| < 1$, then we need to set $\epsilon_{Abs} = \epsilon_R A$. For this, we need to have a lower bound $\lambda^{-1}$ on $A$. If we have it, we can just set $\epsilon_{Abs} = \epsilon_R \lambda^{-1}$ and run our algorithm in time  $O(f(\frac{\lambda}{\epsilon_{Abs}}))$
+<!-- - If $|A| < 1$, then we need to set $\epsilon_{Abs} = \epsilon_R A$. For this, we need to have a lower bound $\lambda^{-1}$ on $A$. If we have it, we can just set $\epsilon_{Abs} = \epsilon_R \lambda^{-1}$ and run our algorithm in time  $O(f(\frac{\lambda}{\epsilon_{Abs}}))$ -->
 
-- If $|A| > 1$, If we want a relative error $\epsilon_R$, then by running the algorithm with $\epsilon_{Abs}=\epsilon_R$ we have already a relative error bound, as $\frac{|A- \overline{A}|}{A} \leq |A- \overline{A}| \leq \epsilon_{Abs}$Note that we $\epsilon_{Abs}$ is meant to stay $\in (0,1]$ as it wouldn't make sense to have a runtime of $O(\frac{1}{\epsilon_{abs}})$ for $\epsilon_{abs} > 1$.
+<!-- - If $|A| > 1$, If we want a relative error $\epsilon_R$, then by running the algorithm with $\epsilon_{Abs}=\epsilon_R$ we have already a relative error bound, as $\frac{|A- \overline{A}|}{A} \leq |A- \overline{A}| \leq \epsilon_{Abs}$Note that we $\epsilon_{Abs}$ is meant to stay $\in (0,1]$ as it wouldn't make sense to have a runtime of $O(\frac{1}{\epsilon_{abs}})$ for $\epsilon_{abs} > 1$. -->
 
-<!-- TODO  -->
-<!-- - Are there cases of algorithms with $\epsilon_{abs} > 1$? -->
-<!-- - find examples! -->
+<!-- <!-- TODO  --> -->
+<!-- <!-- - Are there cases of algorithms with $\epsilon_{abs} > 1$? --> -->
+<!-- <!-- - find examples! --> -->
 
 
 
-##### From relative to absolute precision
-If we have an algorithm that in time $O(f(\frac{1}{\epsilon_{R}}))$ gives us $|A-\overline{A}  | \leq A\epsilon_{R}$ and we want an absolute $\epsilon_{Abs}$:
+<!-- ##### From relative to absolute precision -->
+<!-- If we have an algorithm that in time $O(f(\frac{1}{\epsilon_{R}}))$ gives us $|A-\overline{A}  | \leq A\epsilon_{R}$ and we want an absolute $\epsilon_{Abs}$: -->
 
 
-<!-- - IF $A \leq 1$, $$|A- \overline{A} | \leq \epsilon_R A \Rightarrow |A- \overline{A} | \leq \epsilon_{R} $$ because absolute error is an upper bound of the relative error. So if we use an algorithm to get a relative error estimate $\epsilon_R$ we automatically have an absolute error estimate $\epsilon_{Abs} = \epsilon_R$. If we have a lower bound $\lambda$ on $A$, than we can set the error of the algorithm $\epsilon_R = \epsilon_{Abs}$, to get the absolute precision we require. In case we have a lower bound on $A$, and we don't need a significantly precise estimate of $A$, we can speedup the algorithm by requiring  less ``dependence'' on $\epsilon_R$. We want to find $\epsilon_R' \leq \epsilon_{Abs}/A$. As we don't have an estimate for $A$ yet, we need a lower bound for $A$.  \textcolor{red}{check if true that is lower!} -->
+<!-- <!-- - IF $A \leq 1$, $$|A- \overline{A} | \leq \epsilon_R A \Rightarrow |A- \overline{A} | \leq \epsilon_{R} $$ because absolute error is an upper bound of the relative error. So if we use an algorithm to get a relative error estimate $\epsilon_R$ we automatically have an absolute error estimate $\epsilon_{Abs} = \epsilon_R$. If we have a lower bound $\lambda$ on $A$, than we can set the error of the algorithm $\epsilon_R = \epsilon_{Abs}$, to get the absolute precision we require. In case we have a lower bound on $A$, and we don't need a significantly precise estimate of $A$, we can speedup the algorithm by requiring  less ``dependence'' on $\epsilon_R$. We want to find $\epsilon_R' \leq \epsilon_{Abs}/A$. As we don't have an estimate for $A$ yet, we need a lower bound for $A$.  \textcolor{red}{check if true that is lower!} --> -->
 
 
-<!--         \emph{Example:} Amplitude estimation output a scalar $0 \leq \widetilde{p}\leq 1$ which equal some probability $p$, such that $|p-\widetilde{p}| \leq \epsilon p$ in time $O \left(\frac{1}{\epsilon p}\right)$. We have directly an absolute error of $\epsilon$ in this estimate (which we will rarely use, as we like to multiply this estimate ad make the error scale proportionately).  -->
+<!-- <!--         \emph{Example:} Amplitude estimation output a scalar $0 \leq \widetilde{p}\leq 1$ which equal some probability $p$, such that $|p-\widetilde{p}| \leq \epsilon p$ in time $O \left(\frac{1}{\epsilon p}\right)$. We have directly an absolute error of $\epsilon$ in this estimate (which we will rarely use, as we like to multiply this estimate ad make the error scale proportionately).  --> -->
 
 
 
-<!-- -  IF $A > 1$,  -->
-<!--         $$|A- \overline{A} | \leq \epsilon_R A $$ -->
-<!--         we want   -->
-<!--          $$|A- \overline{A} | \leq \epsilon_{Abs} \text{by setting  } \epsilon_R = \frac{\epsilon_{Abs}}{\overline{A}}$$  -->
-<!--         By running algorithm $\mathcal{A}$ with error $\epsilon'=\frac{\epsilon}{A}$, i.e. we run it once with $\epsilon_R =1/4$ error, and than. -->
-<!--         We run it again with the improved $\epsilon_R=\frac{1}{\lambda}$, and we have a runtime of $O( \text{f}(\frac{A}{\epsilon^{-1}}))$. -->
+<!-- <!-- -  IF $A > 1$,  --> -->
+<!-- <!--         $$|A- \overline{A} | \leq \epsilon_R A $$ --> -->
+<!-- <!--         we want   --> -->
+<!-- <!--          $$|A- \overline{A} | \leq \epsilon_{Abs} \text{by setting  } \epsilon_R = \frac{\epsilon_{Abs}}{\overline{A}}$$  --> -->
+<!-- <!--         By running algorithm $\mathcal{A}$ with error $\epsilon'=\frac{\epsilon}{A}$, i.e. we run it once with $\epsilon_R =1/4$ error, and than. --> -->
+<!-- <!--         We run it again with the improved $\epsilon_R=\frac{1}{\lambda}$, and we have a runtime of $O( \text{f}(\frac{A}{\epsilon^{-1}}))$. --> -->
 
-<!--         \emph{Example:} We use an algorithm that gives the log-determinant (of a  matrix with spectral norm smaller than 1) with relative error $\frac{1}{4}$, so $\log\det(1-\frac{1}{4}) \leq \overline{\log\det} \leq \log\det(1+\frac{1}{4}) \Rightarrow \frac{3}{4}\leq \frac{\overline{\log\det}}{\log\det} \leq \frac{5}{4}$. Now we run it with error $\epsilon'_R =  \frac{\epsilon_{Abs}}{4\overline{\log\det}}$.  -->
-<!--         \textcolor{red}{maybe lo devo far correre anche all'inizio con $\epsilon=\epsilon_{abs}$ invece che 1/4?} -->
-<!--     \end{itemize} -->
+<!-- <!--         \emph{Example:} We use an algorithm that gives the log-determinant (of a  matrix with spectral norm smaller than 1) with relative error $\frac{1}{4}$, so $\log\det(1-\frac{1}{4}) \leq \overline{\log\det} \leq \log\det(1+\frac{1}{4}) \Rightarrow \frac{3}{4}\leq \frac{\overline{\log\det}}{\log\det} \leq \frac{5}{4}$. Now we run it with error $\epsilon'_R =  \frac{\epsilon_{Abs}}{4\overline{\log\det}}$.  --> -->
+<!-- <!--         \textcolor{red}{maybe lo devo far correre anche all'inizio con $\epsilon=\epsilon_{abs}$ invece che 1/4?} --> -->
+<!-- <!--     \end{itemize} --> -->
 
-<!-- \textbf{Exercies} -->
-<!-- This comes from \cite[trace estimation]{sanderthesis}\cite{van2020quantum} -->
-<!-- $$|A-B| \leq \epsilon_1 $$ -->
-<!-- $$|C-B| \leq \epsilon_2C $$ -->
-<!-- Can you prove that:  -->
-<!-- $$|C-A| \leq \epsilon_2(C+\epsilon_1) + \epsilon_1 $$ -->
+<!-- <!-- \textbf{Exercies} --> -->
+<!-- <!-- This comes from \cite[trace estimation]{sanderthesis}\cite{van2020quantum} --> -->
+<!-- <!-- $$|A-B| \leq \epsilon_1 $$ --> -->
+<!-- <!-- $$|C-B| \leq \epsilon_2C $$ --> -->
+<!-- <!-- Can you prove that:  --> -->
+<!-- <!-- $$|C-A| \leq \epsilon_2(C+\epsilon_1) + \epsilon_1 $$ --> -->
 
 
 
-### Propagation of error in functions of one variable
+<!-- ### Propagation of error in functions of one variable -->
 
-<!-- - https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Supplemental_Modules_(Analytical_Chemistry)/Quantifying_Nature/Significant_Digits/Propagation_of_Error -->
-<!-- - https://foothill.edu/psme/daley/tutorials_files/10.%20Error%20Propagation.pdf -->
-<!-- - math.jacobs-university.de/oliver/teaching/jacobs/fall2015/esm106/handouts/error-propagation.pdf -->
-<!-- - and also \cite{hogan2006combine}. -->
+<!-- <!-- - https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Supplemental_Modules_(Analytical_Chemistry)/Quantifying_Nature/Significant_Digits/Propagation_of_Error --> -->
+<!-- <!-- - https://foothill.edu/psme/daley/tutorials_files/10.%20Error%20Propagation.pdf --> -->
+<!-- <!-- - math.jacobs-university.de/oliver/teaching/jacobs/fall2015/esm106/handouts/error-propagation.pdf --> -->
+<!-- <!-- - and also \cite{hogan2006combine}. --> -->
 
 
-<!-- In the following, $\Delta A$ is an absolute error.  -->
+<!-- <!-- In the following, $\Delta A$ is an absolute error.  --> -->
 
-<!-- -  $A=\lambda B \Rightarrow \Delta A = |\lambda | \Delta B$ -->
-<!-- -  $A = \lambda/B \Rightarrow  \Delta A =  |\lambda /B^2| \Delta B = (substitute) = |A/B|\Delta B $  -->
-<!-- -  $A = \lambda B^\mu \Rightarrow \Delta A = |\mu \lambda B^{\mu^{-1}}|\Delta B = (substitute)= |\mu A /B | \Delta B$  -->
-<!-- -  $A = \lambda e^{\mu B} \Rightarrow \Delta A = |\mu A| \Delta B$ (where is $\lambda$?)  -->
-<!--     This because if  -->
-<!--     $$A = \lambda e^{\mu B}$$ -->
-<!--     The relative error is  -->
-<!--     $$\frac{\Delta A }{A} = \frac{\lambda \mu e^{ \mu B} \Delta B }{\lambda e^{\mu B}} = |\mu|\Delta B$$ -->
-<!--     so the absolute error follows from multiplying this quantity by $A$.  -->
+<!-- <!-- -  $A=\lambda B \Rightarrow \Delta A = |\lambda | \Delta B$ --> -->
+<!-- <!-- -  $A = \lambda/B \Rightarrow  \Delta A =  |\lambda /B^2| \Delta B = (substitute) = |A/B|\Delta B $  --> -->
+<!-- <!-- -  $A = \lambda B^\mu \Rightarrow \Delta A = |\mu \lambda B^{\mu^{-1}}|\Delta B = (substitute)= |\mu A /B | \Delta B$  --> -->
+<!-- <!-- -  $A = \lambda e^{\mu B} \Rightarrow \Delta A = |\mu A| \Delta B$ (where is $\lambda$?)  --> -->
+<!-- <!--     This because if  --> -->
+<!-- <!--     $$A = \lambda e^{\mu B}$$ --> -->
+<!-- <!--     The relative error is  --> -->
+<!-- <!--     $$\frac{\Delta A }{A} = \frac{\lambda \mu e^{ \mu B} \Delta B }{\lambda e^{\mu B}} = |\mu|\Delta B$$ --> -->
+<!-- <!--     so the absolute error follows from multiplying this quantity by $A$.  --> -->
 
-<!-- -  $A = \kambda \ln (\mu B) \Rightarrow \Delta A = |\lambda/B|\Delta B$  -->
+<!-- <!-- -  $A = \kambda \ln (\mu B) \Rightarrow \Delta A = |\lambda/B|\Delta B$  --> -->
 
 
-<!-- #### Propagation of error in function of more variables -->
+<!-- <!-- #### Propagation of error in function of more variables --> -->
 
-<!-- ##### Linear combination of absolute error -->
-<!-- Imagine we have a derived quantity based on some measures: -->
-<!-- $$y = a+b+c $$ -->
+<!-- <!-- ##### Linear combination of absolute error --> -->
+<!-- <!-- Imagine we have a derived quantity based on some measures: --> -->
+<!-- <!-- $$y = a+b+c $$ --> -->
 
-<!-- We split this analysis in two cases: -->
+<!-- <!-- We split this analysis in two cases: --> -->
 
-<!-- If we don't have information on the nature of the error (i.e. we don't know the sign but only the magnitude. If $y = \sum_i (x_i + \epsilon_i)$, then  -->
-<!-- $$ \delta y = \delta a+\delta b+\delta c $$ -->
-<!-- $$ \delta y = \sum_i \left| \epsilon_i \right| = n\epsilon_{max} $$ -->
+<!-- <!-- If we don't have information on the nature of the error (i.e. we don't know the sign but only the magnitude. If $y = \sum_i (x_i + \epsilon_i)$, then  --> -->
+<!-- <!-- $$ \delta y = \delta a+\delta b+\delta c $$ --> -->
+<!-- <!-- $$ \delta y = \sum_i \left| \epsilon_i \right| = n\epsilon_{max} $$ --> -->
 
-<!-- If we know that the error is Gaussian (i.e. maybe we have to prove something about mean and variance), and we can show than somehow they cancel each other, then: -->
+<!-- <!-- If we know that the error is Gaussian (i.e. maybe we have to prove something about mean and variance), and we can show than somehow they cancel each other, then: --> -->
 
-<!-- $$\delta y=  \sqrt{\sum_i^n \epsilon_i^2} = \sqrt{n}\epsilon_{max}$$ -->
+<!-- <!-- $$\delta y=  \sqrt{\sum_i^n \epsilon_i^2} = \sqrt{n}\epsilon_{max}$$ --> -->
 
-<!-- This often called the \emph{root mean squared error}. If these errors have a Gaussian distribution, than approx $68\%$ of the individual will lie between $y-\delta y$ and  $y+\delta y$ and $95\%$ of the individual will lie between $y-2\delta y$ and  $y+3\delta y$ -->
+<!-- <!-- This often called the \emph{root mean squared error}. If these errors have a Gaussian distribution, than approx $68\%$ of the individual will lie between $y-\delta y$ and  $y+\delta y$ and $95\%$ of the individual will lie between $y-2\delta y$ and  $y+3\delta y$ --> -->
 
 
-<!-- \subsection{Inverse of relative error \textcolor{blue}{[ok: - reread]} } -->
-<!-- \begin{itemize} -->
-<!--     \item $|A-\overline A | \leq \epsilon A$ -->
-<!--     \end{itemize} -->
-<!--      $$|\frac{1}{A} - \frac{1}{\overline{A}}| =| \frac{A(1+\epsilon) - A}{A^2(1+\epsilon)} | = |\frac{A\epsilon}{A^2(1+\epsilon)}| = \frac{\epsilon}{A}\frac{1}{(1+\epsilon)} \leq  \frac{\epsilon}{A}   $$ -->
+<!-- <!-- \subsection{Inverse of relative error \textcolor{blue}{[ok: - reread]} } --> -->
+<!-- <!-- \begin{itemize} --> -->
+<!-- <!--     \item $|A-\overline A | \leq \epsilon A$ --> -->
+<!-- <!--     \end{itemize} --> -->
+<!-- <!--      $$|\frac{1}{A} - \frac{1}{\overline{A}}| =| \frac{A(1+\epsilon) - A}{A^2(1+\epsilon)} | = |\frac{A\epsilon}{A^2(1+\epsilon)}| = \frac{\epsilon}{A}\frac{1}{(1+\epsilon)} \leq  \frac{\epsilon}{A}   $$ --> -->
 
-<!-- \subsection{Inverse of absolute error} -->
-<!-- \begin{itemize} -->
-<!--     \item $|A-\overline A | \leq \epsilon $ -->
-<!--     \end{itemize} -->
+<!-- <!-- \subsection{Inverse of absolute error} --> -->
+<!-- <!-- \begin{itemize} --> -->
+<!-- <!--     \item $|A-\overline A | \leq \epsilon $ --> -->
+<!-- <!--     \end{itemize} --> -->
 
-<!--     $$| \frac{1}{A} - \frac{1}{\overline{A}}| = | \frac{\overline{A} - A}{A\overline{A}} |  = |\frac{A + \epsilon - A}{A\overline{A}}|  = |\frac{\epsilon}{A(A+\epsilon)}| = |\frac{\epsilon}{A}  \frac{1}{\overline{A}} | $$ -->
-<!--     \begin{itemize} -->
-<!--         \item     If $A > 1$. Then:  -->
-<!--         $$\leq | {\epsilon \over A\overline{A}}|  \leq |\frac{\epsilon}{A}| $$ -->
-<!--         \item If $A \leq 1$. Then: -->
-<!-- $$ \textcolor{red}{?} $$ -->
-<!--     \end{itemize} -->
+<!-- <!--     $$| \frac{1}{A} - \frac{1}{\overline{A}}| = | \frac{\overline{A} - A}{A\overline{A}} |  = |\frac{A + \epsilon - A}{A\overline{A}}|  = |\frac{\epsilon}{A(A+\epsilon)}| = |\frac{\epsilon}{A}  \frac{1}{\overline{A}} | $$ --> -->
+<!-- <!--     \begin{itemize} --> -->
+<!-- <!--         \item     If $A > 1$. Then:  --> -->
+<!-- <!--         $$\leq | {\epsilon \over A\overline{A}}|  \leq |\frac{\epsilon}{A}| $$ --> -->
+<!-- <!--         \item If $A \leq 1$. Then: --> -->
+<!-- <!-- $$ \textcolor{red}{?} $$ --> -->
+<!-- <!--     \end{itemize} --> -->
 
-<!-- \textcolor{red}{check passages because they give the same result of relative error} -->
+<!-- <!-- \textcolor{red}{check passages because they give the same result of relative error} --> -->
 
 
-<!-- \subsection{Relative error of product of relative errors \textcolor{blue}{[ok: - reread]}} -->
-<!-- \begin{itemize} -->
-<!--     \item $|A-\overline A | \leq \epsilon_1 A$ -->
-<!-- \item $|B-\overline B | \leq \epsilon_2 B$ -->
-<!-- \end{itemize} -->
+<!-- <!-- \subsection{Relative error of product of relative errors \textcolor{blue}{[ok: - reread]}} --> -->
+<!-- <!-- \begin{itemize} --> -->
+<!-- <!--     \item $|A-\overline A | \leq \epsilon_1 A$ --> -->
+<!-- <!-- \item $|B-\overline B | \leq \epsilon_2 B$ --> -->
+<!-- <!-- \end{itemize} --> -->
 
-<!-- $$|AB - \overline{AB}| = |AB - AB(1+\epsilon_1)(1+\epsilon_2) | = $$ -->
-<!-- $$|AB - AB + AB\epsilon_1 + AB\epsilon_2 +AB\epsilon_1\epsilon_2 | = AB(\epsilon_1+\epsilon_2)  $$ -->
+<!-- <!-- $$|AB - \overline{AB}| = |AB - AB(1+\epsilon_1)(1+\epsilon_2) | = $$ --> -->
+<!-- <!-- $$|AB - AB + AB\epsilon_1 + AB\epsilon_2 +AB\epsilon_1\epsilon_2 | = AB(\epsilon_1+\epsilon_2)  $$ --> -->
 
 
-<!-- \subsection{Relative error of product of absolute error \textcolor{blue}{[ok: - reread]}} -->
-<!-- \begin{itemize} -->
-<!--     \item $|A-\overline A | \leq \epsilon_1$ -->
-<!-- \item $|B-\overline B | \leq \epsilon_2$ -->
-<!-- \end{itemize} -->
+<!-- <!-- \subsection{Relative error of product of absolute error \textcolor{blue}{[ok: - reread]}} --> -->
+<!-- <!-- \begin{itemize} --> -->
+<!-- <!--     \item $|A-\overline A | \leq \epsilon_1$ --> -->
+<!-- <!-- \item $|B-\overline B | \leq \epsilon_2$ --> -->
+<!-- <!-- \end{itemize} --> -->
 
-<!-- $$\frac{|AB - \overline{AB}|}{AB} \leq ? $$  -->
-<!-- $$|AB- (A+\epsilon_1)(B+\epsilon_2)| = | AB - AB-A\epsilon_2 -B\epsilon_1 - \epsilon_1\epsilon_2| = |-A\epsilon_2 - B\epsilon_1 + O(\epsilon_1 \epsilon_2) | \Rightarrow$$ -->
-<!-- $$\frac{A\epsilon_2 + B\epsilon_1}{AB} = \frac{\epsilon_2}{B} + \frac{\epsilon_1}{A} $$  -->
+<!-- <!-- $$\frac{|AB - \overline{AB}|}{AB} \leq ? $$  --> -->
+<!-- <!-- $$|AB- (A+\epsilon_1)(B+\epsilon_2)| = | AB - AB-A\epsilon_2 -B\epsilon_1 - \epsilon_1\epsilon_2| = |-A\epsilon_2 - B\epsilon_1 + O(\epsilon_1 \epsilon_2) | \Rightarrow$$ --> -->
+<!-- <!-- $$\frac{A\epsilon_2 + B\epsilon_1}{AB} = \frac{\epsilon_2}{B} + \frac{\epsilon_1}{A} $$  --> -->
 
-<!-- \subsection{Ratio of absolute errors} -->
-<!-- \begin{itemize} -->
-<!--     \item $|A-\overline A | \leq \epsilon_1$ -->
-<!-- \item $|B-\overline B | \leq \epsilon_2$ -->
-<!-- \end{itemize} -->
+<!-- <!-- \subsection{Ratio of absolute errors} --> -->
+<!-- <!-- \begin{itemize} --> -->
+<!-- <!--     \item $|A-\overline A | \leq \epsilon_1$ --> -->
+<!-- <!-- \item $|B-\overline B | \leq \epsilon_2$ --> -->
+<!-- <!-- \end{itemize} --> -->
 
-<!-- $$ \frac{A/B - \overline{A}/\overline{B} }{A/B} $$ -->
+<!-- <!-- $$ \frac{A/B - \overline{A}/\overline{B} }{A/B} $$ --> -->
 
-<!-- \subsection{Ratio of relative errors \textcolor{blue}{[ok: - reread]}} -->
-<!-- \begin{itemize} -->
-<!--     \item $|A-\overline A | \leq A\epsilon_1$ -->
-<!-- \item $|B-\overline B | \leq B\epsilon_2$ -->
-<!-- \end{itemize} -->
+<!-- <!-- \subsection{Ratio of relative errors \textcolor{blue}{[ok: - reread]}} --> -->
+<!-- <!-- \begin{itemize} --> -->
+<!-- <!--     \item $|A-\overline A | \leq A\epsilon_1$ --> -->
+<!-- <!-- \item $|B-\overline B | \leq B\epsilon_2$ --> -->
+<!-- <!-- \end{itemize} --> -->
 
-<!-- $$\frac{\overline{A}}{\overline{B}} = \frac{A(1+\epsilon_1)}{B(1+\epsilon_2)} = \frac{A}{B} (1+\epsilon_1) \frac{1}{(1+\epsilon_2)} $$ -->
+<!-- <!-- $$\frac{\overline{A}}{\overline{B}} = \frac{A(1+\epsilon_1)}{B(1+\epsilon_2)} = \frac{A}{B} (1+\epsilon_1) \frac{1}{(1+\epsilon_2)} $$ --> -->
 
-<!-- We use Taylor approx of $\frac{1}{(1+\epsilon_2)} = 1-\epsilon_2 + \epsilon_2^2 $. Therefore,  -->
+<!-- <!-- We use Taylor approx of $\frac{1}{(1+\epsilon_2)} = 1-\epsilon_2 + \epsilon_2^2 $. Therefore,  --> -->
 
 
-<!-- $$ \frac{\overline{A}}{\overline{B}} = \frac{A}{B}(1+\epsilon_1)(1-\epsilon_2)  $$  -->
-<!-- so -->
-<!-- $$|\frac{A}{B} - \frac{\overline{A}}{\overline{B}}|  = \frac{A}{B}|(\epsilon_1+\epsilon_2)|  \leq \frac{A}{B}(\epsilon_1+\epsilon_2) $$ -->
+<!-- <!-- $$ \frac{\overline{A}}{\overline{B}} = \frac{A}{B}(1+\epsilon_1)(1-\epsilon_2)  $$  --> -->
+<!-- <!-- so --> -->
+<!-- <!-- $$|\frac{A}{B} - \frac{\overline{A}}{\overline{B}}|  = \frac{A}{B}|(\epsilon_1+\epsilon_2)|  \leq \frac{A}{B}(\epsilon_1+\epsilon_2) $$ --> -->
 
 
-This is a better formalization and proof.
+<!-- This is a better formalization and proof. -->
 
-```{theorem, ratio-relative-simple, name="[@sanderthesis] [@van2020quantum]"}
-Let $0 \leq \theta \leq 1$ and let $\alpha, \beta, \tilde{\alpha}, \tilde{\beta}$ be positive real numbers, such that $|\alpha - \tilde{\alpha}| \leq \alpha\theta/3$, and  $|\beta - \tilde{\beta}| \leq \beta\theta/3$. Then:
-$$\left|\frac{\alpha}{\beta} - \frac{\tilde{\alpha}}{\tilde{\beta}} \right| \leq \theta \frac{\alpha}{\beta}$$
-```
+<!-- ```{theorem, ratio-relative-simple, name="[@sanderthesis] [@van2020quantum]"} -->
+<!-- Let $0 \leq \theta \leq 1$ and let $\alpha, \beta, \tilde{\alpha}, \tilde{\beta}$ be positive real numbers, such that $|\alpha - \tilde{\alpha}| \leq \alpha\theta/3$, and  $|\beta - \tilde{\beta}| \leq \beta\theta/3$. Then: -->
+<!-- $$\left|\frac{\alpha}{\beta} - \frac{\tilde{\alpha}}{\tilde{\beta}} \right| \leq \theta \frac{\alpha}{\beta}$$ -->
+<!-- ``` -->
 
-```{proof}
-$$\left|\frac{\alpha}{\beta} - \frac{\tilde{\alpha}}{\tilde{\beta}} \right|  = \left| \frac{\alpha\tilde{\beta}- \tilde{\alpha}\beta}{\beta\tilde{\beta}}  \right| = \left| \frac{\alpha\tilde{\beta}- \tilde{\alpha}\beta+\alpha\beta - \alpha\beta}{\beta\tilde{\beta}}  \right| =$$
-$$\left|\frac{\alpha\beta-\tilde{\alpha}\beta}{\beta\tilde{\beta}} \right| + \alpha\left| \frac{\beta -\tilde{\beta}}{\beta\tilde{\beta}} \right| \leq$$
+<!-- ```{proof} -->
+<!-- $$\left|\frac{\alpha}{\beta} - \frac{\tilde{\alpha}}{\tilde{\beta}} \right|  = \left| \frac{\alpha\tilde{\beta}- \tilde{\alpha}\beta}{\beta\tilde{\beta}}  \right| = \left| \frac{\alpha\tilde{\beta}- \tilde{\alpha}\beta+\alpha\beta - \alpha\beta}{\beta\tilde{\beta}}  \right| =$$ -->
+<!-- $$\left|\frac{\alpha\beta-\tilde{\alpha}\beta}{\beta\tilde{\beta}} \right| + \alpha\left| \frac{\beta -\tilde{\beta}}{\beta\tilde{\beta}} \right| \leq$$ -->
 
-$$\left|\frac{\alpha -\tilde \alpha}{\tilde \beta} \right| + \frac{\alpha}{\tilde\beta}\theta/3$$
-Using the hypotesis on $|\alpha-\widetilde{\alpha}|\leq \alpha \theta/3$,
-$$\leq \left|\frac{1}{\tilde{\beta}} \right|\frac{\alpha\theta}{3} + \frac{\alpha}{\tilde\beta}\theta/3$$
-Now we can use the fact that $\tilde \beta \geq \frac{2}{3}\beta$. This comes from the fact that if we have a relative error on $\beta$, we know that $|\tilde{\beta}| \leq \beta (1+\theta)$. In our case, $\beta(1-\frac{2}{3}\theta) \leq \tilde{\beta} \leq \theta (1+\frac{1}{3}\theta)$, so in the worst case, for $\theta=1$, we can simply see that $\tilde \beta \geq \frac{2}{3}\beta$. Now can put the lower bound on the denominator, and get:
-$$\leq \left|\frac{\alpha\theta}{3\tilde{\beta}} \right| + \frac{\alpha}{\tilde\beta}\theta/3$$
+<!-- $$\left|\frac{\alpha -\tilde \alpha}{\tilde \beta} \right| + \frac{\alpha}{\tilde\beta}\theta/3$$ -->
+<!-- Using the hypotesis on $|\alpha-\widetilde{\alpha}|\leq \alpha \theta/3$, -->
+<!-- $$\leq \left|\frac{1}{\tilde{\beta}} \right|\frac{\alpha\theta}{3} + \frac{\alpha}{\tilde\beta}\theta/3$$ -->
+<!-- Now we can use the fact that $\tilde \beta \geq \frac{2}{3}\beta$. This comes from the fact that if we have a relative error on $\beta$, we know that $|\tilde{\beta}| \leq \beta (1+\theta)$. In our case, $\beta(1-\frac{2}{3}\theta) \leq \tilde{\beta} \leq \theta (1+\frac{1}{3}\theta)$, so in the worst case, for $\theta=1$, we can simply see that $\tilde \beta \geq \frac{2}{3}\beta$. Now can put the lower bound on the denominator, and get: -->
+<!-- $$\leq \left|\frac{\alpha\theta}{3\tilde{\beta}} \right| + \frac{\alpha}{\tilde\beta}\theta/3$$ -->
 
-```
+<!-- ``` -->
 
 
-We can have a more general version of the bound.
-```{lemma, ratio-relative-general, name="[@hamoudi2020quantum]"}
-Let $\tilde a$ be an estimate of $a>0$ such that $\vert \tilde a- a \vert \leq \epsilon_a a$.
-with $\epsilon_a \in (0,1)$.
-Similarly, let $\tilde b$ be an estimate of $b>0$ and $\epsilon_b \in (0,1)$ such that
-$\vert \tilde b - b \vert \leq \epsilon_b b$.
-Then the ratio $a/b$ is estimated to relative error
-$\left \vert \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right\vert \leq \left ( \frac{\epsilon_a + \epsilon_b}{1-\epsilon_b} \right) \frac{a}{b}$.
-```
+<!-- We can have a more general version of the bound. -->
+<!-- ```{lemma, ratio-relative-general, name="[@hamoudi2020quantum]"} -->
+<!-- Let $\tilde a$ be an estimate of $a>0$ such that $\vert \tilde a- a \vert \leq \epsilon_a a$. -->
+<!-- with $\epsilon_a \in (0,1)$. -->
+<!-- Similarly, let $\tilde b$ be an estimate of $b>0$ and $\epsilon_b \in (0,1)$ such that -->
+<!-- $\vert \tilde b - b \vert \leq \epsilon_b b$. -->
+<!-- Then the ratio $a/b$ is estimated to relative error -->
+<!-- $\left \vert \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right\vert \leq \left ( \frac{\epsilon_a + \epsilon_b}{1-\epsilon_b} \right) \frac{a}{b}$. -->
+<!-- ``` -->
 
-The proof comes directly from their work
-```{proof}
-Note that
-$b -  \tilde{b} \leq \vert \tilde{b} - b\vert \leq \epsilon_b b$, so as we said before,
-deduce $\frac{1}{ \tilde b} \leq \frac{1}{ b (1-\epsilon_b)}$.
+<!-- The proof comes directly from their work -->
+<!-- ```{proof} -->
+<!-- Note that -->
+<!-- $b -  \tilde{b} \leq \vert \tilde{b} - b\vert \leq \epsilon_b b$, so as we said before, -->
+<!-- deduce $\frac{1}{ \tilde b} \leq \frac{1}{ b (1-\epsilon_b)}$. -->
 
-Now we can combine the previous observation:
-\begin{align}
-\left| \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right| = &
-  \left \vert \frac{\tilde a b - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a b - ab + ab - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a  - a}{\tilde b} + \frac{a}{\tilde b} \frac{b - \tilde b}{ b}  \right\vert   \\
-\leq & \left \vert \frac{\tilde a  - a}{\tilde b} \right\vert+  \frac{a}{\tilde b}  \left \vert \frac{b - \tilde b}{ b}  \right\vert \leq \frac{\epsilon_a a + \epsilon_b a }{\tilde b}   \leq  \frac{a}{b}\frac{\epsilon_a +\epsilon_b}{ (1-\epsilon_b)}.
-\end{align}
+<!-- Now we can combine the previous observation: -->
+<!-- \begin{align} -->
+<!-- \left| \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right| = & -->
+<!--   \left \vert \frac{\tilde a b - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a b - ab + ab - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a  - a}{\tilde b} + \frac{a}{\tilde b} \frac{b - \tilde b}{ b}  \right\vert   \\ -->
+<!-- \leq & \left \vert \frac{\tilde a  - a}{\tilde b} \right\vert+  \frac{a}{\tilde b}  \left \vert \frac{b - \tilde b}{ b}  \right\vert \leq \frac{\epsilon_a a + \epsilon_b a }{\tilde b}   \leq  \frac{a}{b}\frac{\epsilon_a +\epsilon_b}{ (1-\epsilon_b)}. -->
+<!-- \end{align} -->
 
 
-```
-
-
-
-
-<!-- #### General case -->
-
-<!-- ```{theorem, name="mean value theorem"} -->
-<!-- $$|f(x)- f(y)| \leq c |x-y|$$ -->
 <!-- ``` -->
 
 
 
-<!-- - \url{https://math.stackexchange.com/questions/302177/proving-the-relative-error-of-division} -->
-<!-- - \url{https://math.stackexchange.com/questions/1153476/how-to-show-the-relative-error-of-fracx-ay-a?rq=1} -->
-<!-- - \url{https://math.stackexchange.com/questions/3000501/relative-error-of-division/3001050#3001050} -->
+
+<!-- <!-- #### General case --> -->
+
+<!-- <!-- ```{theorem, name="mean value theorem"} --> -->
+<!-- <!-- $$|f(x)- f(y)| \leq c |x-y|$$ --> -->
+<!-- <!-- ``` --> -->
+
+
+
+<!-- <!-- - \url{https://math.stackexchange.com/questions/302177/proving-the-relative-error-of-division} --> -->
+<!-- <!-- - \url{https://math.stackexchange.com/questions/1153476/how-to-show-the-relative-error-of-fracx-ay-a?rq=1} --> -->
+<!-- <!-- - \url{https://math.stackexchange.com/questions/3000501/relative-error-of-division/3001050#3001050} --> -->
 
 
 ## Useful quantum subroutines and folklore results
@@ -1298,32 +1267,26 @@ A big thanks to:
 - [42LF](https://42lf.it) for the legal support,
 - [Lorenzo Gecchelin](https://www.linkedin.com/in/gecchelinlorenzo/) for the graphics.
 
-# License and citation
+## License and citation
 
 <p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#" class="license-text">The website <a rel="cc:attributionURL" property="dct:title" href="https://quantumalgorithms.org">quantumalgorithms.org</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://luongo.pro">Alessandro Luongo</a> is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" /><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" /><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" /><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" /></a></p>
 
-To cite this work:
+
+```{text}
+@misc{quantumalgorithms,
+title={Quantum algorithms for data analysis},
+author={Luongo, Alessandro},
+url={https://quantumalgorithms.org},
+year={2020}
+}
 ```
-  @misc{quantumalgorithms,
-   title={Quantum algorithms for data analysis},
-   author={Luongo, A. et al.},
-   url={https://quantumalgorithms.org},
-   year={2020}
-  }
-````
 
 
 
-<!--
-# TODO Add code to automatically add contributors in index.html
-# There should be a javscript that adds an iframe or something
-# with the list of contributors to quantumalgorithms.org
-# labels: enhancement, todo
--->
 
 The CSS style file comes from [here](https://m-clark.github.io/data-processing-and-visualization/).
 
-# Cookie Policy
+## Cookie Policy
 
 The website [https://quantumalgorithms.org](https://quantumalgorithms.org) (the “Website”) uses cookies for the following purposes: allowing
 online authentication, monitoring sessions and memorising information on specific configurations of users

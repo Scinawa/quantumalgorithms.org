@@ -1,11 +1,4 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
-
-# Quantum algorithms for Monte Carlo {#chap:montecarlo}
+# Quantum algorithms for Monte Carlo {#chap-montecarlo}
 
 <div style="text-align: right"> Contributors: Michele Vischi, Alessandro Luongo </div>
 <br>

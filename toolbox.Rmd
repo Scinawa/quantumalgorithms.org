@@ -1,10 +1,4 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
-# A useful toolbox {#chap:toolbox}
+# A useful toolbox {#chap-toolbox}
 
 
 
@@ -106,7 +100,7 @@ exact amplitude amplification -->
 
 ### Example: estimating average and variance of a function
 
-Albeit the ideas treated in this post are somehow well-digested in the mind of many quantum algorithms developers, this example is very useful to get a practical understanding of amplitude estimation. Notably, much more precise and involved discussion around this topic can be found in chapter \@ref(chap:montecarlo).
+Albeit the ideas treated in this post are somehow well-digested in the mind of many quantum algorithms developers, this example is very useful to get a practical understanding of amplitude estimation. Notably, much more precise and involved discussion around this topic can be found in chapter \@ref(chap-montecarlo).
 
 Suppose we have a random variable $X$ described by a certain probability distribution over $N$ different outcomes, and a function $f: \{0,\cdots N\} \to [0,1]$ defined over this distribution. How can we use quantum computers to evaluate some properties of $f$ such as expected value and variance faster than classical computers?
 
@@ -135,7 +129,7 @@ Can you prove the previous two points?
 ```
 
 
-We will see in Chapter \@ref(chap:montecarlo) why in many real-world cases this is not the best way of estimating $\mathbb{E}(f(X))$.
+We will see in Chapter \@ref(chap-montecarlo) why in many real-world cases this is not the best way of estimating $\mathbb{E}(f(X))$.
 
 ## Finding the minimum {#subsec:findmin}
 

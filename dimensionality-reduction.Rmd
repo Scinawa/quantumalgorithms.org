@@ -1,12 +1,4 @@
----
-output:
-  pdf_document: default
-  html_document: default
-
----
-
-
-# Dimensionality reduction {#chap:dimensionality-reduction}
+# Dimensionality reduction {#chap-dimensionality-reduction}
 
 <div style="text-align: right"> Contributors: Alessandro Luongo, Armando Bellante</div>
 <br>

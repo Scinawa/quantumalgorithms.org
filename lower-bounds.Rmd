@@ -1,10 +1,4 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
-# Lower bounds on query complexity of quantum algorithms {#chap:lowerbounds}
+# Lower bounds on query complexity of quantum algorithms {#chap-lowerbounds}
 
 <div style="text-align: right"> Contributors: Trong Duong </div>
 <br>

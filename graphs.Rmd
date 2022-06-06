@@ -1,11 +1,4 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
-
-# Quantum algorithms for graph problems {#chap:graphs}
+# Quantum algorithms for graph problems {#chap-graphs}
 
 In this chapter we are going to discuss quantum algorithms for graph theoretical problems. Initial focus of this chapter revolves around the work of [@durr2006quantum], which investigated the query complexity of problems like MINIMUM SPANNING TREE, CONNECTIVITY, STRONG CONNECTIVITY, and SINGLE SOURCE SHORTEST PATH. Classically, these problems can be solved efficiently i.e. in polynomial number of queries to the graph. In this chapter, we will see how to decrease the query complexity of the quantum algorithm further, by applying in a shrewd way amplitude amplification and related algorithms.
 More specifically, in the work of [@durr2006quantum], they used three different versions of the Grover's algorithm. In particular, we state a slightly improved version here, with a quadratic improvement also in the runtime dependence on the probability of failure.
