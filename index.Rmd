@@ -15,13 +15,6 @@ output:
     includes:
       in_header: [header.html]
       after_body: [cookiebanner.html, ribbon_body.html, googletag.html]
-# output:
-#     pdf_document:
-#         includes:
-#             in_header: preamble.tex
-#     html_document:
-#         includes:
-#             in_header: preamble.tex
 description: "Open-source book on quantum algorithms for information processing and machine learning"
 url: 'https\://quantumalgorithms.org'
 github-repo: "scinawa/quantumalgorithms.org"
@@ -148,6 +141,7 @@ https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter
 - June 2021: Quantum Monte Carlo algorithms, lower bounds techniques for query complexity of quantum algorithms, quantum algorithms for graph problems. The output of the mentorship program of the QOSF foundation!
 - January 2022: In the past months we improved the overall quality of the website (graphics, typos) and added some content (Deutsch-Josza, Bernstein-Vazirani, swap and Hadamard tests)
 - February 2022: We are happy to bring our swag (t-shirts, stickers, lanyards) to QIP. We added a whole chapter on perceptron algorithms and we doubled the chapter on quantum monte carlo algorithms with applications to finance and trace distance!
+- June 2022: We are partecipating to the UnitaryHack! We also presented this work at QNLP2022 where we distributed our swag! Now the website can be compiled also with the latest version of RStudio,pandoc,bookdown.
 
 
 Coming soon:

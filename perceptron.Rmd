@@ -203,10 +203,11 @@ Note that each state $|x^{(j)}\rangle$ corresponds to a state of the computation
 Next, in order to construct our desired online quantum perceptron, we will need to have a mechanism with which to access the training data. 
 We assume that the data is accessible via the following oracle $U$.
 
-\begin{equation}
+\begin{align}
 U|j\rangle|{0}\rangle=|j\rangle|x^{(j)}\rangle\\
 U^{\dagger}|j\rangle|{x^{(j)}}\rangle=|j\rangle|0\rangle
-\end{equation}
+\end{align}
+
 As we discussed in previous chapters, because $U$ and $U^{\dagger}$ are linear operators, we have that $U \frac{1}{\sqrt{n}}\sum_{j=1}^{n} |j\rangle|0\rangle=\frac{1}{\sqrt{n}}\sum_{j=1}^n |j\rangle|x^{(j)}\rangle$. A quantum computer can therefore access each training vector simultaneously using a single operation, while only requiring enough memory to store one of the $|x^{(j)}\rangle$.
 
 Next, we need a mechanism to test if a given weight configuration $w$, correctly classifies a data point.

@@ -117,7 +117,7 @@ knitr::include_graphics("algpseudocode/quantum-connectivity.png")
 ```
 
 
-````{theorem, algo-connectivity, name="Quantum algorithm for graph conectivity (adjacency matrix model)"}
+```{theorem, algo-connectivity, name="Quantum algorithm for graph conectivity (adjacency matrix model)"}
 Assume that $U_A$ is a unitary that gives you query access to the adjacency matrix $M$ of an undirected graph $G=(V,E)$. Then, deciding if a graph is connected has an expected number of queries to $U_{A}$ of $\widetilde{O}(n^{3/2})$. In particular, if the graph is connected, algorithm in figure \@ref(fig:quantum-algo-connectivity) returns a spanning tree for $G$ with probability greater than $2/3$.
 ```
 
@@ -127,7 +127,7 @@ The whole algorithm tries to build a spanning tree for the graph. If we succeed,
 
 Initialize the algorithm with an empty edge set $A$ for the spanning tree $T=(V,A)$. We use theorem \@ref(thm:grover-improved) on the operator $U_A$ and the oracle $U_{f_T}$. As usual, $U_A$ is defined as $U_A : \ket{i,j,c} \mapsto \ket{i,j,c\oplus A_{ij}}$. We ecapsulate into the oracle $U_{f_T}$ the data structure that stores the connected components, so we can have a unitary implementing the function $f_T : E \mapsto \{0,1\}$:
 
-$$ f_T(e) \begin{cases}
+$$f_T(e) \begin{cases}
       1 & \text{if } c(T \cup e) < c(T) \\
       0 & \text{otherwise}
       \end{cases}$$

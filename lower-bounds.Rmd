@@ -90,7 +90,7 @@ However, a similar quadratic speedup is not feasible for an exact algorithm for 
 
 Consider a decision problem given by a function $f: \{0,1\}^n \rightarrow \{0,1\}$. An input $\mathbf{w} = (w_1,\dots,w_n) \in \{0,1\}^n$ to the function can be accessed via a phase oracle $O_{\mathbf{w}}: |i\rangle \mapsto (-1)^{w_i}|i\rangle$. This type of oracle can be obtained from the general oracle $O'_{\mathbf{w}}: |i\rangle |a\rangle \mapsto |i\rangle |a \oplus g(i)\rangle$ by setting the ancilla state $|a\rangle = |-\rangle$ and $g(i) = w_i$. This trick is often referred as _phase kickback_.
 
-$$
+\begin{align}
 \begin{matrix}
 |i\rangle \left(\frac{|0\rangle - |1\rangle}{\sqrt{2}}\right) &\mapsto& |i\rangle \left(\frac{|w_i\rangle - |1\oplus w_i\rangle}{\sqrt{2}}\right) \\
  &=& \left\{\begin{matrix}
@@ -98,7 +98,8 @@ $$
 |i\rangle \left(\frac{|1\rangle - |0\rangle}{\sqrt{2}}\right), \quad w_i=1
 \end{matrix}\right. \\
  &=& (-1)^{w_i} |i\rangle \left(\frac{|0\rangle - |1\rangle}{\sqrt{2}}\right)
-\end{matrix}$$
+\end{matrix}
+\end{align}
 
 
 Our goal is to determine $f(\mathbf{x})$ with high probability, say at least $2/3$, for a given $\mathbf{x}$ using as few $O_{\mathbf{x}}$ queries as possible. An error-bounded algorithm must accept any $\mathbf{x} \in f^{-1}(0)$ with probability $\leq 1/3$ and accept any $\mathbf{y} \in f^{-1}(1)$ with probability $\geq 2/3$.
@@ -133,7 +134,9 @@ $$\begin{matrix}
 
 The first and second inequality come as a result of triangle inequality and Cauchy-Schwarz inequality respective. The third inequality comes from $(a+b)^2 \leq 2(a^2+b^2)$ and the fact that $\sum_{m} |\phi_m|^2 = \sum_{m} |\tau_m|^2 = 1$. Consider an error-bounded algorithm with tolerance of $1/3$, i.e. $| \langle 1| \psi^T_\mathbf{x}\rangle |^2 < 1/3$ and $| \langle 1| \psi^T_\mathbf{y}\rangle |^2 \geq 2/3$. The total variation distance, and therefore $\|\psi_\mathbf{x}^T - \psi_\mathbf{y}^T\|_2$, is at least $1/3$. Notice that the $L_2$-norm distance between two states can be written in terms of their inner product
 
-$$\|\psi_\mathbf{x}^T - \psi_\mathbf{y}^T\|_2^2 = \langle \psi_\mathbf{x}^T - \psi_\mathbf{y}^T | \psi_\mathbf{x}^T - \psi_\mathbf{y}^T \rangle =  2 - 2\Re{\langle \psi_\mathbf{x}^T | \psi_\mathbf{y}^T \rangle}.$$
+\begin{align}
+\|\psi_\mathbf{x}^T - \psi_\mathbf{y}^T\|_2^2 = \langle \psi_\mathbf{x}^T - \psi_\mathbf{y}^T | \psi_\mathbf{x}^T - \psi_\mathbf{y}^T \rangle =  2 - 2\Re{\langle \psi_\mathbf{x}^T | \psi_\mathbf{y}^T \rangle}.
+\end{align}
 
 We can assume that $\langle \psi_x^T | \psi_y^T \rangle$ is real, otherwise multiply $| \psi_y^T \rangle$ by some scalar of norm $1$ to make the inner product real. Then it follows that $|\langle \psi_x^T | \psi_y^T \rangle| \leq 17/18$. Intuitively, as the inner product is bounded above, the measurement statistics can distinguish $\mathbf{x} \in f^{-1}(0)$ and $\mathbf{y} \in f^{-1}(1)$.
 
@@ -156,11 +159,12 @@ Then the quantum query complexity of $f$ is $\Omega{\sqrt{\frac{m_0m_1}{l_0l_1}}
 The following proof is modified from a proof for the case $l_0 = l_1 = 1$ given in the lecture note [@adversary-simple].
 
 For each $(\mathbf{x},\mathbf{y}) \in R$, let $J_{\mathbf{x}\mathbf{y}} = \{(j_1,j_2,\dots,j_k) | x_{j_1} \neq y_{j_1}, x_{j_2} \neq y_{j_2}, \dots, x_{j_k} \neq y_{j_k}\}$. From the first assumption, $|R| \geq m_0 |X|$. The quantum states corresponding to the initial inputs right before they pass through the $t$-th oracle can be represented by
-$$
+
+\begin{align}
 |\psi_\mathbf{x}^{t-1}\rangle = \sum_{i} a_i|i\rangle \otimes |\phi_i\rangle  \\
 |\psi_\mathbf{y}^{t-1}\rangle = \sum_{i} b_i|i\rangle \otimes |\chi_i\rangle \\
 \Rightarrow \langle \psi_\mathbf{x}^{t-1} | \psi_\mathbf{y}^{t-1} \rangle = \sum_i a_i^* b_i \langle \phi_i | \chi_i \rangle
-$$
+\end{align}
 
 When the states pass through the $t$-th oracle, it flips the sign on each $a_i, b_i$ whenever $x_i=1$ or $y_i=1$ respectively. The overall effect on the inner product is flipping the sign of the coefficient corresponding to $\langle \phi_i | \chi_i \rangle$ when $x_i \neq y_i$. We can express the inner product at time $t$ as follows
 

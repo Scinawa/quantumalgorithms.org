@@ -767,7 +767,7 @@ Let $\mathcal{A}$ be a quantum or classical algorithm which aims to estimate som
 ## Markov chains
 Useful resources: [here](https://www.probabilitycourse.com/chapter11/11_2_4_classification_of_states.php#:~:text=A%20Markov%20chain%20is%20said%20to%20be%20irreducible%20if%20all,always%20stay%20in%20that%20class.), [here](http://www.columbia.edu/~ww2040/4701Sum07/4701-06-Notes-MCII.pdf).
 
-```{definition, markov-chain, name="Markov chain [@serfozo2009basics]}
+```{definition, markov-chain, name="Markov chain [@serfozo2009basics]"}
 Let  $(X_t)_{t \in I}$ be a stochastic process defined over a probability space $(\Omega, \Sigma, \mathbb{P})$, for a countable set $I$, where $X_t$ are random variables on a set $\mathcal{S}$ (called state space). Then $(X_t)_{t \in I}$ is a Markov chain if, for any $j \in \mathcal{S}$ and $t \geq 0$, it holds that
 $$\mathbb{P}[X_{t+1} = j | X_0, X_1, \dots X_t] = \mathbb{P}[X_{t+1} =j | X_t]$$
   and for all $j,i \in \mathcal{S}$, it holds that

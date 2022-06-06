@@ -12,14 +12,7 @@ output:
 
 ## Phase estimation {#section:phaseestimation}
 
-<!--
-# TODO Improve QFT part with other non-Fourier transform (wavelet, fourier on groups..)
-# It would be cool to have some non-trivial facts about the QFT
-# (like how to see it as a mapping between elements of a group to a Hilbert space).
-# But also it would be even better to have more quantum transform, like the Wavelet transfrom.
-# This can be really helpful in the context of group-theoretical machine learning.
-# labels: good first issue, help wanted, enhancement
--->
+In this section we report the theorems for the subroutines that are often used to create new quantum algorithms. Often, we report multiple formulations, so that the working quantum algorithm researcher can pick the best version for them.
 
 
 ```{theorem, phase-estimation, name="Phase estimation [@Kitaev1995QuantumProblem]"}
@@ -33,7 +26,8 @@ Let $0.a=a_1, \dots a_q$ be the output of phase estimation when applied to an ei
 
 
 While the standard implementation of phase estimation is based on the quantum Fourier transform (QFT) circuit [@NC02], there have been various improvements [@ahmadi2010quantum] which try to soften the dependence on the QFT circuit, while retaining the accuracy guarantees offered by the QFT in estimating the angles $\theta_j$.
-\paragraph{Remark.} Note that the same algorithm described in theorem \@ref(thm:phase-estimation) can be made ''consistent'', in the sense of [@ta2013inverting] and [@A12]. While in the original formulation of phase estimation two different runs might return different estimates for $\overline{\theta}_j$, with a consistent phase estimation this estimate is fixed, with high probability. This means that the error between two different runs of phase estimation is almost deterministic.
+
+Note that the same algorithm described in theorem \@ref(thm:phase-estimation) can be made ''consistent'', in the sense of [@ta2013inverting] and [@A12]. While in the original formulation of phase estimation two different runs might return different estimates for $\overline{\theta}_j$, with a consistent phase estimation this estimate is fixed, with high probability. This means that the error between two different runs of phase estimation is almost deterministic.
 
 
 
@@ -55,7 +49,7 @@ While the standard implementation of phase estimation is based on the quantum Fo
 <!-- % and the success probability, using the known distribution of outcomes for phase estimation.  -->
 
 
-## Grover's algorithm, amplitude amplification and amplitude estimation {#section:grover}
+## Grover's algorithm, amplitude games {#section:grover}
 
 <!-- TODO: with high probability? how many other gates? -->
 
@@ -135,6 +129,13 @@ Finally, observe that:
 
 -  if we chose $f(i)=\frac{i}{N-1}$ we are able to estimate $E[\frac{X}{N-1}]$ (which, since we know $N$ gives us an estimate of the expected value $E[X]$)
 - if we chose $f(i)=\frac{i^2}{(N-1)^2}$ instead, we can estimate $E[X^2]$ and using this along with the previous choice of $f$ we can estimate the variance of $X$: $E[X^2] - E[X]^2$.
+
+```{exercise}
+Can you prove the previous two points?
+```
+
+
+We will see in Chapter \@ref(chap:montecarlo) why in many real-world cases this is not the best way of estimating $\mathbb{E}(f(X))$.
 
 ## Finding the minimum {#subsec:findmin}
 
@@ -273,7 +274,7 @@ V^{T} &0 \\
 
 ## Linear combination of unitaries
 
-We continue our journey in quantum linear algebra by discussing the state-of-the-art technique beneath quantum linear algebra, called singular value transformation.
+We continue our journey in quantum linear algebra by discussing the state-of-the-art technique beneath quantum linear algebra.
 
 The research of quantum algorithms for machine learning has always used techniques developed in other areas of quantum algorithms. Among the many, we cite quantum algorithms for Hamiltonian simulation and quantum random walks. In fact, using quantum random walks, it is possible to decrease the dependence on the error parameter, from polynomial to $\text{polylog}(1/\epsilon)$ [@childs2012hamiltonian]. Stemming from the research in Hamiltonian simulation [@berry2015hamiltonian], [@low2019hamiltonian], [@berry2015simulating], [@low2017hamiltonian],[@subramanian2019implementing], these techniques have been further optimized, pushing them to the limit of almost optimal time and query complexity. Significant progress in the direction of quantum algorithms for linear algebra was the so-called LCU, or linear combination of unitaries [@childs2012hamiltonian], which again was developed in the context of the Hamiltonian simulation problem.
 
@@ -301,9 +302,6 @@ We will see that having quantum access to a matrix $A\in\mathbb{C}^{2^w \times 2
 
 For practical purposes, having a block encoding of a matrix $A$, allows one to manipulate its spectra using polynomial approximation of analytic functions.
 In the following theorem, the notation $P_{\Re}(A)$ means that we apply the polynomial $P$ to the singular values of the matrix $A$, i.e. $P_{\Re}(A) = \sum_i^r P(\sigma_i)u_iv_i^T$.
-
-<!-- TODO -->
-<!-- explain better why we have a $ -->
 
 
 ```{theorem, SVT, name="Polynomial eigenvalue transformation of arbitrary parity [@gilyen2019quantum]"}
@@ -368,7 +366,7 @@ One can also get estimates of the norms with multiplicative error $\eta$ by incr
 More generally, applying a matrix $M$ which is the product of $k$ matrices, i.e. $M=M_1\dots M_k$ will result in a runtime of $\kappa(M)(\sum_i^k \mu(M_i) )\log(1/\epsilon)$ factors in the runtime.
 
 
-## Estimation of distances, inner products, norms, and quadratic forms {#sub:distances}
+## Distances, inner products, norms, and quadratic forms {#sub:distances}
 
 
 In this section, we report two lemmas that can be used to estimate the inner products, distances, and quadratic forms between vectors. The lemma \@ref(lem:innerproductestimation) has been developed in the work [@kerenidis2019qmeans]. The lemma \@ref(lem:qsp-l1norm) and the other lemmas for inner product estimation in the query model come from [@hamoudi2020quantum].

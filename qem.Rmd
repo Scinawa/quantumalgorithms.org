@@ -197,7 +197,7 @@ In our case we can deduce that:	$\norm{\sigma_j(y) - \sigma_j(x)} \leq \sqrt{2} 
 
 
 
-## Quantum Expectation-Maximization for GMM {#section:quantum gmm}
+## Quantum Expectation-Maximization for GMM {#section:quantum-gmm}
 In this section, we present a quantum Expectation-Maximization algorithm to fit a GMM. The algorithm can also be adapted to fit other mixtures models where the probability distributions belong to the exponential family. As the GMM is both intuitive and one of the most widely used mixture models, our results are presented for the GMM case.
 
 #### An approximate version of GMM

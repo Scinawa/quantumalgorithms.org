@@ -702,19 +702,19 @@ li.part > span   {
 
 li.part > span > b {
 
-  color: #8dbef13b !important
+  color: #d74648 !important
 }
 
 .book.with-summary .book-header.fixed {
-  left: 500px;
+  left: 400px;
 }
 
 .book.with-summary .book-body {
-  left: 500px;
+  left: 400px;
 }
 
 .book .book-summary {
-  width: 500px;
+  width: 400px;
 }
 
 .book .book-body .navigation {

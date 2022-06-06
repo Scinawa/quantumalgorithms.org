@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{braket}
+\usepackage{amsmath, amsfonts, amssymb}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
+\begin{document}
+\pagestyle{empty}
+
+ \begin{algorithm}[ht]
+ \floatname{algorithm}{QSFA}
+ \label{alg_QSFA}
+ \caption{Quantum Slow Feature Analysis}
+ \begin{algorithmic}[1]
+ \Require
+       \Statex Quantum access to matrices $X \in \mathbb{R}^{n \times d}$ and $\dot{X} \in \mathbb{R}^{n \times d}$, parameters $\epsilon, \theta,\delta,\eta >0$.
+     \Ensure
+       \Statex A state $\ket{\overline{Y}}$ such that $ | \ket{Y} - \ket{\overline{Y}} | \leq \epsilon$, with $Y = A^+_{\leq \theta, \delta}A_{\leq \theta, \delta} Z$
+       \Statex
+
+ \State Create the state $\ket{X} :=  \frac{1}{\norm{X}_F} \sum_{i=1}^{n} \norm{x_i} \ket{i}\ket{x_i} $
+
+ \State (Whitening algorithm) Map $\ket{X}$ to $\ket{\overline{Z}}$ with $| \ket{\overline{Z}}  - \ket{Z} | \leq \epsilon $ and $Z=XB^{-1/2}.$
+
+ \State (Projection in slow feature space) Use theorem \ref{th:qla} project $\ket{\overline{Z}}$ onto the slow eigenspace of $A$ using threshold $\theta$ and precision $\delta$ (i.e. $A^+_{\leq \theta, \delta}A_{\leq \theta, \delta}\overline{Z}$)
+
+ \State Perform amplitude amplification and estimation on the register $\ket{0}$ with the unitary $U$ implementing steps 1 to 3, to obtain
+ $\ket{\overline{Y}}$ with $| \ket{\overline{Y}} - \ket{Y}  | \leq \epsilon $ and an estimator $\overline{\norm{Y}}$  with multiplicative error $\eta$.
+ \end{algorithmic}
+ \end{algorithm}
+
+\end{document}
+
+
