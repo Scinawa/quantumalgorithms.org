@@ -705,17 +705,34 @@ li.part > span > b {
   color: #8dbef13b !important
 }
 
+
+.book .book-summary {
+  width: 500px;
+  position:absolute;
+  top:0;
+  left:-500px;
+}
+
 .book.with-summary .book-header.fixed {
+    left: 500px;
+}
+
+.book.with-summary .book-body {
+    left: 500px;
+}
+
+/* .book.with-summary .book-header.fixed {
   left: 500px;
 }
 
 .book.with-summary .book-body {
   left: 500px;
-}
+} */
 
-.book .book-summary {
+
+/* .book .book-summary {
   width: 500px;
-}
+}  */
 
 .book .book-body .navigation {
   color: #000000;
@@ -724,4 +741,5 @@ li.part > span > b {
 i.fa {
   border: 1px solid #ccc !important;
   border-radius: 5px;
+  z-index: 9999;
 }
