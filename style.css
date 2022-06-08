@@ -1,727 +1,610 @@
 /*p.caption {
-  color: #777;
-  margin-top: 10px;
+     color: #777;
+     margin-top: 10px;
 }
-p code {
-  white-space: inherit;
+ p code {
+     white-space: inherit;
 }
-pre {
-  word-break: normal;
-  word-wrap: normal;
+ pre {
+     word-break: normal;
+     word-wrap: normal;
 }
-pre code {
-  white-space: inherit;
+ pre code {
+     white-space: inherit;
 }
-*/
-
-@import url("https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono|Roboto+Condensed|Lato|Lora|Fira+Sans|Jost");
-
+ */
+ @import url("https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono|Roboto+Condensed|Lato|Lora|Fira+Sans|Jost");
 /* title page */
-.book .book-body .page-wrapper .page-inner section.normal h1.title {
-  font-size: 250%;
-  /*font-family: 'Fira Sans', Karla, 'Roboto Condensed', Lora, Lato, Roboto, sans;*/
-  font-style: normal;
-  font-weight: 100;
+ .book .book-body .page-wrapper .page-inner section.normal h1.title {
+     font-size: 250%;
+    /*font-family: 'Fira Sans', Karla, 'Roboto Condensed', Lora, Lato, Roboto, sans;
+    */
+     font-style: normal;
+     font-weight: 100;
 }
-
-.book .book-body .page-wrapper .page-inner section.normal .author .noem {
-  display: block;
-  margin: 0 0 10px 0;
-  font-size:  125%;
-  font-style:  normal;
-  font-variant:  small-caps;
-  font-weight: 200;
- /*font-family: 'Roboto Condensed', 'Fira Sans', Roboto, 'Open Sans', sans;*/
+ .book .book-body .page-wrapper .page-inner section.normal .author .noem {
+     display: block;
+     margin: 0 0 10px 0;
+     font-size: 125%;
+     font-style: normal;
+     font-variant: small-caps;
+     font-weight: 200;
+    /*font-family: 'Roboto Condensed', 'Fira Sans', Roboto, 'Open Sans', sans;
+    */
 }
-
-.noem {
-  color: #2c424a;            /* ed */
+ .noem {
+     color: #2c424a;
+    /* ed */
 }
-
-.book .book-body .page-wrapper .page-inner section.normal a.uri {
-  display: block;
-  margin: 0 0 10px 0;
-  font-size:  75%;
-  font-style:  normal;       /* ignored thanks to bootstrap random enforcement of em*/
-  font-variant:  small-caps;
- /* font-family:  Roboto, 'Open Sans', sans;*/
+ .book .book-body .page-wrapper .page-inner section.normal a.uri {
+     display: block;
+     margin: 0 0 10px 0;
+     font-size: 75%;
+     font-style: normal;
+    /* ignored thanks to bootstrap random enforcement of em*/
+     font-variant: small-caps;
+    /* font-family: Roboto, 'Open Sans', sans;
+    */
 }
-
-.book .book-body .page-wrapper .page-inner section.normal h4.date {
-  font-style: normal;
-  font-size:  100%;
-  /*font-family: 'Open Sans', sans; */
+ .book .book-body .page-wrapper .page-inner section.normal h4.date {
+     font-style: normal;
+     font-size: 100%;
+    /*font-family: 'Open Sans', sans;
+     */
 }
-
-.date, .author {
-  color: #2c424a;                 /* ed */
-  font-style: normal;
+ .date, .author {
+     color: #2c424a;
+    /* ed */
+     font-style: normal;
 }
-
 /* main */
-
-.book  {
-  background-color: #f2f2f1;       /* ed */
-
+ .book {
+     background-color: #f2f2f1;
+    /* ed */
 }
-
-.section {
-  background-color: #f2f2f1;      /* ed */
+ .section {
+     background-color: #f2f2f1;
+    /* ed */
 }
-
-
-
-.book .book-body .page-wrapper .page-inner section.normal {
-    display: block;
-    background-color: #f2f2f1;       /* ed */
-    color: #585858;
-    padding: 5px 15px;
-/*    font-family: Roboto, 'Helvetica Neue', sans-serif;*/
-    word-wrap: break-word;
-    overflow: hidden;
-    line-height: 1.7;
-    text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    -moz-text-size-adjust: 100%;
+ .book .book-body .page-wrapper .page-inner section.normal {
+     display: block;
+     background-color: #f2f2f1;
+    /* ed */
+     color: #585858;
+     padding: 5px 15px;
+    /* font-family: Roboto, 'Helvetica Neue', sans-serif;
+    */
+     word-wrap: break-word;
+     overflow: hidden;
+     line-height: 1.7;
+     text-size-adjust: 100%;
+     -ms-text-size-adjust: 100%;
+     -webkit-text-size-adjust: 100%;
+     -moz-text-size-adjust: 100%;
 }
-
-.book .book-body {
-    background: #f2f2f1;           /* ed */
-    -webkit-transition: left 250ms ease;
-    -moz-transition: left 250ms ease;
-    -o-transition: left 250ms ease;
-    transition: left 250ms ease;
+ .book .book-body {
+     background: #f2f2f1;
+    /* ed */
+     -webkit-transition: left 250ms ease;
+     -moz-transition: left 250ms ease;
+     -o-transition: left 250ms ease;
+     transition: left 250ms ease;
 }
-
 /* link effects */
-/*
-https://stackoverflow.com/questions/28623446/hover-effect-expand-bottom-border
-uri class is for urls
-*/
-
+/* https://stackoverflow.com/questions/28623446/hover-effect-expand-bottom-border uri class is for urls */
 /* This gets rid of default underline*/
-.book .book-body .page-wrapper .page-inner section.normal a:active,
-.book .book-body .page-wrapper .page-inner section.normal a:focus,
-.book .book-body .page-wrapper .page-inner section.normal a:hover {
-    outline: 0;
-    text-decoration: none;
+ .book .book-body .page-wrapper .page-inner section.normal a:active, .book .book-body .page-wrapper .page-inner section.normal a:focus, .book .book-body .page-wrapper .page-inner section.normal a:hover {
+     outline: 0;
+     text-decoration: none;
 }
-
-.book .book-body .page-wrapper .page-inner section.normal a,
-.book .book-body .page-wrapper .page-inner section.normal a.uri {
-    display: inline-block;
-    color: #d74648;                                    /* ed */
-    text-decoration: none;
+ .book .book-body .page-wrapper .page-inner section.normal a, .book .book-body .page-wrapper .page-inner section.normal a.uri {
+     display: inline-block;
+     color: #d74648;
+    /* ed */
+     text-decoration: none;
 }
-
-.book .book-body .page-wrapper .page-inner section.normal a::after,
-.book .book-body .page-wrapper .page-inner section.normal a.uri::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 1.5px;
-    background: #2c424a;                     /* ed */
-    transition: width .3s;
+ .book .book-body .page-wrapper .page-inner section.normal a::after, .book .book-body .page-wrapper .page-inner section.normal a.uri::after {
+     content: '';
+     display: block;
+     width: 0;
+     height: 1.5px;
+     background: #2c424a;
+    /* ed */
+     transition: width .3s;
 }
-
-.book .book-body .page-wrapper .page-inner section.normal a:hover::after,
-.book .book-body .page-wrapper .page-inner section.normal a.uri:hover::after{
-    width: 100%;
-  /*  //transition: width .3s;*/
+ .book .book-body .page-wrapper .page-inner section.normal a:hover::after, .book .book-body .page-wrapper .page-inner section.normal a.uri:hover::after{
+     width: 100%;
+    /* //transition: width .3s;
+    */
 }
-
-
-.body-inner {
-    background-color: #f2f2f1;             /* ed */
-    text-align: justify;
-
+ .body-inner {
+     background-color: #f2f2f1;
+    /* ed */
+     text-align: justify;
 }
-
-.book .book-body .page-wrapper {
-    position: relative;
-    outline: 0;
-    background-color: #f2f2f1;             /* ed */
+ .book .book-body .page-wrapper {
+     position: relative;
+     outline: 0;
+     background-color: #f2f2f1;
+    /* ed */
 }
-
-.book .book-body .page-wrapper .page-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px 0 40px;
+ .book .book-body .page-wrapper .page-inner {
+     max-width: 900px;
+     margin: 0 auto;
+     padding: 20px 0 40px;
 }
-
-.book .book-header {
-    overflow: visible;
-    height: 48px;    /* adjust to match title space*/
-    padding: 0 8px;
-    z-index: 2;
-    font-family: Roboto sans-serif;
-    font-size: .85em;
-    color: #7e888b;
-    background-color: #f2f2f1;             /* ed */
-    /* background: 0 0; */
+ .book .book-header {
+     overflow: visible;
+     height: 48px;
+    /* adjust to match title space*/
+     padding: 0 8px;
+     z-index: 2;
+     font-family: Roboto sans-serif;
+     font-size: .85em;
+     color: #7e888b;
+     background-color: #f2f2f1;
+    /* ed */
+    /* background: 0 0;
+     */
 }
-
 /* only way to set bgcolor of top bar?*/
-.book-body.fixed {
-  background-color: #f2f2f1;             /* ed */
+ .book-body.fixed {
+     background-color: #f2f2f1;
+    /* ed */
 }
-
 /* Rather than resize the header, just get rid of line */
-.book.with-summary .book-header.fixed {
-  background-color: #f2f2f1;             /* ed */
-  font-variant: small-caps;
-  /*font-family: Stalemate Roboto Sans; ignored as all it is doing is taking from index title*/
-  border-bottom: 0 solid rgba(0,0,0,.07);  /*just remove it; this makes height in .book-header above moot*/
-  border-bottom-width: 0;
-  border-bottom-style: solid;
-  border-bottom-color: rgba(0, 0, 0, 0.07);
+ .book.with-summary .book-header.fixed {
+     background-color: #f2f2f1;
+    /* ed */
+     font-variant: small-caps;
+    /*font-family: Stalemate Roboto Sans;
+     ignored as all it is doing is taking from index title*/
+     border-bottom: 0 solid rgba(0,0,0,.07);
+    /*just remove it;
+     this makes height in .book-header above moot*/
+     border-bottom-width: 0;
+     border-bottom-style: solid;
+     border-bottom-color: rgba(0, 0, 0, 0.07);
 }
-
-i {
-  background-color: #f2f2f1;             /* ed */
+ i {
+     background-color: #f2f2f1;
+    /* ed */
 }
-
 /* toc area general */
-.book .book-summary {
-    position: absolute;
-    font-family: "Open Sans", 'Helvetica Neue', Roboto, sans-serif;
-    top: 0;
-    left: -300px;
-    bottom: 0;
-    z-index: 1;
-    width: 300px;
-    color: #364149;  /**/
-    background: #f5f5f540; /* #eaf5fb;  #d9edf7#bdcadb #3572D9 #fafafa*/
-    border-right: 1px solid rgba(0,0,0,.07);
-    -webkit-transition: left 250ms ease;
-    -moz-transition: left 250ms ease;
-    -o-transition: left 250ms ease;
-    transition: left 250ms ease;
+ .book .book-summary {
+     position: absolute;
+     font-family: "Open Sans", 'Helvetica Neue', Roboto, sans-serif;
+     top: 0;
+     left: -300px;
+     bottom: 0;
+     z-index: 1;
+     width: 300px;
+     color: #364149;
+    /**/
+     background: #f5f5f540;
+    /* #eaf5fb;
+     #d9edf7#bdcadb #3572D9 #fafafa*/
+     border-right: 1px solid rgba(0,0,0,.07);
+     -webkit-transition: left 250ms ease;
+     -moz-transition: left 250ms ease;
+     -o-transition: left 250ms ease;
+     transition: left 250ms ease;
 }
-
 /* nav/menu area */
-.book .book-summary ul.summary li a, .book .book-summary ul.summary li span {
-    display: block;
-    padding: 10px 25px;
-    border-bottom: none;
-    color: #364149; /**/
-    background: 0 0;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    position: relative;
-/*    font-family: Lato,'Roboto Condensed', sans; */
-    /* font-variant: small-caps; */
+ .book .book-summary ul.summary li a, .book .book-summary ul.summary li span {
+     display: block;
+     padding: 10px 25px;
+     border-bottom: none;
+     color: #364149;
+    /**/
+     background: 0 0;
+     text-overflow: ellipsis;
+     overflow: hidden;
+     white-space: nowrap;
+     position: relative;
+    /* font-family: Lato,'Roboto Condensed', sans;
+     */
+    /* font-variant: small-caps;
+     */
 }
-
-
-.book .book-summary ul.summary li a:hover, .book .book-summary ul.summary li.active>a {
-  color: #f2f2f1;             /* ed */  /*#6197D5*/
-  background-color: #2c424a;              /* ed */
+ .book .book-summary ul.summary li a:hover, .book .book-summary ul.summary li.active>a {
+     color: #f2f2f1;
+    /* ed */
+    /*#6197D5*/
+     background-color: #2c424a;
+    /* ed */
 }
-
 /* so that before and after aren't treated the same as the toc, because why would they? */
-.book .book-summary ul.summary li.before a {
-  color: #2c424a;                                 /* ed */
-  text-decoration: none;
-  font-size: 125%;
-  font-variant: small-caps;
-  /*font-family: 'Roboto Condensed', 'Helvetica Neue', 'Open Sans', Roboto, sans-serif;*/
-  font-weight: 500;
+ .book .book-summary ul.summary li.before a {
+     color: #2c424a;
+    /* ed */
+     text-decoration: none;
+     font-size: 125%;
+     font-variant: small-caps;
+    /*font-family: 'Roboto Condensed', 'Helvetica Neue', 'Open Sans', Roboto, sans-serif;
+    */
+     font-weight: 500;
 }
-
-
-.book .book-summary ul.summary li.before a:hover,
-.book .book-summary ul.summary li.before li.active>a {
-  color: #f2f2f1;             /* ed */  /*#6197D5*/
-  background-color: #2c424a;                         /* ed */
-  text-decoration: none;
+ .book .book-summary ul.summary li.before a:hover, .book .book-summary ul.summary li.before li.active>a {
+     color: #f2f2f1;
+    /* ed */
+    /*#6197D5*/
+     background-color: #2c424a;
+    /* ed */
+     text-decoration: none;
 }
-
-.book .book-summary ul.summary li.after a, .book .book-summary ul.summary li.after a:hover {
-  background-color: transparent;
+ .book .book-summary ul.summary li.after a, .book .book-summary ul.summary li.after a:hover {
+     background-color: transparent;
 }
-
-/* divider line for the title before and other stuff  after toc */
-.book .book-summary ul.summary li.divider{
-    height:1px;
-    margin:7px 0;
-    overflow:hidden;
-    background:rgba(0,0,0,.07)
+/* divider line for the title before and other stuff after toc */
+ .book .book-summary ul.summary li.divider{
+     height:1px;
+     margin:7px 0;
+     overflow:hidden;
+     background:rgba(0,0,0,.07)
 }
-
-.book .book-body .page-wrapper .page-inner section.normal pre {
-    overflow: auto;
-    word-wrap: normal;
-    margin: 0 0 1.275em;
-    padding: .85em 1em;
-    background: #fafafa;
+ .book .book-body .page-wrapper .page-inner section.normal pre {
+     overflow: auto;
+     word-wrap: normal;
+     margin: 0 0 1.275em;
+     padding: .85em 1em;
+     background: #fafafa;
 }
-
-
-.book .book-body .page-wrapper .page-inner section.normal code,
-.book .book-body .page-wrapper .page-inner section.normal pre {
-    font-family: 'Roboto Mono', Monaco, Consolas, "Liberation Mono", Menlo, 'Courier New', monospace;
-    direction: ltr;
-    border: none;
-    color: inherit;
-    background: #fbfbfb;
+ .book .book-body .page-wrapper .page-inner section.normal code, .book .book-body .page-wrapper .page-inner section.normal pre {
+     font-family: 'Roboto Mono', Monaco, Consolas, "Liberation Mono", Menlo, 'Courier New', monospace;
+     direction: ltr;
+     border: none;
+     color: inherit;
+     background: #fbfbfb;
 }
-
-.book .book-body .page-wrapper .page-inner section.normal .note {
-  background-color: #fafafa;
-  /*background-image: url('../img/R.ico');*/
-  font-size: 80% ;
-  margin: auto;
-  font-weight: 500;
-  max-width: 75%;
-  border-width: 10px;
-  border-color: #bfbfbf;
-  box-shadow: 10px 10px 5px #EBEBEB; /*#888888*/
-  padding: 1em;
+ .book .book-body .page-wrapper .page-inner section.normal .note {
+     background-color: #fafafa;
+    /*background-image: url('../img/R.ico');
+    */
+     font-size: 80% ;
+     margin: auto;
+     font-weight: 500;
+     max-width: 75%;
+     border-width: 10px;
+     border-color: #bfbfbf;
+     box-shadow: 10px 10px 5px #EBEBEB;
+    /*#888888*/
+     padding: 1em;
 }
-
 /* headers */
-
-h1, h2, h3, h4, h5 {
-  color:#2c424a;                    /* ed */
-  font-family: 'Jost';     /* ed */
+ h1, h2, h3, h4, h5 {
+     color:#2c424a;
+    /* ed */
+     font-family: 'Jost';
+    /* ed */
 }
-
 /* notes */
-
-.img-note {
-  vertical-align: central;
-  width: 2em;
+ .img-note {
+     vertical-align: central;
+     width: 2em;
 }
-
-.footnotes {
-  color: #00000080;
+ .footnotes {
+     color: #00000080;
 }
-
-.book .book-body .page-wrapper .page-inner section.normal blockquote {
-    margin: 0 0 .85em;
-    padding: 0 15px;
-    opacity: 0.85;  /* Default .75 too light*/
-    font-size: 90%;
-    border-left: 4px solid #dcdcdc;
+ .book .book-body .page-wrapper .page-inner section.normal blockquote {
+     margin: 0 0 .85em;
+     padding: 0 15px;
+     opacity: 0.85;
+    /* Default .75 too light*/
+     font-size: 90%;
+     border-left: 4px solid #dcdcdc;
 }
-
-
-
 /* code */
-
 /* logical NA */
-.ot {
- color: #337ab7;
+ .ot {
+     color: #337ab7;
 }
-
 /* comment */
-code span.co {
- color: #6078B0;  /*Old #60a0b0 did not have sufficient contrast*/
- font-weight: 500;
+ code span.co {
+     color: #6078B0;
+    /*Old #60a0b0 did not have sufficient contrast*/
+     font-weight: 500;
 }
-
-code span.kw {
- color: #007020;
- font-weight: 500;
+ code span.kw {
+     color: #007020;
+     font-weight: 500;
 }
-
 /* control flow */
-code span.cf {
- color: #007020;
- font-weight: 500;
+ code span.cf {
+     color: #007020;
+     font-weight: 500;
 }
-
 /* char/string */
-.ch, .st {
- color: #aa5500;
+ .ch, .st {
+     color: #aa5500;
 }
-
 /* args */
-.dt {
-
+ .dt {
 }
-
 /* package */
-code span.st {
- color: #aa5500;
+ code span.st {
+     color: #aa5500;
 }
-
 /* float, other */
-.fl, .dv {
- color: #23527c;
+ .fl, .dv {
+     color: #23527c;
 }
-
 /* override pygments setting code to a tag */
-.book .book-body .page-wrapper .page-inner section.normal pre code a {
-  color: #585858;
+ .book .book-body .page-wrapper .page-inner section.normal pre code a {
+     color: #585858;
 }
-
 /* img */
-
-img {
-  display: block;
-  margin: 0 auto;
-  padding-top: 20px;
-  padding-bottom: 20px;
+ img {
+     display: block;
+     margin: 0 auto;
+     padding-top: 20px;
+     padding-bottom: 20px;
 }
-
-.arc {
-  display: block;
-  width:30%;
-  padding:5px 0;
-  margin: 0 0 10px 0;
+ .arc {
+     display: block;
+     width:30%;
+     padding:5px 0;
+     margin: 0 0 10px 0;
 }
-
-.cscar {
-  display: block;
-  width:21%;
-  padding:5px 0;
-  margin: 0 0 10px 0;
+ .cscar {
+     display: block;
+     width:21%;
+     padding:5px 0;
+     margin: 0 0 10px 0;
 }
-
 /* zoom for img*/
-.zoom {
-    transition: all .3s;
+ .zoom {
+     transition: all .3s;
 }
-
-.zoom:hover {
-    transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+ .zoom:hover {
+     transform: scale(1.5);
+    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
-
-
 /* creative commons, github icons */
-.fab .fa-creative-commons, .fa-creative-commons-sa, .fa-creative-commons-by, .fa-github, .fa-lg {
-  color: #2c424a;               /* ed */
-  background-color: transparent;
+ .fab .fa-creative-commons, .fa-creative-commons-sa, .fa-creative-commons-by, .fa-github, .fa-lg {
+     color: #2c424a;
+    /* ed */
+     background-color: transparent;
 }
-
-.fab, .fas, .far {
-  vertical-align: middle;
-  color: #2c424aCC;        /* ed */
+ .fab, .fas, .far {
+     vertical-align: middle;
+     color: #2c424aCC;
+    /* ed */
 }
-
-.definition, .theorem, .lemma, .claim {
-  background-color: #8dbef13b;
-  border: 2px;
-  padding: 10px;
-  border-radius: 25px;
-  margin: 5px;
+ .definition, .theorem, .lemma, .claim {
+     background-color: #8dbef13b;
+     border: 2px;
+     padding: 10px;
+     border-radius: 25px;
+     margin: 5px;
 }
-
-
-.proof {
-    background-color: #f1e08d3b;
-  border: 2px;
-  padding: 10px;
-  border-radius: 25px;
-  margin: 5px;
+ .proof {
+     background-color: #f1e08d3b;
+     border: 2px;
+     padding: 10px;
+     border-radius: 25px;
+     margin: 5px;
 }
-
-.exercise {
-      background-color: #FFC4C3;  /* #8ff18d3b; */
-  border: 2px;
-  padding: 10px;
-  border-radius: 25px;
-  margin: 5px;
-
+ .exercise {
+     background-color: #FFC4C3;
+    /* #8ff18d3b;
+     */
+     border: 2px;
+     padding: 10px;
+     border-radius: 25px;
+     margin: 5px;
 }
-
-
 /* text highlights */
-.book .book-body .page-wrapper .page-inner section.normal em, .emph {
-  color: #2c424aBF;  /*#E32D00 #ff5500 #D14300*/       /* ed */
-  font-weight: 500;
-  font-style: normal;
+ .book .book-body .page-wrapper .page-inner section.normal em, .emph {
+     color: #2c424aBF;
+    /*#E32D00 #ff5500 #D14300*/
+    /* ed */
+     font-weight: 500;
+     font-style: normal;
 }
-
-/* pack func and objclass colors initially come from hcl(seq(90,360, length.out=4), c=80, l=80); redone for contrast*/
-.pack {
-  color: #1f65b7; /* #990071 #AC9CFF #e41a1c*/
-  font-weight: 500;
+/* pack func and objclass colors initially come from hcl(seq(90,360, length.out=4), c=80, l=80);
+ redone for contrast*/
+ .pack {
+     color: #1f65b7;
+    /* #990071 #AC9CFF #e41a1c*/
+     font-weight: 500;
 }
-
-.func {
-  color: #007020;   /*#007199 #00CBB6; #984ea3; can just use `` instead*/
-  font-weight: 500;
+ .func {
+     color: #007020;
+    /*#007199 #00CBB6;
+     #984ea3;
+     can just use `` instead*/
+     font-weight: 500;
 }
-
-.objclass {
-  color:  #947100;  /*#AAB400 #4daf4a; #FFC5D0*/
-  font-weight: 500;
+ .objclass {
+     color: #947100;
+    /*#AAB400 #4daf4a;
+     #FFC5D0*/
+     font-weight: 500;
 }
-
-
 /* miscellaneous */
-
-.col2 {
-  columns: 2 200px;         /* number of columns and width in pixels*/
-  -webkit-columns: 2 200px; /* chrome, safari */
-  -moz-columns: 2 200px;    /* firefox */
+ .col2 {
+     columns: 2 200px;
+    /* number of columns and width in pixels*/
+     -webkit-columns: 2 200px;
+    /* chrome, safari */
+     -moz-columns: 2 200px;
+    /* firefox */
 }
-
-.col3 {
-  columns: 3 100px;
-  -webkit-columns: 3 100px;
-  -moz-columns: 3 100px;
+ .col3 {
+     columns: 3 100px;
+     -webkit-columns: 3 100px;
+     -moz-columns: 3 100px;
 }
-
-.plotly {
-  margin-left: 5%;
-  margin-right: 5%;
+ .plotly {
+     margin-left: 5%;
+     margin-right: 5%;
 }
-
 /*.plotly html-widget {
-  width: 100%;
-}*/
-
-.d3heatmap {
-  margin-left: 5%;
-  margin-right: 5%;
-  width: 75%;
+     width: 100%;
 }
-
-
+*/
+ .d3heatmap {
+     margin-left: 5%;
+     margin-right: 5%;
+     width: 75%;
+}
 /* tables */
-
-.book .book-body .page-wrapper .page-inner section.normal table {
-  margin-left:  auto;
-  margin-right: auto;
-  margin-top: 25px;
-  margin-bottom: 25px;
+ .book .book-body .page-wrapper .page-inner section.normal table {
+     margin-left: auto;
+     margin-right: auto;
+     margin-top: 25px;
+     margin-bottom: 25px;
 }
-
-.book .book-body .page-wrapper .page-inner section.normal table tr:nth-child(2n) {
-    background-color: white;
+ .book .book-body .page-wrapper .page-inner section.normal table tr:nth-child(2n) {
+     background-color: white;
 }
-
-div.datatables {
-    margin-left: auto;     /* to center them when full is not necessary. */
-    margin-right: auto;
+ div.datatables {
+     margin-left: auto;
+    /* to center them when full is not necessary. */
+     margin-right: auto;
 }
-
-
 /* center font-awesome icons */
-[class^="fas"], [class*="fas"] {
-  padding-top: 20px;
-  padding-bottom: 20px;
+ [class^="fas"], [class*="fas"] {
+     padding-top: 20px;
+     padding-bottom: 20px;
 }
-
-[class^="fab"], [class*="fab"] {
-  padding-top: 20px;
-  padding-bottom: 20px;
+ [class^="fab"], [class*="fab"] {
+     padding-top: 20px;
+     padding-bottom: 20px;
 }
-
-[class^="far"], [class*="far"] {
-  padding-top: 20px;
-  padding-bottom: 20px;
+ [class^="far"], [class*="far"] {
+     padding-top: 20px;
+     padding-bottom: 20px;
 }
-
 /* formulas */
-.MJXc-display {
-  padding-top: 20px !important;
-  padding-bottom: 20px !important;
+ .MJXc-display {
+     padding-top: 20px !important;
+     padding-bottom: 20px !important;
 }
-
-.MJXc-inline {
+ .MJXc-inline {
 }
-
-
 /* hack for making sure that we can click the github logo */
-.book .book-body .navigation.navigation-next {
-  margin-top: 75px;
-
+ .book .book-body .navigation.navigation-next {
+     margin-top: 75px;
 }
-
-
-/* @media (max-width: 789px) and (min-width: 200px)
-
-{
-
-.book .book-body .page-wrapper .page-inner section.normal img {
-
-margin-top: 9%;
-padding-bottom: 0px;
-
+/* @media (max-width: 789px) and (min-width: 200px) {
+     .book .book-body .page-wrapper .page-inner section.normal img {
+         margin-top: 9%;
+         padding-bottom: 0px;
+    }
+     div#preface p:nth-child(2) {
+         text-align: left;
+    }
+     div#preface p a:first-child {
+         display: unset;
+    }
+     div#preface p:nth-child(2) a:after {
+         display: unset;
+    }
+     .body-inner {
+         text-align: left !important;
+    }
 }
-
-div#preface p:nth-child(2) {
-text-align: left;
+ */
+/*@media (max-width: 789px) and (min-width: 200px) {
+     .book .book-body .page-wrapper .page-inner section.normal img {
+         margin-top: 9%;
+         padding-bottom: 0px;
+    }
+     div#preface p:nth-child(2) {
+         text-align: left;
+    }
+     div#preface p a:first-child {
+         display: unset;
+    }
+     div#preface p:nth-child(2) a:after {
+         display: unset;
+    }
+     .body-inner {
+         text-align: left !important;
+    }
+     .book .book-body .page-wrapper .page-inner section.normal b, .book .book-body .page-wrapper .page-inner section.normal strong {
+         font-size: 12px !important;
+         text-align: left !important;
+         display: unset !important;
+    }
+     .theorem span {
+         width:100%;
+    }
+     .theorem strong {
+         width:100%;
+    }
 }
-
-div#preface p a:first-child {
-
-display: unset;
+ .theorem span {
+     display:block;
+     width:55%;
 }
-
-div#preface p:nth-child(2) a:after {
-display: unset;
-
-}
-
-.body-inner {
-text-align: left !important;
-}
-
+ .theorem strong {
+     display:block;
+     width:55%;
 }
 */
-
-
-
-
-
-
-/*@media (max-width: 789px) and (min-width: 200px)
-
-{
-
-.book .book-body .page-wrapper .page-inner section.normal img {
-
-margin-top: 9%;
-padding-bottom: 0px;
-
+ @media (max-width: 789px) and (min-width: 200px) {
+     .book .book-body .page-wrapper .page-inner section.normal img {
+         margin-top: 9%;
+         padding-bottom: 0px;
+    }
+     div#preface p:nth-child(2) {
+         text-align: left;
+    }
+     div#preface p a:first-child {
+         display: unset;
+    }
+     div#preface p:nth-child(2) a:after {
+         display: unset;
+    }
+     .body-inner {
+         text-align: left !important;
+    }
+     .book .book-body .page-wrapper .page-inner section.normal b, .book .book-body .page-wrapper .page-inner section.normal strong {
+        /*font-size: 12px !important;
+         text-align: left !important;
+         display: unset !important;
+         */
+    }
 }
-
-div#preface p:nth-child(2) {
-text-align: left;
-}
-
-div#preface p a:first-child {
-
-display: unset;
-}
-
-div#preface p:nth-child(2) a:after {
-display: unset;
-
-}
-
-.body-inner {
-text-align: left !important;
-}
-
-.book .book-body .page-wrapper .page-inner section.normal b, .book .book-body .page-wrapper .page-inner section.normal strong {
-font-size: 12px !important;
-text-align: left !important;
-display: unset !important;
-
-}
-.theorem span {
-
-width:100%;
-}
-.theorem strong {
-
-width:100%;
-}
-
-}
-
-.theorem span {
-display:block;
-width:55%;
-}
-
-.theorem strong {
-display:block;
-width:55%;
-}*/
-
-
-
-
-
-@media (max-width: 789px) and (min-width: 200px)
-
-{
-
-.book .book-body .page-wrapper .page-inner section.normal img {
-
-margin-top: 9%;
-padding-bottom: 0px;
-
-}
-
-div#preface p:nth-child(2) {
-text-align: left;
-}
-
-div#preface p a:first-child {
-
-display: unset;
-}
-
-div#preface p:nth-child(2) a:after {
-display: unset;
-
-}
-
-.body-inner {
-text-align: left !important;
-}
-
-.book .book-body .page-wrapper .page-inner section.normal b, .book .book-body .page-wrapper .page-inner section.normal strong {
-/*font-size: 12px !important;
-text-align: left !important;
-display: unset !important;
-*/
-
-}
-
-}
-
 /*.theorem span {
-display:block !important;
-
+     display:block !important;
 }
-
-.theorem strong {
-display:block !important;
-
-}*/
-
-.definition {
-  display:inline-block;
-  text-align:left;
+ .theorem strong {
+     display:block !important;
 }
-
-.chapter > a{
-  font-weight:bold;
+*/
+ .definition {
+     display:inline-block;
+     text-align:left;
 }
-.chapter > ul > li a{
-  font-weight:normal;
+ .chapter > a{
+     font-weight:bold;
 }
-
-
-li.part > span   {
-
-  opacity: 1 !important
+ .chapter > ul > li a{
+     font-weight:normal;
 }
-
-li.part > span > b {
-
-  color: #d74648 !important
+ li.part > span {
+     opacity: 1 !important
 }
-
-.book.with-summary .book-header.fixed {
-  left: 400px;
+ li.part > span > b {
+     color: #d74648 !important
 }
-
-.book.with-summary .book-body {
-  left: 400px;
+ .book.with-summary .book-header.fixed {
+     left: 400px;
 }
-
-.book .book-summary {
-  width: 400px;
+ .book.with-summary .book-body {
+     left: 400px;
 }
-
-.book .book-body .navigation {
-  color: #000000;
+ .book .book-summary {
+     width: 400px;
 }
-
-i.fa {
-  border: 1px solid #ccc !important;
-  border-radius: 5px;
+ .book .book-body .navigation {
+     color: #000000;
+}
+ i.fa {
+     border: 1px solid #ccc !important;
+     border-radius: 5px;
 }
