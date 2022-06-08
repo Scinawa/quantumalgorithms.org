@@ -1,11 +1,4 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
-
-# Quantum algorithms for Monte Carlo {#chap:montecarlo}
+# Quantum algorithms for Monte Carlo {#chap-montecarlo}
 
 <div style="text-align: right"> Contributors: Michele Vischi, Alessandro Luongo </div>
 <br>
@@ -198,12 +191,11 @@ for any function $f(x)$ with binary values $0$ or $1$. The target qubit will alw
 
 
 
-<!-- THIS IS HOW YOU INCLUDE AN ALGORITHM -->
 
 We are then ready to state the quantum algorithm to estimate $\mathbb{E}[\nu(A)]$ when the output of $A$ is bounded between $0$ and $1$.
- ```{r, quantum-montecarlo-01, fig.cap="Quantum algorithm for Monte Carlo (bounded variables). A makes no measurement until the end of the algorithm and its final measurement is a measurement of the last k qubits in the computational basis.", echo=FALSE} 
+```{r, quantum-montecarlo-01, fig.cap="Quantum algorithm for Monte Carlo (bounded variables). A makes no measurement until the end of the algorithm and its final measurement is a measurement of the last k qubits in the computational basis.", echo=FALSE} 
 knitr::include_graphics("algpseudocode/quantum-montecarlo-01.png")
-``` 
+```
 
 
 Applying amplitude estimation together with the powering lemma \@ref(lem:powering-lemma), one can prove the following theorem valid for algorithm \@ref(fig:quantum-montecarlo-01).
@@ -373,14 +365,18 @@ S_0 = e^{-rT}\mathbb{E}_{\mathbb{Q}}[S_T]
 \end{equation}
 This is usually referred to as the Martingale property: the expectation value (under $\mathbb{Q}$) of the stock price at time $T$ multiplied by the discount factor, is the present stock price $S_0$. This means that at any time, and on average (!!), the price of the stock can not increase (decrease) above (below) the market rate $r$. Or informally we might say that the expected value of the stock price, on average (!!), will not change over time, so that there is no chance for the buyer or seller of any option to earn money out of nothing.
 The price dynamics under the arbitrage probability measure is described by:
+
 \begin{equation}
-dS_t = S_t r\, dt +S_t\sigma d\tilde{W}_t
+dS_t = S_t r dt +S_t\sigma d\tilde{W}_t
 \end{equation}
+
 where $\tilde{W}_t$ is again a Brownian motion under the probability measure $\mathbb{Q}$. (One can define $\tilde{W}_t$ out of $W_t$ and show that it is a Brownian motion \textit{da verificare questa cosa!}).
 The whole problem of option pricing is then the evaluation of the following quantity:
+
 \begin{equation}
 \Pi = e^{-rT}\mathbb{E}_{\mathbb{Q}}[f(S_T)] 
 \end{equation}
+
 This is the expected value of the option payoff discounted to its present value under the arbitrage free probability measure. The function $f(\dot)$ is now any generic payoff function for the given option. This is in essence the BSM model.
 When $f(S_T)$ is the payoff function of the European call option that we saw above, one can find an analytical solution to $\Pi$. 
 Notice that this can not always be true. For complicated payoff functions or more complex asset price dynamics, analytical methods are useless and one often resorts to Monte Carlo methods, because the task is to estimate an expected value of some function of random variables.
@@ -450,9 +446,11 @@ A_T^{geo} =\exp\frac{1}{L}\sum_{l=1}^L \log{S_{t_l}}
 for predefined time points $0<t_1< \ldots <t_L\leq T$ with $L\geq 1$. Note that if you develop the summation in the geometric mean, and use the facts that $a\log{x}= \log{x^a}$ and $\exp{\log{x}}= x$, one retrives the more common definition of the geometric mean $A_T^{geo}= \bigg(\prod_{l=1}^L S_{t_l}\bigg)^{1/L}$.
 We assume in the following that all adjacent time points are separated by the interval $\Delta t$, i.e. $t_{l+1}-t_{l} = \Delta t = T/L$ for all $l= 1,\dots,L-1$.
 Analogously to the European option, we assume to have quantum sampling access \@ref(q-sampling-access) to a state that corresponds to the Gaussian distribution with variance $\Delta t$:
-\begin{equation} 
+
+\begin{align}
 \ket{p_{\Delta t}} = G\ket{0^m} = \sum_{j=0}^{2^m-1}\sqrt{p_{\Delta t}(x_j)}\ket{j}
-\end{equation}
+\end{align}
+
 where now $m$ is the number of discrete points over which one can define a value for the stock price.
 The above state has $m$ qubits and it can be prepared thanks to suitable quantum sampling access \@ref(q-sampling-access).
 With such a state we performed the first key step to apply Monte Carlo techniques in the quantum regime: we stored the right probability distribution in the amplitudes of the qubit register for a given time $t_i$. Indeed for a given $i$, the stock price is distributed according to a normal random variable with variance $\Delta t$. We want to prepare the product of such states for every $t_i$ with $i=1,\dots,L$. 
@@ -469,7 +467,7 @@ If you wonder why to introduce such operation, consider a state $\ket{j_1,\dots,
 In this way, when using such operation on the state $\ket{p}$ we will get a superposition in which the ancillary registers encode the averages associated to any possible stock price path. Since we want an estimate of the mean of these averages, we should be not surprised anymore.
 
 To be able to apply such a transformation, each index $j$ is mapped to its corresponding point $x_j$ via $x_j = -x_{max}+j\Delta x$. Starting from the known $S_0$, we can compute the stock price at each time point by iteration:
-\begin{equation} 
+\begin{equation}
 S_{t_{l+1}}(x) = S_{t_l}e^{\sigma x+(r-\sigma^2/2)\Delta t}
 \end{equation}
 Notice that we embedded the values of $\sigma$ and $r$ in the circuit.

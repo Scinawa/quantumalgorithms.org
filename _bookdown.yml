@@ -1,5 +1,5 @@
-book_filename: "quantumalgos"
-delete_merged_file: true
+book_filename: "quantumalgorighms"
+delete_merged_file: false
 language:
   ui:
     chapter_name: "Chapter "
@@ -10,7 +10,6 @@ rmd_files: ["index.Rmd",
 "toolbox.Rmd",
 "perceptron.Rmd",
 "sve-based-quantum-algorithms.Rmd",
-#"between.Rmd",
 "montecarlo.Rmd",
 "dimensionality-reduction.Rmd",
 "q-means.Rmd",
@@ -19,6 +18,7 @@ rmd_files: ["index.Rmd",
 "graphs.Rmd",
 "lower-bounds.Rmd",
 "selected-works.Rmd",
+#"between.Rmd",
 #"glossary.Rmd",
 "appendix.Rmd"
 ]

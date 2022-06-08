@@ -14,7 +14,7 @@ $$\braket{\psi | M_1 M_2 |\psi } \neq \braket{\psi | M_1  |\psi } \braket{\psi |
 
 - **Strong Exponential Time Hypothesis**: some believes that $\delta=1$.
 
-
+- https://en.wikipedia.org/wiki/Tsirelson%27s_bound
 
 <!-- - **PCP Theorem **: A language is in NP iif it has witness that can be verified probabilistically using only $O(\log n)$ bits of randomness and a constant number of queries to bits of the witness.  -->
 

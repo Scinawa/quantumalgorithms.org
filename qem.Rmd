@@ -1,17 +1,11 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
-# Quantum Expectation-Maximization {#chap:qem}
+# Quantum Expectation-Maximization {#chap-qem}
 
 In this chapter we discuss the quantum version of Expectation-Maximization (EM). EM is an iterative algorithm that have been broadly used (and re-discovered) in many part of machine learning and statistics. As is common in machine learning literature, we introduce the Expectation-Maximization algorithm by using it to fit Gaussian mixture models (GMM). As the name hints, a Gaussian mixture model is a way of describing a probability density function as a combination of different Gaussian distributions. GMM, and in general all the mixture models, are a popular generative model in machine learning.
 
 
 
 
-## Expectation-Maximization for Gaussian mixture models
+## Expectation-Maximization for GMM
 The intuition behind mixture models is to model complicated distributions by using a group of simpler (usually [uni-modal](https://en.wikipedia.org/wiki/Unimodality)) distributions. In this setting, the purpose of the learning algorithm is to model the data by fitting the joint probability distribution which most likely have generated our samples. It might not be surprising thinking that, given a sufficiently large number of mixture components, it is possible to approximate any density defined in $\mathbb{R}^d$ [@murphy2012machine]. In this section we describe formally GMM, which is a popular mixture model used to solve unsupervised classification problems. Then we propose the first quantum algorithm to fit a GMM with a quantum computer. While there are many classical algorithms that can be used to fit a mixture of Gaussians (which we detail later), this quantum algorithm resemble as much as possible Expectation-Maximization: a iterative method to find (local) maxima of maximum likelihood and maximum a posteriori optimization problems, especially used in unsupervised settings.
 
 
@@ -26,7 +20,7 @@ $$\gamma = (\theta, \vec{\mu}, \vec{\Sigma}) = (\theta, \mu_1, \cdots, \mu_k, \S
 <!-- \widehat{\gamma} = (\widehat \theta, \widehat{\vec{\mu}}, \widehat{\vec{\Sigma}} ) = (\widehat{\theta}, \widehat{\mu_1}, \cdots \widehat{\mu_k}, \widehat{\Sigma_1} \cdots \widehat{\Sigma_k} ) -->
 <!-- \end{equation} -->
 
-that best maximize the log-likelihood (defined in Section \@ref(chap:machinelearning)) for a given dataset. Note that while a $\mu_j$ represents a vector, we define $\vec{\mu}$ as the vector of vectors $\mu_j$, and the same goes for $\vec{\Sigma}$. We will now see how the log-likelihood is defined for a GMM. We use the letter $\phi$ to represent our *base distribution*, which in this case is the probability density function of a Gaussian $\mathcal{N}(\mu, \Sigma)$:
+that best maximize the log-likelihood (defined in Section \@ref(chap-machinelearning)) for a given dataset. Note that while a $\mu_j$ represents a vector, we define $\vec{\mu}$ as the vector of vectors $\mu_j$, and the same goes for $\vec{\Sigma}$. We will now see how the log-likelihood is defined for a GMM. We use the letter $\phi$ to represent our *base distribution*, which in this case is the probability density function of a Gaussian $\mathcal{N}(\mu, \Sigma)$:
 	\begin{equation}
 		\phi(x|\mu, \Sigma) = \frac{1}{(2\pi)^{d/2} |\Sigma|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)\right)
 		(\#eq:gaussian)
@@ -197,7 +191,7 @@ In our case we can deduce that:	$\norm{\sigma_j(y) - \sigma_j(x)} \leq \sqrt{2} 
 
 
 
-## Quantum Expectation-Maximization for GMM {#section:quantum gmm}
+## Quantum Expectation-Maximization for GMM {#section:quantum-gmm}
 In this section, we present a quantum Expectation-Maximization algorithm to fit a GMM. The algorithm can also be adapted to fit other mixtures models where the probability distributions belong to the exponential family. As the GMM is both intuitive and one of the most widely used mixture models, our results are presented for the GMM case.
 
 #### An approximate version of GMM
@@ -244,7 +238,7 @@ knitr::include_graphics("algpseudocode/qem.png")
 
 For the initialization of $\gamma^0$ in the quantum algorithm we can use the same initialization strategies as in classical machine learning. For instance, we can use the classical **random EM** initialization strategy for QEM.
 
-A quantum initialization strategy can also be given using the **k-means++** initializion strategy, which we discuss in Chapter \@ref(chap:q-means). It returns $k$ initial guesses for the centroids $c_1^0 \cdots c_k^0$ consistent with the classical algorithm in time $\left(k^2 \frac{2\eta^{1.5}}{\epsilon\sqrt{\mathbb{E}(d^2(v_i, v_j))}}\right)$, where $\mathbb{E}(d^2(v_i, v_j))$ is the average squared distance between two points of the dataset, and $\epsilon$ is the tolerance in the distance estimation. From there, we can perform a full round of q-means algorithm and get an estimate for $\mu_1^0 \cdots \mu_k^0$. With q-means and the new centroids store in the QRAM we can create the state
+A quantum initialization strategy can also be given using the **k-means++** initializion strategy, which we discuss in Chapter \@ref(chap-q-means). It returns $k$ initial guesses for the centroids $c_1^0 \cdots c_k^0$ consistent with the classical algorithm in time $\left(k^2 \frac{2\eta^{1.5}}{\epsilon\sqrt{\mathbb{E}(d^2(v_i, v_j))}}\right)$, where $\mathbb{E}(d^2(v_i, v_j))$ is the average squared distance between two points of the dataset, and $\epsilon$ is the tolerance in the distance estimation. From there, we can perform a full round of q-means algorithm and get an estimate for $\mu_1^0 \cdots \mu_k^0$. With q-means and the new centroids store in the QRAM we can create the state
 \begin{equation}
 	\ket{\psi^0} := \frac{1}{\sqrt{n}}\sum_{i=1}^{n} \ket{i} \ket{ l(v_{i})}.(\#eq:new-labels)
 	\end{equation}

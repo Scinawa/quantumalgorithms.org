@@ -1,11 +1,4 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
-
-# Quantum algorithms for graph problems {#chap:graphs}
+# Quantum algorithms for graph problems {#chap-graphs}
 
 In this chapter we are going to discuss quantum algorithms for graph theoretical problems. Initial focus of this chapter revolves around the work of [@durr2006quantum], which investigated the query complexity of problems like MINIMUM SPANNING TREE, CONNECTIVITY, STRONG CONNECTIVITY, and SINGLE SOURCE SHORTEST PATH. Classically, these problems can be solved efficiently i.e. in polynomial number of queries to the graph. In this chapter, we will see how to decrease the query complexity of the quantum algorithm further, by applying in a shrewd way amplitude amplification and related algorithms.
 More specifically, in the work of [@durr2006quantum], they used three different versions of the Grover's algorithm. In particular, we state a slightly improved version here, with a quadratic improvement also in the runtime dependence on the probability of failure.
@@ -117,7 +110,7 @@ knitr::include_graphics("algpseudocode/quantum-connectivity.png")
 ```
 
 
-````{theorem, algo-connectivity, name="Quantum algorithm for graph conectivity (adjacency matrix model)"}
+```{theorem, algo-connectivity, name="Quantum algorithm for graph conectivity (adjacency matrix model)"}
 Assume that $U_A$ is a unitary that gives you query access to the adjacency matrix $M$ of an undirected graph $G=(V,E)$. Then, deciding if a graph is connected has an expected number of queries to $U_{A}$ of $\widetilde{O}(n^{3/2})$. In particular, if the graph is connected, algorithm in figure \@ref(fig:quantum-algo-connectivity) returns a spanning tree for $G$ with probability greater than $2/3$.
 ```
 
@@ -127,7 +120,7 @@ The whole algorithm tries to build a spanning tree for the graph. If we succeed,
 
 Initialize the algorithm with an empty edge set $A$ for the spanning tree $T=(V,A)$. We use theorem \@ref(thm:grover-improved) on the operator $U_A$ and the oracle $U_{f_T}$. As usual, $U_A$ is defined as $U_A : \ket{i,j,c} \mapsto \ket{i,j,c\oplus A_{ij}}$. We ecapsulate into the oracle $U_{f_T}$ the data structure that stores the connected components, so we can have a unitary implementing the function $f_T : E \mapsto \{0,1\}$:
 
-$$ f_T(e) \begin{cases}
+$$f_T(e) \begin{cases}
       1 & \text{if } c(T \cup e) < c(T) \\
       0 & \text{otherwise}
       \end{cases}$$

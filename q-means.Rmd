@@ -1,12 +1,4 @@
----
-output:
-  pdf_document: default
-  html_document: default
-
----
-
-
-# q-means {#chap:q-means}
+# q-means {#chap-q-means}
 
 <div style="text-align: right"> Contributors: Alessandro Luongo - based on work [@kerenidis2019qmeans] </div>
 <br>

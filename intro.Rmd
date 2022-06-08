@@ -1,119 +1,198 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-# (PART) - Bridging the gap {-}
+# (PART) Bridging the gap {-}
 
 # Quantum computing and quantum algorithms {#chapter-intro}
 
-
-
-In this chapter we will introduce the notation used throughout the rest of the lecture notes. We will extensively use linear algebra (norm of matrices, SVD, properties of particular matrices, and so on), so the reader is higly encouraged to skim the appendix on his/her own, so to know the notation adopted here.
+In this chapter we will introduce the notation used throughout the rest
+of the lecture notes. We will extensively use linear algebra (norm of
+matrices, SVD, properties of particular matrices, and so on), so the
+reader is higly encouraged to skim the appendix on his/her own, so to
+know the notation adopted here.
 
 ## Getting rid of physics in quantum computing
 
-Following one of the [lectures of Susskind](https://www.youtube.com/watch?v=8mi0PoPvLvs), we are going to start from a "handwavy" introduction of quantum mechanics, that starts from few considerations and lead straight to the Schrödinger equation. With a few mathematical tricks, we are going to give an intuitive justification of all the 4 axioms of quantum mechanics that are stated in the next sections. The hope is that thanks to this introduction, the reader can be gently guided from a tiny physical intuition to a greater understanding of the **axioms of quantum mechanics**. Despite the name "axioms of quantum mechanics" might seems (obviously) related to physics, thanks to this formulation (which comes from [@NC02]), we could eventually think of them as "axioms of quantum computing". As [Scott Aaronson](https://www.youtube.com/watch?v=SJkbe4Rkv9c) rightly said, if you are not a physicist, you need to remove physics from quantum mechanics to understanding it!
+Following one of the [lectures of
+Susskind](https://www.youtube.com/watch?v=8mi0PoPvLvs), we are going to
+start from a "handwavy" introduction of quantum mechanics, that starts
+from few considerations and lead straight to the Schrödinger equation.
+With a few mathematical tricks, we are going to give an intuitive
+justification of all the 4 axioms of quantum mechanics that are stated
+in the next sections. The hope is that thanks to this introduction, the
+reader can be gently guided from a tiny physical intuition to a greater
+understanding of the **axioms of quantum mechanics**. Despite the name
+"axioms of quantum mechanics" might seems (obviously) related to
+physics, thanks to this formulation (which comes from [@NC02]), we could
+eventually think of them as "axioms of quantum computing". As [Scott
+Aaronson](https://www.youtube.com/watch?v=SJkbe4Rkv9c) rightly said, if
+you are not a physicist, you need to remove physics from quantum
+mechanics to understanding it!
 
-The objective is that the reader should *not* feel the need to dig into quantum mechanical details of quantum computers, but can comfortably sit on top of the 4 axioms of quantum mechanics, and build (a lot) from there.
+The objective is that the reader should *not* feel the need to dig into
+quantum mechanical details of quantum computers, but can comfortably sit
+on top of the 4 axioms of quantum mechanics, and build (a lot) from
+there.
 
+When, at the beginning of the 20th century, physicists started to model
+quantum phenomena, they observed that the dynamic of the systems had two
+properties: they observed that the time and space evolution of quantum
+systems is continuous (as in classical mechanics) and reversible (unlike
+the classical world). They decided to formalize this concept as follows.
+First, they decided to model the state of a quantum system at time $p$
+as a function $\psi(p)$, and they decided to model the evolution of
+$\psi(p)$ for time $t$ as an operator $U(t)$ acting on $\psi(p)$s.
+Formally, the two requirements can be written as:
 
+-   $U(\epsilon)=I-i\epsilon H$ (continuity)
+-   $U^\dagger(t)U(t)=I$ (reversibility)
 
-When, at the beginning of the 20th century, physicists started to model quantum phenomena, they observed that the dynamic of the systems had two properties: they observed that the time and space evolution of quantum systems is continuous (as in classical mechanics) and reversible (unlike the classical world). They decided to formalize this concept as follows. First, they decided to model the state of a quantum system at time $p$ as a function $\psi(p)$, and they decided to model the evolution of $\psi(p)$ for time $t$ as an operator $U(t)$ acting on $\psi(p)$s. Formally, the two requirements can be written as:
-
-
-- $U(\epsilon)=I-i\epsilon H$ (continuity)
-- $U^\dagger(t)U(t)=I$ (reversibility)
-
-The first requirement reads that if we were to apply an evolution for a small amount of time $\epsilon$, then $U$ would behave almost as the identiy, and then it will apply for a "small" amount another operator $H$. The second requirement reads that if we "undo" the operator $U$, by applying the transpose conjugate, we would obtain the identity, i.e. we haven't change the state of the system.
-From these two requirements, we can already derive the following observation.
+The first requirement reads that if we were to apply an evolution for a
+small amount of time $\epsilon$, then $U$ would behave almost as the
+identity, and then it will apply for a "small" amount another operator
+$H$. The second requirement reads that if we "undo" the operator $U$, by
+applying the transpose conjugate, we would obtain the identity, i.e. we
+haven't change the state of the system. From these two requirements, we
+can already derive the following observation.
 
 $$I = U^\dagger(\epsilon)U(\epsilon)= (I+i\epsilon H)(I-i\epsilon H) = I -i \epsilon H + i \epsilon H^\dagger + O(\epsilon^2).$$
 The only way for this equation to hold is for $H=H^\dagger$.
 
-I.e. the operator $H$ should be equal to its transpose conjugate. In mathematics, we have a name for such operators, and they are called Hermitian operators! (More about those in the appendix!).
-Now we can ask ourselves what happens when we apply $U(\epsilon)$ to a quantum state $\psi(t)$? Well it's simple to see now:
+I.e. the operator $H$ should be equal to its transpose conjugate. In
+mathematics, we have a name for such operators, and they are called
+Hermitian operators! (More about those in the appendix!). Now we can ask
+ourselves what happens when we apply $U(\epsilon)$ to a quantum state
+$\psi(t)$? Well it's simple to see now:
 $$U(\epsilon)\psi(t) = \psi(t+\epsilon) = \psi(t) -i \epsilon H\psi(t).$$
 With a little algebra we can rewrite the previous equation as:
 
-$$ \frac{\psi(t+\epsilon) -  \psi(t)}{\epsilon} = -i  H\psi(t).$$
-Note that the left-hand side part of this equation can be rewritten as a derivative:
-$$\frac{d}{dt}\psi(t) = -i H \psi(t).$$
-But this is the well-known Schrödinger equation! Note that, as computer scientists, we take the right to remove some physical constant ($\hbar$) out of the equation. What should be the takeaway of these observations? Well, first we know that the Schrödinger equation is a differential equation whose solution is fully determined if we were to know the initial state of our system $\psi(p)$. Formally the solution can be written as:
+$$ \frac{\psi(t+\epsilon) -  \psi(t)}{\epsilon} = -i  H\psi(t).$$ Note
+that the left-hand side part of this equation can be rewritten as a
+derivative: $$\frac{d}{dt}\psi(t) = -i H \psi(t).$$ But this is the
+well-known Schrödinger equation! Note that, as computer scientists, we
+take the right to remove some physical constant ($\hbar$) out of the
+equation. What should be the takeaway of these observations? Well, first
+we know that the Schrödinger equation is a differential equation whose
+solution is fully determined if we were to know the initial state of our
+system $\psi(p)$. Formally the solution can be written as:
 
-$$\psi(p+t)=e^{-iHt}\psi(p).$$
-From this last equation we can observe further (more on this in the appendix) that the exponential of an Hermitian matrix $e^{-iHt}$ is *defined* through its Taylor expansion is just a *unitary* matrix: $U(t)=e^{-itH}$. Unitary matrices are exactly those matrices that describe isometries: applying a unitary matrix to a vector won't change its length. From this, we see that the two quantum states $\psi(p+t)$ and $\psi(p)$ could be taken just to be vectors of a fixed length, which - for practicality - we take to be unit vectors. Notation-wise, we denote unit vectors describing quantum states as "kets", i.e. we rewrite this equation as:
+$$\psi(p+t)=e^{-iHt}\psi(p).$$ From this last equation we can observe
+further (more on this in the appendix) that the exponential of an
+Hermitian matrix $e^{-iHt}$ is *defined* through its Taylor expansion is
+just a *unitary* matrix: $U(t)=e^{-itH}$. Unitary matrices are exactly
+those matrices that describe isometries: applying a unitary matrix to a
+vector won't change its length. From this, we see that the two quantum
+states $\psi(p+t)$ and $\psi(p)$ could be taken just to be vectors of a
+fixed length, which - for practicality - we take to be unit vectors.
+Notation-wise, we denote unit vectors describing quantum states as
+"kets", i.e. we rewrite this equation as:
 
-$$\ket{\psi(p+t)}=U(t)\ket{\psi(p)}$$
-Hopefully, this introduction should be enough for getting a better intuition of what comes next, and give you a "justification" for the axioms of quantum mechanics.
-
+$$\ket{\psi(p+t)}=U(t)\ket{\psi(p)}$$ Hopefully, this introduction
+should be enough for getting a better intuition of what comes next, and
+give you a "justification" for the axioms of quantum mechanics.
 
 ## Axioms of quantum mechanics {#section-axioms}
-The standard formalism used in Quantum Information is the Dirac's "bra-ket" notation, which we will introduce in this section. We also recall here the postulates of quantum mechanics, and take this opportunity to settle the rest of the notation and preliminaries used in this thesis. For the postulates, we follow the standard formulation in [@NC02].
+
+The standard formalism used in Quantum Information is the Dirac's
+"bra-ket" notation, which we will introduce in this section. We also
+recall here the postulates of quantum mechanics, and take this
+opportunity to settle the rest of the notation and preliminaries used in
+this thesis. For the postulates, we follow the standard formulation in
+[@NC02].
 
 ```{proposition, name="Postulate 1"}
 Associated to any isolated physical system is a complex vector space with inner product (that is, a Hilbert space) known as the state space of the system. The system is completely described by its state vector, which is a unit vector in the system's state space.
 ```
 
-
-
-As quantum states are described by unit vectors, we write $\ket{\psi}$ for a unit vector $\psi \in \mathcal{H}^n$. So for a non-normalized vector $x \in \R^n$, the normalized quantum state is represented as $\ket{x} = \norm{x}^{-1}x = \frac{1}{\norm{x}}\sum_{i=0}^n x_i\ket{i}$. We denote as $\{\ket{i}\}_{i\in[d]}$ the canonical (also called computational) basis for the $d$ dimensional Hilbert space $\mathcal{H}$.  The transpose-conjugate of $\ket{x}$ is defined as $\bra{x}$. We can think of $\ket{x}$ as a column vector, while $\bra{x}$ is a row vector, whose entries have been conjugated. In Dirac's notation, we denote the inner product between two vector as $\braket{x|y}$.
-Their outer product is denoted as $\ket{x}\bra{y} = \sum_{i,j \in [d]}x_i y_j \ket{i}\bra{j} \in \mathcal{H}^d\otimes \mathcal{H}^d$. The smallest quantum system is called a qubit, and is a 2 dimensional unit vector  in $\mathbb{C}^2$. A base for this vector space in quantum notation is denoted as $\ket{0}$ and $\ket{1}$. In this case, the vector $\ket{\varphi} = \alpha\ket{0}+\beta\ket{1}$ for $\alpha,\beta\in \mathbb{C}$ represent a valid quantum state as long as $|\alpha|^2 + |\beta|^2 = 1$.
-
+As quantum states are described by unit vectors, we write $\ket{\psi}$
+for a unit vector $\psi \in \mathcal{H}^n$. So for a non-normalized
+vector $x \in \R^n$, the normalized quantum state is represented as
+$\ket{x} = \norm{x}^{-1}x = \frac{1}{\norm{x}}\sum_{i=0}^n x_i\ket{i}$.
+We denote as $\{\ket{i}\}_{i\in[d]}$ the canonical (also called
+computational) basis for the $d$ dimensional Hilbert space
+$\mathcal{H}$. The transpose-conjugate of $\ket{x}$ is defined as
+$\bra{x}$. We can think of $\ket{x}$ as a column vector, while $\bra{x}$
+is a row vector, whose entries have been conjugated. In Dirac's
+notation, we denote the inner product between two vector as
+$\braket{x|y}$. Their outer product is denoted as
+$\ket{x}\bra{y} = \sum_{i,j \in [d]}x_i y_j \ket{i}\bra{j} \in \mathcal{H}^d\otimes \mathcal{H}^d$.
+The smallest quantum system is called a qubit, and is a 2 dimensional
+unit vector in $\mathbb{C}^2$. A base for this vector space in quantum
+notation is denoted as $\ket{0}$ and $\ket{1}$. In this case, the vector
+$\ket{\varphi} = \alpha\ket{0}+\beta\ket{1}$ for
+$\alpha,\beta\in \mathbb{C}$ represent a valid quantum state as long as
+$|\alpha|^2 + |\beta|^2 = 1$.
 
 ```{proposition, name="Postulate 2"}
 The evolution of a closed quantum system is described by a unitary transformation. That is, the state $\ket{\psi}$  of the system at time $t_1$ is related to the state $\ket{\psi}$  of the system at time $t_2$ by a unitary operator $U$ which depends only on the times $t_1$ and $t_2$.
 ```
 
+A matrix $U\in \mathbb{C}^{d \times d}$ is said to be unitary if
+$UU^\dagger = U^\dagger U = I$, that is, if the inverse of $U$ equal to
+its conjugate transpose. From this fact it follows that unitary matrices
+are norm-preserving, and thus can be used as suitable mathematical
+description of a pure quantum evolution. It is a standard exercise to
+see that the following are all equivalent definition of unitary matrices
+[@DeWolf]:
 
-A matrix $U\in \mathbb{C}^{d \times d}$ is said to be unitary if $UU^\dagger = U^\dagger U = I$, that is, if the inverse of $U$ equal to its conjugate transpose. From this fact it follows that unitary matrices are norm-preserving, and thus can be used as suitable mathematical description of a pure quantum evolution. It is a standard exercise to see that the following are all equivalent definition of unitary matrices [@DeWolf]:
-
-- $\braket{Av, Aw} = \braket{v,w}$ for all $v,w$.
-- $\norm{Av} = \norm{v}$ for all $v$
-- $\norm{Av} = 1$ if $\norm{v}=1$.
-- $U$ is a normal matrix with eigenvalues lying on the unit circle
-- $|\det(U)|=1$
-- The columns and the rows of $U$ form an orthonormal basis of $\mathcal{C}^d$
-- $U$ can be written as $e^{iH}$ for some Hermitian operator $H$.
+-   $\braket{Av, Aw} = \braket{v,w}$ for all $v,w$.
+-   $\norm{Av} = \norm{v}$ for all $v$
+-   $\norm{Av} = 1$ if $\norm{v}=1$.
+-   $U$ is a normal matrix with eigenvalues lying on the unit circle
+-   $|\det(U)|=1$
+-   The columns and the rows of $U$ form an orthonormal basis of
+    $\mathcal{C}^d$
+-   $U$ can be written as $e^{iH}$ for some Hermitian operator $H$.
 
 ```{example, name="Determinant = 1 is a necessary but not sufficient condition for being unitary."}
 It is simple to see that any 2x2 diagonal matrix $A$ with entries $10$ and $1/10$ has determinant is 1, but it's not a unitary matrix: $A^\dagger A = AA^\dagger \neq I$.
 ```
 
+It will be useful to recall that if we have a unitary that performs the
+mapping $\ket{a_i} \mapsto \ket{b_i}$, we can have the "matrix" form of
+the operator as $\sum_i \ket{b_i}\bra{a_i}$. Recall also that the Pauli
+matrices are both unitary *and* Hermitian, and this fact will be useful
+in many places throughout this text.
 
-It will be useful to recall that if we have a unitary that performs the mapping $\ket{a_i} \mapsto \ket{b_i}$, we can have the "matrix" form of the operator as $\sum_i \ket{b_i}\bra{a_i}$.
-Recall also that the Pauli matrices are both unitary *and* Hermitian, and this fact will be useful in many places throughout this text.
-
-
-
+```{=html}
 <!--
 # TODO Introduce more information about quantum gates
 # Below Postulate 3 there are some examples of things that would be pedagogically good to have in this place.
 # labels: good first issue, help wanted
 -->
+```
 <!-- $$H = \frac{X + X}{\sqrt{2}}$$ -->
+
 <!-- Phase gate: $$S = \frac{1}{\sqrt{2}} \begin{pmatrix} -->
-<!-- 	1 & 0 \\ -->
-<!-- 	0 & i -->
-<!-- 	\end{pmatrix} = \frac{1}{\sqrt{2}} (\ket{0}\bra{0} + i\ket{1}\bra{1})$$ -->
+
+<!--    1 & 0 \\ -->
+
+<!--    0 & i -->
+
+<!--    \end{pmatrix} = \frac{1}{\sqrt{2}} (\ket{0}\bra{0} + i\ket{1}\bra{1})$$ -->
 
 <!-- T gate, also called as "$\pi$-over-8" gate:  -->
-<!-- $$T = \begin{pmatrix} -->
-<!-- 	1 & 0 \\ -->
-<!-- 	0 & e^{i \frac{\pi}{4}} -->
-<!-- 	\end{pmatrix} = e^{i\frac{\pi}{8}}\begin{pmatrix} -->
-<!-- 	e^{-i\frac{\pi}{8}} & 0 \\ -->
-<!-- 	0 & e^{i \frac{\pi}{8}} -->
-<!-- 	\end{pmatrix}$$ -->
 
+<!-- $$T = \begin{pmatrix} -->
+
+<!--    1 & 0 \\ -->
+
+<!--    0 & e^{i \frac{\pi}{4}} -->
+
+<!--    \end{pmatrix} = e^{i\frac{\pi}{8}}\begin{pmatrix} -->
+
+<!--    e^{-i\frac{\pi}{8}} & 0 \\ -->
+
+<!--    0 & e^{i \frac{\pi}{8}} -->
+
+<!--    \end{pmatrix}$$ -->
 
 <!-- $$H = \frac{1}{\sqrt{2}}[ \bra{+}\ket{0}+ \bra{-}\ket{1} ] $$ -->
+
 <!-- $$H \ket{x} = \frac{1}{\sqrt{2}} [ \ket{0} + (-1)^x \ket{1}] $$ -->
 
 <!-- TOCHECK -->
+
 <!-- $$\frac{1}{\sqrt{2^n}} \sum_{x,y \in \{0,1\}^n} (-1)^{xy} \ket{y}\bra{x}  $$ -->
 
-
+```{=html}
 <!--
 # TODO Write paragraph on controlled rotation on ancilla qubits
 # In many machine learning algorithms (like HHL), we perform a controlled rotation,
@@ -122,15 +201,14 @@ Recall also that the Pauli matrices are both unitary *and* Hermitian, and this f
 # It would be good to have that written formally. (A nice introduction can be found in the thesis of Gribling Sander)
 # labels: good first issue, help wanted, code
 -->
-
-
+```
 <!-- From Near term quantum algorithms for linear systems of equations -->
+
 ```{exercise, ntqls, name="From [@huang2019near]"}
 Let $k \in \{0,1\}^n$ be an arbitrary $n$-bitstring.
 Let $A=(\sigma_{x}^{(1)})^{k_1} \otimes \dots \otimes (\sigma_{x}^{(n)})^{k_n}$ and $\ket{b}=\ket{0^n}$.
 What is the solution to the equation $A\ket{x} =\ket{b}$
 ```
-
 
 ```{proposition, postulate3, name="Postulate 3"}
 Quantum measurements are described by a collection $\{M_m\}$ of measurement operators. These are operators acting on the state space of the system being measured. The index $m$ refers to the measurement outcomes that may occur in the experiment. If the state of the quantum system is
@@ -148,60 +226,82 @@ $$
 $$
 ```
 
+In practice, we will mostly perform projective measurements (also called
+von Neumann measurements). A projective measurement is described by an
+*observable*: an Hermitian operator $M$ on the state space of the system
+being observed. The observable has a spectral decomposition:
+$$ M = \sum_m mP_m  $$ Where $P_m$ is a projector into the eigenspace of
+$M$ associated with the eigenvalue $m$. This means that the measurement
+operator will satisfy the following properties:
 
-In practice, we will mostly perform projective measurements (also called von Neumann measurements). A projective measurement is described by an _observable_: an Hermitian operator $M$ on the state space of the system being observed. The observable has a spectral decomposition:
-$$ M = \sum_m mP_m  $$
-Where $P_m$ is a projector into the eigenspace of $M$ associated with the eigenvalue $m$. This means that the measurement operator will satisfy the following properties:
+-   $P_m$ is positive definite
+-   $P_m$ is Hermitian
+-   $\sum_m P_m = I$
+-   $(P_m)(P_n) = \delta_{mn}(P_m)$ are orthogonal projections.
 
-* $P_m$ is positive definite
-* $P_m$ is Hermitian
-* $\sum_m P_m = I$
-* $(P_m)(P_n) = \delta_{mn}(P_m)$ are orthogonal projections.
-
-
-
-Recall that an orthogonal projector $P$ has the properties that $P=P^{\dagger}$ and $P^2 = P$. Note that the second property derives from the first: all positive definite operators on $\mathbb{C}$ are Hermitian (this is not always the case for positive definite operators on $\mathbb{R}$, as it is simple to find positive definite matrices that are not symmetric). Projective measurements can be understood as a special case of Postulate 3: in addition to satisfying the completeness relation $\sum_m M_m^\dagger M_m = I$ they also are orthogonal projectors. Given a state $\ket{\psi}$, the probability of measuring outcome $m$ is given by:
-
-
+Recall that an orthogonal projector $P$ has the properties that
+$P=P^{\dagger}$ and $P^2 = P$. Note that the second property derives
+from the first: all positive definite operators on $\mathbb{C}$ are
+Hermitian (this is not always the case for positive definite operators
+on $\mathbb{R}$, as it is simple to find positive definite matrices that
+are not symmetric). Projective measurements can be understood as a
+special case of Postulate 3: in addition to satisfying the completeness
+relation $\sum_m M_m^\dagger M_m = I$ they also are orthogonal
+projectors. Given a state $\ket{\psi}$, the probability of measuring
+outcome $m$ is given by:
 
 \begin{equation}
 p(m) = \bra{\psi}P_m\ket{\psi}.
 (\#eq:simple-measurement-probability)
-\end{equation}
-If we were to measure outcome $m$, then the state of the quantum system after the measurement would be:
-$$\frac{P_m\ket{\psi}}{\sqrt{p(m)}} .$$
+\end{equation} 
 
-They have some useful properties. Just to cite one, the average value of a projective measurement in a state $\ket{\psi}$ is defined as:
+If we were to measure outcome $m$, then the state of the quantum system after the measurement would be:
+$$\frac{P_m\ket{\psi}}{\sqrt{p(m)}}.$$
+
+They have some useful properties. Just to cite one, the average value of
+a projective measurement in a state $\ket{\psi}$ is defined as:
 \begin{align}
-	E(M)&  = \sum_m p(m)\\
+    E(M)&  = \sum_m p(m)\\
 & = \sum_m m \bra{\psi}P_m\ket{\psi}\\
 & \bra{\psi}(\sum_m mP_m)\ket{\psi}\\
 & \bra{\psi}M\ket{\psi}
-\end{align}
-In practice, our projective operators will be projectors in the computational basis, i.e. $P_m = \sum_{m \in [d]} \ket{m}\bra{m}$. From these rules, it is simple to see that the probability that a measurement on a state $\ket{x} = \frac{1}{\norm{x}}\sum_i x_i\ket{i}$ gives outcome $i$ is $|x_i|^2/\norm{x}^2$.
+\end{align} 
+In practice, our projective operators will be projectors in
+the computational basis, i.e. $P_m = \sum_{m \in [d]} \ket{m}\bra{m}$.
+From these rules, it is simple to see that the probability that a
+measurement on a state $\ket{x} = \frac{1}{\norm{x}}\sum_i x_i\ket{i}$
+gives outcome $i$ is $|x_i|^2/\norm{x}^2$.
 
-
- ```{proposition, name="Postulate 4"}
+```{proposition, name="Postulate 4"}
 The state space of a composite physical system is the tensor product of the state spaces of the component physical systems. Moreover, if we have systems numbered from 1 through $n$, and each state is described as $\ket{\psi_i}$, the join state of the total system is $\bigotimes_{j=1}^n \ket{\psi_i}=\ket{\psi_1}\ket{\psi_2}\dots \ket{\psi_n}$.
 ```
 
-
-To describe together two different quantum system we use the tensor product.
-The tensor product between two vectors $\ket{y} \in \mathbb{R}^{d_1}$ and $\ket{y} \in \mathbb{R}^{d_2}$ is a vector $\ket{z} \in \mathbb{R}^{d_1 \times d_2}$.
-We can use the tensor operation to describe the joint evolution of separate quantum system.
+To describe together two different quantum system we use the tensor
+product. The tensor product between two vectors
+$\ket{y} \in \mathbb{R}^{d_1}$ and $\ket{y} \in \mathbb{R}^{d_2}$ is a
+vector $\ket{z} \in \mathbb{R}^{d_1 \times d_2}$. We can use the tensor
+operation to describe the joint evolution of separate quantum system.
 <!-- TODO FIXME -->
 
-Even if it's not explicitly used much in quantum algorithms, it's useful to recall the definition of entangled pure state.
+Even if it's not explicitly used much in quantum algorithms, it's useful
+to recall the definition of entangled pure state.
 
 ```{definition, name="Entangled state"}
 A quantum state that cannot be expressed as tensor product of two quantum state is said to be entangled.
 ```
 
-The same thing can be done for operators. Let $U_1$ be the unitary describing the evolution of a quantum state $\ket{x}$ and $U_2$ the unitary describing the evolution of a quantum state $\ket{y}$. Then $U_1 \otimes U_2$ describes the evolution of the quantum system $\ket{x}\otimes \ket{y}$. Note that to build a state in $\ket{v} \in \mathcal{H}^n$ we need $\lceil \log n\rceil$ qubits, and this fact will be extensively leveraged in our quantum algorithms.
+The same thing can be done for operators. Let $U_1$ be the unitary
+describing the evolution of a quantum state $\ket{x}$ and $U_2$ the
+unitary describing the evolution of a quantum state $\ket{y}$. Then
+$U_1 \otimes U_2$ describes the evolution of the quantum system
+$\ket{x}\otimes \ket{y}$. Note that to build a state in
+$\ket{v} \in \mathcal{H}^n$ we need $\lceil \log n\rceil$ qubits, and
+this fact will be extensively leveraged in our quantum algorithms.
 
 ### Review of important statements in quantum computation
 
-Before delving into a review of quantum algorithms, we would like to state here a few important lemmas.
+Before delving into a review of quantum algorithms, we would like to
+state here a few important lemmas.
 
 ```{lemma, hadamard-on-bitstring, name="Hadamard on a bitstring [@NC02]"}
 Let $x \in \{0,1\}^n$ be a bitstring, and $H$ be an Hadamard gate. Then:
@@ -210,26 +310,25 @@ $$H^{\otimes n}\ket{x} = \frac{1}{\sqrt{2^n}}\sum_{z_1, \dots z_n \in \{0,1\}^n}
   Where $x^Tz$ is the bitwise inner product of strings in $Z_2^n$ modulo $2$.
 ```
 
-
-
-
-
-
-
 ## Measuring complexity of quantum algorithms {#measuring-complexity}
 
+This section is an attempt to organize in a coherent way some
+fundamental concepts in quantum computer science. The formalization of
+some of these concepts comes from [@dorn2008quantum] and [@DeWolf].
 
-This section is an attempt to organize in a coherent way some fundamental concepts in quantum computer science. The formalization of some of these concepts comes from [@dorn2008quantum] and [@DeWolf].
+There are various ways to measure the complexity of a quantum algorithm.
+We denote with $T(U)$ the time complexity needed to implement $U$,
+measured in terms of **number of gates** of the circuit. This is a
+concept that bears some similarity with the clock rate of classical
+CPUs.
 
-There are various ways to measure the complexity of a quantum algorithm.  We denote with $T(U)$ the time complexity needed to implement $U$, measured in terms of **number of gates** of the circuit. This is a concept that bears some similarity with the clock rate of classical CPUs.
-
-We use a standard notation of $\widetilde{O}$ for hiding polylogarithmic factors in the big-O notation of the algorithms: $O(\log(n))=\widetilde{O}(1)$.
+We use a standard notation of $\widetilde{O}$ for hiding polylogarithmic
+factors in the big-O notation of the algorithms:
+$O(\log(n))=\widetilde{O}(1)$.
 
 ```{definition, quantum-oracle-access, name="Quantum query or oracle access to a function"}
 Let $\mathcal{H}$ be a finite-dimensional Hilbert space with basis $\{0,1\}^{n}$. Given $f:\{0,1\}^n\to\{0,1\}^m$, we say that we have quantum query access to $f$ if we have access to a unitary operator $U_f$ on $\mathcal{H}\otimes\mathbb{C}^{2^n}$ such that $U\ket{x}\ket{b} = \ket{x}\ket{b \oplus f(x)}$ for any bit string $b\in\{0,1\}^m$. One application of $U_f$ costs $T_f$ operations.
 ```
-
-
 
 ```{definition, quantum-computation, name="Quantum computation in the query model"}
 Let $O_x$ be a unitary operator that encodes the input of our computation, and acts in a non-trivial way on its associated Hilbert space.
@@ -240,30 +339,74 @@ $$U_TO_xU_{T-1}O_x \dots U_1O_xU_0$$
   Where each $U_t$ is a unitary that does not depend on the input of the algorithm. The output of the computation is obtained by measuring the rightmost register (by convention).
 ```
 
-Note that the second register holds the XOR of the $i$-th component of the input with the previous state of the register (i.e. the b). This is to make the computation reversible.
-Importantly, the definition \@ref(def:quantum-oracle-access) is just an example of function for which we can have query access. We can assume query access to unitaries creating various kind of quantum states as output. We will see many examples of oracles as definition \@ref(def:qram), \@ref(def:oracle-access-adjacencymatrix), \@ref(def:oracle-access-adjacencylist), and \@ref(def:KP-trees).
+Note that the second register holds the XOR of the $i$-th component of
+the input with the previous state of the register (i.e. the b). This is
+to make the computation reversible. Importantly, the definition
+\@ref(def:quantum-oracle-access) is just an example of function for
+which we can have query access. We can assume query access to unitaries
+creating various kind of quantum states as output. We will see many
+examples of oracles as definition \@ref(def:qram),
+\@ref(def:oracle-access-adjacencymatrix),
+\@ref(def:oracle-access-adjacencylist), and \@ref(def:KP-trees).
 
-This is the so-called query model, or oracle model of computation. The important thing here is the last statement of \@ref(def:quantum-oracle-access) about the cost of applying $U_f$ is $O(1)$. There are multiple reasons for working in this model. First, it is often the case that queries to these oracles are actually efficient (as we will see in many example), so the query complexity is actually equivalent (up to multiplicative polylogarithmic factors) to the depth of the quantum circuit that is going to be executed. Another reason is that in the oracle model is relatively simple to prove lower bounds and results about the complexity of an algorithm in terms of the number of queries to an oracle that encodes the input of the problem. It is customary, for complex results in quantum algorithms to separate the study of the query complexity of the problem and the depth of the quantum circuit which is executed on the real hardware. We formalize more this difference in the following definitions.
+This is the so-called query model, or oracle model of computation. The
+important thing here is the last statement of
+\@ref(def:quantum-oracle-access) about the cost of applying $U_f$ is
+$O(1)$. There are multiple reasons for working in this model. First, it
+is often the case that queries to these oracles are actually efficient
+(as we will see in many example), so the query complexity is actually
+equivalent (up to multiplicative polylogarithmic factors) to the depth
+of the quantum circuit that is going to be executed. Another reason is
+that in the oracle model is relatively simple to prove lower bounds and
+results about the complexity of an algorithm in terms of the number of
+queries to an oracle that encodes the input of the problem. It is
+customary, for complex results in quantum algorithms to separate the
+study of the query complexity of the problem and the depth of the
+quantum circuit which is executed on the real hardware. We formalize
+more this difference in the following definitions.
 
 ```{definition, query-complexity, name="Query complexity"}
 The quantum query complexity of a quantum algorithm $\mathcal{A}$ is the number of queries to a black-box made by $\mathcal{A}$ in order to compute $f$.
 ```
 
-If we just care about the **relativized** complexity, we might limit ourselves to compare two algorithms that solve the same problem in terms of the number of queries to a given oracle, we might observe that one is faster than the other. This is a **relativized** speedup. The oppositive is an **absolute** speedup, i.e. when we also take into account the complexity of the operations that are **not** queries to an oracle. In the case of quantum algorithms, these might simply be the gate depth of the circuit.
-
+If we just care about the **relativized** complexity, we might limit
+ourselves to compare two algorithms that solve the same problem in terms
+of the number of queries to a given oracle, we might observe that one is
+faster than the other. This is a **relativized** speedup. The oppositive
+is an **absolute** speedup, i.e. when we also take into account the
+complexity of the operations that are **not** queries to an oracle. In
+the case of quantum algorithms, these might simply be the gate depth of
+the circuit.
 
 ```{definition, circuit-complexity, name="Circuit complexity or time complexity"}
 The quantum circuit complexity (or time complexity) of a quantum algorithm $\mathcal{A}$ is the depth of the quantum circuit implementing $\mathcal{A}$.
 ```
 
-Quantum computing is not the only place where we measure the complexity in terms of query to an oracle. In fact, it's sufficient to do a few [ "queries"](https://www.cs.rutgers.edu/~sa1497/courses/cs514-s20/lec3.pdf) (pun intended) on your search engine to realize that in many computational models we have adopted this measure of computational complexity.
+Quantum computing is not the only place where we measure the complexity
+in terms of query to an oracle. In fact, it's sufficient to do a few
+["queries"](https://www.cs.rutgers.edu/~sa1497/courses/cs514-s20/lec3.pdf)
+(pun intended) on your search engine to realize that in many
+computational models we have adopted this measure of computational
+complexity.
 
-**Note that the query complexity of an algorithm is a lower bound on the gate complexity of the quantum circuit.** It is often simpler to study first the query complexity of a quantum algorithm and then study the time complexity. For most quantum algorithms (but not all!) the time complexity coincides with the query complexity, up to a logarithmic factor. Note that, if we find a way to have an oracle whose depth (i.e. circuit complexity) is only (poly)logarithmic in the input size, then the query complexity and the gate complexity coincide up to a negligible polylogarithmic factor.
-There are some exceptions. Most notably, there is a quantum algorithm for the important *hidden subgroup problem* with only polynomial query complexity, while the classical counterpart has a query complexity that is exponential in the input size. Nevertheless, the overall time complexity of the quantum algorithm is (to date) still exponential, and polynomial-time quantum algorithms are known only for a few specializations of the problem.
+**Note that the query complexity of an algorithm is a lower bound on the
+gate complexity of the quantum circuit.** It is often simpler to study
+first the query complexity of a quantum algorithm and then study the
+time complexity. For most quantum algorithms (but not all!) the time
+complexity coincides with the query complexity, up to a logarithmic
+factor. Note that, if we find a way to have an oracle whose depth (i.e.
+circuit complexity) is only (poly)logarithmic in the input size, then
+the query complexity and the gate complexity coincide up to a negligible
+polylogarithmic factor. There are some exceptions. Most notably, there
+is a quantum algorithm for the important *hidden subgroup problem* with
+only polynomial query complexity, while the classical counterpart has a
+query complexity that is exponential in the input size. Nevertheless,
+the overall time complexity of the quantum algorithm is (to date) still
+exponential, and polynomial-time quantum algorithms are known only for a
+few specializations of the problem.
 
-
-We will clarify better some definitions that are used to describe the probabilistic behavior of an algorithm:
-
+We will clarify better some definitions that are used to describe the
+probabilistic behavior of an algorithm:
 
 ```{definition, error-behavior, name="Kind of randomized algorithms"}
 Let $f : \{0,1\}^N \mapsto \{0,1\}$ be a Boolean function. An algorithm computes $f$:
@@ -274,26 +417,36 @@ Let $f : \{0,1\}^N \mapsto \{0,1\}$ be a Boolean function. An algorithm computes
 
 ```
 
-A bounded error (quantum or classical) algorithm that fails with probability $1/3$ (or any other constant smaller than $1/2$) is meant to fail *in the worst-case*. We do not expect the algorithm to fail in the average case, i.e. for most of the inputs (see Appendix of [@DeWolf]).
+A bounded error (quantum or classical) algorithm that fails with
+probability $1/3$ (or any other constant smaller than $1/2$) is meant to
+fail *in the worst-case*. We do not expect the algorithm to fail in the
+average case, i.e. for most of the inputs (see Appendix of [@DeWolf]).
 
+If a (quantum or classical) algorithm is said to output the right answer
+in **expected** (oftain said "in expectation") running time $T$, we can
+quickly create another algorithm that has **worst-case** guarantees on
+the runtime. This is obtained using the Markov's inequality, i.e.
+theorem \@ref(thm:markov) as follows. Run the algorithm for $kT$ steps,
+i.e.. stop the execution after $kT$ steps if it hasn't terminated
+already. If $X$ is the random variable of the runtime of the computation
+(so $\mathbb{E}[X]=T$), then:
 
-If a  (quantum or classical) algorithm is said to output the right answer in **expected** (oftain said "in expectation") running time $T$, we can quickly create another algorithm that has **worst-case** guarantees on the runtime. This is obtained using the Markov's inequality, i.e. theorem \@ref(thm:markov) as follows. Run the algorithm for $kT$ steps, i.e.. stop the execution after $kT$ steps if it hasn't terminated already. If $X$ is the random variable of the runtime of the computation (so $\mathbb{E}[X]=T$), then:
-
-$$Pr\left[X > kT \right] \leq \frac{1}{k} $$
-So with probability $\geq 1-\frac{1}{k}$ we will have the output of the algorithm.
-
+$$Pr\left[X > kT \right] \leq \frac{1}{k} $$ So with probability
+$\geq 1-\frac{1}{k}$ we will have the output of the algorithm.
 
 <!-- TODO: ONE SIDE BOUNDED ERROR IS MISSING -->
 
-
-
-
-
 ## Review of famous quantum algorithms {#review-famous-quantum-algos}
-In this chapter we will explore some introductory quantum algorithms. Some of them are not particularly related to data analysis or machine learning, but given their potential to help us better understand the model of quantum computation that we adopt, we decided it was important to report them here. Others will prove to be really useful subroutines for the quantum machine learning practitioner.
 
+In this chapter we will explore some introductory quantum algorithms.
+Some of them are not particularly related to data analysis or machine
+learning, but given their potential to help us better understand the
+model of quantum computation that we adopt, we decided it was important
+to report them here. Others will prove to be really useful subroutines
+for the quantum machine learning practitioner.
 
 ### Deutsch-Josza
+
 ```{definition, name="Constant function"}
 A function $f :\{0,1\}^n \mapsto \{0,1\}$ is constant if $f(x)=0 \forall x \in \{0,1\}^n$ or $f(x)=1 \forall x \in \{0,1\}^n$.
 ```
@@ -334,15 +487,19 @@ To conclude, reckon that if the function $f$ is constant (first two cases), we w
 
 ```
 
-
-
-It's simple to see that if we want to solve this problem with a classical *deterministic* algorithm, we need exactly $2^n/2 + 1$ queries. However, with the usage of a randomized algorithm we can drastically reduce the number of queries by admitting a small probability of failure.
+It's simple to see that if we want to solve this problem with a
+classical *deterministic* algorithm, we need exactly $2^n/2 + 1$
+queries. However, with the usage of a randomized algorithm we can
+drastically reduce the number of queries by admitting a small
+probability of failure.
 
 ```{exercise}
 Can you think of an efficient randomized classical algorithm for solving this problem? Perhaps you can use the tools in the Appendix for randomized algorithms.
 ```
 
-We now turn our attention to the first learning problem of this book. This is rarely stressed that the following algorithm can be interpreted as a learning algorithm.
+We now turn our attention to the first learning problem of this book.
+This is rarely stressed that the following algorithm can be interpreted
+as a learning algorithm.
 
 ### Bernstein-Vazirani
 
@@ -360,79 +517,116 @@ Now we resort again to Lemma \ref(lem:hadamard-on-bitstring), and we use the fac
 
 ```
 
+```{=html}
 <!-- TODO
 add proof of the lower bounds for the runtime of classical algorithms.
 -->
+```
 ```{exercise}
 Can you think of an efficient randomized classical algorithm for solving Berstain-Vazirani problem? You can use the tools in the Appendix for randomized algorithms.
 ```
 
-
-
-Other material for learning about Deutsch-Josza and Bernstein-Vazirani algorithms are the lecture notes of Ronald de Wolf that you can find [here](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf).
-
-
-
+Other material for learning about Deutsch-Josza and Bernstein-Vazirani
+algorithms are the lecture notes of Ronald de Wolf that you can find
+[here](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf).
 
 ```{r, echo=FALSE, fig.cap="Expect to see here Simon's algorithm - [Contribute here!](https://github.com/scinaw/quantumalgorithms.org)"}
 knitr::include_graphics("images/wip.png")
 ```
 
+### Hadamard test
 
-### Hadamard test 
-Let $U$ be a unitary acting on $n$ qubits, and $\ket{\psi}$ a quantum state on $n$ qubit (generated by another unitary $V$). We also require to be able to apply the controlled version of the unitary $U$. Then, the Hadamard test is a quantum circuit that we can use to estimate the value of $\braket{\psi| U \psi}$. The circuit is very simple, it consists in a Hadamard gate applied on an ancilla qubit, the controlled application of the unitary $U$ and another Hadamard gate. 
+Let $U$ be a unitary acting on $n$ qubits, and $\ket{\psi}$ a quantum
+state on $n$ qubit (generated by another unitary $V$). We also require
+to be able to apply the controlled version of the unitary $U$. Then, the
+Hadamard test is a quantum circuit that we can use to estimate the value
+of $\braket{\psi| U \psi}$. The circuit is very simple, it consists in a
+Hadamard gate applied on an ancilla qubit, the controlled application of
+the unitary $U$ and another Hadamard gate.
 
-The initial operation leads to $(H\otimes V) \ket{0}\ket{0} = \ket{+}\ket{\psi}$, then we have:
-\begin{align}
-\ket{\psi_{\rm{final}}} & =(H\otimes I)(cU )\ket{+}\ket{\psi} = (H\otimes I)\frac{1}{\sqrt{2}}\left(\ket{0}\ket{\psi}+\ket{1}U\ket{\psi} \right) \\
+The initial operation leads to
+$(H\otimes V) \ket{0}\ket{0} = \ket{+}\ket{\psi}$, then we have:
+$$
+\begin{aligned}
+\ket{\psi_{\text{final}}} & =(H\otimes I)(cU )\ket{+}\ket{\psi} = (H\otimes I)\frac{1}{\sqrt{2}}\left(\ket{0}\ket{\psi}+\ket{1}U\ket{\psi} \right) \\
  & =\frac{1}{2}\left(\ket{0}\left(\ket{\psi} + U\ket{\psi} \right) + \ket{1}\left(\ket{\psi} - U\ket{\psi} \right) \right)
-\end{align}
+\end{aligned}
+$$
 
-Note that the last state could be written equivalently, by just factoring out the $\ket{\psi}$ state as $\ket{\psi_{\rm{final}}}=\frac{1}{2}\left(\ket{0}(I+U)\ket{\psi} + \ket{1}(I-U)\ket{\psi} \right)$. The probability of measuring $0$ in the first qubit is:
+<!-- \begin{equation} -->
+<!-- \ket{\psi_{\rm{final}}} & =(H\otimes I)(cU )\ket{+}\ket{\psi} = (H\otimes I)\frac{1}{\sqrt{2}}\left(\ket{0}\ket{\psi}+\ket{1}U\ket{\psi} \right) \\ -->
+<!--  & =\frac{1}{2}\left(\ket{0}\left(\ket{\psi} + U\ket{\psi} \right) + \ket{1}\left(\ket{\psi} - U\ket{\psi} \right) \right) -->
+<!-- \end{equation} -->
+
+
+
+Note that the last state could be written equivalently, by just
+factoring out the $\ket{\psi}$ state as
+$\ket{\psi_{\text{final}}}=\frac{1}{2}\left(\ket{0}(I+U)\ket{\psi} + \ket{1}(I-U)\ket{\psi} \right)$.
+The probability of measuring $0$ in the first qubit is: 
+
 \begin{align}
 p(0)= & \norm{\frac{1}{2}(I+U)\ket{\psi} }_2^2 = \frac{1}{4} \left(\bra{\psi} + \bra{\psi}U^\dagger \right)\left(\ket{\psi} + U\ket{\psi} \right) \\
-=& \frac{2+\braket{\psi(U+U^\dagger)\psi}}{4} = \frac{2+2\rm{Re}(\braket{\psi|U|\psi})}{4}
+=& \frac{2+\braket{\psi(U+U^\dagger)\psi}}{4} = \frac{2+2\text{Re}(\braket{\psi|U|\psi})}{4}
 \end{align}
 
 <!-- EXPLAIN WHY REAL PART! -->
 
-Where we used Postulate \@ref(prp:postulate3) with the observable $\ket{0}\bra{0}\otimes I$.The probability of measuring $1$ in the first register follows trivially. 
-
+Where we used Postulate \@ref(prp:postulate3) with the observable
+$\ket{0}\bra{0}\otimes I$.The probability of measuring $1$ in the first
+register follows trivially.
 
 ```{exercise}
 Can you tell what is the expected value of the observable $Z$ of the ancilla qubit? Remember that the possible outcome of the observable $Z$ are $\{+1, -1\}$. 
 ```
+
 <!-- Solution: it's just $\braket{\psi U \psi}$ -->
 
+However, we might be interested in the imaginary part of
+$\braket{\psi|U\psi}$. To estimate that, we need to slightly change the
+circuit. After the first Hadamard gate, we apply on the ancilla qubit a
+Phase gate, which gives to the state $\ket{1}$ a phase of $-i$. To get
+the intuition behind this, let's recall that the imaginary part of a
+complex number $z=(a+ib)$ is defined as:
+$\text{Im}(z)= \frac{z-z^\ast}{2i}=\frac{i(z-z^\ast)}{-2}= \frac{-2b}{-2} =b$,
+where after the definition, we just complicated the series of equations
+by multiplying the numerator and denominator by $i$, a trick that we
+will use later. The rest of the circuit of the Hadamard test stays the
+same. The evolution of our state in the quantum computer is the
+following:
 
-However, we might be interested in the imaginary part of $\braket{\psi|U\psi}$. To estimate that, we need to slightly change the circuit. After the first Hadamard gate, we apply on the ancilla qubit a Phase gate, which gives to the state $\ket{1}$ a phase of $-i$. To get the intuition behind this, let's recall that the imaginary part of a complex number $z=(a+ib)$ is defined as:
-$\rm{Im}(z)= \frac{z-z^\ast}{2i}=\frac{i(z-z^\ast)}{-2}= \frac{-2b}{-2} =b$, where after the definition, we just complicated the series of equations by multiplying the numerator and denominator by $i$, a trick that we will use later. The rest of the circuit of the Hadamard test stays the same. The evolution of our state in the quantum computer is the following: 
 
 \begin{align}
-\ket{\psi_{\rm{final}}}& =(H\otimes I)(cU )\left( \ket{0} - i\ket{1}\right)\ket{\psi} = (H\otimes I)\frac{1}{\sqrt{2}}\left(\ket{0}\ket{\psi}-i\ket{1}U\ket{\psi} \right) \\
+\ket{\psi_{\text{final}}}& =(H\otimes I)(cU )\left( \ket{0} - i\ket{1}\right)\ket{\psi} = (H\otimes I)\frac{1}{\sqrt{2}}\left(\ket{0}\ket{\psi}-i\ket{1}U\ket{\psi} \right) \\
  & = \frac{1}{2}\left(\ket{0}\left(\ket{\psi} -iU\ket{\psi} \right) + \ket{1}\left(\ket{\psi} + i U\ket{\psi} \right) \right)
 \end{align}
 
 The probability of measuring $0$ is given by the following equation.
 
+
 \begin{align}
 p(0)=\frac{1}{4}\left(\bra{\psi}+iU\bra{\psi} \right)\left(\ket{\psi}-iU\ket{\psi} \right) = \frac{1}{4} \left(2 - i\braket{\psi|U|\psi} + i \braket{\psi|U^\dagger|\psi} \right)
 \end{align}
 
-Note that when taking the conjugate of our state, we changed the sign of $i$. We now have only to convince ourselves that $-i\braket{\psi|U|\psi} + i \braket{\psi|U^\dagger|\psi} = i\braket{\psi(U^\dagger -U)\psi}$ is indeed the real number corresponding to $2\rm{Im}(\braket{\psi| U|\psi})$, and thus the whole equation can be a probability. 
 
+Note that when taking the conjugate of our state, we changed the sign of
+$i$. We now have only to convince ourselves that
+$-i\braket{\psi|U|\psi} + i \braket{\psi|U^\dagger|\psi} = i\braket{\psi(U^\dagger -U)\psi}$
+is indeed the real number corresponding to
+$2\text{Im}(\braket{\psi| U|\psi})$, and thus the whole equation can be a
+probability.
 
 ```{exercise}
 Can you check if the $S$ gate that we do after the first Hadamard can be performed before the last Hadamard gate instead?
 ```
 
-
-
-
 ### Modified Hadamard test
 
-In this section we complicate a little the results obtained in the previous one, by finding the number of samples that we need to draw out of a circuit in order to estimate the expected value or the probability of interested with a certain level of accuracy and with a certain probability. 
-
+In this section we complicate a little the results obtained in the
+previous one, by finding the number of samples that we need to draw out
+of a circuit in order to estimate the expected value or the probability
+of interested with a certain level of accuracy and with a certain
+probability.
 
 ```{theorem, modified-hadamard-test-no-amplification, name="Modified Hadamard test (no amplitude amplification)"}
 Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \ket{\psi_1}$ and a unitary $U_2$ that produces a state $\ket{\psi_2}$, where $\ket{\psi_1},\ket{\psi_2} \in \mathbb{R}^N$ for $N=2^n, n\in\mathbb{N}$. There is a quantum algorithm that allows to estimate the quantity $\braket{\psi_1|\psi_2}$ with additive precision $\epsilon$ using controlled applications of $U_1$ and $U_2$ $O(\frac{\log(1/\delta)}{\epsilon_2})$ times, with probability $1-\delta$
@@ -451,7 +645,7 @@ Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancil
 Again, now it is easy to state that the probability of measuring $0$ is:
 
 \begin{equation}
-p(0)=\frac{2+2\rm{Re}[\braket{\psi_1|\psi_2}]}{4}
+p(0)=\frac{2+2\text{Re}[\braket{\psi_1|\psi_2}]}{4}
 \end{equation}
 
 We conclude the proof by recalling the Chernoff bound in theorem \@ref(thm:chernoff-bound2), as we did for the proof of the swap test.
@@ -460,16 +654,26 @@ We conclude the proof by recalling the Chernoff bound in theorem \@ref(thm:chern
 
 <!-- TODO add circuit for complex part of inner product.-->
 
-Can you think of the reasons that might lead one to prefer the swap test over the Hadamard test, or vice versa? At the end of the day, they are both computing the same thing? For instance, note that for the Hadamard test, we are requiring the ability to call the *controlled* version of the unitaries $U_1$, and $U_2$, while for the swap test, we can just trat them as black-box: these can be quantum states that we obtain from a quantum process, or that we obtain from a quantum communication channel.
-
-
-
-
-
+Can you think of the reasons that might lead one to prefer the swap test
+over the Hadamard test, or vice versa? At the end of the day, they are
+both computing the same thing? For instance, note that for the Hadamard
+test, we are requiring the ability to call the *controlled* version of
+the unitaries $U_1$, and $U_2$, while for the swap test, we can just
+trat them as black-box: these can be quantum states that we obtain from
+a quantum process, or that we obtain from a quantum communication
+channel.
 
 ### Swap test
-The swap test was originally proposed in [@buhrman2001quantum], in the context of quantum fingerprinting, but it has been quickly extended to many other context. For us, the swap test is a way to obtain an estimate of an inner product between two quantum states. The difference between the swap test and the Hadamard test is that in this case we don't assume to have access to the unitary creating the states, hance we cannot perform controlled operations on this unitary. You can think that we receive the states from a third-party, i.e. via a communication protocol. 
 
+The swap test was originally proposed in [@buhrman2001quantum], in the
+context of quantum fingerprinting, but it has been quickly extended to
+many other context. For us, the swap test is a way to obtain an estimate
+of an inner product between two quantum states. The difference between
+the swap test and the Hadamard test is that in this case we don't assume
+to have access to the unitary creating the states, hance we cannot
+perform controlled operations on this unitary. You can think that we
+receive the states from a third-party, i.e. via a communication
+protocol.
 
 ```{theorem, swap-test-no-amplification, name="Swap test (no amplitude amplification)"}
 Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \ket{\psi_1}$ and a unitary $U_2$ that produces a state $\ket{\psi_2}$, where $\ket{\psi_1},\ket{\psi_2} \in \mathbb{R}^N$ for $N=2^n, n\in\mathbb{N}$. There is a quantum algorithm that allows to estimate the quantity $|\braket{\psi_1|\psi_2}|^2$ with additive precision $\epsilon$ using $U_1$ and $U_2$ $O(\frac{\log(1/\delta)}{\epsilon_2})$ times with probability $1-\delta$
@@ -494,18 +698,16 @@ Now we consider the probability of measuring $0$ and $1$ in the ancilla qubit. M
 By repeating this measurement $O(\log(1/\delta)/\epsilon^2)$ times, duly following the statement of the Chernoff bound in theorem \@ref(thm:chernoff-bound2), we have that the number of samples needed to obtain an error $\epsilon$ with probability $1-\delta$ is $t=\frac{\log(1/\delta)}{2\epsilon^2}$. Once we have obtained an estimate of $p(0)$, we can estiamte the sought-after quantity of interest as $|\braket{\psi_1|\psi_2}|^2 = 1-2p(0)$.
 ```
 
-
 ```{exercise, name="Obtain the absolute value of the inner product"}
 In the previous theorem we obtain an estimate of $|\braket{\psi_1|\psi_2}|^2$ with a certain error $\epsilon$. If we just take the square root of that number, what is the error in the estimation of $|\braket{\psi_1|\psi_2}|$? You are encouraged to read the section in the appendix \@ref(error-prop) on error propagation.
 ```
 
-
-
-
 <!-- ## Exercises -->
 
+```{=html}
 <!--
 # TODO Add exercise on rewriting the swap test
 # It's done in the draft/distances.Rmd but the images needs to be worked out properly.
 # labels: good first issue, help wanted
 -->
+```
