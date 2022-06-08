@@ -702,9 +702,17 @@ li.part > span   {
 
 li.part > span > b {
 
-  color: #8dbef13b !important
+  color: #d74648 !important
 }
 
+.book .book-body .navigation {
+  color: #000000;
+}
+
+i.fa {
+  border: 1px solid #ccc !important;
+  border-radius: 5px;
+}
 
 .book .book-summary {
   width: 500px;
@@ -719,27 +727,4 @@ li.part > span > b {
 
 .book.with-summary .book-body {
     left: 500px;
-}
-
-/* .book.with-summary .book-header.fixed {
-  left: 500px;
-}
-
-.book.with-summary .book-body {
-  left: 500px;
-} */
-
-
-/* .book .book-summary {
-  width: 500px;
-}  */
-
-.book .book-body .navigation {
-  color: #000000;
-}
-
-i.fa {
-  border: 1px solid #ccc !important;
-  border-radius: 5px;
-  z-index: 9999;
 }
