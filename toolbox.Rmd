@@ -9,12 +9,15 @@
 In this section we report the theorems for the subroutines that are often used to create new quantum algorithms. Often, we report multiple formulations, so that the working quantum algorithm researcher can pick the best version for them.
 
 
-```{theorem, phase-estimation, name="Phase estimation [@Kitaev1995QuantumProblem]"}
+(ref:Kitaev1995QuantumProblem) [@Kitaev1995QuantumProblem]
+
+```{theorem, phase-estimation, name="Phase estimation (ref:Kitaev1995QuantumProblem)"}
 Let $U$ be a unitary operator with eigenvectors $\ket{v_j}$ and eigenvalues $e^{i \theta_j}$ for $\theta_j \in [-\pi, \pi]$, i.e. we have $U\ket{v_j} = e^{i \theta_j}\ket{v_j}$ for $j \in [n]$. For a precision parameter $\epsilon > 0$, there exists a quantum algorithm that runs in time $O(\frac{T(U)\log(n)}{\epsilon}))$ and with probability $1 - 1/poly(n)$ maps a state $\ket{\phi_i} = \sum_{j \in [n]} \alpha_j\ket{v_j}$ to the state $\sum_{j \in [n]} \alpha_j \ket{v_j}\ket{\bar{\theta_j}}$ such that $|\bar{\theta}_j - \theta_j| < \epsilon$ for all $j \in [n]$.
 ```
 
+(ref:nannicini2019fast) [@nannicini2019fast]
 
-```{theorem, phase-estimation-errors, name="Error and probability of failure of phase estimation [@NC02] Section 5.2 and [@nannicini2019fast]"}
+```{theorem, phase-estimation-errors, name="Error and probability of failure of phase estimation (ref:NC02) Section 5.2 and (ref:nannicini2019fast)"}
 Let $0.a=a_1, \dots a_q$ be the output of phase estimation when applied to an eigenstate with phase $\phi$. If we use $q+\lceil\log(2+\frac{1}{2\delta})\rceil$ qubits of precision, the first $q$ bits of $a$ will be accurate with probability at least $1-\delta$, i.e. $$Pr[|\phi - \sum_{j=1}^q a_j2^{-j}| \leq 2^{-q}] \geq 1-\delta$$
 ```
 
@@ -58,7 +61,10 @@ This problem can be generalized to the case where there are multiple elements "m
 
 Amplitude amplification and amplitude estimation are two of the workhorses of quantum algorithms.
 
-```{theorem, thm-ampest-orig, name="Amplitude estimation, [@brassard2002quantum]"}
+
+(ref:brassard2002quantum) [@nannicini2019fast]
+
+```{theorem, thm-ampest-orig, name="Amplitude estimation, (ref:brassard2002quantum)"}
 Given a quantum algorithm $$A:\ket{0} \to \sqrt{p}\ket{y,1} + \sqrt{1-p}\ket{G,0}$$ where $\ket{G}$ is some garbage state, then the amplitude estimation algorithm, using exactly $P$ iterations of the algorithm $A$ for any positive integer $P$, outputs $\tilde{p}$ $(0 \le \tilde p \le 1)$ such that
 	$$
 	|\tilde{p}-p|\le 2\pi \frac{\sqrt{p(1-p)}}{P}+\left(\frac{\pi}{P}\right)^2
@@ -67,7 +73,9 @@ Given a quantum algorithm $$A:\ket{0} \to \sqrt{p}\ket{y,1} + \sqrt{1-p}\ket{G,0
 	If $p=0$ then $\tilde{p}=0$ with certainty, and if $p=1$ and $P$ is even, then $\tilde{p}=1$ with certainty.
 ```
 
-```{theorem, thm-ampest-orig-precise, name="Amplitude estimation [@brassard2002quantum], formulation of [@montanaro2015quantum]"}
+(ref:montanaro2015quantum) [@montanaro2015quantum]
+
+```{theorem, thm-ampest-orig-precise, name="Amplitude estimation (ref:brassard2002quantum), formulation of (ref:montanaro2015quantum)"}
 There is a quantum algorithm called amplitude estimation which takes as input one copy of a quantum state $\ket{\psi}$, a unitary transformation $U=2\ket{\psi}\bra{\psi}-I$, a unitary transformation $V=I-2P$ for some projector $P$, and an integer $t$. The algorithm outputs $\tilde{a}$, an estimate of $a=\braket{\psi|P|\psi}$, such that:
   $$|\tilde{a}-a| \leq 2\pi\frac{\sqrt{a(1-a)}}{t} + \frac{\pi^2}{t^2}$$
 with probability at least $8/\pi^2$, using $U$ and $V$ $t$ times each. If $a=0$ then $\tilde{a}=0$ with certainty, and if $a=1$ and $t$ is even, then $\tilde{a}=1$ with certainty.
@@ -79,12 +87,15 @@ Recently, various researches worked on improvements of amplitude estimation by g
 
 Perhaps a simpler formulation, which hides the complexity of the low-level implementation of the algorithm, and is thus more suitable to be used in quantum algorithms for machine learning is the following:
 
-```{lemma, amp-amp-est-simple, name="Amplitude amplification and estimation [@kerenidis2017quantumsquares]" }
+(ref:kerenidis2017quantumsquares) [@kerenidis2017quantumsquares]
+ 
+```{lemma, amp-amp-est-simple, name="Amplitude amplification and estimation (ref:kerenidis2017quantumsquares) " }
 If there is a unitary operator $U$ such that $U\ket{0}^{l}= \ket{\phi} = \sin(\theta) \ket{x, 0} + \cos(\theta) \ket{G, 0^\bot}$ then  $\sin^{2}(\theta)$ can be estimated to multiplicative error $\eta$ in time $O(\frac{T(U)}{\eta \sin(\theta)})$ and $\ket{x}$ can be generated in expected time $O(\frac{T(U)}{\sin (\theta)})$ where $T(U)$ is the time to implement $U$.
 ```
 
+(ref:ambainis2012variable) [@ambainis2012variable]
 
-```{theorem, variable-time-search, name="Variable Time Search [@ambainis2012variable]"}
+```{theorem, variable-time-search, name="Variable Time Search (ref:ambainis2012variable)"}
 Let $\mathcal A_1, \ldots, \mathcal A_n$ be quantum algorithms that return true or false and run in unknown times $T_1, \ldots, T_n$, respectively.
 Suppose that each $\mathcal A_i$ outputs the correct answer with probability at least $2/3$.
 Then there exists a quantum algorithm with success probability at least $2/3$ that checks whether at least one of $\mathcal A_i$ returns true and runs in time
@@ -135,13 +146,17 @@ We will see in Chapter \@ref(chap-montecarlo) why in many real-world cases this 
 
 We now want to show an algorithm that finds the minimum among $N$ unsorted values $u_{j\in[N]}$. As the Grover's algorithm, we work in the oracle model, so we assume to have quantum access to a the vector $u$. Without loss of generality we can take $N=2^n$, but if the length of our list is not a power of 2, we can just pad the rest of the elements in the list with zeroes. The statement of the theorem is the following.
 
+(ref:durr1996quantum) [@durr1996quantum]
 
-```{lemma, find-minimum-orig, name="Quantum minimum finding [@durr1996quantum]"}
+```{lemma, find-minimum-orig, name="Quantum minimum finding (ref:durr1996quantum)"}
 Given quantum access to a vector $u \in [0,1]^N$ via the operation $\ket j \ket{\bar 0} \to \ket j \ket{ u_j}$ on $\Ord{\log N}$ qubits, where $u_j$ is encoded to additive accuracy $\Ord{1/N}$. Then, we can find the minimum $u_{\min} = \min_{j\in[N]}  u_j$ with success probability $1-\delta$ with $\Ord{\sqrt N \log \left (\frac{1}{\delta}\right) }$ queries and $\tOrd{\sqrt N  \log \left( \frac{1}{\delta}\right )}$ quantum gates.
 ```
 
 Another formulation is the following:
-```{theorem, finding-minimum-2, name="Quantum Minimum Finding [@durr1996quantum] formulation of [@ambainis2019quantum]"}
+
+(ref:ambainis2019quantum) [@ambainis2019quantum]
+
+```{theorem, finding-minimum-2, name="Quantum Minimum Finding (ref:durr1996quantum) formulation of (ambainis2019quantum)"}
 Let $a_1, \ldots, a_n$ be integers, accessed by a procedure $\mathcal P$.
 There exists a quantum algorithm that finds $\min_{i=1}^n \{a_i\}$ with success probability at least $2/3$ using $O(\sqrt n)$ applications of $\mathcal P$.
 ```
@@ -164,7 +179,9 @@ knitr::include_graphics("algpseudocode/qesa.png")
 In the basic Grover's algorithm with one solution, $m = CI\left(\frac{\pi}{4}\sqrt{N}\right)$ iterations give the true output with error probability at most $1/N$ for $N \gg 1$, where $CI(x)$ is the closest integer to $x$. The result can be generalized in the case of $t \ll N$ solutions that the error rate is reduced to at most $t/N$ after exactly $m = CI\left(\frac{\pi-2\arcsin{\sqrt{t/N}}}{4\arcsin{\sqrt{t/N}}}\right) = \left \lfloor \frac{\pi}{4\arcsin{\sqrt{t/N}}} \right \rfloor$ iterations (and thus oracle calls), with an upper bound $m \leq \frac{\pi}{4}\sqrt{\frac{N}{t}}$. However, a problem arises when we have to amplify amplitudes corresponding to values below the threshold. In practice, the number of candidates is unknown and varies for each threshold. QESA is a generalized algorithm to find a solution for unknown $t$ with probability at least $1/4$ in $O(\sqrt{N/t})$, which is motivated by the following observation.
 
 
-```{proposition, qesa-observation, name="Quantum Exponential Searching Algorithm [@boyer1998tight]"}
+(ref:boyer1998tight) [@boyer1998tight]
+
+```{proposition, qesa-observation, name="Quantum Exponential Searching Algorithm (ref:boyer1998tight)"}
 Let $t$ be the (unknown) number of solutions and let $\theta$ be such that $\sin^2{\theta} = t/N$. Let $m$ be an arbitrary positive integer. Let $k$ be an integer chosen at random according to the uniform distribution between $0$ and $m − 1$. If we observe the register after applying $k$ iterations of Grover’s algorithm starting from the initial state $\sum_{i}\frac{1}{\sqrt{N}}|i\rangle$, the probability of obtaining a solution is exactly $P_m = \frac{1}{2} - \frac{\sin{(4m\theta)}}{4m\sin{(2\theta)}}$.
 In particular, $P_m \geq 1/4$ when $m \geq 1/\sin{(2\theta)}$.
 ```
@@ -179,7 +196,9 @@ As QESA is expected to be done in $O(\sqrt{N/t})$ queries, one can deduce that t
 In our algorithms, we will also use subroutines for quantum linear algebra. From the first work of \cite{HarrowHassidim2009HHL} (known in the literature as HHL algorithm) that proposed a quantum algorithm for matrix inversion, a lot of progress has been made. In this section, we briefly recall some of the results in quantum linear algebra. We conclude by citing the state-of-the art techniques for performing not only matrix inversion and matrix multiplication, but also for applying a certain class of functions to the singular values of a matrix. A notable result after HHL was the ability to perform a quantum version of the singular value decomposition. This idea is detailed in the following theorem.
 
 
-```{theorem, sve-theorem, name="Singular Value Estimation [@kerenidis2017quantumsquares]"}
+(ref:kerenidis2017quantumsquares) [@kerenidis2017quantumsquares]
+
+```{theorem, sve-theorem, name="Singular Value Estimation (ref:kerenidis2017quantumsquares)"}
 Let $M \in \mathbb{R}^{n \times d}$  be a matrix with singular value decomposition $M =\sum_{i} \sigma_i u_i v_i^T$ for which we have quantum access. Let $\varepsilon > 0$ the precision parameter. There is an algorithm with running time $\tilde{O}(\mu(M)/\varepsilon)$ that performs the mapping $\sum_{i} \alpha_i \ket{v_i} \to \sum_{i}\alpha_i \ket{v_i}  \ket{\tilde{\sigma}_i}$, where $| \tilde{\sigma_i} - \sigma_i | \leq \varepsilon$ for all $i$ with probability at least $1-1/poly(n)$.
 ```
 
@@ -273,7 +292,9 @@ We continue our journey in quantum linear algebra by discussing the state-of-the
 The research of quantum algorithms for machine learning has always used techniques developed in other areas of quantum algorithms. Among the many, we cite quantum algorithms for Hamiltonian simulation and quantum random walks. In fact, using quantum random walks, it is possible to decrease the dependence on the error parameter, from polynomial to $\text{polylog}(1/\epsilon)$ [@childs2012hamiltonian]. Stemming from the research in Hamiltonian simulation [@berry2015hamiltonian], [@low2019hamiltonian], [@berry2015simulating], [@low2017hamiltonian],[@subramanian2019implementing], these techniques have been further optimized, pushing them to the limit of almost optimal time and query complexity. Significant progress in the direction of quantum algorithms for linear algebra was the so-called LCU, or linear combination of unitaries [@childs2012hamiltonian], which again was developed in the context of the Hamiltonian simulation problem.
 
 
-```{lemma, lcu, name="Linear combination of unitaries [@Childs2015]"}
+(ref:Childs2015) [@Childs2015]
+
+```{lemma, lcu, name="Linear combination of unitaries (ref:Childs2015)"}
 Let $M = \sum_{i} \alpha_i U_i$ be a linear combination of unitaries $U_i$ with $\alpha_i >0$ for all $i$. Let $V$ be any operator that satisfies $V\ket{0^{\otimes m}} := \frac{1}{\sqrt{\alpha}}\sum_i \sqrt{\alpha_i}\ket{i}$, where $\alpha := \sum_i \alpha_i$.
 Then $W := V^{\dagger}UV$ satisfies
 \begin{equation}
@@ -298,7 +319,9 @@ For practical purposes, having a block encoding of a matrix $A$, allows one to m
 In the following theorem, the notation $P_{\Re}(A)$ means that we apply the polynomial $P$ to the singular values of the matrix $A$, i.e. $P_{\Re}(A) = \sum_i^r P(\sigma_i)u_iv_i^T$.
 
 
-```{theorem, SVT, name="Polynomial eigenvalue transformation of arbitrary parity [@gilyen2019quantum]"}
+(ref:gilyen2019quantum) [@gilyen2019quantum]
+
+```{theorem, SVT, name="Polynomial eigenvalue transformation of arbitrary parity (ref:gilyen2019quantum)"}
 Suppose that $U$ is an $(\alpha,a,\epsilon)$-block encoding of the Hermitian matrix $A$. If $\delta\geq 0$ and $P_{\Re}\in\mathbb{R}[x]$ is a degree-$d$ polynomial satisfying that:
 
 -  for all $x\in[-1,1]$, $| P_{\Re}(x)|\leq \frac{1}{2}$.
@@ -311,7 +334,7 @@ For instance, matrix inversion can be seen as the problem of implementing the si
 
 Given a $(\alpha, a, \epsilon)$-block encoding for a matrix $A$ and a quantum state $\ket{b}$, we can obtain a good approximation of $A\ket{b}/\norm{Ab}$ by first creating the state $\ket{0^a,b}$ and then applying the block encoding of $A$ to it. Then, we can amplify the part of the subspace associated with the state $\ket{0}^{\otimes a}A\ket{b}$. Differently, one might use advanced amplification techniques and reach a similar result. This concept is detailed in the following lemma.
 
-```{lemma, applicationBE, name="Applying a block-encoded matrix to a quantum state [@CGJ18]"}
+```{lemma, applicationBE, name="Applying a block-encoded matrix to a quantum state (ref:CGJ18)"}
 Fix any $\varepsilon \in (0,1/2)$. Let $A \in \mathbb{C}^{N \times N}$ such that $\norm{A}\leq 1$ and $\ket{b}$ a normalized vector in $\mathbb{C}^N$, such that $\norm{A\ket{b}} \geq \gamma$. Suppose that $\ket{b}$ can be generated in complexity $T_b$ and there is a $(\alpha, a, \epsilon)$-block encoding of $A$ for some $\alpha \geq 1$, with $\epsilon \leq \varepsilon\gamma/2$, that can be implemented in cost $T_A$. Then there is a quantum algorithm with complexity
 $$O\left(min(\frac{\alpha(T_A + T_b)}{\gamma}, \frac{\alpha T_A\log(1/\epsilon)+T_B}{\gamma})\right) $$
 that terminates with success probability at least $2/3$, and upon success generates the state $A\ket{b}/\norm{A\ket{b}}$ to precision $\varepsilon$.
@@ -324,7 +347,9 @@ From the hypothesis, we know that $\norm{\frac{1}{\alpha}A\ket{b} } \geq \gamma/
 Regarding the usage of block-encodings for solving with a quantum computer a linear system of equations (i.e. multiplying a quantum state by the inverse of a matrix, and creating a state $\ket{x}$ proportional to $A^{-1}\ket{b}$) we can proceed in an analogous way. First, we need to create block encoding access to $A^{-1}$. Using the following lemma, (where they denoted with $\kappa$ the condition number of $A$) we can implement negative powers of Hermitian matrices.
 
 
-```{lemma, negative-powers, name="Implementing negative powers of Hermitian matrices [@CGJ18] lemma 9" }
+
+
+```{lemma, negative-powers, name="Implementing negative powers of Hermitian matrices (ref:CGJ18) lemma 9" }
 Let $c \in (0,\infty), \kappa \geq 2$, and let $A$ be an Hermitian matrix such that $I/\kappa \leq A \leq I$. Suppose that $\delta = o(\epsilon/( \kappa^{1+c}(1+c) \log^3\frac{k^{1+c}}{\epsilon}))$ and $U$ is an $(\alpha,a,\delta)$-block encoding of $A$ that can be implemented using $T_U$ gates. Then, for any $\epsilon$, we can implement a unitary $\tilde{U}$ that is a $(2\kappa^c, a, \epsilon)$-block encoding of $H^{-c}$ in cost:
 	$$O\left(\alpha \kappa(a+T_U)(1+c)\log^2(\frac{k^{1+c}}{\epsilon})\right)$$
 ```
@@ -334,7 +359,7 @@ Let $c \in (0,\infty), \kappa \geq 2$, and let $A$ be an Hermitian matrix such t
 Nevertheless, the algorithm that emerges by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2012variable]. Hence, we can restate the theorem  \@ref(thm:matrix-algebra-sve), with the improved runtimes, as follows.
 
 
-```{theorem, qla, name="Quantum linear algebra [@CGJ18],[@gilyen2019quantum]"}
+```{theorem, qla, name="Quantum linear algebra (ref:CGJ18),(ref:gilyen2019quantum)"}
 Let $M := \sum_{i} \sigma_iu_iv_i^T \in \mathbb{R}^{d \times d}$ such that $\norm{M}_2 =1$, and a vector $x \in \mathbb{R}^d$ for which we have quantum access in time $T_\chi$. There exist quantum algorithms that with probability at least $1-1/poly(d)$ return
 
 - a state $\ket{z}$ such that $| \ket{z} - \ket{Mx}| \leq \epsilon$ in time $\tilde{O}(\kappa(M)(\mu(M)+T_\chi)\log(1/\epsilon))$
@@ -346,7 +371,7 @@ One can also get estimates of the norms with multiplicative error $\eta$ by incr
 
 Another important advantage of the new methods is that it provides easy ways to manipulate sums or products of matrices.
 
-```{theorem, qlap, name="Quantum linear algebra for products [@CGJ18],[@gilyen2019quantum]"}
+```{theorem, qlap, name="Quantum linear algebra for product of matrices (ref:CGJ18),(ref:gilyen2019quantum)"}
 Let $M_1, M_2 \in \mathbb{R}^{d \times d}$ such that $\norm{M_1}_2= \norm{M_2}_2 =1$, $M=M_1M_2$,
 	 and a vector $x \in \mathbb{R}^d$ for which we have quantum access. There exist quantum algorithms that with probability at least $1-1/poly(d)$ return
 
@@ -369,7 +394,9 @@ In this section, we report two lemmas that can be used to estimate the inner pro
 
 We can rephrase this theorem saying that we have quantum access to the matrices, but for simplicity we keep the original formulation.
 
-```{lemma, innerproductestimation, name="Distance and Inner Products Estimation [@kerenidis2019qmeans]"}
+(ref:kerenidis2019qmeans) [@kerenidis2019qmeans]
+
+```{lemma, innerproductestimation, name="Distance and Inner Products Estimation (ref:kerenidis2019qmeans)"}
 Assume for a matrix $V \in \mathbb{R}^{n \times d}$ and a matrix $C \in \mathbb{R}^{k \times d}$ that the following unitaries
 $\ket{i}\ket{0} \mapsto \ket{i}\ket{v_i}$, and $\ket{j}\ket{0} \mapsto \ket{j}\ket{c_j}$
 can be performed in time $T$ and the norms of the vectors are known. For any $\Delta > 0$ and $\epsilon>0$, there exists a quantum algorithm that  computes

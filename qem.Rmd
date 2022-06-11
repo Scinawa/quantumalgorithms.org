@@ -144,11 +144,11 @@ Besides fitting mixture models based on the exponential family, the EM algorithm
 
 
 
+<!-- TODO check in the paper if these are the correct versions. -->
 
+(ref:rudin1964principles) [@rudin1964principles]
 
-TODO check in the paper if these are the correct versions.
-
-```{theorem, name="Multivariate mean-value theorem [@rudin1964principles]"}
+```{theorem, name="Multivariate mean-value theorem (ref:rudin1964principles)"}
 Let $U$ be an open set of $\mathbb{R}^d$. For a differentiable functions $f : U \mapsto \mathbb{R}$ it holds that  $\forall x,y \in U, \exists c$ such that  $f(x) - f(y) = \nabla f(c) \cdot (x-y)$.
 ```
 

@@ -48,7 +48,10 @@ If $j>|x|$, each product within the representation of $Q_j$ is equal to zero, so
 $$\bar{p}(\mathbf{x}) = c_0 + c_1\binom{|x|}{1} + \dots + c_d\binom{|x|}{d} = r(|x|)$$
 Also, since $p$ approximates $f$ that only depends on $|\mathbf{x}|$, the sum over all input permutations $\bar{p}$ also approximates $f$. From all of the above, one has $\text{deg}(\bar{p}) \leq \text{deg}(p) \leq 2T$. The best lower bound for $T$ can be obtained if we find the smallest-degree $\bar{p}$. Sometimes it is not easy to access to the degree of the symmetrized polynomial without having the explicit form of the initial approximating polynomial. Rather, we can relax the lower bound for $T$ relying on the smallest-degree $p$. The following powerful theorem characterizes the degree of the smallest-degree approximating polynomial.
 
-```{theorem, paturi-theorem, name="Paturi theorem [@paturi1992degbound]"}
+
+(ref:paturi1992degbound) [@paturi1992degbound]
+
+```{theorem, paturi-theorem, name="Paturi theorem (ref:paturi1992degbound)"}
 Suppose $f$ is a non-constant symmetric boolean function on \{0,1\}^n and $p$ is some approximating polynomial of $f$.
 
 Let $f_k \equiv f(\mathbf{x})$ when $|\mathbf{x}| = k$, and $\Gamma(f) \equiv \min\{|2k-n+1| : f_k \neq f_{k+1}$ for $0\leq k \leq n-1\}$.
@@ -70,7 +73,9 @@ $$r(0) \in [0,1/3] \quad \text{and} \quad r(k) \in [2/3,1] \: \forall k\in \{1,2
 
 A bound for derivatives of a polynomial can be obtained as a function of its degree according to the Markov brothers' inequality, whose statement is given as follows:
 
-```{theorem, markov-brothers-ineq, name="Markov brothers' inequality [@markov1890ineq]"}
+(ref:markov1890ineq) [@markov1890ineq]
+
+```{theorem, markov-brothers-ineq, name="Markov brothers' inequality (ref:markov1890ineq)"}
 Given a polynomial $p$ of degree $d$ such that $|p(x)| \leq L$ for $x \in [a,b]$. Then within the domain, the first derivative of $p$ is bounded.
 $$|p'(x)| \leq \frac{2d^2L}{b-a}$$
 ```
@@ -137,7 +142,9 @@ We can assume that $\langle \psi_x^T | \psi_y^T \rangle$ is real, otherwise mult
 However we should rather look at more than a fixed pair $\mathbf{x}, \mathbf{y}$ to obtain a meaningful result. This suggests us to look at some particular subset $R \subseteq X \times Y$.
 Observe that the progress measure before and after the algorithm are $S(0) = |R|$ and $S(T) \leq \frac{17}{18}|R|$. So, if one can come up with an upper bound $\Delta$ for $|S(t) - S(t-1)|$, then the number of queries needed is $T \geq |S(T) - S(0)| / \Delta = |R|/18\Delta$. We prove the following theorem based on that idea.
 
-```{theorem, basic-adversary, name="Basic Adversary Method [@ambainis2002adversary]"}
+(ref:ambainis2002adversary) [@ambainis2002adversary]
+
+```{theorem, basic-adversary, name="Basic Adversary Method (ref:ambainis2002adversary)"}
 Let $f$ be a decision problem, $X \subseteq f^{-1}(0), Y \subseteq f^{-1}(1)$, and a _binary relation_ $R \subseteq X \times Y$. Suppose that
 
    1. $\forall \mathbf{x} \in X$, there are at least $m_0$ distinct $\mathbf{y} \in Y$ such that $(\mathbf{x},\mathbf{y}) \in R$

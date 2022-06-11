@@ -240,7 +240,9 @@ The following pseudocode sums up the online quantum perceptron algorithm.
 
 This algorithm gives birth to the following theorem, which formalizes the quadratic speedup.
 
-```{theorem, thm-perceptron, name="Online quantum perceptron [@kapoor2016quantum]"}
+(ref:kapoor2016quantum) [@kapoor2016quantum]
+
+```{theorem, thm-perceptron, name="Online quantum perceptron (ref:kapoor2016quantum)"}
 Given a training set that consists of unit vectors $\{x^{(1)}, \ldots, x^{(n)}\}$ and labels $\{y^{(1)}, \ldots, y^{(n)}\}$, with margin $\gamma$, the number of applications of $f$ needed to learn the weights $w$ such that $P\left(\exists j: f_{w}\left(x^{(j)}, y^{(j)}\right)=1\right) \leq \epsilon$ using a quantum computer is $n_{\text {quant}}$ where
 \begin{equation}
 \Omega(\sqrt{n}) \ni n_{\text {quant}} \in O\left(\frac{\sqrt{n}}{\gamma^{2}} \log \left(\frac{1}{\epsilon \gamma^{2}}\right)\right)
@@ -304,7 +306,10 @@ Once we have the oracles $U$ and $\mathcal{F}$, we can sum up the algorithm in p
 <img src="images/version_space_quantum_perceptron.png" alt="drawing" width="600">
 
 The following theorem formalizes the runtime of the algorithm.
-```{theorem, quantum-version-space, name="Version space quantum perceptron [@kapoor2016quantum]"}
+
+
+
+```{theorem, quantum-version-space, name="Version space quantum perceptron (kapoor2016quantum)"}
 Given a training set that consists of unit vectors $x^{(1)}, \ldots, x^{(n)}$ and labels $y^{(1)}, \ldots, y^{(n)}$, separated by a margin of $\gamma$, the number of queries to $f$ needed to infer a perceptron model $w$, with probability at least $1-\epsilon$, using a quantum computer is $O\left(\frac{n}{\sqrt{\gamma}} \log \left(\frac{1}{\epsilon}\right)\right)$.
 ```
 

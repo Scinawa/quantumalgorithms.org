@@ -3,7 +3,9 @@
 In this chapter we are going to discuss quantum algorithms for graph theoretical problems. Initial focus of this chapter revolves around the work of [@durr2006quantum], which investigated the query complexity of problems like MINIMUM SPANNING TREE, CONNECTIVITY, STRONG CONNECTIVITY, and SINGLE SOURCE SHORTEST PATH. Classically, these problems can be solved efficiently i.e. in polynomial number of queries to the graph. In this chapter, we will see how to decrease the query complexity of the quantum algorithm further, by applying in a shrewd way amplitude amplification and related algorithms.
 More specifically, in the work of [@durr2006quantum], they used three different versions of the Grover's algorithm. In particular, we state a slightly improved version here, with a quadratic improvement also in the runtime dependence on the probability of failure.
 
-```{theorem, grover-improved, name="Grover's search algorithm, version of [@buhrman1999bounds]"}
+(ref:buhrman1999bounds) [@buhrman1999bounds]
+
+```{theorem, grover-improved, name="Grover's search algorithm, version of (ref:buhrman1999bounds)"}
 Let $N=2^n$ for $n>0$.
 Given quantum oracle access $O_x: \ket{i}\mapsto\ket{i}\ket{x_i}$ to a vector $x \in [k]^{N}$ (for a fixed $k$) and access to an oracle $O_f \ket{x} = (-1)^{f(x)}\ket{x}$ for a function $f:[k] \mapsto \{0,1\}$, If $m$ is the number of elements of the vector $x$ that are evaluated to $1$ (called marked elements), there is a quantum algorithm that succeed with probability greater than $1-\delta$ and finds an index of a marked element using $O_x$ only $O(\sqrt{N/m \log(1/\delta)})$ times.
 ```

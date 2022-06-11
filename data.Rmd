@@ -197,7 +197,11 @@ Importantly, the techniques described in the previous paragraph are far from bei
 
 Long story short, if we want to prove the runtime of a quantum algorithm in terms of gate complexity (and not only number of queries to an oracle computing $f$) we need to keep track of the gate complexity of the quantum circuits we use. For this we can use the following theorem.
 
-```{theorem, name="[@buhrman2001time] version from [@bausch2021quantum]"}
+(ref:buhrman2001time) [@buhrman2001time]
+
+(ref:bausch2021quantum) [@bausch2021quantum]
+
+```{theorem, name="(ref:buhrman2001time) version from (ref:bausch2021quantum)"}
 For a probabilistic classical circuit with runtime $T(n)$ and space requirement $S(n)$ on an input of length $n$ there exists a quantum algorithm that runs in time $O(T(n)^{\log_2(3)}$ and requires $O(S(n)\log(T(n))$ qubits.
 ```
 
@@ -266,7 +270,9 @@ where $N_X$ is the vector of $\ell_2$ norms of the rows of the matrix $X$, i.e. 
 
 This reduces our problem to create an amplitude encoding of a given vector. In the PhD thesis of Prakash [@Prakash:EECS-2014-211] we can find the first procedure to efficiently create superpositions corresponding to vectors, and the generalization on how to do this for the rows of the matrices, i.e. encoding the values of the components of a matrix' row in the amplitudes of a quantum state. This this data structure, which sometimes could go under the name KP-trees [@rebentrost2018quantum], but is more and more often called **quantum sampling access**, assumes and extends definition \@ref(def:qram). Confusingly, in some papers both are called QRAM, and both rely on two (different) tree data structure for their construction. One is a hardware circuit arranged as a tree that allows to perform the mapping in \@ref(def:qram), the other is a classical data structure arranged as a tree that stores the partial norms of the rows of the matrix, which we will discuss now. We will use the following as definition, but this is actually a theorem. For the proof, we refer to [@Prakash:EECS-2014-211] and the appendix A of [@KP16], and the proof of Theorem 1 of [@CGJ18].
 
-```{definition, KP-trees,  name="Quantum access to matrices using KP-trees - Quantum sampling access [@KP16]"}
+(ref:KP16) [@KP16]
+
+```{definition, KP-trees,  name="Quantum access to matrices using KP-trees - Quantum sampling access (ref:KP16)"}
 Let $V \in \mathbb{R}^{n \times d}$, there is a data structure (sometimes called KP-trees) to store the rows of $V$ such that,
 
 -  The time to insert, update or delete a single entry $v_{ij}$ is $O(\log^{2}(n))$.
@@ -323,7 +329,11 @@ Note an important (but simple) thing. An $(\alpha, a, \epsilon)$-block encoding 
 
 We report this result from [@gilyen2019quantum].
 
-```{definition, name="Block encoding from sparse access [@CGJ18]"}
+(ref:gilyen2019quantum) [@gilyen2019quantum]
+
+
+
+```{definition, name="Block encoding from sparse access (ref:gilyen2019quantum)"}
 Let $A \in \mathbb{C}^{2^w \times 2^w}$ be a matrix that is $s_r$-row-sparse and $s_c$-column-sparse, and each element of $A$ has abolute value at most $1$. Suppose that we have access to the following sparse access oracles acting on two $(w+1)$ qubit registers:
 
   $$O_r: \ket{i}\ket{k} \mapsto \ket{i}\ket{r_{ik}} \forall i \in [2^w] - 1, k \in [s_r], \text{and}$$
@@ -346,7 +356,10 @@ For $s_{p}(A) = \max_{i \in [n]} \sum_{j \in [d]} A_{ij}^{p}$, we chose $\mu_p(A
 $$\mu_p(A)=\min_{p\in [0,1]} (\norm{A}_{F}, \sqrt{s_{2p}(A)s_{(1-2p)}(A^{T})}).$$
 ```
 
-```{lemma, kp-block-encodings, name="Block encodings from quantum data structures [@CGJ18]"}
+(ref:CGJ18) [@CGJ18]
+
+
+```{lemma, kp-block-encodings, name="Block encodings from quantum data structures (ref:CGJ18)"}
 Let $A\in\mathbb{C}^{M\times N}$, and $\overline{A}\in\mathbb{C}^{(M+N)\times (M+N)}$ be the symmetrized matrix defined as
 $$\overline{A}=\left[\begin{array}{cc}0 & A\\ A^\dagger & 0 \end{array}\right].$$
 
@@ -425,11 +438,17 @@ In order to retrieve information from a quantum computer, we are going to use so
 
 Most of the quantum algorithms discussed here will work with pure quantum states. We assume to have access to the unitary that creates the quantum state that we would like to retrieve, and that we have access to the unitary that creates the state (and that we can control it). Under these conditions, the process of performing tomography is greatly simplified. According to the different error guarantees that we require, we can chose among two procedures.
 
-```{theorem, tomelle2, name="Vector state tomography with L2 guarantees [@KP18]"}
+
+(ref:KP18) [@KP18]
+
+```{theorem, tomelle2, name="Vector state tomography with L2 guarantees (ref:KP18)"}
 Given access to unitary $U$ such that $U\ket{0} = \ket{x}$ and its controlled version in time $T(U)$, there is a tomography algorithm with time complexity $O(T(U) \frac{ d \log d  }{\epsilon^{2}})$ that produces unit vector $\widetilde{x} \in \R^{d}$ such that $\norm{\widetilde{x}  - \ket{x} }_{2} \leq \epsilon$ with probability at least $(1-1/poly(d))$.
 ```
 
-```{theorem, tomellinfinity, name="Vector state tomography with L∞ guarantees [@jonal2019convolutional]"}
+
+(ref:jonal2019convolutional) [@jonal2019convolutional]
+
+```{theorem, tomellinfinity, name="Vector state tomography with L∞ guarantees (ref:jonal2019convolutional)"}
 Given access to unitary $U$ such that $U\ket{0} = \ket{x}$ and its controlled version in time $T(U)$, there is a tomography algorithm with time complexity $O(T(U) \frac{ \log d  }{\epsilon^{2}})$ that produces unit vector $\widetilde{x} \in \R^{d}$ such that $\norm{\widetilde{x}  - \ket{x} }_{\ell_\infty} \leq \epsilon$ with probability at least $(1-1/poly(d))$.
 ```
 
@@ -443,12 +462,16 @@ Can you obtain $\ell_2$ tomography with error $\epsilon$ on a $d$ dimensional st
 
 Much of the current literature in quantum tomography is directed towards reconstructing a classical description of density matrices. This problem is considerably harder than reconstructing a pure state.
 
-```{theorem, efficientquantumtomography,  name="Efficient quantum tomography [@o2016efficient]"}
+(ref:o2016efficient) [@o2016efficient]
+
+```{theorem, efficientquantumtomography,  name="Efficient quantum tomography (ref:o2016efficient)"}
 An unknown rank-r mixed state $\rho \in \mathbb{C}^{d \times d}$ can be estimated to error $\epsilon$ in Frobenius distance using $n = O(d/\epsilon^2)$ copies, or to error $\epsilon$ in trace distance using $n=O(rd/\epsilon^2)$ copies.
 ```
 
 Different techniques have been recently developed in [@zhang2020efficient]. There, the authors used the assumption on doing tomography on a state $\ket{x}$ that is in the row space of a rank $r$ matrix $A$ for which we have quantum access. They propose an algorithm to obtain the classical description of the coefficients $x_i$ in the base spanned by the rows $\{A_{i}\}_{i=0}^r$of $A$, so that $\ket{x} = \sum_i^r x_i \ket{A_i}$. This requires $\tilde O(poly(r))$ copies of the output states and $\tilde{O}(poly(r), \kappa^r)$ queries to input oracles. While this procedure has the benefit of not being linear in the output dimension of the final state, the high dependence on the rank might hide the advantages compared to the previous quantum tomography procedures. For completeness, the result is as follows.
 
-```{theorem, tomography-trick, name="Improved quantum tomography [@zhang2020efficient]"}
+(ref:zhang2020efficient) [@zhang2020efficient]
+
+```{theorem, tomography-trick, name="Improved quantum tomography (ref:zhang2020efficient)"}
 For the state $\ket{v}$ lies in the row space of a matrix $A \in \R^{n \times d}$ with rank $r$ and condition number $\kappa(A)$, the classical form of $\ket{v}$ can be obtained by using $O(r^3\epsilon^2)$ queries to the state $\ket{v}$, $O(r^{11}\kappa^{5r}\epsilon^{-2}\log(1/\delta))$ queries to QRAM oracles of $A$ and $O(r^2)$ additional inner product operations between rows, such that the $\ell_2$ norm error is bounded in $\epsilon$ with probability at least $1-\delta$.
 ```

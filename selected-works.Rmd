@@ -46,6 +46,7 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Quantum Machine Learning For Classical Data](https://arxiv.org/abs/2105.03684) `#thesis`
 - [Quantum algorithms for anomaly detection using amplitude estimation](https://arxiv.org/pdf/2109.13820.pdf) `#algo`
 - [Two-level Quantum Walkers on Directed Graphs I: Universal Quantum Computing](https://arxiv.org/abs/2112.08119) `#algo`
+- [Quantum algorithms for learning a hidden graph and beyond](https://arxiv.org/abs/2011.08611) `#algo`
 
 #### 2020 {-}
 

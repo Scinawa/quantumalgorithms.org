@@ -97,9 +97,9 @@ opportunity to settle the rest of the notation and preliminaries used in
 this thesis. For the postulates, we follow the standard formulation in
 [@NC02].
 
-```{proposition, name="Postulate 1"}
+::: {.proposition name="Postulate 1"}
 Associated to any isolated physical system is a complex vector space with inner product (that is, a Hilbert space) known as the state space of the system. The system is completely described by its state vector, which is a unit vector in the system's state space.
-```
+:::
 
 As quantum states are described by unit vectors, we write $\ket{\psi}$
 for a unit vector $\psi \in \mathcal{H}^n$. So for a non-normalized
@@ -120,9 +120,9 @@ $\ket{\varphi} = \alpha\ket{0}+\beta\ket{1}$ for
 $\alpha,\beta\in \mathbb{C}$ represent a valid quantum state as long as
 $|\alpha|^2 + |\beta|^2 = 1$.
 
-```{proposition, name="Postulate 2"}
+::: {.proposition name="Postulate 2"}
 The evolution of a closed quantum system is described by a unitary transformation. That is, the state $\ket{\psi}$  of the system at time $t_1$ is related to the state $\ket{\psi}$  of the system at time $t_2$ by a unitary operator $U$ which depends only on the times $t_1$ and $t_2$.
-```
+:::
 
 A matrix $U\in \mathbb{C}^{d \times d}$ is said to be unitary if
 $UU^\dagger = U^\dagger U = I$, that is, if the inverse of $U$ equal to
@@ -141,9 +141,9 @@ see that the following are all equivalent definition of unitary matrices
     $\mathcal{C}^d$
 -   $U$ can be written as $e^{iH}$ for some Hermitian operator $H$.
 
-```{example, name="Determinant = 1 is a necessary but not sufficient condition for being unitary."}
+::: {.example name="Determinant=1 is a necessary but not sufficient condition for being unitary."}
 It is simple to see that any 2x2 diagonal matrix $A$ with entries $10$ and $1/10$ has determinant is 1, but it's not a unitary matrix: $A^\dagger A = AA^\dagger \neq I$.
-```
+:::
 
 It will be useful to recall that if we have a unitary that performs the
 mapping $\ket{a_i} \mapsto \ket{b_i}$, we can have the "matrix" form of
@@ -204,13 +204,15 @@ in many places throughout this text.
 ```
 <!-- From Near term quantum algorithms for linear systems of equations -->
 
-```{exercise, ntqls, name="From [@huang2019near]"}
+(ref:huang2019near) [@huang2019near]
+
+::: {.exercise #ntqls name="From (ref:huang2019near)"}
 Let $k \in \{0,1\}^n$ be an arbitrary $n$-bitstring.
 Let $A=(\sigma_{x}^{(1)})^{k_1} \otimes \dots \otimes (\sigma_{x}^{(n)})^{k_n}$ and $\ket{b}=\ket{0^n}$.
 What is the solution to the equation $A\ket{x} =\ket{b}$
-```
+:::
 
-```{proposition, postulate3, name="Postulate 3"}
+::: {.proposition #postulate3 name="Postulate 3"}
 Quantum measurements are described by a collection $\{M_m\}$ of measurement operators. These are operators acting on the state space of the system being measured. The index $m$ refers to the measurement outcomes that may occur in the experiment. If the state of the quantum system is
 $\ket{\psi}$ immediately before the measurement, then the probability that the result $m$ occurs is given by
 $$
@@ -224,7 +226,7 @@ The measurement operators satisfy the \emph{completeness equation}
 $$
 \sum_m M^\dagger _m M_m = I
 $$
-```
+:::
 
 In practice, we will mostly perform projective measurements (also called
 von Neumann measurements). A projective measurement is described by an
@@ -272,9 +274,9 @@ From these rules, it is simple to see that the probability that a
 measurement on a state $\ket{x} = \frac{1}{\norm{x}}\sum_i x_i\ket{i}$
 gives outcome $i$ is $|x_i|^2/\norm{x}^2$.
 
-```{proposition, name="Postulate 4"}
+::: {.proposition name="Postulate 4"}
 The state space of a composite physical system is the tensor product of the state spaces of the component physical systems. Moreover, if we have systems numbered from 1 through $n$, and each state is described as $\ket{\psi_i}$, the join state of the total system is $\bigotimes_{j=1}^n \ket{\psi_i}=\ket{\psi_1}\ket{\psi_2}\dots \ket{\psi_n}$.
-```
+:::
 
 To describe together two different quantum system we use the tensor
 product. The tensor product between two vectors
@@ -286,9 +288,9 @@ operation to describe the joint evolution of separate quantum system.
 Even if it's not explicitly used much in quantum algorithms, it's useful
 to recall the definition of entangled pure state.
 
-```{definition, name="Entangled state"}
+::: {.definition name="Entangled state"}
 A quantum state that cannot be expressed as tensor product of two quantum state is said to be entangled.
-```
+:::
 
 The same thing can be done for operators. Let $U_1$ be the unitary
 describing the evolution of a quantum state $\ket{x}$ and $U_2$ the
@@ -303,12 +305,14 @@ this fact will be extensively leveraged in our quantum algorithms.
 Before delving into a review of quantum algorithms, we would like to
 state here a few important lemmas.
 
-```{lemma, hadamard-on-bitstring, name="Hadamard on a bitstring [@NC02]"}
+(ref:NC02) [@NC02]
+
+::: {.lemma #hadamard-on-bitstring name="Hadamard on a bitstring (ref:NC02)"}
 Let $x \in \{0,1\}^n$ be a bitstring, and $H$ be an Hadamard gate. Then:
 
 $$H^{\otimes n}\ket{x} = \frac{1}{\sqrt{2^n}}\sum_{z_1, \dots z_n \in \{0,1\}^n} (-1)^{x_1z_1 + x_2z_2 + \dots + x_nz_n} \ket{z_1, \dots, z_n} = \frac{1}{\sqrt{2^n}}\sum_{z\in \{0,1\}^n} (-1)^{x^Tz} \ket{z}$$
   Where $x^Tz$ is the bitwise inner product of strings in $Z_2^n$ modulo $2$.
-```
+:::
 
 ## Measuring complexity of quantum algorithms {#measuring-complexity}
 
@@ -326,18 +330,18 @@ We use a standard notation of $\widetilde{O}$ for hiding polylogarithmic
 factors in the big-O notation of the algorithms:
 $O(\log(n))=\widetilde{O}(1)$.
 
-```{definition, quantum-oracle-access, name="Quantum query or oracle access to a function"}
+::: {.definition #quantum-oracle-access name="Quantum query or oracle access to a function"}
 Let $\mathcal{H}$ be a finite-dimensional Hilbert space with basis $\{0,1\}^{n}$. Given $f:\{0,1\}^n\to\{0,1\}^m$, we say that we have quantum query access to $f$ if we have access to a unitary operator $U_f$ on $\mathcal{H}\otimes\mathbb{C}^{2^n}$ such that $U\ket{x}\ket{b} = \ket{x}\ket{b \oplus f(x)}$ for any bit string $b\in\{0,1\}^m$. One application of $U_f$ costs $T_f$ operations.
-```
+:::
 
-```{definition, quantum-computation, name="Quantum computation in the query model"}
+::: {.definition #quantum-computation name="Quantum computation in the query model"}
 Let $O_x$ be a unitary operator that encodes the input of our computation, and acts in a non-trivial way on its associated Hilbert space.
 A quantum computation with $T$ queries to an oracle $O_x : \ket{i,b,z} \mapsto \ket{i,b \oplus x_i, z}$ is a sequence of unitary transformations:
 
 $$U_TO_xU_{T-1}O_x \dots U_1O_xU_0$$
  
   Where each $U_t$ is a unitary that does not depend on the input of the algorithm. The output of the computation is obtained by measuring the rightmost register (by convention).
-```
+:::
 
 Note that the second register holds the XOR of the $i$-th component of
 the input with the previous state of the register (i.e. the b). This is
@@ -365,9 +369,9 @@ study of the query complexity of the problem and the depth of the
 quantum circuit which is executed on the real hardware. We formalize
 more this difference in the following definitions.
 
-```{definition, query-complexity, name="Query complexity"}
+::: {.definition #query-complexity name="Query complexity"}
 The quantum query complexity of a quantum algorithm $\mathcal{A}$ is the number of queries to a black-box made by $\mathcal{A}$ in order to compute $f$.
-```
+:::
 
 If we just care about the **relativized** complexity, we might limit
 ourselves to compare two algorithms that solve the same problem in terms
@@ -378,9 +382,9 @@ complexity of the operations that are **not** queries to an oracle. In
 the case of quantum algorithms, these might simply be the gate depth of
 the circuit.
 
-```{definition, circuit-complexity, name="Circuit complexity or time complexity"}
+::: {.definition #circuit-complexity name="Circuit complexity or time complexity"}
 The quantum circuit complexity (or time complexity) of a quantum algorithm $\mathcal{A}$ is the depth of the quantum circuit implementing $\mathcal{A}$.
-```
+:::
 
 Quantum computing is not the only place where we measure the complexity
 in terms of query to an oracle. In fact, it's sufficient to do a few
@@ -408,14 +412,14 @@ few specializations of the problem.
 We will clarify better some definitions that are used to describe the
 probabilistic behavior of an algorithm:
 
-```{definition, error-behavior, name="Kind of randomized algorithms"}
+::: {.definition #error-behavior name="Kind of randomized algorithms"}
 Let $f : \{0,1\}^N \mapsto \{0,1\}$ be a Boolean function. An algorithm computes $f$:
 
 -  **exactly** if the outputs equals $f(x)$ with probability 1 for all $x \in\{0,1\}^N$
 - with **zero error** if it is allowed to give the answer "UNDEFINED" with probability smaller than $1/2$ (but if the output is $0$ or $1$ it must be correct)
 - with **bounded error** if the output equals $f(x)$ with probability greater than $2/3$ for all $x\in \{0,1\}^N$.
 
-```
+:::
 
 A bounded error (quantum or classical) algorithm that fails with
 probability $1/3$ (or any other constant smaller than $1/2$) is meant to
@@ -447,19 +451,21 @@ for the quantum machine learning practitioner.
 
 ### Deutsch-Josza
 
-```{definition, name="Constant function"}
+::: {.definition name="Constant function"}
 A function $f :\{0,1\}^n \mapsto \{0,1\}$ is constant if $f(x)=0 \forall x \in \{0,1\}^n$ or $f(x)=1 \forall x \in \{0,1\}^n$.
-```
+:::
 
-```{definition, name="Balanced function"}
+::: {.definition name="Balanced function"}
 A function $f :\{0,1\}^n \mapsto \{0,1\}$ is balanced if $f(x)=0$ for half of the inputs and $f(x)=1$ for the other half.
-```
+:::
 
-```{theorem, name="Deutsch-Josza [@deutsch1992rapid]"}
+(ref:deutsch1992rapid) [@deutsch1992rapid]
+
+::: {.theorem name="Deutsch-Josza (ref:deutsch1992rapid)"}
 Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) ) to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which we are promised to be either constant or balanced. There is a quantum algorithm that decides which is the case with probabiliy $1$, using $U_f$ only once and using $O(\log(n))$ other gates.
-```
+:::
 
-```{proof}
+::: {.proof}
 We start our quantum computer initializing $n$ qubit as $\ket{0}$ state follwed by a single ancilla qubit initialized in state $\ket{1}$, which we will use for the phase-kickback. Then, we apply the Hadamard transform on each of them. Mathematically, we are performing the following mapping:
 
 \begin{equation}
@@ -485,7 +491,7 @@ The key idea of the proof of this algorithm lies in asking the right question to
 
 To conclude, reckon that if the function $f$ is constant (first two cases), we will measure $\ket{0}^{\otimes n}$ with probability $1$, and if the function is balanced, we will measure some bitstring of $n$ bits that is different than the string $0_1\dots 0_n$.
 
-```
+:::
 
 It's simple to see that if we want to solve this problem with a
 classical *deterministic* algorithm, we need exactly $2^n/2 + 1$
@@ -493,9 +499,9 @@ queries. However, with the usage of a randomized algorithm we can
 drastically reduce the number of queries by admitting a small
 probability of failure.
 
-```{exercise}
+::: {.exercise}
 Can you think of an efficient randomized classical algorithm for solving this problem? Perhaps you can use the tools in the Appendix for randomized algorithms.
-```
+:::
 
 We now turn our attention to the first learning problem of this book.
 This is rarely stressed that the following algorithm can be interpreted
@@ -503,28 +509,30 @@ as a learning algorithm.
 
 ### Bernstein-Vazirani
 
-```{theorem, name="Bernstein-Vazirani"}
+::: {.theorem name="Bernstein-Vazirani"}
 Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) )  to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f_a(x) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$.  There is a quantum algorithm that learns $a$ with probability $1$, using $U_f$ only once and $O(\log(n))$ other gates.
-```
+:::
 
-```{proof}
+::: {.proof}
 The algorithm follows exactly the same steps as the Deutsch-Josza algorithm. The proof is slightly different, and start by noting that, after the application of the oracle $U_f$, the register of our quantum computer is in the following state:
 
 
-  $$\left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n}(-1)^{f(x)}  \ket{x} \right) \ket{+} = \left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n} (-1)^{a^T x}\ket{x} \right)\ket{+}$$
+\begin{equation}
+\left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n}(-1)^{f(x)}  \ket{x} \right) \ket{+} = \left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n} (-1)^{a^T x}\ket{x} \right)\ket{+}
+\end{equation}
 
 Now we resort again to Lemma \ref(lem:hadamard-on-bitstring), and we use the fact that the Hadamard it is also a self-adjoint operator (i.e. it is the inverse of itself: $H^2 = I$). Thus applying $n$ Hadamard gates to the first register leads to the state $\ket{a}$ deterministically.
 
-```
+:::
 
 ```{=html}
 <!-- TODO
 add proof of the lower bounds for the runtime of classical algorithms.
 -->
 ```
-```{exercise}
+::: {.exercise}
 Can you think of an efficient randomized classical algorithm for solving Berstain-Vazirani problem? You can use the tools in the Appendix for randomized algorithms.
-```
+:::
 
 Other material for learning about Deutsch-Josza and Bernstein-Vazirani
 algorithms are the lecture notes of Ronald de Wolf that you can find
@@ -576,9 +584,9 @@ Where we used Postulate \@ref(prp:postulate3) with the observable
 $\ket{0}\bra{0}\otimes I$.The probability of measuring $1$ in the first
 register follows trivially.
 
-```{exercise}
+::: {.exercise}
 Can you tell what is the expected value of the observable $Z$ of the ancilla qubit? Remember that the possible outcome of the observable $Z$ are $\{+1, -1\}$. 
-```
+:::
 
 <!-- Solution: it's just $\braket{\psi U \psi}$ -->
 
@@ -616,9 +624,9 @@ is indeed the real number corresponding to
 $2\text{Im}(\braket{\psi| U|\psi})$, and thus the whole equation can be a
 probability.
 
-```{exercise}
+::: {.exercise}
 Can you check if the $S$ gate that we do after the first Hadamard can be performed before the last Hadamard gate instead?
-```
+:::
 
 ### Modified Hadamard test
 
@@ -628,11 +636,11 @@ of a circuit in order to estimate the expected value or the probability
 of interested with a certain level of accuracy and with a certain
 probability.
 
-```{theorem, modified-hadamard-test-no-amplification, name="Modified Hadamard test (no amplitude amplification)"}
+::: {.theorem #modified-hadamard-test-no-amplification name="Modified Hadamard test (no amplitude amplification)"}
 Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \ket{\psi_1}$ and a unitary $U_2$ that produces a state $\ket{\psi_2}$, where $\ket{\psi_1},\ket{\psi_2} \in \mathbb{R}^N$ for $N=2^n, n\in\mathbb{N}$. There is a quantum algorithm that allows to estimate the quantity $\braket{\psi_1|\psi_2}$ with additive precision $\epsilon$ using controlled applications of $U_1$ and $U_2$ $O(\frac{\log(1/\delta)}{\epsilon_2})$ times, with probability $1-\delta$
-```
+:::
 
-```{proof}
+::: {.proof}
 Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancilla qubit, and the second and third register have $n$ qubits. Then, apply an Hadamard gate to the first qubit, so to obtain $\ket{+}\ket{0}\ket{0}$. Then, controlled on the first register being $0$, we apply the unitary $U_1$, and controlled on the register being $1$, we apply the unitary $U_2$. Then, we apply again the Hadamard gate on the ancilla qubit. The state that we obtain is the following:
 
 
@@ -650,7 +658,7 @@ p(0)=\frac{2+2\text{Re}[\braket{\psi_1|\psi_2}]}{4}
 
 We conclude the proof by recalling the Chernoff bound in theorem \@ref(thm:chernoff-bound2), as we did for the proof of the swap test.
 
-```
+:::
 
 <!-- TODO add circuit for complex part of inner product.-->
 
@@ -675,11 +683,11 @@ perform controlled operations on this unitary. You can think that we
 receive the states from a third-party, i.e. via a communication
 protocol.
 
-```{theorem, swap-test-no-amplification, name="Swap test (no amplitude amplification)"}
+::: {.theorem #swap-test-no-amplification name="Swap test (no amplitude amplification)"}
 Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \ket{\psi_1}$ and a unitary $U_2$ that produces a state $\ket{\psi_2}$, where $\ket{\psi_1},\ket{\psi_2} \in \mathbb{R}^N$ for $N=2^n, n\in\mathbb{N}$. There is a quantum algorithm that allows to estimate the quantity $|\braket{\psi_1|\psi_2}|^2$ with additive precision $\epsilon$ using $U_1$ and $U_2$ $O(\frac{\log(1/\delta)}{\epsilon_2})$ times with probability $1-\delta$
-```
+:::
 
-```{proof}
+::: {.proof}
 Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancilla qubit, and the second and third register have $n$ qubits. Then, apply an Hadamard gate to the first qubit, so to obtain $\ket{+}\ket{0}\ket{0}$. Then, apply $U_1$ and $U_2$ to the second and third register, and then apply a controlled swap gate controlled on the ancilla qubit, targeting the two registers. More precisely, we apply $n$ controlled swap gates, each controlling a single qubit of the second and third register. Thus, we obtain the state:
   
   \begin{equation}
@@ -696,11 +704,11 @@ Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancil
 Now we consider the probability of measuring $0$ and $1$ in the ancilla qubit. More in detail, we want to estimate $p(0)=\bra{\phi}M_0\ket{\phi}$. For this, we recall our Postulate \@ref(prp:postulate3), and more precisely equation \@ref(eq:simple-measurement-probability), with $M_0=\ket{0}\bra{0}\otimes I$, where $I$ is the identiy operator over $n$ qubits. It is simple to see that $p(0)=\frac{2-2|\braket{\psi_1|\psi_2}|^2}{4}$.
 
 By repeating this measurement $O(\log(1/\delta)/\epsilon^2)$ times, duly following the statement of the Chernoff bound in theorem \@ref(thm:chernoff-bound2), we have that the number of samples needed to obtain an error $\epsilon$ with probability $1-\delta$ is $t=\frac{\log(1/\delta)}{2\epsilon^2}$. Once we have obtained an estimate of $p(0)$, we can estiamte the sought-after quantity of interest as $|\braket{\psi_1|\psi_2}|^2 = 1-2p(0)$.
-```
+:::
 
-```{exercise, name="Obtain the absolute value of the inner product"}
+::: {.exercise name="Obtain the absolute value of the inner product"}
 In the previous theorem we obtain an estimate of $|\braket{\psi_1|\psi_2}|^2$ with a certain error $\epsilon$. If we just take the square root of that number, what is the error in the estimation of $|\braket{\psi_1|\psi_2}|$? You are encouraged to read the section in the appendix \@ref(error-prop) on error propagation.
-```
+:::
 
 <!-- ## Exercises -->
 
