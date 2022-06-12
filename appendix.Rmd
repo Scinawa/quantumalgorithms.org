@@ -1033,9 +1033,9 @@ Moreover, if  $k = \epsilon /\sigma$ we can replace $\epsilon$ with $k\sigma$ an
 ```
 
 ```{proof}
-Observe that $(X-\mu)_2$ is a non-negative random variable. Therefore,
+Observe that $(X-\mu)^2$ is a non-negative random variable. Therefore,
 $$P(|X-\mu| \geq \epsilon) = P((X-\mu)^2 \geq \epsilon^2)$$
-Now since $(X-\mu)_2$ is a non-negative random variable, we can apply Markov inequality to get :
+Now since $(X-\mu)^2$ is a non-negative random variable, we can apply Markov inequality to get :
   $$P(|X-\mu| \geq \epsilon) = P((X-\mu)^2 \geq \epsilon^2) \leq \frac{E[(X-\mu)^2]}{\epsilon^2}$$
   $$(|X-\mu| \geq \epsilon) = P((X-\mu)^2 \geq \epsilon^2) \leq \frac{[Var(X)]}{\epsilon^2}$$
 ```
@@ -1070,15 +1070,15 @@ $$\lim_{n\to +\infty} P\left( |\overline{X} - \mu | \geq \epsilon   \right) = 0$
 ```
 
 ```{proof}
-We know that $E[\bar{X}] = \mu$ and $Var(\bar{X}) = \frac{\sigma^2}{n}$. By Chebyshev Inequality,
-$$P(|\bar{X}-\mu| > \epsilon) \leq \frac{Var(\bar{X})}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2} \rightarrow 0 (as n \rightarrow \infty)$$
+We know that $E[\overline{X}] = \mu$ and $Var(\overline{X}) = \frac{\sigma^2}{n}$. By Chebyshev Inequality,
+$$P(|\overline{X}-\mu| > \epsilon) \leq \frac{Var(\overline{X})}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2} \rightarrow 0 (as n \rightarrow \infty)$$
 ```
 
 ### (Strong) Law of Large Numbers
 
 ```{theorem, slln, name="(Strong) Law of large numbers"}
-Let $X_1,X_2,X_3,...,\X_n$ be i.i.d random variables with mean $\mu$. Let $\bar{X} = \sum_{i=1}^{n} X_i$ be the sample mean. Then, $\bar{X}$ converges almost surely to $\mu$.That is,
-$$P(\lim_{x \to -\infty}\bar{X}_n = \mu) = 1$$
+Let $X_1,X_2,X_3,\dots,X_n$ be i.i.d random variables with mean $\mu$. Let $\overline{X} = \sum_{i=1}^{n} X_i$ be the sample mean. Then, $\overline{X}$ converges almost surely to $\mu$.That is,
+$$P(\lim_{x \to -\infty}\overline{X}_n = \mu) = 1$$
 The SLLN implies WLLN but not vice-versa.
 ```
 
