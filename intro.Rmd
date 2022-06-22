@@ -5,7 +5,7 @@
 In this chapter we will introduce the notation used throughout the rest
 of the lecture notes. We will extensively use linear algebra (norm of
 matrices, SVD, properties of particular matrices, and so on), so the
-reader is higly encouraged to skim the appendix on his/her own, so to
+reader is highly encouraged to skim the appendix on his/her own, so to
 know the notation adopted here.
 
 ## Getting rid of physics in quantum computing
