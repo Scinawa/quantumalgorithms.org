@@ -1220,7 +1220,193 @@ Let $\theta$ be the angle between vectors $x,y$, and assume that $\theta < \pi/2
 Then, $\norm{x-y} \leq \epsilon$ implies $\norm{\ket{x} - \ket{y}} \leq \frac{\sqrt{2}\epsilon}{\norm{x}}$. Where $\ket{x}$ and $\ket{y}$ are two unit vectors in $\ell_2$ norm.
 ```
 
+# Approximation theory
 
+## Chebyshev polynomials
+
+Chebyshev polynomials play an important role in approximation theory (see, for example, [@Iske2018]).
+
+```{definition, name="Chebyshev polynomial"}
+For $n \in \mathbb{N}_{0}$, the Chebyshev polynomial $T_{n}$ of degree $n$ is the function defined on the interval $[-1, \, 1]$ by
+$$T_{n}(x) := \cos (n \arccos(x)).$$
+```
+
+### Continuous approximation of $1/x$
+
+The function $1/x$ has an essential discontinuity in $x=0$ since
+
+$$\lim_{x\to 0-} \frac{1}{x} = -\infty \text{ and } \lim_{x\to 0+} \frac{1}{x} = +\infty.$$
+
+In this section we will follow [@Childs2017] and show that $1/x$ can be approximated arbitrarily closely on the set $[-1,\, -\delta ] \cup [\delta,\, 1 ]$, where $0<\delta<1$, by a linear combination of Chebyshev polynomials. We start by approximating $1/x$ with the following function: 
+
+\begin{equation}
+g_{b}(x) := \begin{cases}
+        (1-(1-x^{2})^{b})/x, \text{ if } x \in \mathbb{R}\setminus\{0\}\\
+        0, \text{ if } x=0
+        \end{cases}
+(\#eq:continuous-approximation-of-1-on-x)
+\end{equation}
+where $b>0$ is a positive constant.
+
+```{lemma}
+The function \@ref(eq:continuous-approximation-of-1-on-x) is continuous in $\mathbb{R}$.
+```
+
+```{proof}
+We need to show the continuity of $g_{b}$ in $x=0$. This follows by an application of L'Hôpital's rule:
+$$ \lim_{x\to 0} \frac{1-(1-x^{2})^{b}}{x} = \lim_{x\to 0} \frac{2bx(1-x^{2})^{b-1}}{1} = 0 = g_{b}(0).$$ 
+```
+
+The following lemma shows that $g_{b}$ approximates $1/x$ arbitrarily closely on the set $[-1,\, -\delta ] \cup [\delta,\, 1 ]$, $0<\delta<1$, if $b$ is large enough. 
+
+```{lemma, inverse-x-approximation}
+Let $\epsilon>0$ and $0<\delta<1$. If $b \ge \max \{1, \delta^{-2}\log(1/(\epsilon \delta))\}$, then $|g_{b}(x)-1/x|<\epsilon$ for all $x \in [-1,\, -\delta ] \cup [\delta,\, 1 ]$.
+```
+
+```{proof}
+From the inequality $e^{a}\ge 1+a$, $a \in \mathbb{R}$, and $b>1$ it follows with $a:=-\delta^{2}$
+$$ (1-\delta^{2})^{b} \le e^{-\delta^{2} b}.$$
+Therefore, for $x \in [-1,\, -\delta ] \cup [\delta,\, 1 ]$ we have 
+$$ \left|  g_{b}(x)-\frac{1}{x} \right|  = \frac{(1-x^{2})^{b}}{|x|} \le \frac{(1-\delta^{2})^{b}}{\delta} \le \frac{e^{-\delta^{2} b}}{\delta} \le \epsilon.$$ 
+```
+
+The following lemma shows that $g_{m}$, $m \in \mathbb{N}$, is on the interval $[-1, \, 1]$ equal to a linear combination of Chebyshev polynomials of degree at most $2m-1$.
+
+```{lemma, polynomial-expansion-of-gm}
+Let $m \in \mathbb{N}$ be a positive integer. Then, 
+
+\begin{equation}
+g_{m}(x) = 4 \sum_{n=0}^{m-1} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x)  
+(\#eq:polynomial-expansion-of-gm)
+\end{equation}
+  
+for all $x \in [-1, \, 1]$.
+```
+
+```{proof}
+For $x=0$ the equality \@ref(eq:polynomial-expansion-of-gm) follows from the definitions of Chebyshev polynomials and $g_{m}$. We are left with the task to prove
+
+$$ \frac{1-(1-x^{2})^{m}}{x} = 4 \sum_{n=0}^{m-1} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x) $$
+for all $x \in [-1, \, 1]\setminus\{0\}$. Choose $\theta \in \mathbb{R}$ such that $x=\cos (\theta)$. Because $\sin^{2}(\theta) + \cos^{2}(\theta) = 1$ and $T_{n}(\cos (\theta))= \cos (n \theta)$, we need to prove that
+
+\begin{equation}
+1 - \sin^{2m}(\theta) = 4 \sum_{n=0}^{m-1} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) \cos ((2n+1)\theta) \cos (\theta).
+(\#eq:equivalent-polynomial-expansion-of-gm)
+\end{equation}
+
+In order to complete the proof we will write the left and right side of \@ref(eq:equivalent-polynomial-expansion-of-gm) respectively in the form
+
+\begin{equation}
+\sum_{j=0}^{m} a_{j} \cos(2j\theta) \text{ and } \sum_{j=0}^{m} b_{j} \cos(2j\theta),
+(\#eq:coefficients-polynomial-expansion-of-gm)
+\end{equation}
+
+and, finally, verify that $a_{j}=b_{j}$ for all  $j \in \{0,\,\dots,\,m\}$. Using the binomial formula for complex numbers $a,\,b \in \mathbb{C}$ and $p \in \mathbb{N}_{0}$
+
+$$ (a+b)^{p}= \sum_{j=0}^{p}\binom{p}{j} a^{p-j}b^{j},$$
+we obtain
+
+\begin{equation*}
+\begin{split}
+\sin^{2m}(\theta) & = \left(\frac{e^{i\theta}-e^{-i\theta}}{2i}\right)^{2m}\\
+                  & = \frac{1}{2^{2m}i^{2m}} \sum_{j=0}^{2m}\binom{2m}{j} (-e^{-i\theta})^{2m-j}(e^{i\theta})^{j}\\
+                 & = \frac{(-1)^{m}}{2^{2m}} \sum_{j=0}^{2m}\binom{2m}{j} (-1)^{j} e^{i(2j-2m)\theta} \\
+                 & = \frac{1}{2^{2m}}\binom{2m}{m} + \frac{(-1)^{m}}{2^{2m}} \sum_{j=0}^{m-1} \left( \binom{2m}{j} (-1)^{j} e^{i(2j-2m)\theta} + \binom{2m}{2m-j} (-1)^{2m-j} e^{-i(2j-2m)\theta}\right)  \\
+                  & = \frac{1}{2^{2m}}\binom{2m}{m} + \frac{2}{2^{2m}} \sum_{j=0}^{m-1} \binom{2m}{j} (-1)^{m-j} \frac{e^{i(2j-2m)\theta}+e^{-i(2j-2m)\theta}}{2}\\
+                  & = \frac{1}{2^{2m}}\binom{2m}{m} + \frac{2}{2^{2m}} \sum_{j=0}^{m-1} \binom{2m}{j} (-1)^{m-j} \cos(2(j-m)\theta).
+\end{split}
+\end{equation*}
+Thus, we have
+\begin{equation}
+1-\sin^{2m}(\theta) = \left( 1-\frac{1}{2^{2m}}\binom{2m}{m}\right)+\frac{2}{2^{2m}} \sum_{j=0}^{m-1} (-1)^{m-j-1} \binom{2m}{j}  \cos(2(j-m)\theta).
+(\#eq:left-side-polynomial-expansion-of-gm)
+\end{equation}
+
+Comparing the first equation of \@ref(eq:coefficients-polynomial-expansion-of-gm) with \@ref(eq:left-side-polynomial-expansion-of-gm), we obtain the following formulas for $a_{j}$:      
+\begin{equation*}
+a_{j} = \begin{cases}
+        1-\frac{1}{2^{2m}}\binom{2m}{m}, \text{ if } j=0\\
+        (-1)^{j-1} \frac{2}{2^{2m}} \binom{2m}{m-j}, \text{ if } j \in \{1,\,\dots,m\}.
+        \end{cases}
+
+\end{equation*}
+Using the trigonometric identity $2\cos(\theta_{1})\cos(\theta_{2})=\cos(\theta_{1}-\theta_{2}) +\cos(\theta_{1}+\theta_{2})$, the right side of \@ref(eq:equivalent-polynomial-expansion-of-gm) simplifies to
+\begin{equation}
+2 \sum_{n=0}^{m-1} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) (\cos ((2n+2)\theta) +\cos ((2n)\theta)).
+(\#eq:right-side-polynomial-expansion-of-gm)
+\end{equation}
+Comparing the second equation of \@ref(eq:coefficients-polynomial-expansion-of-gm) with \@ref(eq:right-side-polynomial-expansion-of-gm), we obtain the following formulas for $b_{k}$:  
+\begin{equation*}
+\begin{split}
+b_{0} & = \frac{2}{2^{2m}}\sum_{k=1}^{m}\binom{2m}{m+k}=\frac{1}{2^{2m}}\left(\sum_{k=1}^{m} \binom{2m}{m+k}+\sum_{k=1}^{m} \binom{2m}{m+k} \right) \\
+& = \frac{1}{2^{2m}} \left(\sum_{k=1}^{m} \binom{2m}{m-k}+\sum_{k=m+1}^{2m} \binom{2m}{k} \right) \\
+& = \frac{1}{2^{2m}} \left(\sum_{k=0}^{m-1} \binom{2m}{k}+\sum_{k=m+1}^{2m} \binom{2m}{k} \right) \\
+& = \frac{1}{2^{2m}} \left(\sum_{k=0}^{2m} \binom{2m}{k}- \binom{2m}{m} \right) \\
+& = 1 - \frac{1}{2^{2m}}  \binom{2m}{m}, 
+\end{split} 
+\end{equation*}
+and, for $j \in \{1,\, \dots, \, m-1 \}$,
+\begin{equation*}
+\begin{split}
+b_{j} & = \frac{2}{2^{2m}} (-1)^{j-1} \sum_{l=j}^{m}\binom{2m}{m+l} + \frac{2}{2^{2m}} (-1)^{j} \sum_{l=j+1}^{m}\binom{2m}{m+l} \\
+& = \frac{2}{2^{2m}} (-1)^{j-1} \binom{2m}{m+j} \\
+& = \frac{2}{2^{2m}} (-1)^{j-1} \binom{2m}{m-j},
+\end{split} 
+\end{equation*}
+and, for $j = m$,
+\begin{equation*}
+b_{m} =  \frac{1}{2^{2m}} (-1)^{m-1} \binom{2m}{2m} = \frac{(-1)^{m-1}}{2^{2m}}.
+\end{equation*}
+Thus, $a_{j}=b_{j}$ for all  $j \in \{0,\,\dots,\,m\}$.
+```
+
+Although $g_{m}$ is the sum of $m$ Chebyshev polynomials, the following lemma shows that for $m$ large enough the sum can be truncated while still remaining close to $g_{m}$.
+
+```{lemma, polynomial-approximation-of-gm}
+Let $0<\epsilon<1$ and $m \in \mathbb{N} \cap [2, \, \infty [$. Set $k_{0}:=\min \{m-1, \, \lfloor  \sqrt{3m \log(4(m-1)/\epsilon) }\rfloor \}$. Then,
+
+\begin{equation}
+\left| g_{m}(x) - 4 \sum_{n=0}^{k_{0}} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x) \right| \le \epsilon  
+(\#eq:truncated-polynomial-expansion-of-gm)
+\end{equation}
+  
+for all $x \in [-1, \, 1]$.
+```
+
+```{proof}
+If $k_{0}=m-1$ then we know from Lemma \@ref(lem:polynomial-expansion-of-gm) that the left side of Inequality \@ref(eq:truncated-polynomial-expansion-of-gm) is 0. Next, assume $k_{0}<m-1$. Consider a random variable $X$ that follows the binomial distribution with parameters $2m$ and $1/2$. The probability of getting at least $m+n+1$, $n<m$, successes in $2m$ independent Bernoulli trials is given by
+
+$$ \Pr(X \ge m+n+1) = \frac{1}{2^{2m}} \sum_{k=n+1}^{m} \binom{2m}{m+k}.$$
+On the other hand, the Chernoff bond gives
+$$ \Pr(X \ge m+k+1) = \Pr\left(X \ge \left(1+\frac{k+1}{m}\right)m\right) \le e^{\frac{-((k+1)/m)^{2}m}{2+(k+1)/m}} \le e^{-\frac{k^{2}}{3m}}.$$
+
+Therefore, we have
+
+\begin{equation*}
+\begin{split}
+\left| g_{m}(x) - 4 \sum_{n=0}^{k_{0}} (-1)^{n} \left( \frac{\sum_{k=n+1}^{m} \binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x) \right| & =  \left| 4 \sum_{n=k_{0}+1}^{m-1} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x) \right| \\
+& \le  \left| 4 \sum_{n=k_{0}+1}^{m-1} e^{-\frac{k^{2}}{3m}} T_{2n+1}(x) \right| \\
+& \le  4 (m-1) e^{-\frac{k_{0}^{2}}{3m}} \\
+& \le  \epsilon, \\
+\end{split} 
+\end{equation*}
+where we used the fact the $T_{2n+1}(x)| \le 1$ for $x \in [-1, \, 1]$. 
+```
+
+We are now ready to state the main result of this section that expresses the fact that the function $1/x$ can be approximated arbitrarily closely by linear combination of Chebyshev polynomials with a minimal number of terms.
+
+```{proposition}
+Let $0<\epsilon<1$ and $0<\delta<1$. Set $m := \lceil \delta^{-2}\log(2/(\epsilon \delta))\rceil$ and $k_{0}:=0$ if $m=1$ or $k_{0}:=\min \{m-1, \, \lfloor  \sqrt{3m \log(8(m-1)/\epsilon) }\rfloor \}$ otherwise. Then, 
+\begin{equation}
+\left| \frac{1}{x} - 4 \sum_{n=0}^{k_{0}} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x) \right| \le \epsilon  
+(\#eq:polynomial-approximation-of-inverse-of-x)
+\end{equation}
+for all $x \in [-1,\, -\delta ] \cup [\delta,\, 1 ]$.
+```
+
+```{proof}
+This is an immediate consequence of Lemmas \@ref(lem:inverse-x-approximation), \@ref(lem:polynomial-expansion-of-gm), and \@ref(lem:polynomial-approximation-of-gm).
+```
 
 # Contributions and  acknowledgements {#appendix-contributors}
 
