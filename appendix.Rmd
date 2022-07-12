@@ -1106,7 +1106,44 @@ Let $X=\sum_i^n X_i$ where $X_i =1$ with probability $p_i$ and $X_i=0$ with prob
 - *Upper tail*: $P(X \geq (1+\delta)\mu) \leq e^-\frac{\delta^2}{2+\delta}\mu$ for all $\delta > 0$
 - *Lower tail*: $P(X \leq (1-\delta)\mu) \leq e^{\mu\delta^2/2}$ for all $0 \leq \delta \leq 1$
 
+```
+```{proof}
+If $X = \sum_i^n X_i$ where $X_1,X_2, \dots, X_n$ are i.i.d variables, then since the MGF(Moment Generating Function) of the (independent) sum equals the product of the MGFs. Taking our general result from above and using this fact, we get:
+  
+\begin{equation}
+P(X \geq k)\leq\min_{t>0}\frac{M_x(t)}{e^{tk}}=\min_{t>0}\frac{\prod_i=1^n M_{x_i}(t)}{e^{tk}}
+\end{equation}
+  
+  Let’s derive a Chernoff bound for $X∼Bin(n, p)$, which has the form $P(X \geq (1+\delta)\mu)$ for $\delta > 0$.  For example with $\delta = 4$ you may want to bound $P(X \geq 5*E[X])$.
+  Recall $X = \sum_i^n X_i$ where $X_i ~ Ber(p)$ are i.i.d, with $\mu = E[X] = np$.
+\begin{align}
+M_{X_i(t)} = E[e^tX_i]
+           = e^{t \dot 1}px_i(1)+e^{t \dot 0}px_i(0)
+           = pe^t + 1(1-p)
+           = 1 + p(e^t - 1)
+           \leq e^{p(e^t - 1)}
+\end{align}
+Now using the result from earlier and plugging in the MGF for the $Ber(p)$ distribution, we get:
+  
+\begin{align}
+P(X \geq k) \leq \min_{t>0}\frac{\prod_i^n M_X_i(t)}{e^{tk}}
+               = \min_{t>0}\frac{(e^{p(e^t-1)})^n}{e^{tk}}
+               = \min_{t>0}\frac{e^{np(e^t-1)}}{e^{tk}}
+               = \min_{t>0}\frac{e^{\mu(e^t-1)}}{e^{tk}}
+\end{align}
 
+For our bound, we want something like $P(X \geq (1+\delta)\mu)$, so our $k = (1+\delta)\mu.$To minimize the RHS and get the tightest bound, the best bound we get is by choosing $t=ln(1+\delta)$ after some terrible algebra (take
+the derivative and set to 0). We simply plug in k and our optimal value of t to the above equation:
+  
+$$P(X \geq (1+\delta)\mu)\leq\frac{e^(\mu(e^ln(1+\delta)-1))}{e^(1+\delta)\muln(1+\delta)} = \frac{e^\mu((1+\delta)-1)}{(e^(ln(1+\delta))^(1+\delta)\mu} = \frac{e^(\delta\mu)}{(1+\delta)^(1+\delta)\mu} = (\frac{e^\delta}{(1+\delta)^(1+\delta)})^\mu$$
+  
+  Again, we wanted to choose t that minimizes our upper bound for the tail probability. Taking the derivative with respect to t tells us we should plug in $t=ln(1+\delta)$ to minimize that quantity. This would actually be
+pretty annoying to plug into a calculator.
+We actually can show that the final $RHS is \leq exp(\frac{-\delta^2\mu}{2+\delta}) with some more messy algebra. Additionally, if we restrict $0 < \delta < 1$, we can simplify this even more to the bound provided earlier:
+  $$P(X \geq (1+\delta)\mu) \leq exp(\frac{-\delta^2\mu}{3})$$
+The proof of the lower tail is entirely analogous, except optimizing over $t < 0$ when the inequality flips. It proceeds by taking $t=ln(1-\delta).$
+  We also get a lower tail bound:
+  $$P(X \leq (1-\delta)\mu)\leq (\frac{e^-\delta}{(1-\delta)^(1-\dela)})\leq (\frac{e^-\delta}{e^-(\delta+\frac{\delta^2}{2})})= (exp(\frac{-\delta^2\mu}{2}))$$
 ```
 
 ```{theorem, chernoff-bound2, name="Chernoff bound"}
@@ -1140,7 +1177,38 @@ $$Pr(|\overline{X} - \mathbb{E}[X]|\leq \epsilon) \geq 1-2
 	Consequently, if $k\geq (b-a)\epsilon^{-2}\log(2/\eta)$, then
 	$\overline{X}$ provides an $\epsilon$-approximation of $\mathbb{E}[X]$ with probability at least $1-\eta$.
 ```
+### Example problem differentiating Markov, Chebyshev and Chernoff bounds
+```{exercise}
+Suppose the number of red lights Alex encounters each day to work is on average 4\.8 (according to historical trips to work). Alex really will be late if he encounters 8 or more red lights. Let X be the number of lights he gets on a given day.
 
+1. Give a bound for $P(X \geq 8)$ using Markov’s inequality.
+2. Give a bound for $P(X \geq 8)$ using Chebyshev’s inequality, if we also assume Var(X) = 2.88.
+3. Give a bound for $P (X \geq 8)$ using the Chernoff bound. Assume that X∼Bin(12, 0.4) - that there are 12 traffic lights, and each is independently red with probability 0.4.
+4. Compute $P(X \geq 8)$ exactly using the assumption from the previous part.
+5. Compare the three bounds and their assumptions.
+```
+```{proof}
+1. Since X is nonnegative and we know its expectation, we can apply Markov’s inequality:
+  $$P(X \geq 8) \leq \frac{E[X]}{8} = \frac{4.8}{8} = 0.6$$
+  
+2. Since we know $X’s$ variance, we can apply Chebyshevs inequality after some manipulation. We have to do this to match the form required:
+  $$P(X \geq 8) \leq P(X \geq 8) + P(X \leq 1.6) = P(|X-4.8| \geq 3.2)$$
+  The reason we chose ≤ 1.6 is so it looks like $P (|X − µ| \geq \alpha)$. Now, applying Chebyshev’s gives:
+  $$\leq \frac{Var(X)}{3.2^2} = \frac{2.88}{3.2^2} = 0.28125$$
+  
+3. Actually, $X ∼ Bin(12, 0.4)$ also has $E[X] = np = 4.8$ and $Var(X) = np(1 − p) = 2.88$ (what a coincidence). The Chernoff bound requires something of the form $P(X ≥ (1 + \delta)\mu)$, so we first need to solve for $\delta: (1 + \delta)4.8 = 8$ so that $\delta = 2/3$. Now,
+$$P(X \geq 8) = P(X \geq (1+\frac{2}{3}).4.8) \leq exp(\frac{-\frac{2}{3}^2 4.8}{3}) ≈ 0.4991$$
+
+4. The exact probabiltity can be found summing the Binomial PMF:
+  $$P(X \geq 8) = \sum_(k=8)^12 (\frac{12}{k})0.4^k0.6^(12-k) ≈ 0.0573$$
+  
+5. Actually it’s usually the case that the bounds are tighter/better as we move down the list Markov, Chebyshev, Chernoff. But in this case Chebyshev’s gave us the tightest bound, even after being weakened by including some additional $P(X \leq 1.6)$. Chernoff bounds will typically be better for
+farther tails - 8 isn’t considered too far from the mean 4.8.
+It’s also important to note that we found out more information progressively - we can’t blindly apply all these inequalities every time. We need to make sure the conditions for the bound being valid are satisfied.
+
+Even our best bound of 0.28125 was 5-6x larger than the true probability of 0.0573.
+
+```
 <!-- # Polynomial approximations of useful functions -->
 
 <!-- ```{lemma, poly-approx-ln, name="Polynomial approximations of logarithm [@distributional]"} -->
