@@ -28,10 +28,10 @@
 
 		\State Set $k = \log_2(1/\epsilon)$, $t_0 =\frac{D\sqrt{\log_2{1/\epsilon}}}{\epsilon}$, where $D$ is a universal constant to be chosen later.
 
-		\State Use algorithm 1 with $t=t_0$, $\delta = 1/10$ to estimate $\mathbb{E}[\nu(A_{0,1}]$. Let the estimate be $\widetilde{\mu}_0$.
+		\State Use algorithm 1 with $t=t_0$, $\delta = 1/10$ to estimate $\mathbb{E}[\nu(A_{0,1})]$. Let the estimate be $\widetilde{\mu}_0$.
 
 		\State For $l = 1,\dots, k$:
-		 Use algorithm 1 with $t=t_0$, $\delta = 1/(10k)$ to estimate $\mathbb{E}[\nu(A_{2^{l-1},2^l}/2^l]$. Let the estimate be $\widetilde{\mu}_l$.
+		 Use algorithm 1 with $t=t_0$, $\delta = 1/(10k)$ to estimate $\mathbb{E}[\nu(A_{2^{l-1},2^l}/2^l)]$. Let the estimate be $\widetilde{\mu}_l$.
 
 		\State Output $\widetilde{\mu} = \widetilde{\mu}_0 + \sum_{l=1}^k 2^l \widetilde{\mu}_l$.
 
