@@ -281,7 +281,8 @@ We have $\mu(M_1)=\mu(M_2)= \mu(P)+\mu(Q)$ and $\kappa(M_1)=\kappa(M_2) = \frac{
 $$\tilde{O}(\frac{ ( \kappa(P) + \kappa(Q))(\mu(P)+\mu(Q))}{\epsilon} ).$$
 ```
 
-## Log-determinant
+## Example: Log-determinant
+
 A very simple example of the utility of the SVE subroutines is to estimate quantities associated to a given matrix. In this case we are going to study the log-determinant. As the name sais, this is just the logarithm of the determinant of a (symmetric positive definite) SPD matrix.
 
 ```{definition, log-determinant, name="Log-determinant of an SPD matrix"}
