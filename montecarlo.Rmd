@@ -7,7 +7,7 @@ In this chapter we focus on how quantum computing speeds up classical Monte Carl
 Monte Carlo methods are ubiquitous across science and find many broad applications such as 
 the evaluation of integrals and many more specific applications such as the pricing of financial derivatives, the computation of distances among probability distributions and so on. 
 The essence of Monte Carlo methods is to estimate some expected value of a function $f$ of one (or more) random variable $X$, $\mathbb{E}[f(X)]$.
-As already pointed out in section \@ref[sec:Loading data: quantum memory models], in the quantum setting, one needs a procedure to load data on quantum registers. In solving Monte Carlo problems, one needs access to the probability distributions pertaining to the random variables. In this chapter we will usually implicitly assume to have quantum query or oracle access to functions \@ref(def:quantum-oracle-access). We will try to state clearly whenever it is not the case or whenever we need more specific quantum access such as \@ref(def:KP-trees).
+As already discussed in chapter \@ref(chap-classical-data-quantum-computers), in the quantum setting, one needs a procedure to load data on quantum registers. In solving Monte Carlo problems, one needs access to the probability distributions pertaining to the random variables. In this chapter we will usually implicitly assume to have quantum query or oracle access to functions \@ref(def:quantum-oracle-access). We will try to state clearly whenever it is not the case or whenever we need more specific quantum access such as \@ref(def:KP-trees).
 
 In the first part of the chapter we review the work done on the quantum speedup of Monte Carlo techniques found in this paper [@montanaro2015quantum]. Previous works (upon which [@montanaro2015quantum] is based) on the same topic can be found in [@brassard2011optimal], [@wocjan2009quantum] and [@heinrich2002quantum].
 In reviewing the paper, we will focus on the most important conceptual steps, while also presenting the statements of the main theorems. 
@@ -237,9 +237,10 @@ knitr::include_graphics("algpseudocode/quantum-montecarlo-bounded-norm.png")
 ```
 
 One can prove the following theorem.
-```{theorem, quantum-monte-carlo-boundedl2, name="Quantum algorithms with bounded $ell_2$ norm"}
+
+::: {.theorem #quantum-monte-carlo-boundedl2 name="Quantum algorithms with bounded l2 norm"}
 Let $|\psi\rangle$ as in Eq.\@ref(eq:psistate), $U = |\psi\rangle\langle \psi|-1$. Algorithm in figure \@ref(fig:quantum-montecarlo-bounded-norm) uses $O(\log(1/\epsilon)\log\log(1/\epsilon))$ copies of $|\psi\rangle$, uses $U$ $O((1/\epsilon)\log^{3/2}(1/\epsilon)\log\log(1/\epsilon))$ times, and estimates $\mathbb{E}[\nu(A)]$ up to additive error $\epsilon(||\nu(A)||+1)^2$ with probability at least $4/5$.
-```
+:::
 
 We will give here a sketch of the proof for this theorem. The curious can check it on [@montanaro2015quantum]. The resource bounds follow from the resource bounds of algorithm \@ref(thm:quantumbounded01), multiplied by the number of times we use it. Indeed $\delta =\Omega(1/log(1/\epsilon))$ and we are using algorithm \@ref(thm:quantumbounded01) $O(\log(1/\epsilon))$ times. So the overall number of copies of $\ket{\psi}$ in all of the uses of algorithm \@ref(thm:quantumbounded01) is $O(\log(1/\epsilon)\log\log(1/\epsilon))$ and the total number of uses of $U$ is $O((1/\epsilon)\log^{3/2}(1/\epsilon)\log\log(1/\epsilon))$.
 
@@ -298,6 +299,7 @@ This means that the expected value of $\nu(B)/4$ could be estimated with algorit
 knitr::include_graphics("algpseudocode/quantum-montecarlo-bounded-var.png")
 ```
 This algorithm has a quadratic speedup over the classical Monte Carlo method.
+
 ```{theorem, quantum-monte-carlo-variance1, name="Quantum Monte Carlo with bounded variance - additive error"}
 Let $|\psi\rangle$ as in Eq.\@ref(eq:psistate), $U=2|\psi\rangle\langle\psi|-I$. Algorithm \@ref(fig:quantum-montecarlo-bounded-var) uses $O(\log(\sigma/\epsilon)\log\log(\sigma/\epsilon))$ copies of $\ket{\psi}$, uses $U$ $O((\sigma/\epsilon)\log^{3/2}(\sigma/\epsilon)\log\log(\sigma/\epsilon))$ times and estimates $\mathbb{E}[\nu(A)]$ up to additive error $\epsilon$ with success probability at least $2/3$.
 ```
