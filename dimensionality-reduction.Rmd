@@ -68,13 +68,12 @@ Finally, since $\sigma_{max} \leq 1$, we get that $\|\overline{U}\overline{\Sigm
 
 The fact that the matrix has been normalized to have a spectral norm smaller than one is usually not relevant for the final applications of PCA.
 However, if one desires to represent transformation of the not-normalized matrix $A$, the error bounds become the ones of the lemma below.
+
 ```{lemma, unnormalizeUSeVS, name="Non-normalized accuracy of qPCA's representation (classical)"}
-    The estimated representations of the lemma above, for the not-normalized matrix $A$, are
-    $\|A\|\overline{U}\overline{\Sigma}$
-    and
-    $\|A\|\overline{V}\overline{\Sigma}$.
-    The error bounds become $\left|\left|||A||U\Sigma - ||A||\overline{U}\overline{\Sigma}\right|\right|_F \leq \sqrt{k}||A||(\epsilon+\delta)$ and $\left|\left|||A||V\Sigma - ||A||\overline{V}\overline{\Sigma}\right|\right|_F \leq \sqrt{k}||A||(\epsilon+\delta)$
+The estimated representations of the lemma above, for the not-normalized matrix $A$, are $\|A\|\overline{U}\overline{\Sigma}$ and $\|A\|\overline{V}\overline{\Sigma}$.
+The error bounds become $\left|\left|||A||U\Sigma - ||A||\overline{U}\overline{\Sigma}\right|\right|_F \leq \sqrt{k}||A||(\epsilon+\delta)$ and $\left|\left|||A||V\Sigma - ||A||\overline{V}\overline{\Sigma}\right|\right|_F \leq \sqrt{k}||A||(\epsilon+\delta)$
 ```
+
 ```{proof}
 Firstly, it is easy to see that to get the desired data representations it suffices to multiply the output matrix by $\|A\|$.
 Indeed, in our quantum memory, the singular values of the non-normalized matrix are scaled by a factor $\frac{1}{\|A\|}$, while the singular vectors remain the same.
