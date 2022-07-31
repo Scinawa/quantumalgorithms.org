@@ -1227,7 +1227,7 @@ For $n \in \mathbb{N}_{0}$, the Chebyshev polynomial $T_{n}$ of degree $n$ is th
 $$T_{n}(x) := \cos (n \arccos(x)).$$
 ```
 
-## Polynomial approximation of $1/x$
+## Polynomial approximation of $1/x$ {#polyapprox-1overx}
 We are going to approximate $1/x$ using Chebychev polynomial, with some additional tricks, which will be used to decrease the degree of the polynomial approximation. As 
 
 The function $1/x$ has an essential discontinuity in $x=0$ since

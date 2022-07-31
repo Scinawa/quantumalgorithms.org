@@ -193,10 +193,12 @@ As QESA is expected to be done in $O(\sqrt{N/t})$ queries, one can deduce that t
 
 ## Quantum linear algebra {#subsec:linearalgebra}
 
-In our algorithms, we will also use subroutines for quantum linear algebra. From the first work of \cite{HarrowHassidim2009HHL} (known in the literature as HHL algorithm) that proposed a quantum algorithm for matrix inversion, a lot of progress has been made. In this section, we briefly recall some of the results in quantum linear algebra. We conclude by citing the state-of-the art techniques for performing not only matrix inversion and matrix multiplication, but also for applying a certain class of functions to the singular values of a matrix. A notable result after HHL was the ability to perform a quantum version of the singular value decomposition. This idea is detailed in the following theorem.
+In our algorithms, we will also use subroutines for quantum linear algebra. From the first work of [@HarrowHassidim2009HHL] (known in the literature as HHL algorithm) that proposed a quantum algorithm for matrix inversion, a lot of progress has been made in improving quantum algorithms for linear algebraic problems. In this section, we briefly recall some of the results in this space, and we conclude by citing the state-of-the art techniques for performing not only matrix inversion and matrix multiplication, but also for applying a certain class of functions to the singular values of a matrix.
+The HHL algorithm - under suitable assumptions - was able to create a quantum state proportional to the solution to a sparse linear system of equations $Ax=b$. The assumption is that $A$ is symmetric and sparse  (and we have quantum query access to $A$ and we have quantum sample access to $\ket{b}$, as we defied in \@ref(chap-classical-data-quantum-computers) ). The runtime of the first quantum algorithm for this problem was $\widetilde{O}\left(s^2\kappa(A)^2/\epsilon \right)$, where $s$ is the maximum value of non-zero entries per rows. 
+
+A notable result after HHL was the ability to perform a quantum version of the singular value decomposition. You can think of this result as a generalized phase estimation, i.e. a phase estimation that works on non-unitary matrices. It was first proposed in [@KP16], and later improved in [@kerenidis2017quantumsquares]. This idea is detailed in the following theorem.
 
 
-(ref:kerenidis2017quantumsquares) [@kerenidis2017quantumsquares]
 
 ```{theorem, sve-theorem, name="Singular Value Estimation (ref:kerenidis2017quantumsquares)"}
 Let $M \in \mathbb{R}^{n \times d}$  be a matrix with singular value decomposition $M =\sum_{i} \sigma_i u_i v_i^T$ for which we have quantum access. Let $\varepsilon > 0$ the precision parameter. There is an algorithm with running time $\tilde{O}(\mu(M)/\varepsilon)$ that performs the mapping $\sum_{i} \alpha_i \ket{v_i} \to \sum_{i}\alpha_i \ket{v_i}  \ket{\tilde{\sigma}_i}$, where $| \tilde{\sigma_i} - \sigma_i | \leq \varepsilon$ for all $i$ with probability at least $1-1/poly(n)$.
@@ -285,7 +287,7 @@ V^{T} &0 \\
 \end{matrix}  \right ).$$
 
 
-## Linear combination of unitaries
+### Linear combination of unitaries
 
 We continue our journey in quantum linear algebra by discussing the state-of-the-art technique beneath quantum linear algebra.
 
@@ -304,7 +306,7 @@ for all states $\ket{\psi}$, where $U := \sum_i \ket{i}\bra{i} \otimes U_i$ and 
 ```
 
 
-## Singular value transformation {#subsec:svt}
+### Singular value transformation {#subsec:svt}
 
 In recent years a new framework for performing operations on matrices with a quantum computer was developed, which can be found in works [@CGJ18], [@gilyen2019quantum]. We now briefly go through the machinery behind these results, as it will be used throughout this thesis.
 
@@ -319,7 +321,6 @@ For practical purposes, having a block encoding of a matrix $A$, allows one to m
 In the following theorem, the notation $P_{\Re}(A)$ means that we apply the polynomial $P$ to the singular values of the matrix $A$, i.e. $P_{\Re}(A) = \sum_i^r P(\sigma_i)u_iv_i^T$.
 
 
-(ref:gilyen2019quantum) [@gilyen2019quantum]
 
 ```{theorem, SVT, name="Polynomial eigenvalue transformation of arbitrary parity (ref:gilyen2019quantum)"}
 Suppose that $U$ is an $(\alpha,a,\epsilon)$-block encoding of the Hermitian matrix $A$. If $\delta\geq 0$ and $P_{\Re}\in\mathbb{R}[x]$ is a degree-$d$ polynomial satisfying that:
@@ -368,6 +369,8 @@ Let $M := \sum_{i} \sigma_iu_iv_i^T \in \mathbb{R}^{d \times d}$ such that $\nor
 
 One can also get estimates of the norms with multiplicative error $\eta$ by increasing the running time by a factor $1/\eta$.
 ```
+
+This algorithm is leveraging Theorem \@ref(thm:SVT) and the low-degree polynomial approximation of $1/x$ in Appendix \@ref(polyapprox-1overx).
 
 Another important advantage of the new methods is that it provides easy ways to manipulate sums or products of matrices.
 

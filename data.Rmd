@@ -28,7 +28,10 @@ Number can be stored as binary encoding: each bit of a number is encoded in the 
 
 Eventually, we can use one more qubit for the sign. In most of the cases, we want to work also with non-integer numbers. Real numbers can be approximated with decimal numbers with a certain bits of precision. For this, we need a bit to store the sign, some bits to store the integer part, and some other bits to store the decimal part. This is more precisely stated in the following definition.
 
-```{definition, fixed-point-encoding, name="Fixed-point encoding of real numbers[@rebentrost2021quantum]"}
+
+(ref:rebentrost2021quantum) [@rebentrost2021quantum]
+
+```{definition, fixed-point-encoding, name="Fixed-point encoding of real numbers (ref:rebentrost2021quantum)"}
 Let $c_1,c_2$ be positive integers, and $a\in\{0,1\}^{c_1}$, $b \in \{0,1\}^{c_2}$, and $s \in \{0,1\}$ be bit strings. Define the rational number as:
 \begin{equation}
     \mathcal{Q}(a,b,s):= 
@@ -98,10 +101,6 @@ Check that Equation \@ref(eq:matrix-state1) and \@ref(eq:matrix-state2) are in f
 
 ## Access models {#sec:quantum-memory-models}
 
-```{r, echo=FALSE, fig.width=6, fig.cap="", }
-knitr::include_graphics("images/wip.png")
-```
-
 Now we focus on how to input classical data in quantum computers. As discussed in the Section \@ref(measuring-complexity) of the previous chapter, in quantum computing we often work in a **oracle model**, also called **black-box model** of quantum computation. This section is devoted to the formalization and implementation of some of the oracles that are commonly used to load classical data (numbers, vectors, matrices). The word "oracle", (a word referencing concepts in complexity theory), is used to imply that an application of the oracle has $O(1)$ cost, i.e. that at first sight, we do not care about the cost of implementing the oracle in our algorithm. A synonym of quantum oracle model is **quantum query model**, which stress the fact that we can use this oracle to perform queries. A query to an oracle is any unitary that performs the mapping:
 
 
@@ -120,14 +119,16 @@ An oracle for numbers gives you quantum access to elements in a list of numbers,
 
 ## Implementations
 
-### Quantum memory models and the QRAM {#subsec:qram-model}
+### Quantum memory models {#subsec:qram-model}
 
 #### The QRAM
 Along with a fully fledged quantum computer, it is often common to assume that we access to a quantum memory, i.e. a classical data structure that store classical information, but that is able to answer queries in quantum superposition. This model is commonly called the **QRAM model** (and is a kind of query model). There is a catch. As we will see in greater details soon, the task of building the data structure classically requires time that is linear (up to polylogarithmic factors) in the dimension of the data (this observation is better detailed in definition \@ref(def:QRAM-model) ). If we want to have quantum access to a dense matrix $M \in \mathbb{R}^{n \times d}$ the preprocessing time *mush* be at least $O(nd \log (nd))$, as we need to do some computation to create this data structure. To stress more the fact that we are linear in the effective number of elements contained in the matrix (which can often be sparse) can write that the runtime for the preprocessing is $O(\norm{A}_0\log(nd))$. The name QRAM is meant to evoke the way classical RAM works, by addressing the data in memory using a tree structure. Note that sometimes, QRAM goes under the name of QROM, as actually it is not something that can be written during the runtime of the quantum algorithm, but just queried, i.e. read. Furthermore, a QRAM is said to be *efficient* if can be updated by adding, deleting, or modifying an entry in polylogarithmic time w.r.t the size of the data it is storing. Using the following definition, we can better define the computational model we are working with. Remember that assuming to have access to a large QRAM in your algorithms is something that is often associated with more long-term quantum algorithms, so it is a good idea to limit as much as possible the dependence on QRAM on your quantum algorithms.
 
 <!-- In the data structure one can write down the real entries $m_{ij}$ with some precision $\delta$ using $\log 1/\delta$ bits. -->
 
-```{definition, qram, name="Quantum Random Access Memory [@giovannetti2008quantum]"}
+(ref:giovannetti2008quantum) [@giovannetti2008quantum]
+
+```{definition, qram, name="Quantum Random Access Memory (ref:giovannetti2008quantum)"}
 A quantum random access memory is a device that stores indexed data $(i,x_i)$ for $i \in [n]$ and $x_i \in \R$ (eventually truncated with some bits of precision). It allows query in the form $\ket{i}\ket{0}\mapsto \ket{i}\ket{x_i}$, and has circuit depth $O(polylog(n))$.
 ```
 
@@ -155,14 +156,68 @@ Other common names for this oralce is "QRAM access", or we simply say that "$x$ 
 Another gate that is standard (but less frequent) in literature is the Quantum Random Access Gate. This gate was introduced in the paper of [@ambainis2007quantumdistinctness]. Given a quantum state that holds a string $z$ of bits (or word of $m$ bits), this gate swaps an $m$-bit target register $\ket{b}$ with the $i$-th position of the string $z_i$.
 
 ```{definition, qrag, name="Quantum Random Access Gate"}
-Given $x \in (\{0,1\}^m)^N$ we say that we have access to a quantum random access gate if we have a unitary operator $U_x$ such that $U_x \ket{i}\ket{b}\ket{x}= \ket{i}\ket{z_i}\ket{z_0,z_1,\dots,z_{i-1},b,z_{i+1}, \dots z_M}$. 
+Given $x \in (\{0,1\}^m)^N = x_0,x_1, \dots x_N$ we say that we have access to a quantum random access gate if we have a unitary operator $U_x$ such that $U_x \ket{i}\ket{b}\ket{x}= \ket{i}\ket{z_i}\ket{z_0,x_1,\dots,x_{i-1},b,x_{i+1}, \dots x_M}$. 
 ```
 
 It is natural to ask if this model is more or less powerful than a QRAM model. It turns out that with a QRAG you can have a QRAM. This is the sketch of the proof. Set $b=0$ in the second quantum register, and adding another ancillary register, we have:
 
-$$U_x \ket{i}\ket{0}\ket{0}\ket{x}= \ket{i}\ket{0}\ket{z_i}\ket{z_0,z_1,\dots,z_{i-1},b,z_{i+1}, \dots z_M}$$ now we copy with a CNOT the register $z_i$ in an ancilla register. $$\ket{i}\ket{0}\ket{z_i}\ket{z_0,z_1,\dots,z_{i-1},b,z_{i+1}, \dots z_M} \mapsto \ket{i}\ket{z_i}\ket{z_i}\ket{z_0,z_1,\dots,z_{i-1},b,z_{i+1}, \dots z_M}$$
+$$U_x \ket{i}\ket{0}\ket{b}\ket{x}= \ket{i}\ket{0}\ket{x_i}\ket{x_0,x_1,\dots,x_{i-1},b,x_{i+1}, \dots x_M}$$ now we copy with a CNOT the register $x_i$ in an ancilla register, i.e. we perform this mapping: $$\ket{i}\ket{0}\ket{x_i}\ket{x_0,x_1,\dots,x_{i-1},b,x_{i+1}, \dots x_M} \mapsto \ket{i}\ket{x_i}\ket{ x_i}\ket{x_0,x_1,\dots,x_{i-1},b,x_{i+1}, \dots x_M}$$
 
-and lastly we undo the query to the QRAG gate. 
+and lastly we undo the query to the QRAG gate to obtain $\ket{i}\ket{x_i}\ket{ b}\ket{x}$ This shows that with access to a gate that performs QRAG queries, we can symulate a QRAM query. We will see in Section \@ref(sec:qramarchitectures) how the hardware architectures for performing a QRAG gate do not differ much from the architectures required to implement a QRAM gate (Thanks to Patrick Rebentrosts and our group meetings at CQT for useful discussions).
+
+##### Memory compression in sparse QRAG models
+
+It has been observed that the memory dependence of a few algorithms - which are sparse in certain sense which we will make more precise later - can be compressed. The sparsity of these algorithm consist in a memory of size $M$ which is used only in quantum states whose amplitude is non-zero only in computational basis of Hamming weight bounded by $m \lll M$. This idea was historically first proposed by Ambainis in [@ambainis2007quantumdistinctness], elaborated further in [@jeffery2014frameworks], [@bernstein2013quantum], and finally formalized as we present it here in [@buhrman2022memory]. 
+
+
+```{theorem, name="[Informal]"}
+Any $m$-sparse quantum algorithm using time $T$ and $M$ qubits can be simulated with $\epsilon$ additional error by a quantum algorithm runnin in time $O(T \log (\frac{T}{\epsilon})\log(M))$ using $O(m\log(M))$ qubits.
+```
+
+Before stating the version of this result which could be used in a plug-and-play version, we need to formalize further our computational model. 
+
+We split the qubits of our quantum computer as organized in two parts: $M$ memory qubits and $W=O(\log M)$ working qubits. We are only allowed to apply quantum gates in the working qubits only, and we apply the QRAG gate using always in a fixed position (for example, the first $\log M$ qubits), and the target register used for the swap is the $\log M+1$ qubit\footnote{Confusingly, the authros of [@buhrman2022memory] decided to call a machine that works under this model as QRAM: quantum random-access machine.}. 
+
+The formal definition of an $m$-sparse algorithm is the following. 
+
+
+(ref:buhrman2022memory) [@buhrman2022memory]
+
+```{definition, sparseQRAGalgorithm, name="Sparse QRAG algorithm (ref:buhrman2022memory)"}
+Let $\mathcal{C} = (n,T, W, M, C_1, \ldots, C_T)$ be a QRAG algorithm using time $T$, $W$ work qubits, and $M$ memory qubits. Then, we say that $C$ is $m$-sparse, for some $m \le M$, if at every time-step $t \in \{0, \ldots, T\}$ of the algorithm, the state of the memory qubits is supported on computational basis vectors of Hamming weight $\le m$. I.e., we always have
+\[
+\ket{\psi_t} \in \text{spam} \left(  \ket{u}\ket{v} \;\middle|\; u \in \{0,1\}^W, v \in \binom{[M]}{\le m} \right)
+\]
+In other words, if $\ket{\psi_t}$ is written in the computational basis:
+\[
+\ket{\psi_t}=\sum_{u \in \{0,1\}^W} \sum_{v \in \{0,1\}^M} \alpha^{(t)}_{u,v} \cdot \underbrace{\ket{u}}_{\text{Work qubits}}\otimes \underbrace{\ket{v}}_{\text{Memory qubits}},
+\]
+then $\alpha^{(t)}_{u,v} = 0$ whenever $|v| > m$, where $|v|$ is the Hamming weight of $v$.
+```   
+
+
+The proof of the following theorem (which the reader can use withouth looking at the details of the proof) goes as follow:
+
+- first we need to present a data structure, accessible through a QRAG gate, which
+- then we need to show that through this data structure we can implement all the operations we need from a QRAG gate. 
+
+
+
+<!-- ```{theorem, name="Memory compression for m-sparse QRAG algorithms (ref:buhrman2022memory)"} -->
+<!-- Let $T$, $W$, $m < M = 2^\ell$ be natural numbers, with $M$ and $m$ both powers of $2$, and let $\eps \in [0, 1/2)$. Suppose we are given an $m$-sparse QRAM algorithm using time $T$, $W$ work qubits and $M$ memory qubits, that computes a Boolean relation $F$ with error $\eps$. -->
+
+<!-- Then we can construct a QRAM algorithm which computes $F$ with error $\eps' > \eps$, and runs in time $O(T \cdot \log(\frac{ T}{\eps' - \eps}) \cdot \gamma)$, using $W + O(\log M)$ work qubits and $O(m \log M)$ memory qubits. -->
+<!-- ``` -->
+
+
+
+<!-- 
+TODO- careful that [n] is defined as {1,} -->
+<!-- For instance, the term QRAQM appears
+in several publications, starting with [Kup05], and QAQM has also been used [NPS20].  -->
+<!-- -  -->
+<!-- -  -->
+
 
 ### Circuits {#sec:accessmodel-circuits}
 
@@ -268,13 +323,14 @@ where $N_X$ is the vector of $\ell_2$ norms of the rows of the matrix $X$, i.e. 
 \ket{0}\ket{0}\mapsto\ket{N_X}\ket{0}\mapsto \frac{1}{\|X\|_F} \sum_{i=1}^n {\left \lVert x_i \right \rVert}\ket{i}\ket{x_i}
 \end{equation}
 
-This reduces our problem to create an amplitude encoding of a given vector. In the PhD thesis of Prakash [@Prakash:EECS-2014-211] we can find the first procedure to efficiently create superpositions corresponding to vectors, and the generalization on how to do this for the rows of the matrices, i.e. encoding the values of the components of a matrix' row in the amplitudes of a quantum state. This this data structure, which sometimes could go under the name KP-trees [@rebentrost2018quantum], but is more and more often called **quantum sampling access**, assumes and extends definition \@ref(def:qram). Confusingly, in some papers both are called QRAM, and both rely on two (different) tree data structure for their construction. One is a hardware circuit arranged as a tree that allows to perform the mapping in \@ref(def:qram), the other is a classical data structure arranged as a tree that stores the partial norms of the rows of the matrix, which we will discuss now. We will use the following as definition, but this is actually a theorem. For the proof, we refer to [@Prakash:EECS-2014-211] and the appendix A of [@KP16], and the proof of Theorem 1 of [@CGJ18].
+This reduces our problem to create an amplitude encoding of a given vector. In the PhD thesis of Prakash [@Prakash:EECS-2014-211] we can find the first procedure to efficiently create superpositions corresponding to vectors, and the generalization on how to do this for the rows of the matrices, i.e. encoding the values of the components of a matrix' row in the amplitudes of a quantum state. This this data structure, which sometimes could go under the name KP-trees [@rebentrost2018quantum], but is more and more often called **quantum sampling access**, assumes and extends definition \@ref(def:qram). Confusingly, in some papers both are called QRAM, and both rely on two (different) tree data structure for their construction. One is a hardware circuit arranged as a tree that allows to perform the mapping in \@ref(def:qram), the other is a classical data structure arranged as a tree that stores the partial norms of the rows of the matrix, which we will discuss now. We will use the following as definition, but this is actually a theorem. For the original proof, we refer to [@Prakash:EECS-2014-211], the appendix A of [@KP16], and the proof of Theorem 1 of [@CGJ18].
 
 (ref:KP16) [@KP16]
 
 ```{definition, KP-trees,  name="Quantum access to matrices using KP-trees - Quantum sampling access (ref:KP16)"}
 Let $V \in \mathbb{R}^{n \times d}$, there is a data structure (sometimes called KP-trees) to store the rows of $V$ such that,
 
+- The size of the data structure is $O(\|V\|_0 \log^(nd))$.
 -  The time to insert, update or delete a single entry $v_{ij}$ is $O(\log^{2}(n))$.
 - A quantum algorithm with access to the data structure can perform the following unitaries in time $O(\log^{2}n)$.
   - $\ket{i}\ket{0} \to \ket{i}\ket{v_{i}}  \forall i \in [n].$
@@ -282,35 +338,106 @@ Let $V \in \mathbb{R}^{n \times d}$, there is a data structure (sometimes called
 
 ```
 
+
+```{proof}
+We start our proof by assuming that we have already given the whole matrix $V$, and at the end we comment on the second point of the theorem  (i.e. the time needed to modify the data structure).
+The data structure is composed of $n+1$ binary trees, one for each row of the matrix, and an additional one for the vectors of norms of the rows. Each tree is initialyl empty, and is constructed in a way so to store the so-called partial norms (squared) of a row of $V$. For the $i$-th row $v_i$ we build the binary tree $B_i$. Assume, w.l.o.g. that $d$ is a power of $2$, so that there are $\log(d)$ layers of a tree. In the leaves we store the tuple $(v_{ij}^2, \text{sign}(v_{ij}))$, and in each of the internal nodes we store the sum of the two childrens. It is simple to see that the root of the tree stores $\|v_i\|_2^2$. The layer of a tree is stored as a\footnote{ordered? typo in original paper?} list 
+
+We show how to perform the first unitary. For a tree $B_i$, the value stored in a node $k \in \{0,1\}^k$ at level $k$ is $\sum_{j \in [d], j_{1:t}=k} A_{ij}^2$.
+
+
+The rotation can be performed by querying the values $B_{ik}$ from the QRAM as follows: 
+  
+  \begin{align}
+\ket{i}\ket{k}\mapsto\ket{i}\ket{k}\ket{\theta_{ik}}\mapsto \\
+\ket{i}\ket{j}\ket{\theta_{ik}}\left(\cos(\theta_{ik})\ket{0} + \sin(\theta_{ik})\ket{1} \right) \mapsto \\
+\ket{i}\ket{j}\left(\cos(\theta_{ik})\ket{0} + \sin(\theta_{ik})\ket{1} \right)
+\end{align}
+
+
+
+The second unitary can be obtained exactly as the first one, observing that we are just doing an amplitude encoing of a vector of norms. Hence, we just need to build the $i+1$-th binary tree storing the partial norms of the vector of the amplitudes, where the number of leaves is $n$. 
+
+We now focus on the modification of the data structure.
+# TODO
+
+```
+
+
+
+
 The following exercise might be helpful to clarify the relation between quantum query access to a vector and quantum sampling access.
 
 ```{exercise}
 Suppose you have quantum access to a vector $x = [x_1, \dots, x_N]$, where each $x_i \in [0,1]$. What is the cost of creating quantum sampling access to $x$, i.e. the cost of preparing the state $\frac{1}{Z}\sum_{i=1}^N x_i \ket{i}$. Hint: query the state in superposition and perform a controlled rotation. Can you improve the cost using amplitude amplification? What if $x_i \in [0, B]$ for a $B > 1$?
 ```
 
+Lower bounds in query complexity can be used to prove that the worst case for performing state preparation with the technique used in the exercise (i.e. without KP-trees/quantum sampling access) are $O(\sqrt{N})$. 
+
+In \@ref(Prakash:EECS-2014-211) Section 2.2.1, Prakas shows subroutines for generating $\ket{x}$ for a sparse $x$ in time $O(\sqrt{\|x\|_0})$. 
+
+
 #### Sampling access to a probability distribution
 
-We start with a very simple idea of state preparation, that can be traced back to two pages paper by Lov Grover and Terry Rudolph [@Grover2002]. There, the authors discussed how to efficiently create quantum states proportional to functions satisfying certain integrability condition. Let $p$ be an (efficiently integrable, in a sense that we will define more precisely very soon) probability distribution. We want to create the state
+We start with a very simple idea of state preparation, that can be traced back to two pages paper by Lov Grover and Terry Rudolph [@Grover2002]. There, the authors discussed how to efficiently create quantum states proportional to functions satisfying certain integrability condition. Let $p$ be a probability distribution. We want to create the state
 
 
 \begin{equation}
 \ket{\psi} = \sum_{i\in \{0,1\}^n} \sqrt{p_i}\ket{i}
 \end{equation}
 
-where the value of $p_i$ is obtained from discretizing the distribution $p_i$. (the case when $p$ is discrete can be solved with the circuits described in the previous section). We discretize the sample space $\Omega$ (check Definition \@ref(def:measure-space) ) in $N$ intervals, so that we can identify the samples $\omega$ of our random variable with the set $[N]$.
+where the value of $p_i$ is obtained from discretizing the distribution $p_i$. (the case when $p$ is discrete can be solved with the circuits described in the previous section). We discretize the sample space $\Omega$ (check Definition \@ref(def:measure-space) ) in $N$ intervals, so that we can identify the samples $\omega$ of our random variable with the set $[N]$. To create the state $\ket{\psi}$ we proceed in $M$ steps from initial state $\ket{0}$ to a state $\ket{\psi_M}= \ket{\psi}$ that approximates $\psi$ with $2^M = N$ discretizing intervals. 
+
+To go from $\ket{\psi_m} = \sum_{i=0}^{2^m-1} \sqrt{p_i^{(m)}}\ket{i}$ to $\ket{\psi_{m+1}} = \sum_{i=0}^{2^{m+1}-1} \sqrt{p_i^{(m+1)}}\ket{i}$
+
+
+
+We proceed as in the previous section, i.e. we query an oracle that gives us the angle $\theta_i$, that are used to perform the controlled rotation:
+
+\begin{equation}
+\ket{i}\ket{\theta_i}\ket{0}\mapsto \ket{i}\ket{\theta_i}\left(\cos \theta_i\ket{0} + \sin \theta_i \ket{1}\right) 
+(\#eq:grover-rudolph)
+\end{equation}
+
+In this case, the value $\theta_i$ is obtained as $\arccos \sqrt{ f(i)}$, where $f : [2^m] \mapsto [0,1]$ is defined as:
+
+\begin{equation}
+f(i) = \frac{\int_{x^i_L}^{\frac{x_L^i+x^i_R}{2} } p(x)dx} {\int_{x^i_L}^{x^i_R} p(x)dx}
+\end{equation}
+
+After the rotation, we undo the mapping that gaves us the $\theta_i$, i.e. we perform $\ket{i}\ket{\theta_i}\mapsto \ket{i}$. These operations resulted in the following state:
+
+\begin{equation}
+\sum_{i=0}^{2^m-1} \sqrt{p_i^{(m)}}\ket{i}\left(\cos \theta_i\ket{0} + \sin \theta_i \ket{1}\right) = \ket{\psi_{m+1}}
+\end{equation}
+
+The value of $f(i)$ is the probability that the $i$-th sample $x^i$ (which lies in the interval $[x^i_L, x^i_R]$) lines in the leftmost part of this interval (i.e. $[x^i_L, x^i_R+x^i_L/2]$). 
+
+This method works only for efficiently integrable probability distributions, i.e. for probabiliy distribution for which the integral in Equation \@ref(eq:grover-rudolph) can be approximated efficiently. A broad class of probability distributions is the class of [log-concave probability distributions](https://sites.stat.washington.edu/jaw/RESEARCH/TALKS/Toulouse1-Mar-p1-small.pdf). 
 
 ##### The problem with Grover-Rudolph.
 
-Creating quantum sample access to a probability distribution is a task often used to obtain quadratic speedups. A recent work [@herbert2021no] stressed the fact that the time to prepare the oracle used to create $\ket{\psi}$ might cancel the benefits of the speedup in term of query complexity. Mitigating this problem is currently active area of research.
+Creating quantum sample access to a probability distribution is a task often used to obtain quadratic speedups. A recent work [@herbert2021no] pointed out that in certain cases, the time needed to prepare the oracle used to create $\ket{\psi}$ might cancel the benefits of the speedup. This is the case when we don't have an analytical formulation for integrals of the form $\int_a^b p(x)dx$, and we need to resort to numerical methods.  
 
-Let's define $\mu$ as the mean of a probability distribution $p(x)$ and $\widehat{\mu}=\mathbb{E(x)}$ be an estimate of $\mu$. The error of choice for this kind of problem (which comes from applications that we will see in Section \@ref(chap-montecarlo) ) is called the Root Mean Square Error (RMSE):
+Often quantum algorithms we want to estimate expected values of integrals of this form $\mathbb{E}[x] := \int_x x p(x) dx$ (e.g. see Chapter \@ref(chap:montecarlo)), Following a garbage-in-garbage-out argument, [@herbert2021no] was able to show that if we require a precision $\epsilon$ in $\mathbb{E}[x]$, we also need to require the same kind of precision for the state preparation of our quantum computer. In particular, in our quantum Monte Carlo algorithms we have to create a state $\ket{\psi}$ encoding a (discretized) version of $p(x)$ as $\ket{\psi}=\sum_{i=0}^{2^n-1} \sqrt{p(i)}\ket{i}$. 
+
+Let's define $\mu$ as the mean of a probability distribution $p(x)$ and $\widehat{\mu}=\mathbb{E(x)}$ be an estimate of $\mu$. The error of choice for this kind of problem (which comes from applications that we will see in Section \@ref(chap-montecarlo) ) is called the Root Mean Square Error (RMSE), i.e. $\widehat{\epsilon} = \sqrt{\mathbb{E}(\widehat{\mu}- \mu)}$.
+The proof shows that an error of $\epsilon$ in the first rotation of the GR algorithm, due to an error in the computation of the first $f(i)$, would propagate in the final error of the expected value of $\mu$. To avoid this error, we should compute $f(i)$ with accuracy at least $\epsilon$. The best classical algorithms allows us to perform this step at a cost of $O(\frac{1}{\epsilon^2})$, thus canceling the benefits of a quadratic speedup. 
+
+<!-- The proof works as follows:  -->
+
+<!-- - Assuming that the error in the state preparation appears only in the first iteration, i.e. when the angle $\theta$ in $\ket{\psi^1}=\cos(\theta)\ket{0} + \sin(\theta)\ket{1})$ is obtained as $\theta = \arccos \left( \sum_{i=0}^{2^{n-1}-1}p_i)$ -->
+<!-- -  -->
+<!-- -  -->
 
 
-\begin{equation}
-\widehat{\epsilon} = \sqrt{\mathbb{E}(\widehat{\mu}- \mu)}
-\end{equation}
+Mitigating this problem is currently active area of research.
 
 <!-- ##### TODO Possible mitigations. -->
+
+
+
+
 
 ## Block encodings
 
@@ -396,11 +523,11 @@ While building a QRAM is something that has nothing to deal with computer scienc
 
 Historically, we have two concrete proposed architectures for implementing a QRAM. The bucket brigade (BB), from [@giovannetti2008quantum], [@giovannetti2008architectures] and the Fanout architecture. In this document we will neglect to discuss much about the Fanout architecutre (Fig 1 and Fig 2 of [@giovannetti2008architectures] ), as it does not have many of the nice properties of the BB architecture, and thus will never be used in practice, and we will focus on the BB architecture. Hybrid architecture, interpolating between the multiplexer and the bucket-brigade architecture exists [@di2020fault], [@paler2020parallelizing], [@low2018trading], [@berry2019qubitization]. These architecture allow to move from a quantum circuit of log-depth with no ancilla qubits, to circuits with no ancilla qubits and linear depth (as we saw in Section \@ref(sec:accessmodel-circuits) with the multiplexer).
 
-This unpretentious section is here for pinpointing a few keywords and give the reader just an intuition on how a BB QRAM works. The BB architecture (Fig 10 [@hann2019hardware], ) could be either implemented with qutrits or (as recently shown in [@hann2019hardware] ) with qubits. For now, we focus on the explanation with qutrits, as it's relatively simpler. In the QRAM terminology, we have an address register (which we previously call index register), and a bus register (which we previously called target register, which was just a empty $\ket{0}$ register).
+This unpretentious section is here for pinpointing a few keywords and give the reader just an intuition on how a BB QRAM works. The BB architecture (Fig 10 [@hann2021resilience], ) could be either implemented with qutrits or (as recently shown in [@hann2021resilience] ) with qubits. For now, we focus on the explanation with qutrits, as it's relatively simpler. In the QRAM terminology, we have an address register (which we previously call index register), and a bus register (which we previously called target register, which was just a empty $\ket{0}$ register).
 
-The BB is a binary tree, where at the leaves we find the content of the memory. Each of the leaves is connected to a parent node. Each internal node (up to the root) is called a quantum router (Figure 1b of [@hann2019hardware]). Each router is a qutrit (i.e. a three level quantum system), which can be in state $\ket{0}$ (route left), $\ket{1}$ (route right), and $\ket{W}$ i.e. (wait). When we want to perform a query, we prepare and index register with the address of the memory cell that we want to query, and we set all the router registers to $\ket{W}$. Then, the first qubit of the address register is used to change the state of the root of the tree from $\ket{W}$ to either $\ket{0}$ or $\ket{1}$. Then, the second address register is routed left or right, conditioned on the state of the quantum router in the root. Then, the state of this router in the first layer is changed according to the value of the second qubit of the address register, from $\ket{W}$ to either $\ket{0}$ or $\ket{1}$. This process of changing the state of the routers and routing the qubits of the address register is repeated until the last layers of the tree. Now, all the qubits of the bus register are routed untill the chosen leaf, and the value of the memory is copied in the bus register. Note that, as the value of the target register is a classical value, to perform a copy is simply necessary to apply a CNOT gate (and thus we do not violate the no-cloning theorem).
+The BB is a binary tree, where at the leaves we find the content of the memory. Each of the leaves is connected to a parent node. Each internal node (up to the root) is called a quantum router (Figure 1b of [@hann2021resilience]). Each router is a qutrit (i.e. a three level quantum system), which can be in state $\ket{0}$ (route left), $\ket{1}$ (route right), and $\ket{W}$ i.e. (wait). When we want to perform a query, we prepare and index register with the address of the memory cell that we want to query, and we set all the router registers to $\ket{W}$. Then, the first qubit of the address register is used to change the state of the root of the tree from $\ket{W}$ to either $\ket{0}$ or $\ket{1}$. Then, the second address register is routed left or right, conditioned on the state of the quantum router in the root. Then, the state of this router in the first layer is changed according to the value of the second qubit of the address register, from $\ket{W}$ to either $\ket{0}$ or $\ket{1}$. This process of changing the state of the routers and routing the qubits of the address register is repeated until the last layers of the tree. Now, all the qubits of the bus register are routed untill the chosen leaf, and the value of the memory is copied in the bus register. Note that, as the value of the target register is a classical value, to perform a copy is simply necessary to apply a CNOT gate (and thus we do not violate the no-cloning theorem).
 
-We are left to study the impact of errors in our QRAM. Studying a realistic error model of the BB architecture has been a topic of research for long time. Among the first works, [@arunachalam2015robustness] gave initial, but rather pessimistic results, under a not-so-realistic error model, with some resource estimations that can be found in [@di2020fault]. More recently, a series of works by which (IMHO) culminated in [@hann2019hardware] and [@hann2021practicality] (accessible [here](https://www.proquest.com/openview/c5caf76bb490e4d3abbeca2cea16b450/1?pq-origsite=gscholar&cbl=18750&diss=y)) shed more light on the noise resilience of QRAM of the bucket brigate architecture. The results presented there are much more postive, and we report some of the conclusions here. As already discussed, the metric of choice to show how much a quantum procedure prepares a state close to another desired state is the fidelity $F$, with the infidelity defined as $1-F$. The infidelity of the bucket brigade, for an addressable memory of size $N$ (and thus with $\log N$ layers in the tree), where $\epsilon$ is the probability of an error per time step, and $T$ is the time required to perform a query, scales as:
+We are left to study the impact of errors in our QRAM. Studying a realistic error model of the BB architecture has been a topic of research for long time. Among the first works, [@arunachalam2015robustness] gave initial, but rather pessimistic results, under a not-so-realistic error model, with some resource estimations that can be found in [@di2020fault]. More recently, a series of works by which (IMHO) culminated in [@hann2021resilience] and [@hann2021practicality] (accessible [here](https://www.proquest.com/openview/c5caf76bb490e4d3abbeca2cea16b450/1?pq-origsite=gscholar&cbl=18750&diss=y)) shed more light on the noise resilience of QRAM of the bucket brigate architecture. The results presented there are much more postive, and we report some of the conclusions here. As already discussed, the metric of choice to show how much a quantum procedure prepares a state close to another desired state is the fidelity $F$, with the infidelity defined as $1-F$. The infidelity of the bucket brigade, for an addressable memory of size $N$ (and thus with $\log N$ layers in the tree), where $\epsilon$ is the probability of an error per time step, and $T$ is the time required to perform a query, scales as:
 
 \begin{equation}
 1-F \approx \sum_{l=1}^{\log N} (2^{-l}) \epsilon T2^{l} = \epsilon T \log N
@@ -411,9 +538,9 @@ We are left to study the impact of errors in our QRAM. Studying a realistic erro
 Can you recall from calcolus what is the value of $\sum_{l=1}^{\log N} l$
 ```
 
-The time required to perform a query, owing to the tree structure of the BB is $T=O(\log N)$. This can be seen trivially from the fact that $T \approx \sum_{l=0}^{\log N -1 } l = \frac{1}{2}(\log N)(\log N +1)$, but can be decreased to $O(\log N)$ using simple tricks (Appendix A of [@hann2019hardware]). This leaves us with the sought-after scaling of the infidelity of $\widetilde{O}(\epsilon)$ where we are hiding in the asymptotic notation the terms that are polylogarithmic in $N$. The error that happen with probability $\epsilon$ can be modelled with Kraus operators makes this error analysis general and realistic (Appendix C [@hann2019hardware]), and is confirmed by simulations. For a proof of Equation \@ref(eq:qramfidelity) see Section 3 and Appendix D of [@hann2019hardware].
+The time required to perform a query, owing to the tree structure of the BB is $T=O(\log N)$. This can be seen trivially from the fact that $T \approx \sum_{l=0}^{\log N -1 } l = \frac{1}{2}(\log N)(\log N +1)$, but can be decreased to $O(\log N)$ using simple tricks (Appendix A of [@hann2021resilience]). This leaves us with the sought-after scaling of the infidelity of $\widetilde{O}(\epsilon)$ where we are hiding in the asymptotic notation the terms that are polylogarithmic in $N$. The error that happen with probability $\epsilon$ can be modelled with Kraus operators makes this error analysis general and realistic (Appendix C [@hann2021resilience]), and is confirmed by simulations. For a proof of Equation \@ref(eq:qramfidelity) see Section 3 and Appendix D of [@hann2021resilience].
 
-P.s. beware of "fake" QRAMs! There are some "random access quantum memories", which are memories for quantum data that do not allow to address the memory cells in superposition. For the sake of clarity, we won't discuss these results here.
+For completeness, we recall that there are proposal for "random access quantum memories", which are memories for quantum data that do not allow to address the memory cells in superposition. For the sake of clarity, we won't discuss these results here.
 
 ## Working with classical probability distributions
 
@@ -454,7 +581,7 @@ Given access to unitary $U$ such that $U\ket{0} = \ket{x}$ and its controlled ve
 
 Note that in both kinds of tomography, dependence on the error in the denominator is quadratic, and this is because of the Hoeffding inequality, i.e. lemma \@ref(lem:Hoeffding). Another remark on the hypothesis of the algorithms for tomography is that they require a unitary $U$ such that $U\ket{0}\mapsto\ket{x}$ for the $\ket{x}$ in question. Oftentimes, due to the random error in the quantum subroutines used inside the algorithms, this state $\ket{x}$ might slightly change every time.
 
-```{exercise}
+```{exercise, fromellinftoell2}
 Can you obtain $\ell_2$ tomography with error $\epsilon$ on a $d$ dimensional state if you have have only access to an algorithm that perform $\ell_\infty$ tomography with error $\epsilon^\ast$ on the same state? (I.e. what should you set the value of $\epsilon^{\ast}$?).
 ```
 
