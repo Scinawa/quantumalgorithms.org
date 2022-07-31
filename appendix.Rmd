@@ -163,7 +163,9 @@ $$(a+b)^n = \sum_{k=0}^n {n \choose k} a^kb^{n-k}$$
 
 Real matrices are important tools in Machine Learning as they allow to comfortably represent data and describe the operations to perform during an algorithm. Eigenvectors and eigenvalues are fundamental linear algebra concepts that provide important information about a matrix.
 
-```{definition, name="Eigenvalues and Eigenvectors (Section 6.1 page 289 from [@linearalgebragilbert] )"}
+(ref:linearalgebragilbert) [@linearalgebragilbert]
+
+```{definition, name="Eigenvalues and Eigenvectors (Section 6.1 page 289 from (ref:linearalgebragilbert) )"}
 Let $A$ be a $\mathbb{R}^{n\times n}$ square matrix, $q \in \mathbb{R}^{n}$ a non-zero vector and $\lambda$ a scalar. If the following equation is satisfied
 $$Aq = \lambda q,$$
 then $q$ is said to be an eigenvector of matrix $A$ and $\lambda$ is its associated eigenvalue.
@@ -180,7 +182,10 @@ Moreover, a matrix $A$ with  eigenvalues $\{\lambda_1, ..., \lambda_k\}$ has an 
 
 Generally, one eigenvalue can be associated with multiple eigenvectors. There might be a set of vectors $E(\lambda) \subseteq \mathbb{R}^n$ such that for all those vectors $q \in E(\lambda): Aq = \lambda q$. That is why for each eigenvalue we talk about an eigenspace.
 
-```{definition, eigenspace, name="Eigenspace (Definition 7.1.5 page 108 [@scapellato])"}
+(ref:scapellato) [@scapellato]
+
+
+```{definition, eigenspace, name="Eigenspace (Definition 7.1.5 page 108 (ref:scapellato) )"}
 Let $A$ be a $\mathbb{R}^{n\times n}$ square matrix and $\lambda$ be an eigenvalue of $A$. The eigenspace of $A$ related to $\lambda$ is the space defined over the set of vectors $E(\lambda) = \{ x: Ax = \lambda x\}$.
 ```
 
@@ -192,7 +197,7 @@ A basis for the space where all the eigenvectors of a matrix lie is called eigen
 
 An important result is that vectors in different eigenspaces are linearly independent.
 
-```{lemma, name="Linear independence of eigenvectors (Lemma 7.2.3 page 112 from [@scapellato]"}
+```{lemma, name="Linear independence of eigenvectors (Lemma 7.2.3 page 112 from (ref:scapellato) )"}
 
 The set of vectors obtained by the union of the bases of the eigenspaces of a matrix is linearly independent.
 ```
@@ -248,7 +253,7 @@ $$A=(U, U_0)\begin{pmatrix}
 The matrix $\Sigma$ is a diagonal matrix with $\Sigma_{ii}=\sigma_i$ being the singular values (which we assume to be sorted $\sigma_1 \geq \dots \geq \sigma_n$).
 
 The matrices $(U, U_0)$ and $(V, V_0)$ are unitary matrices, which contain a basis for the column and the row space (respectively $U$ and $V$) and the left null-space and right null-space (respectively $U_0$ and $V_0$). Oftentimes, it is simpler to define the SVD of a matrix by simply discarding the left and right null spaces, as $A=U\Sigma V^T$, where $U,V$ are orthogonal matrices and
-$\Sigma \in \mathbb{R}^{r \times r}$ is a diagonal matrix with real elements, as we did in Theorem \@ref{thm:svd}.
+$\Sigma \in \mathbb{R}^{r \times r}$ is a diagonal matrix with real elements, as we did in Theorem \@ref(thm:svd).
 
 
 
@@ -321,30 +326,28 @@ With $s(A)$ or simply with $s$   we denote the sparsity, that is, the maximum nu
 -->
 Singular values and singular vectors provide important information about matrices and allow to speed up certain kind of calculations. Many data analysis algorithms, such as Principal Component Analysis, Correspondence Analysis, and Latent Semantic Analysis that will be further investigated in the following sections, are based on the singular value decomposition of a matrix.
 
-To begin with, the SVD representation of a matrix allows us to better understand some matrix norms, like the spectral norm and the Frobenius norm.
-```{definition, spectral_norm, name="$l_2$ (or Spectral) norm (Section 11.2 page 518, [@linearalgebragilbert])"}
- Let $A  \in \mathbb{R}^{n\times m}$ be a matrix. The $l_2$ norm of $A$ is defined as $||A ||_2 = max_{x }\frac{||A x ||}{||x ||}$.
-```
+To begin with, the SVD representation of a matrix allows us to better understand some matrix norms, like the spectral norm and the Frobenius norm [@linearalgebragilbert].
+
+::: {.definition #spectral_norm name="l2 (or Spectral) norm"}
+ Let $A  \in \mathbb{R}^{n\times m}$ be a matrix. The $l_2$ norm of $A$ is defined as $\|A\|_2 = max_{x }\frac{\|A x \|}{\|x\|}$.
+:::
 
 
-It is pretty easy to see that
-$$||A ||_2 = \sigma_{max}$$
-Where $\sigma_{max}$ is the greatest singular value of $A$. In particular, if we consider again the matrix $A =U \Sigma V ^T$ as a linear transformation, we see that $U$ and $V ^T$ only rotate vectors $||U x ||=||x ||$, $||V x ||=||x ||$ while $\Sigma$ changes their magnitude $||\Sigma x || \leq \sigma_{max}||x ||$. For this reason, the $l_2$ Norm of a matrix is also referred to as the Spectral Norm. During the rest of the work we will also use the notation $||A ||$ to refer to the Spectral Norm.
+It is pretty easy to see that $\|A\|_2 = \sigma_{max}$, where $\sigma_{max}$ is the greatest singular value of $A$. In particular, if we consider again the matrix $A =U \Sigma V ^T$ as a linear transformation, we see that $U$ and $V ^T$ only rotate vectors $||U x ||=||x ||$, $||V x ||=||x ||$ while $\Sigma$ changes their magnitude $||\Sigma x || \leq \sigma_{max}||x ||$. For this reason, the $l_2$ Norm of a matrix is also referred to as the Spectral Norm. During the rest of the work we will also use the notation $||A ||$ to refer to the Spectral Norm.
 
 Another important matrix norm that benefits from SVD is the Frobenius norm, defined in the following way.
-```{definition, name="Frobenius norm"}
 
- \cite[Section 11.2 page 518]{linearalgebragilbert} \label{Def:frobenius_norm} Let $A  \in \mathbb{R}^{n\times m}$ be a matrix. The Frobenius norm of $A$ is defined as $||A ||_F = \sqrt{\sum_i^n\sum_j^m a_{ij}^2}$.
-```
+::: {.definition name="Frobenius norm"}
+Let $A  \in \mathbb{R}^{n\times m}$ be a matrix. The Frobenius norm of $A$ is defined as $\|A\|_F = \sqrt{\sum_i^n\sum_j^m a_{ij}^2}$.
+:::
 
 
 
 It can be shown that also this norm is related to the singular values.
-```{proposition}
-\label{frobenius_singular_values} \label{Prop:frobenius_singular_values}
+::: {.proposition}
 The Frobenius norm of a matrix $A  \in \mathbb{R}^{n\times m}$ is equal to the square root of the sum of squares of its singular values.
-$$||A ||_F = \sqrt{\sum_i^r \sigma_{i}^2}$$
-```
+$$\|A\|_F = \sqrt{\sum_i^r \sigma_{i}^2}$$
+:::
 
 
 ```{proof}
@@ -383,7 +386,9 @@ time $O(knm)$, where k is the rank of the output matrix \cite{partridge1997fastp
 ## Inequalities
 
 
-```{theorem, bernoulli, name="Bernoulli inequalities, [From here](https://en.wikipedia.org/wiki/Bernoulli%27s_inequality#Related_inequalities)"}
+[From here](https://en.wikipedia.org/wiki/Bernoulli%27s_inequality#Related_inequalities).
+
+```{theorem, bernoulli, name="Bernoulli inequalities"}
 
 - Bernoulli inequality:  for $\forall n \in \mathbb{N}, x\geq -1$ $$(1+x)^n \geq 1+nx$$ (Reader, check what happens if $n$ even or odd!)
 
@@ -421,7 +426,7 @@ $$\|X+Y\|_p \leq \|X\|_p + \|Y\|_p.$$
 <!-- add cite to bristol's lecture notes on martingales -->
 
 
-### Trigonometry
+## Trigonometry
 Always have in mind the following Taylor expansion:
 
 ```{theorem, taylor-exponential, name="Taylor expansion of exponential function"}
@@ -430,18 +435,21 @@ $$e^{x} = \sum_{k=0}^\infty \frac{x^k}{k!}$$
 ```
 
 From that, it is easy to derive that:
+
 $$e^{\pm ix}= cos (x) \pm i sin(x) $$
-```{theorem, name="Nunzio's version of Euler's identity"}
+
+::: {.theorem #euler name="Nunzio's version of Euler's identity"}
 For $\tau = 2\pi$,
 
 $$e^{i\tau} = 1 $$
-```
+:::
 
 Because of this, we can rewrite $\sin$ and $\cos$ as:
-$$\cos(x) = \frac{e^{ix} + e^{-ix}}{2}$$
-$$\sin(x)= \frac{e^{ix} - e^{-ix}}{2i}$$
 
-Note that we can do a similar thing of \@ref{thm:taylor-exponential} for matrices. In this case, we *define* the exponential of a matrix via it's Taylor expansion:
+- $\cos(x) = \frac{e^{ix} + e^{-ix}}{2}$
+- $\sin(x)= \frac{e^{ix} - e^{-ix}}{2i}$
+
+Note that we can do a similar thing of \@ref(thm:taylor-exponential) for matrices. In this case, we *define* the exponential of a matrix via it's Taylor expansion:
 
 $$e^A = \sum_{k=0}^\infty \frac{A^k}{k!}$$
 The matrix exponential has the following nice properties [@symmetryquantum]:
@@ -453,16 +461,17 @@ The matrix exponential has the following nice properties [@symmetryquantum]:
 - $det(e^A)= e^{Tr[A]}$
 
 
-#### Useful equalities in trigonometry
+#### Useful equalities in trigonometry {#subsec:trigonometry}
 
-$$sin(a)cos(b) =  \frac{1}{2}(sin(a+b)+sin(a-b)) = 1/2(sin(a+b)-sin(b-a) )$$
+- $\sin(a)\cos(b) =  \frac{1}{2}(\sin(a+b)+\sin(a-b)) = 1/2(\sin(a+b)-\sin(b-a) )$
+- $2 \cos x \cos y = \cos (x+y) + \cos (x-y)$
 
 ```{exercise}
 Derive an expression for $\cos(a+b)$.
 ```
 ```{proof}
-Recall that $e^x = cos(x)+isin(x)$,
-$$e^{A+B} = cos(a+b)+isin(a+b) = e^Ae^B = (cos(a)+isin(a))(cos(b)+isin(b))$$
+Recall that $e^{ix} = cos(x)+isin(x)$,
+$$e^{i(A+B)} = cos(a+b)+isin(a+b) = e^{iA}e^{iB} = (cos(a)+isin(a))(cos(b)+isin(b))$$
 $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)+isin(b)+isin(a)cos(b) - sin(b)sin(a)$$
 $$cos(a+b)+isin(a+b) = cos(a)cos(b) + cos(a)isin(b)+isin(a)cos(b) - sin(b)sin(a)$$
   From this, it follows
@@ -662,14 +671,15 @@ Note that we could have also bypassed the union bound and compute this quantity 
 <!-- Maybe we can be more precise in this exercise, by saying the interpretation of the values of difference between the analytic formula and the bound. Also we should say that the union bound might give "probabilities" bigger than one (i.e. if $\delta < 1/4$ in this case). Overall, I'm not satisfied with the level of clarity of this example, but i think it's nice to have. -->
 
 <span id="variance"> </span>
-```{definition, variance, name="Variance"}
+
+::: {.definition #variance name="Variance"}
 \begin{align}
 \operatorname{Var}(X) &= \operatorname{E}\left[(X - \operatorname{E}[X])^2\right] \\[4pt]
 &= \operatorname{E}\left[X^2 - 2X\operatorname{E}[X] + \operatorname{E}[X]^2\right] \\[4pt]
 &= \operatorname{E}\left[X^2\right] - 2\operatorname{E}[X]\operatorname{E}[X] + \operatorname{E}[X]^2 \\[4pt]
 &= \operatorname{E}\left[X^2 \right] - \operatorname{E}[X]^2
 \end{align}
-```
+:::
 
 ```{exercise}
 How can we express the variance as expectation of quantum states? What quantum algorithm might we run to estimate the variance of a random variable $M$?
@@ -766,25 +776,12 @@ In terms of random walks, irreducibility means that: if the graph is undirected,
 
 ## Distributions
 
-<!-- ### Binomial -->
-<!-- The binomial distribution with parameters n and p is the discrete probability distribution of the number of successes in a sequence of n independent experiments, each asking a ``yes and no'' question, and each with its own boolean-valued outcome: success/yes/true/one (with probability $p$) or failure/no/false/zero (with probability $q=1-p$). -->
-
-<!-- The binomial distribution is frequently used to model the number of successes in a sample of size n drawn with replacement from a population of size N. If the sampling is carried out without replacement, the draws are not independent and so the resulting distribution is a hypergeometric distribution, not a binomial one. -->
-
-
-
-<!-- ### Geometric  -->
-<!-- When is the geometric distribution an appropriate model?\cite{wikipedia-geometric} -->
-<!-- \begin{itemize} -->
-<!-- \item     The phenomenon being modeled is a sequence of independent trials. -->
-<!-- \item     There are only two possible outcomes for each trial, often designated success or failure. -->
-<!-- \item The probability of success, p, is the same for every trial. -->
-<!--     \end{itemize} -->
-
-<!-- ### and many others! -->
-
 
 [This](http://web.mit.edu/urban_or_book/www/book/chapter7/7.1.3.html) is a beautiful guide that shows you how to draw samples from a probability distribution.
+
+- [Binomial distribution](https://en.wikipedia.org/wiki/Binomial_distribution) 
+- 
+
 
 ## Concentration inequalities
 
@@ -891,14 +888,14 @@ $$\lim_{n\to +\infty} P\left( |\overline{X} - \mu | \geq \epsilon   \right) = 0$
 
 
 
-```{theorem, chernoff-bound, name="Chernoff bound"}
+::: {.theorem  #chernoff-bound name="Chernoff bound"}
 Let $X=\sum_i^n X_i$ where $X_i =1$ with probability $p_i$ and $X_i=0$ with probability $(1-p_i)$, and all $X_i$ are independent. Let $\mu=E[X] = \sum_i^n p_i$. Then:
 
 - *Upper tail*: $P(X \geq (1+\delta)\mu) \leq e^-\frac{\delta^2}{2+\delta}\mu$ for all $\delta > 0$
 - *Lower tail*: $P(X \leq (1-\delta)\mu) \leq e^{\mu\delta^2/2}$ for all $0 \leq \delta \leq 1$
 
+:::
 
-```
 
 
 ```{theorem, chernoff-bound2, name="Chernoff bound"}
@@ -1221,8 +1218,7 @@ Then, $\norm{x-y} \leq \epsilon$ implies $\norm{\ket{x} - \ket{y}} \leq \frac{\s
 ```
 
 # Approximation theory
-
-## Chebyshev polynomials
+In this section we collect some polynomial approximation of useful functions that can be used in your quantum algorithms. As we learned in Section \@ref(subsec:svt), in order to obtain efficient quantum algorithms we often need a low-degree polynomial approximation of certain functions. This is an interesting link between approximation theory (where it's relatively easy to obtain some lower bounds) and quantum algorithms. We will start by recalling an important tool in approximation theory.
 
 Chebyshev polynomials play an important role in approximation theory (see, for example, [@Iske2018]).
 
@@ -1231,7 +1227,8 @@ For $n \in \mathbb{N}_{0}$, the Chebyshev polynomial $T_{n}$ of degree $n$ is th
 $$T_{n}(x) := \cos (n \arccos(x)).$$
 ```
 
-### Continuous approximation of $1/x$
+## Polynomial approximation of $1/x$
+We are going to approximate $1/x$ using Chebychev polynomial, with some additional tricks, which will be used to decrease the degree of the polynomial approximation. As 
 
 The function $1/x$ has an essential discontinuity in $x=0$ since
 
@@ -1273,38 +1270,43 @@ $$ \left|  g_{b}(x)-\frac{1}{x} \right|  = \frac{(1-x^{2})^{b}}{|x|} \le \frac{(
 The following lemma shows that $g_{m}$, $m \in \mathbb{N}$, is on the interval $[-1, \, 1]$ equal to a linear combination of Chebyshev polynomials of degree at most $2m-1$.
 
 ```{lemma, polynomial-expansion-of-gm}
-Let $m \in \mathbb{N}$ be a positive integer. Then, 
+Let $m \in \mathbb{N}$ be a positive integer. Then,
 
 \begin{equation}
-g_{m}(x) = 4 \sum_{n=0}^{m-1} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x)  
+g_{m}(x) = 4 \sum_{n=0}^{m-1} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x)
 (\#eq:polynomial-expansion-of-gm)
 \end{equation}
-  
+
 for all $x \in [-1, \, 1]$.
 ```
 
 ```{proof}
 For $x=0$ the equality \@ref(eq:polynomial-expansion-of-gm) follows from the definitions of Chebyshev polynomials and $g_{m}$. We are left with the task to prove
 
-$$ \frac{1-(1-x^{2})^{m}}{x} = 4 \sum_{n=0}^{m-1} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x) $$
+$$\frac{1-(1-x^{2})^{m}}{x} = 4 \sum_{n=0}^{m-1} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x) $$
 for all $x \in [-1, \, 1]\setminus\{0\}$. Choose $\theta \in \mathbb{R}$ such that $x=\cos (\theta)$. Because $\sin^{2}(\theta) + \cos^{2}(\theta) = 1$ and $T_{n}(\cos (\theta))= \cos (n \theta)$, we need to prove that
 
 \begin{equation}
-1 - \sin^{2m}(\theta) = 4 \sum_{n=0}^{m-1} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) \cos ((2n+1)\theta) \cos (\theta).
+1 - \sin^{2m}(\theta) = 4 \sum_{n=0}^{m-1} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) \cos ((2n+1)\theta) \cos (\theta),
 (\#eq:equivalent-polynomial-expansion-of-gm)
 \end{equation}
+where in the previous equation we moved $\cos(\theta)$ from the denominator of the l.h.s. to the r.h.s.. 
 
-In order to complete the proof we will write the left and right side of \@ref(eq:equivalent-polynomial-expansion-of-gm) respectively in the form
+In order to complete the proof we can proceed in two different ways. Either we will write the left and right side of Equation \@ref(eq:equivalent-polynomial-expansion-of-gm) respectively in the form
 
 \begin{equation}
 \sum_{j=0}^{m} a_{j} \cos(2j\theta) \text{ and } \sum_{j=0}^{m} b_{j} \cos(2j\theta),
 (\#eq:coefficients-polynomial-expansion-of-gm)
 \end{equation}
 
-and, finally, verify that $a_{j}=b_{j}$ for all  $j \in \{0,\,\dots,\,m\}$. Using the binomial formula for complex numbers $a,\,b \in \mathbb{C}$ and $p \in \mathbb{N}_{0}$
+and, finally, verify that $a_{j}=b_{j}$ for all  $j \in \{0,\,\dots,\,m\}$. This approach follows the original proof of [@Childs2017]. Another way is to just convert the l.h.s. of Equation \@ref(eq:equivalent-polynomial-expansion-of-gm) so it matches the coefficients of the r.h.s. We will start with the second approach, as it is the canonical one, but we discuss the second one later, as it is the one presented in the original proof. 
+
+
+
+Using the binomial formula for complex numbers $a,\,b \in \mathbb{C}$ and $p \in \mathbb{N}_{0}$, which is stated in Theorem \@ref(thm:bernoulli)
 
 $$ (a+b)^{p}= \sum_{j=0}^{p}\binom{p}{j} a^{p-j}b^{j},$$
-we obtain
+we obtain a nice expansion of the $\sin(\theta)^{2m}$ as:
 
 \begin{equation*}
 \begin{split}
@@ -1316,43 +1318,100 @@ we obtain
                   & = \frac{1}{2^{2m}}\binom{2m}{m} + \frac{2}{2^{2m}} \sum_{j=0}^{m-1} \binom{2m}{j} (-1)^{m-j} \cos(2(j-m)\theta).
 \end{split}
 \end{equation*}
+
+To give more context on some of the steps in the previous series of equations, we have done the following: 
+  
+- we wrote the $\sin$ using the euler formula. 
+- we used the binomial theorem
+- we used that $(-1)^{j}=(-1)^{2m-j}$ to factor out the minus sign
+- we exploited the [symmetry of the binomial](https://proofwiki.org/wiki/Symmetry_Rule_for_Binomial_Coefficients), and removed the middle term ($\frac{1}{2^{2m}}\binom{2m}{m}$) from the summation. 
+- we collect back the $(-1)^m$ in the summation
+- we used again Euler formula (multiplying and dividing everything by $2$) to obtain a $\cos$ in the summation.
+
 Thus, we have
 \begin{equation}
 1-\sin^{2m}(\theta) = \left( 1-\frac{1}{2^{2m}}\binom{2m}{m}\right)+\frac{2}{2^{2m}} \sum_{j=0}^{m-1} (-1)^{m-j-1} \binom{2m}{j}  \cos(2(j-m)\theta).
 (\#eq:left-side-polynomial-expansion-of-gm)
 \end{equation}
 
-Comparing the first equation of \@ref(eq:coefficients-polynomial-expansion-of-gm) with \@ref(eq:left-side-polynomial-expansion-of-gm), we obtain the following formulas for $a_{j}$:      
+Note that we factored the $-$ sign in the third term in the exponent of the $(-1)$ factor. Now we perform a substitution, and set $k=m-j$. Recall that cosine is an even function, and thus $\cos(2(j-m)\theta) = \cos(2(m-j)\theta) =\cos(2k\theta)$. Also recalling again the symmetry of the binomial coefficients, i.e. $\binom{2m}{j} = \binom{2m}{2m-j} = \binom{2m}{m+k}$, we can rewrite our function as: 
+
+\begin{equation}
+1 - \sin^{2m}(\theta) = 1 - \frac{1}{2^{2m}} \binom{2m}{m} + \frac{2}{2^{2m}} \sum_{k=1}^{m} \binom{2m}{m+k} (-1)^{k-1} \cos(2k\theta)\,.
+\end{equation}
+
+Note also that because of the substition step, now we have the index of $k$ that goes from $1$ to $m$. Now we have a first trick: $2^{2m}=(1+1)^{2m} = \sum_{i=0}^{2m} \binom{2m}{i}$.This allows to rewrite the first two terms of the summation as:
+
+\begin{equation}
+1 - \frac{1}{2^{2m}} \binom{2m}{m} =  \frac{2^{2m}-\binom{2m}{m}}{2^{2m}} = \frac{1}{2^{2m}}\sum_{k=1}^{m} \left( \binom{2m}{m+k} + \binom{2m}{m-k}  \right) = \frac{2}{2^{2m}}\sum_{k=1}^{m} \binom{2m}{m+k} \,.
+\end{equation}
+
+Where we used the fact that $\binom{2m}{m}$ is the central term in $\sum_{i=0}^{2m} \binom{2m}{i}$, and its symmetry again. Thus, the whole equation can be rewritten by factoring $\binom{2m}{m+k}$ as: 
+
+\begin{align}
+1 - \sin^{2m}(\theta) = &\frac{2}{2^{2m}}\sum_{k=1}^{m} \binom{2m}{m+k}+ \frac{2}{2^{2m}} \sum_{k=1}^{m} \binom{2m}{m+k} (-1)^{k-1} \cos(2k\theta)\\ 
+ = & 1 - \sin^{2m}(\theta) =\frac{2}{2^{2m}} \sum_{k=1}^{m} \binom{2m}{m+k} \times \Big(1+(-1)^{k-1} \cos(2k\theta)\Big)\,,
+\end{align}
+
+Now we rewrite the last factor as a telescoping sum as:
+\begin{equation}
+1+(-1)^{k-1} \cos(2k\theta) = \sum_{n=0}^{k-1} (-1)^n \left(  \cos(2\theta (n+1)) + \cos(2\theta n) \right)\,.
+\end{equation}
+
+Now, we want to obtain a product of cosines, as Equation \@ref(eq:equivalent-polynomial-expansion-of-gm), we use the standard formula (Section \@ref(subsec:trigonometry)) of $\cos(x+y)+\cos(x-y)=2\cos(x)\cos(y)$. Specifically, we set $x+y=2\theta (n+1)$ and $x-y = 2\theta n$, so we obtain the value of $x=(2n+1)\theta$ and $y = \theta$. Thanks to these two passages we can rewrite 
+
+\begin{equation}
+1-\sin^{2m}(\theta) =\frac{2}{2^{2m}} \sum_{k=1}^{m} \binom{2m}{m+k} \times \Big(2\sum_{n=0}^{k-1} (-1)^n \cos((2n+1)\theta) \cos \theta\Big)\,.
+\end{equation}  
+
+We need one more step to obtain the coefficients of the Chebychev polynomial from the previous equation, which is a simple change in the order of the summations. To be very explicit, we are just using the following observation:
+$$\sum_{k=1}^m f_k (\sum_{n=0}^{k-1} c_n) = \sum_{k=1}^m \sum_{n=0}^{k-1}f_kc_n = \sum_{n=1}^{m-1}c_n(\sum_{k=n+1}^m f_k).$$
+
+Thus, we obtain
+
+\begin{equation}
+1-\sin^{2m}(\theta) = \frac{4}{2^{2m}}  \sum_{n=0}^{m-1} ((-1)^n  \left( \sum_{k=n+1}^m \binom{2m}{m+k}\right) \cos((2n+1)\theta)\cos(\theta)).
+\end{equation}
+
+
+The proof ends here, but for completeness, we report the other approach here. We can start by comparing comparing the first equation of \@ref(eq:coefficients-polynomial-expansion-of-gm) with \@ref(eq:left-side-polynomial-expansion-of-gm), we obtain the following formulas for $a_{j}$:
 \begin{equation*}
 a_{j} = \begin{cases}
-        1-\frac{1}{2^{2m}}\binom{2m}{m}, \text{ if } j=0\\
-        (-1)^{j-1} \frac{2}{2^{2m}} \binom{2m}{m-j}, \text{ if } j \in \{1,\,\dots,m\}.
-        \end{cases}
-
+1-\frac{1}{2^{2m}}\binom{2m}{m}, \text{ if } j=0\\
+(-1)^{j-1} \frac{2}{2^{2m}} \binom{2m}{m-j}, \text{ if } j \in \{1,\,\dots,m\}.
+\end{cases}
 \end{equation*}
+
 Using the trigonometric identity $2\cos(\theta_{1})\cos(\theta_{2})=\cos(\theta_{1}-\theta_{2}) +\cos(\theta_{1}+\theta_{2})$, the right side of \@ref(eq:equivalent-polynomial-expansion-of-gm) simplifies to
 \begin{equation}
 2 \sum_{n=0}^{m-1} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) (\cos ((2n+2)\theta) +\cos ((2n)\theta)).
 (\#eq:right-side-polynomial-expansion-of-gm)
 \end{equation}
-Comparing the second equation of \@ref(eq:coefficients-polynomial-expansion-of-gm) with \@ref(eq:right-side-polynomial-expansion-of-gm), we obtain the following formulas for $b_{k}$:  
+
+
+Comparing the second equation of \@ref(eq:coefficients-polynomial-expansion-of-gm) with \@ref(eq:right-side-polynomial-expansion-of-gm), we obtain the following formulas for $b_{k}$:
 \begin{equation*}
 \begin{split}
 b_{0} & = \frac{2}{2^{2m}}\sum_{k=1}^{m}\binom{2m}{m+k}=\frac{1}{2^{2m}}\left(\sum_{k=1}^{m} \binom{2m}{m+k}+\sum_{k=1}^{m} \binom{2m}{m+k} \right) \\
 & = \frac{1}{2^{2m}} \left(\sum_{k=1}^{m} \binom{2m}{m-k}+\sum_{k=m+1}^{2m} \binom{2m}{k} \right) \\
 & = \frac{1}{2^{2m}} \left(\sum_{k=0}^{m-1} \binom{2m}{k}+\sum_{k=m+1}^{2m} \binom{2m}{k} \right) \\
 & = \frac{1}{2^{2m}} \left(\sum_{k=0}^{2m} \binom{2m}{k}- \binom{2m}{m} \right) \\
-& = 1 - \frac{1}{2^{2m}}  \binom{2m}{m}, 
-\end{split} 
+& = 1 - \frac{1}{2^{2m}}  \binom{2m}{m},
+\end{split}
 \end{equation*}
+
 and, for $j \in \{1,\, \dots, \, m-1 \}$,
 \begin{equation*}
 \begin{split}
 b_{j} & = \frac{2}{2^{2m}} (-1)^{j-1} \sum_{l=j}^{m}\binom{2m}{m+l} + \frac{2}{2^{2m}} (-1)^{j} \sum_{l=j+1}^{m}\binom{2m}{m+l} \\
 & = \frac{2}{2^{2m}} (-1)^{j-1} \binom{2m}{m+j} \\
 & = \frac{2}{2^{2m}} (-1)^{j-1} \binom{2m}{m-j},
-\end{split} 
+\end{split}
 \end{equation*}
+
+
+
+
 and, for $j = m$,
 \begin{equation*}
 b_{m} =  \frac{1}{2^{2m}} (-1)^{m-1} \binom{2m}{2m} = \frac{(-1)^{m-1}}{2^{2m}}.
@@ -1360,24 +1419,27 @@ b_{m} =  \frac{1}{2^{2m}} (-1)^{m-1} \binom{2m}{2m} = \frac{(-1)^{m-1}}{2^{2m}}.
 Thus, $a_{j}=b_{j}$ for all  $j \in \{0,\,\dots,\,m\}$.
 ```
 
-Although $g_{m}$ is the sum of $m$ Chebyshev polynomials, the following lemma shows that for $m$ large enough the sum can be truncated while still remaining close to $g_{m}$.
+
+
+Although $g_{m}$ is the sum of $m$ Chebyshev polynomials, the following lemma shows that for $m$ large enough the sum can be truncated while still remaining close to $g_{m}$. 
 
 ```{lemma, polynomial-approximation-of-gm}
 Let $0<\epsilon<1$ and $m \in \mathbb{N} \cap [2, \, \infty [$. Set $k_{0}:=\min \{m-1, \, \lfloor  \sqrt{3m \log(4(m-1)/\epsilon) }\rfloor \}$. Then,
 
 \begin{equation}
-\left| g_{m}(x) - 4 \sum_{n=0}^{k_{0}} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x) \right| \le \epsilon  
+\left| g_{m}(x) - 4 \sum_{n=0}^{k_{0}} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x) \right| \le \epsilon
 (\#eq:truncated-polynomial-expansion-of-gm)
 \end{equation}
-  
+
 for all $x \in [-1, \, 1]$.
 ```
 
+
 ```{proof}
-If $k_{0}=m-1$ then we know from Lemma \@ref(lem:polynomial-expansion-of-gm) that the left side of Inequality \@ref(eq:truncated-polynomial-expansion-of-gm) is 0. Next, assume $k_{0}<m-1$. Consider a random variable $X$ that follows the binomial distribution with parameters $2m$ and $1/2$. The probability of getting at least $m+n+1$, $n<m$, successes in $2m$ independent Bernoulli trials is given by
+If $k_{0}=m-1$ then we know from Lemma \@ref(lem:polynomial-expansion-of-gm) that the left side of Inequality \@ref(eq:truncated-polynomial-expansion-of-gm) is 0. Next, assume $k_{0}<m-1$. Consider a random variable $X$ that follows the binomial distribution with parameters $2m$ and $1/2$. It is very simple to see that the expected value of this random variable is just $m$. The probability of getting at least $m+n+1$, $n<m$, successes in $2m$ independent Bernoulli trials is given by
 
 $$ \Pr(X \ge m+n+1) = \frac{1}{2^{2m}} \sum_{k=n+1}^{m} \binom{2m}{m+k}.$$
-On the other hand, the Chernoff bond gives
+On the other hand, the Chernoff bound of Theorem \@ref(thm:chernoff-bound) gives
 $$ \Pr(X \ge m+k+1) = \Pr\left(X \ge \left(1+\frac{k+1}{m}\right)m\right) \le e^{\frac{-((k+1)/m)^{2}m}{2+(k+1)/m}} \le e^{-\frac{k^{2}}{3m}}.$$
 
 Therefore, we have
@@ -1388,25 +1450,73 @@ Therefore, we have
 & \le  \left| 4 \sum_{n=k_{0}+1}^{m-1} e^{-\frac{k^{2}}{3m}} T_{2n+1}(x) \right| \\
 & \le  4 (m-1) e^{-\frac{k_{0}^{2}}{3m}} \\
 & \le  \epsilon, \\
-\end{split} 
+\end{split}
 \end{equation*}
-where we used the fact the $T_{2n+1}(x)| \le 1$ for $x \in [-1, \, 1]$. 
+where we used the fact the $T_{2n+1}(x)| \le 1$ for $x \in [-1, \, 1]$.
 ```
 
 We are now ready to state the main result of this section that expresses the fact that the function $1/x$ can be approximated arbitrarily closely by linear combination of Chebyshev polynomials with a minimal number of terms.
 
-```{proposition}
-Let $0<\epsilon<1$ and $0<\delta<1$. Set $m := \lceil \delta^{-2}\log(2/(\epsilon \delta))\rceil$ and $k_{0}:=0$ if $m=1$ or $k_{0}:=\min \{m-1, \, \lfloor  \sqrt{3m \log(8(m-1)/\epsilon) }\rfloor \}$ otherwise. Then, 
+::: {.corollary name="Low degree polynomial approximation of 1/x"}
+Let $0<\epsilon<1$ and $0<\delta<1$. Set $m := \lceil \delta^{-2}\log(2/(\epsilon \delta))\rceil$ and $k_{0}:=0$ if $m=1$ or $k_{0}:=\min \{m-1, \, \lfloor  \sqrt{3m \log(8(m-1)/\epsilon) }\rfloor \}$ otherwise. Then,
 \begin{equation}
-\left| \frac{1}{x} - 4 \sum_{n=0}^{k_{0}} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x) \right| \le \epsilon  
+\left| \frac{1}{x} - 4 \sum_{n=0}^{k_{0}} (-1)^{n} \left(\frac{\sum_{k=n+1}^{m}\binom{2m}{m+k}}{2^{2m}} \right) T_{2n+1}(x) \right| \le \epsilon
 (\#eq:polynomial-approximation-of-inverse-of-x)
 \end{equation}
 for all $x \in [-1,\, -\delta ] \cup [\delta,\, 1 ]$.
-```
+::: 
 
 ```{proof}
 This is an immediate consequence of Lemmas \@ref(lem:inverse-x-approximation), \@ref(lem:polynomial-expansion-of-gm), and \@ref(lem:polynomial-approximation-of-gm).
 ```
+
+
+
+
+
+
+
+
+
+Interestingly, there is another way of obtaining the decomposition of $\frac{1-(1-x^2)^{2m}}{x}$ with Chebychev polynomials, which is more akin to the canonical way one would approach the problem, so we report it here as an exercise, as it might be more mathematically challenging to solve than what we presented before.
+
+::: {.exerise}
+Can you prove Theorem \@ref(polynomial-expansion-of-gm) using the orthogonality of Chebychev polynomials? 
+:::
+
+```{proof}
+We give just a hint for the proof. 
+
+\begin{equation}
+\frac{1}{(1-x^2)^{2m}}{x} = \sum_{n=0}^\infty a_n T_n(x)
+\end{equation}
+
+what we want is an explicit expression for $a_n$, so we exploit the orthogonality of Chebychev polynomials (which are orthogonal under the measure $\mu(x)=\frac{1}{\sqrt{1-x^2}}$ on the interval $[1,1]$, i.e. we [have](https://en.wikipedia.org/wiki/Chebyshev_polynomials):
+
+\begin{equation}
+\int_{-1}^1 T_n(x)\,T_m(x)\,\frac{\mathrm{d}x}{\sqrt{1-x^2}} =
+\begin{cases}
+0             & if n \ne m, \\
+\pi           & if n=m=0, \\
+\frac{\pi}{2} & if n=m \ne 0.
+\end{cases}
+\end{equation}
+
+Therefore, multiplying by a polynomial $T_l(x)$ and the measure $\mu(x)$ on both sides, we can read
+
+\begin{equation}
+\int_{-1}^{1} \frac{1-(1-x^2)^{2m}}{x} \frac{T_l(x)}{\sqrt{1-x^2}} = \int_{-1}^{1} \sum_{n=0}^\infty a_n \frac{T_nT_l}{\sqrt{1-x^2}} = \sum_{n=0}^\infty a_n \frac{\pi}{2}dx = \frac{\pi}{2} a_n.
+\end{equation}
+
+The task now is to compute the integral on the l.h.s..
+```
+
+
+
+
+
+
+
 
 # Contributions and  acknowledgements {#appendix-contributors}
 
@@ -1438,6 +1548,9 @@ The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contr
 - Adrian Lee
 - Ethan Hansen
 - Lei Fan
+- Giacomo De Leva
+- Pablo Rotondo
+- João Doriguello
 
 **Funding**
 
@@ -1445,6 +1558,7 @@ This website is supported by:
 
 - [unitary.fund](https://unitary.fund).
 - [Centre for Quantum Technologies](https://www.quantumlah.org/)
+
 
 **Suppliers**
 
