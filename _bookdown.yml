@@ -1,4 +1,4 @@
-book_filename: "quantumalgorighms"
+book_filename: "quantumalgorithms"
 delete_merged_file: false
 language:
   ui:
@@ -20,5 +20,6 @@ rmd_files: ["index.Rmd",
 "selected-works.Rmd",
 #"between.Rmd",
 #"glossary.Rmd",
+"exercises.Rmd",
 "appendix.Rmd"
 ]
