@@ -1484,8 +1484,8 @@ This is an immediate consequence of Lemmas \@ref(lem:inverse-x-approximation), \
 
 Interestingly, there is another way of obtaining the decomposition of $\frac{1-(1-x^2)^{2m}}{x}$ with Chebychev polynomials, which is more akin to the canonical way one would approach the problem, so we report it here as an exercise, as it might be more mathematically challenging to solve than what we presented before.
 
-::: {.exerise}
-Can you prove Lemma \@ref(thm:polynomial-expansion-of-gm) using the orthogonality of Chebychev polynomials? 
+::: {.exercise}
+Can you prove Lemma \@ref(lem:polynomial-expansion-of-gm) using the orthogonality of Chebychev polynomials?
 :::
 
 ```{proof}
