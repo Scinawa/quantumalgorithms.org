@@ -789,6 +789,7 @@ In terms of random walks, irreducibility means that: if the graph is undirected,
 
 ## Concentration inequalities
 
+```{=html}
 <!--
 # TODO Formalize better inequalities
 # can these inequalities be formalized better? some examples are needed, and it would be nice to have different formulations, or something that gives intuition
@@ -797,15 +798,22 @@ In terms of random walks, irreducibility means that: if the graph is undirected,
 # bounded using tools like these.
 # labels: good first issue, help wanted
 -->
-
-
+```
+```{=html}
 <!--
 THIS IS A NICE TUTORIAL!! Let's expand and integrate and formalize it better!
 http://www.stat.rice.edu/~jrojo/PASI/lectures/TyronCMarticle.pdf -->
-
-
+```
 ### Markov inequality
-The Markov inequality is an *upper bound for the probability that a non-negative function of a random variable*, that is greater than or equal to a positive constant. Especially in analysis, people refer to it as Chebyshev's inequality (sometimes, calling it the *first* Chebyshev inequality, while referring to the ["usual"](https://en.wikipedia.org/wiki/Chebyshev%27s_inequality) Chebyshev's inequality as the second Chebyshev inequality or Bienaym{\'e}'s inequality).
+
+The Markov inequality is an *upper bound for the probability that a
+non-negative function of a random variable*, that is greater than or
+equal to a positive constant. Especially in analysis, people refer to it
+as Chebyshev's inequality (sometimes, calling it the *first* Chebyshev
+inequality, while referring to the
+["usual"](https://en.wikipedia.org/wiki/Chebyshev%27s_inequality)
+Chebyshev's inequality as the second Chebyshev inequality or
+Bienaym{'e}'s inequality).
 
 ```{theorem, markov, name="Markov inequality"}
 For all non-negative random variable, and $a > 0$,  we have that:
@@ -832,10 +840,11 @@ Let $f$ be a monotone increasing (or noll) function on a space $I$, and define t
 $$ P(Y \geq b) \leq \frac{E[f(Y)]}{f(b)} $$
 ```
 
-
-
 ### Chebyshev inequality
-This inequality tells us about the probability of finding the random variable $X$ away from the mean $E[X]$ is bounded by the variance of $X$.
+
+This inequality tells us about the probability of finding the random
+variable $X$ away from the mean $E[X]$ is bounded by the variance of
+$X$.
 
 ```{theorem, chebyshev, name="Chebyshev inequality"}
 Let $X$ be a random variable with finite mean and variance, and $\epsilon > 0$. Then:
@@ -847,8 +856,22 @@ Moreover, if  $k = \epsilon /\sigma$ we can replace $\epsilon$ with $k\sigma$ an
 
 ```
 
+```{proof}
+Observe that $(X-\mu)^2$ is a non-negative random variable. Therefore,
+$$P(|X-\mu| \geq \epsilon) = P((X-\mu)^2 \geq \epsilon^2)$$
+Now since $(X-\mu)^2$ is a non-negative random variable, we can apply Markov inequality to get :
+  $$P(|X-\mu| \geq \epsilon) = P((X-\mu)^2 \geq \epsilon^2) \leq \frac{E[(X-\mu)^2]}{\epsilon^2}$$
+  $$(|X-\mu| \geq \epsilon) = P((X-\mu)^2 \geq \epsilon^2) \leq \frac{[Var(X)]}{\epsilon^2}$$
+```
+
 <!-- # check if linearly smaller is correct/not confusing here-->
-It is very useful to see what happen when we define a new random variable $Y$ as the sample mean of $X_1 \dots X_n$ other random variables (iid) indipendent and identically distributed: $Y= \frac{1}{n}\sum_i^n X_i$. The expected value of $Y$ is the same as the expected value of $X$, but the variance is now linearly smaller in the number of samples:
+
+It is very useful to see what happen when we define a new random
+variable $Y$ as the sample mean of $X_1 \dots X_n$ other random
+variables (iid) indipendent and identically distributed:
+$Y= \frac{1}{n}\sum_i^n X_i$. The expected value of $Y$ is the same as
+the expected value of $X$, but the variance is now linearly smaller in
+the number of samples:
 
 $$E[Y] = \frac{1}{n} \sum_i^n E[X]$$
 $$Var[Y] = \frac{1}{n^2} \sum_i^n \text{Var}[X]$$
@@ -861,8 +884,6 @@ Let $Y= \frac{1}{n}\sum_i^n X_i$. Then,
 $$Pr[|Y - E[Y]| \geq \epsilon]\leq \frac{\sigma^2}{n\epsilon^2}$$
 ```
 
-
-
 ### (Weak) Law of large numbers
 
 ```{theorem, wlln, name="(Weak) Law of large numbers"}
@@ -872,35 +893,82 @@ $$\lim_{n\to +\infty} P\left( |\overline{X} - \mu | \geq \epsilon   \right) = 0$
 
 ```
 
+```{proof}
+We know that $E[\overline{X}] = \mu$ and $Var(\overline{X}) = \frac{\sigma^2}{n}$. By Chebyshev Inequality,
+$$P(|\overline{X}-\mu| > \epsilon) \leq \frac{Var(\overline{X})}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2} \rightarrow 0 (as n \rightarrow \infty)$$
+```
 
+### (Strong) Law of Large Numbers
 
-
-
+```{theorem, slln, name="(Strong) Law of large numbers"}
+Let $X_1,X_2,X_3,\dots,X_n$ be i.i.d random variables with mean $\mu$. Let $\overline{X} = \sum_{i=1}^{n} X_i$ be the sample mean. Then, $\overline{X}$ converges almost surely to $\mu$.That is,
+$$P(\lim_{x \to -\infty}\overline{X}_n = \mu) = 1$$
+The SLLN implies WLLN but not vice-versa.
+```
 
 ### Chernoff bound
+
 <!-- From [here](https://math.mit.edu/~goemans/18310S15/chernoff-notes.pdf) and [here](http://www.stat.cmu.edu/~arinaldo/Teaching/36709/S19/Scribed_Lectures/Jan29_Tudor.pdf). -->
+
 <!-- https://polynomiallybounded.wordpress.com/2017/05/23/how-i-remember-the-chernoff-bound/ -->
 
 <!-- We now consider a more restricted class of random variables, i.e. the case when our random variable is obtained as the sum of *indipendent* other random variables.  -->
-<!-- Central limit theorem says that, as $n \to \infty$, the value $\frac{X-\mu}{\sigma}$ approaches the standard normal distribution $N(0,1)$. Hoewver, it does not tell any information on the rate of convergence. -->
-<!-- <!-- (Expand more on this..) -->
-<!-- Chernoff bound is useful because some random variable are not efficiently bounded from Markov and Chebyshev.  -->
-<!-- Note: to apply the Chernoff bound we require our random variable to be a sum of *indipendent* random variables.  -->
 
+<!-- Central limit theorem says that, as $n \to \infty$, the value $\frac{X-\mu}{\sigma}$ approaches the standard normal distribution $N(0,1)$. Hoewver, it does not tell any information on the rate of convergence. -->
+
+<!-- <!-- (Expand more on this..) -->
+
+<!-- Chernoff bound is useful because some random variable are not efficiently bounded from Markov and Chebyshev.  -->
+
+<!-- Note: to apply the Chernoff bound we require our random variable to be a sum of *indipendent* random variables.  -->
 
 <!-- https://www.probabilitycourse.com/chapter6/6_2_3_chernoff_bounds.php -->
 
-
-
-::: {.theorem  #chernoff-bound name="Chernoff bound"}
+```{theorem, chernoff-bound, name="Chernoff bound"}
 Let $X=\sum_i^n X_i$ where $X_i =1$ with probability $p_i$ and $X_i=0$ with probability $(1-p_i)$, and all $X_i$ are independent. Let $\mu=E[X] = \sum_i^n p_i$. Then:
 
 - *Upper tail*: $P(X \geq (1+\delta)\mu) \leq e^-\frac{\delta^2}{2+\delta}\mu$ for all $\delta > 0$
 - *Lower tail*: $P(X \leq (1-\delta)\mu) \leq e^{\mu\delta^2/2}$ for all $0 \leq \delta \leq 1$
 
-:::
+```
+```{proof}
+If $X = \sum_i^n X_i$ where $X_1,X_2, \dots, X_n$ are i.i.d variables, then since the MGF(Moment Generating Function) of the (independent) sum equals the product of the MGFs. Taking our general result from above and using this fact, we get:
+  
+\begin{equation}
+P(X \geq k)\leq\min_{t>0}\frac{M_x(t)}{e^{tk}}=\min_{t>0}\frac{\prod_i=1^n M_{x_i}(t)}{e^{tk}}
+\end{equation}
+  
+  Let’s derive a Chernoff bound for $X∼Bin(n, p)$, which has the form $P(X \geq (1+\delta)\mu)$ for $\delta > 0$.  For example with $\delta = 4$ you may want to bound $P(X \geq 5*E[X])$.
+  Recall $X = \sum_i^n X_i$ where $X_i ~ Ber(p)$ are i.i.d, with $\mu = E[X] = np$.
+\begin{align}
+M_{X_i(t)} = E[e^tX_i]
+           = e^{t \dot 1}px_i(1)+e^{t \dot 0}px_i(0)
+           = pe^t + 1(1-p)
+           = 1 + p(e^t - 1)
+           \leq e^{p(e^t - 1)}
+\end{align}
+Now using the result from earlier and plugging in the MGF for the $Ber(p)$ distribution, we get:
+  
+\begin{align}
+P(X \geq k) \leq \min_{t>0}\frac{\prod_i^n M_X_i(t)}{e^{tk}}
+               = \min_{t>0}\frac{(e^{p(e^t-1)})^n}{e^{tk}}
+               = \min_{t>0}\frac{e^{np(e^t-1)}}{e^{tk}}
+               = \min_{t>0}\frac{e^{\mu(e^t-1)}}{e^{tk}}
+\end{align}
 
-
+For our bound, we want something like $P(X \geq (1+\delta)\mu)$, so our $k = (1+\delta)\mu.$To minimize the RHS and get the tightest bound, the best bound we get is by choosing $t=ln(1+\delta)$ after some terrible algebra (take
+the derivative and set to 0). We simply plug in k and our optimal value of t to the above equation:
+  
+$$P(X \geq (1+\delta)\mu)\leq\frac{e^(\mu(e^ln(1+\delta)-1))}{e^(1+\delta)\muln(1+\delta)} = \frac{e^\mu((1+\delta)-1)}{(e^(ln(1+\delta))^(1+\delta)\mu} = \frac{e^(\delta\mu)}{(1+\delta)^(1+\delta)\mu} = (\frac{e^\delta}{(1+\delta)^(1+\delta)})^\mu$$
+  
+  Again, we wanted to choose t that minimizes our upper bound for the tail probability. Taking the derivative with respect to t tells us we should plug in $t=ln(1+\delta)$ to minimize that quantity. This would actually be
+pretty annoying to plug into a calculator.
+We actually can show that the final $RHS is \leq exp(\frac{-\delta^2\mu}{2+\delta}) with some more messy algebra. Additionally, if we restrict $0 < \delta < 1$, we can simplify this even more to the bound provided earlier:
+  $$P(X \geq (1+\delta)\mu) \leq exp(\frac{-\delta^2\mu}{3})$$
+The proof of the lower tail is entirely analogous, except optimizing over $t < 0$ when the inequality flips. It proceeds by taking $t=ln(1-\delta).$
+  We also get a lower tail bound:
+  $$P(X \leq (1-\delta)\mu)\leq (\frac{e^-\delta}{(1-\delta)^(1-\dela)})\leq (\frac{e^-\delta}{e^-(\delta+\frac{\delta^2}{2})})= (exp(\frac{-\delta^2\mu}{2}))$$
+```
 
 ```{theorem, chernoff-bound2, name="Chernoff bound"}
 Suppose $X_1, \dots, X_t$ are independent random variables taking values in $\{0,1\}$. Let $M_t= (X_1 + \dots X_t)/t$ denote their average value. Then for any $0 < \epsilon < 1$,
@@ -910,22 +978,20 @@ Suppose $X_1, \dots, X_t$ are independent random variables taking values in $\{0
 
 ```
 
-
-
 <!-- ```{theorem, chernoff-bound-multiplicative, name="Chernoff bound multiplicative form"} -->
 
 <!-- ``` -->
 
-
 <!-- *Trick:* if not all random variables are between $0$ and $1$, we can define $Y_i=X_i/max(X_i)$ -->
+
 <!-- <!-- (Expand more on this..) -->
 
 <!-- # ```{exercise} -->
+
+```{=html}
 <!-- # estimate number of
 <!-- # ``` -->
-
-
-
+```
 ### Hoeffding inequality
 
 ```{lemma, Hoeffding, name="Hoeffding inequality"}
@@ -935,6 +1001,89 @@ $$Pr(|\overline{X} - \mathbb{E}[X]|\leq \epsilon) \geq 1-2
 	Consequently, if $k\geq (b-a)\epsilon^{-2}\log(2/\eta)$, then
 	$\overline{X}$ provides an $\epsilon$-approximation of $\mathbb{E}[X]$ with probability at least $1-\eta$.
 ```
+### Example problem differentiating Markov, Chebyshev and Chernoff bounds
+```{exercise}
+Suppose the number of red lights Alex encounters each day to work is on average 4\.8 (according to historical trips to work). Alex really will be late if he encounters 8 or more red lights. Let X be the number of lights he gets on a given day.
+
+1. Give a bound for $P(X \geq 8)$ using Markov’s inequality.
+2. Give a bound for $P(X \geq 8)$ using Chebyshev’s inequality, if we also assume Var(X) = 2.88.
+3. Give a bound for $P (X \geq 8)$ using the Chernoff bound. Assume that X∼Bin(12, 0.4) - that there are 12 traffic lights, and each is independently red with probability 0.4.
+4. Compute $P(X \geq 8)$ exactly using the assumption from the previous part.
+5. Compare the three bounds and their assumptions.
+```
+```{proof}
+1. Since X is nonnegative and we know its expectation, we can apply Markov’s inequality:
+  $$P(X \geq 8) \leq \frac{E[X]}{8} = \frac{4.8}{8} = 0.6$$
+  
+2. Since we know $X’s$ variance, we can apply Chebyshevs inequality after some manipulation. We have to do this to match the form required:
+  $$P(X \geq 8) \leq P(X \geq 8) + P(X \leq 1.6) = P(|X-4.8| \geq 3.2)$$
+  The reason we chose ≤ 1.6 is so it looks like $P (|X − µ| \geq \alpha)$. Now, applying Chebyshev’s gives:
+  $$\leq \frac{Var(X)}{3.2^2} = \frac{2.88}{3.2^2} = 0.28125$$
+  
+3. Actually, $X ∼ Bin(12, 0.4)$ also has $E[X] = np = 4.8$ and $Var(X) = np(1 − p) = 2.88$ (what a coincidence). The Chernoff bound requires something of the form $P(X ≥ (1 + \delta)\mu)$, so we first need to solve for $\delta: (1 + \delta)4.8 = 8$ so that $\delta = 2/3$. Now,
+$$P(X \geq 8) = P(X \geq (1+\frac{2}{3}).4.8) \leq exp(\frac{-\frac{2}{3}^2 4.8}{3}) ≈ 0.4991$$
+
+4. The exact probabiltity can be found summing the Binomial PMF:
+  $$P(X \geq 8) = \sum_(k=8)^12 (\frac{12}{k})0.4^k0.6^(12-k) ≈ 0.0573$$
+  
+5. Actually it’s usually the case that the bounds are tighter/better as we move down the list Markov, Chebyshev, Chernoff. But in this case Chebyshev’s gave us the tightest bound, even after being weakened by including some additional $P(X \leq 1.6)$. Chernoff bounds will typically be better for
+farther tails - 8 isn’t considered too far from the mean 4.8.
+It’s also important to note that we found out more information progressively - we can’t blindly apply all these inequalities every time. We need to make sure the conditions for the bound being valid are satisfied.
+
+Even our best bound of 0.28125 was 5-6x larger than the true probability of 0.0573.
+
+```
+<!-- # Polynomial approximations of useful functions -->
+
+<!-- ```{lemma, poly-approx-ln, name="Polynomial approximations of logarithm [@distributional]"} -->
+
+<!--        Let $\beta\in(0,1]$, $\eta\in(0,\frac{1}{2}]$ and $t\geq 1$. There exists a polynomial $\tilde{S}$ such that -->
+
+<!--        $\forall x\in [\beta,1]$, $|\tilde{S}(x)-\frac{\ln(1/x)}{2\ln(2/\beta)}|\leq\eta$,  and $\,\forall x\in[-1,1]\colon -1\leq\tilde{S}(x)=\tilde{S}(-x)\leq 1$. Moreover $\text{deg}(\tilde{S})=O({\frac{1}{\beta}\log (\frac{1}{\eta} )})$. -->
+
+<!-- ``` -->
+
+<!-- <!-- -->
+
+<!-- # TODO Add explaination on how to do the polynomial approximation of 1/x -->
+
+<!-- # It mightbe cool to have the polynomial approximatoin used for ridge regression. Can we do it? -->
+
+<!-- # labels: help wanted, enhancement -->
+
+<!-- -->
+
+--\>
+
+<!-- # Error propagation and approximation {#error-prop} -->
+
+<!-- This part is based on many different sources, like [@hogan2006combine], [@ku1966notes]. -->
+
+<!-- ```{definition, absolute-error, name="Absolute error"} -->
+
+<!-- $$|A - \overline{A} | = \epsilon_{Abs}$$ -->
+
+<!-- ``` -->
+
+<!-- ```{definition, relative-error, name="Relative error"} -->
+
+<!-- $$\frac{| A - \overline{A}| }{A}  = \epsilon_R \text{ or equivalently}$$ -->
+
+<!-- $$ A(1-\epsilon_{R}) \leq  \overline{A} \leq A(1+\epsilon_{R})$$ -->
+
+<!-- ``` -->
+
+<!-- Thus observe that: -->
+
+<!-- - If (and only if) $|A| < 1$, then, $\epsilon_{Abs} \leq \epsilon_{R}$ -->
+
+<!-- - If (and only if) $|A| > 1$, then, $\epsilon_{Abs} \geq \epsilon_{R}$ -->
+
+<!-- We will study the relation between the two errors, often leveraging the idea of seeing what happen when we set $\epsilon_{Abs} = \epsilon_R A$. -->
+
+<!-- Let's imagine an algorithm $\mathcal{A}$ that estimates a quantity $A$ in time $O(\text{poly}(\epsilon^{-1}))$. We would like to move from a relative to absolute precision, or vice versa. -->
+
+
 
 
 <!-- # Polynomial approximations of useful functions -->
