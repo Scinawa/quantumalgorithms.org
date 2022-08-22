@@ -142,11 +142,14 @@ https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter
 - January 2022: In the past months we improved the overall quality of the website (graphics, typos) and added some content (Deutsch-Josza, Bernstein-Vazirani, swap and Hadamard tests)
 - February 2022: We are happy to bring our swag (t-shirts, stickers, lanyards) to QIP. We added a whole chapter on perceptron algorithms and we doubled the chapter on quantum monte carlo algorithms with applications to finance and trace distance!
 - June 2022: We are partecipating to the UnitaryHack! We also presented this work at QNLP2022 where we distributed our swag! Now the website can be compiled also with the latest version of RStudio,pandoc,bookdown.
+- August 2022: Added in the appendix: polynomial approximation of 1/x, more on concentration inequalities (these were work started by contributors that discovered the project during the unitary.hack! ). Improved css as a bounty to the unitary.hack. Working (on a separate project) to improve chapter 3. 
 
 
-Coming soon:
 
+
+**Coming soon:**
 - quantum perceptrons
+- quantum random walk
 - quantum algorithms for dynamic programming
 - quantum convolutional neural networks
 - quantum random feature sampling

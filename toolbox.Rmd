@@ -397,8 +397,9 @@ Last but not least, matrix inversion can be seen as the problem of implementing 
 A review of the progress made in the first 9 years after HHL can be found in [@dervovic2018quantum] and [@gribling2021improving], from which we take this exercise. More recently, [@gribling2021improving] shows the latest techniques for the polynomial approximation of $1/x$ (and other functions), which improves the polynomial approximation of [@Childs2015].
 
 :::{.exercise}
-Can you prove that
+In [@gribling2021improving] they say the following: 
 $$\|Ax -b \| \leq \|x - A^{-1}b\| \leq \kappa\|Ax-b \| $$ 
+can you prove it?
 :::
 
 ## Distances, inner products, norms, and quadratic forms {#sub:distances}
