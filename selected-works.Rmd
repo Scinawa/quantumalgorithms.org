@@ -15,6 +15,11 @@ This is a work in progress, as the vast majority of works are not present here, 
 - [Quantum Meets Fine-Grained Complexity: Sublinear Time Quantum Algorithms for String Problems](https://drops.dagstuhl.de/opus/volltexte/2022/15693/) `#algo`
 - [Two-level Quantum Walkers on Directed Graphs II: An Application to qRAM](https://arxiv.org/abs/2204.08709) `#algo`
 - [Memory Compression with Quantum Random-Access Gates](https://arxiv.org/abs/2203.05599) 
+- [Mean estimation when you have the source code; or, quantum Monte Carlo methods](https://arxiv.org/pdf/2208.07544.pdf)
+- [Exact and efficient Lanczos method on a quantum computer](https://arxiv.org/pdf/2208.00567.pdf)
+- [On establishing learning separations between classical and quantum machine learning with classical data](https://arxiv.org/pdf/2208.06339.pdf)
+- [Matching Triangles and Triangle Collection: Hardness based on a Weak Quantum Conjecture](https://arxiv.org/pdf/2207.11068.pdf)
+
 
 #### 2021 {-}
 
