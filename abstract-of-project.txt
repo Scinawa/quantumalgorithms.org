@@ -1,6 +1,11 @@
-The website https://quantumalgorithms.org is an open source book with two objective. First it aims to close the gap between the typical introductory course in quantum computing and research papers. Secondly, it aspire to be the go-to reference for lemmas and theorems needed for the quantum algorithm researcher to write new algorithms and applications of known quantum algorithms. 
 
-So far the book is mostly focused quantum machine learning algorithms, but is also touching topics like quantum algorithms for Monte Carlo, lower bounds in query complexity, and numerical experiments on real datasets. With a conspicuous appendix, covering from error propagation to the foundation of linear algebra needed to understand quantum machine learning from a computer science perspective. 
+
+The website https://quantumalgorithms.org is an open-source book with two objective.
+First it aims to close the gap between the typical introductory course in quantum computing and research papers in quantum algorithms.
+Secondly, it aspire to be the go-to reference for lemmas and theorems needed for the quantum algorithm researcher to write new algorithms and applications of known quantum algorithms.
+
+Now the book is mostly focused on quantum machine learning algorithms, but is also touching topics like quantum algorithms for Monte Carlo, lower bounds in query complexity, and numerical experiments on real datasets. We have a sizable appendix, covering topics from error propagation to the foundation of linear algebra, and all the things needed to understand quantum algorithms from a computer science perspective.
+
  
 The project hosted 5 students from the mentorship program of the Quantum Open Source Foundation, and we are backed by the unitary.fund. This set of lecture notes has already been used for teaching in two different occasions at Politecnico di Milano. 
 
