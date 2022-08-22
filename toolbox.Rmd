@@ -193,11 +193,12 @@ As QESA is expected to be done in $O(\sqrt{N/t})$ queries, one can deduce that t
 
 ## Quantum linear algebra {#subsec:linearalgebra}
 
-In our algorithms, we will also use subroutines for quantum linear algebra. From the first work of [@HarrowHassidim2009HHL] (known in the literature as HHL algorithm) that proposed a quantum algorithm for matrix inversion, a lot of progress has been made in improving quantum algorithms for linear algebraic problems. In this section, we briefly recall some of the results in this space, and we conclude by citing the state-of-the art techniques for performing not only matrix inversion and matrix multiplication, but also for applying a certain class of functions to the singular values of a matrix.
-The HHL algorithm - under suitable assumptions - was able to create a quantum state proportional to the solution to a sparse linear system of equations $Ax=b$. The assumption is that $A$ is symmetric and sparse  (and we have quantum query access to $A$ and we have quantum sample access to $\ket{b}$, as we defied in \@ref(chap-classical-data-quantum-computers) ). The runtime of the first quantum algorithm for this problem was $\widetilde{O}\left(s^2\kappa(A)^2/\epsilon \right)$, where $s$ is the maximum value of non-zero entries per rows. 
+A central tool for quantum algorithm in machine learning are the subroutines for performing quantum linear algebraic routines on a quantum computer. From the first work of [@HarrowHassidim2009HHL] (known in the literature as HHL algorithm) that proposed a quantum algorithm for matrix inversion, a lot of progress has been made in improving quantum algorithms for these problems. In this section, we briefly recall some of the results, and we conclude by citing the state-of-the art techniques for performing not only matrix inversion and matrix multiplication, but also for applying a certain class of functions to the singular values of a matrix.
+The HHL algorithm - under suitable assumptions - was able to create a quantum state proportional to the solution to a sparse linear system of equations $Ax=b$ using only a number of queries to the oracle that was polylogarithmic in the size of the matrix $A$. The assumption are the following: $A$ must be symmetric and sparse  (and we have quantum query access to $A$, and quantum sample access to $\ket{b}$, as we defined more precisely in \@ref(chap-classical-data-quantum-computers) ). The runtime of the first quantum algorithm for this problem was $\widetilde{O}\left(s^2\kappa(A)^2/\epsilon \right)$, where $s$ is the maximum value of non-zero entries per rows. 
 
-A notable result after HHL was the ability to perform a quantum version of the singular value decomposition. You can think of this result as a generalized phase estimation, i.e. a phase estimation that works on non-unitary matrices. It was first proposed in [@KP16], and later improved in [@kerenidis2017quantumsquares]. This idea is detailed in the following theorem.
 
+### Singular value estimation 
+A notable result after HHL was the ability to perform a quantum version of the singular value decomposition. You can think of this result as a generalized phase estimation, i.e. a phase estimation that works on non-unitary matrices. It was first proposed in [@KP16], and later improved in [@kerenidis2017quantumsquares] and [@CGJ18]. This idea is detailed in the following theorem.
 
 
 ```{theorem, sve-theorem, name="Singular Value Estimation (ref:kerenidis2017quantumsquares)"}
@@ -207,8 +208,9 @@ Let $M \in \mathbb{R}^{n \times d}$  be a matrix with singular value decompositi
 Recall that quantum access to a matrix is defined in theorem \@ref(def:KP-trees), and the parameter $\mu$ is defined in definition \@ref(def:mu).
 The relevance of theorem \@ref(thm:sve-theorem) for quantum machine learning is the following: if we are able to estimate the singular values of a matrix, then we can perform a conditional rotation controlled by these singular values and hence perform a variety of linear algebraic operations, including matrix inversion, matrix multiplication or projection onto a subspace. Based on this result, quantum linear algebra was done using the theorem stated below.
 
-``` {theorem, matrix-algebra-sve, nome="(OLD) Quantum linear algebra"}
-Let $M := \sum_{i} \sigma_iu_iv_i^T \in \mathbb{R}^{d \times d}$ such that $\norm{M}_2 = 1$, and a vector $x \in \mathbb{R}^d$ for which we have quantum access. There exist quantum algorithms that with probability at least $1-1/poly(d)$ return
+<!-- ::: {.theorem #matrix-algebra-sve nome="Old method for quantum linear algebra"} -->
+```{theorem, matrix-algebra-sve, name="Old method for quantum linear algebra"}
+Let $M := \sum_{i} \sigma_iu_iv_i^T \in \mathbb{R}^{d \times d}$ such that $\norm{M}_2 = 1$, and a vector $x \in \mathbb{R}^d$ for which we have quantum access. There exist quantum algorithms that with probability at least $1-1/poly(d)$ returns
 
 - a state $\ket{z}$ such that $| \ket{z} - \ket{Mx}| \leq \epsilon$ in time $\tilde{O}(\kappa^2(M)\mu(M)/\epsilon)$
 - a state $\ket{z}$ such that $|\ket{z} - \ket{M^{-1}x}| \leq \epsilon$ in time $\tilde{O}(\kappa^2(M)\mu(M)/\epsilon)$
@@ -308,7 +310,7 @@ for all states $\ket{\psi}$, where $U := \sum_i \ket{i}\bra{i} \otimes U_i$ and 
 
 ### Singular value transformation {#subsec:svt}
 
-In recent years a new framework for performing operations on matrices with a quantum computer was developed, which can be found in works [@CGJ18], [@gilyen2019quantum]. We now briefly go through the machinery behind these results, as it will be used throughout this thesis.
+The research in quantum linear algebra culminated with the work of [@CGJ18], [@gilyen2019quantum] with some improvements in [@chakraborty2022quantum]. We now briefly go through the machinery behind these results, as it will be used extensively this work. Before that, we recall the definition of block-encoding from Chapter \@ref(chap-classical-data-quantum-computers).
 
 ```{definition, def-block-encoding, name="Block encoding of a matrix"}
 Let $A\in \mathbb{C}^{2^s \times 2^s}$. We say that a unitary $U \in \mathbb{C}^{(s+a)\times(s+a)}$ is a ($\alpha, a, \epsilon)$ block encoding of $A$ if:
@@ -330,8 +332,7 @@ Suppose that $U$ is an $(\alpha,a,\epsilon)$-block encoding of the Hermitian mat
 Then there is a quantum circuit $\tilde{U}$, which is an $(1,a+2,4d\sqrt{\epsilon/\alpha}+\delta)$-encoding of 	$P_{\mathcal{R}}(A/\alpha)$, and consists of $d$ applications of $U$ and $U^\dagger$ gates, a single application of controlled-$U$ and $O((a+1)d)$ other one- and two-qubit gates. Moreover we can compute a description of such a circuit with a classical computer in time $O(\text{poly}d,\log(1/\delta))$.
 ```
 
-
-For instance, matrix inversion can be seen as the problem of implementing the singular value transformation of $x \mapsto 1/x$. For this, one needs to get a polynomial approximation of the function $1/x$. While this might seem a simple task, there are small complications. First, one usually does not consider the whole interval $[-1, 1]$. In practice, one excludes the subset of the domain where the function has singularities (i.e. for $1/x$ is around zero). Then, it is preferable to pick a polynomial of a small degree (and small coefficients), as the depth of the circuit depends linearly on the degree of the polynomial.
+We will discuss in Section \@ref(sub-linearsystems) how to use these subroutines for solving the linear system problems. You can find in Appendix \@ref(#polyapprox-1overx) the polynomial approximation that was originally used in [@Childs2015] to get what almost-tight gate complexity for this problem. This result has been improved in [@gribling2021improving], leading to a polynomial approximation allowing several orders of magnitude faster algorithms for linear system solving.
 
 Given a $(\alpha, a, \epsilon)$-block encoding for a matrix $A$ and a quantum state $\ket{b}$, we can obtain a good approximation of $A\ket{b}/\norm{Ab}$ by first creating the state $\ket{0^a,b}$ and then applying the block encoding of $A$ to it. Then, we can amplify the part of the subspace associated with the state $\ket{0}^{\otimes a}A\ket{b}$. Differently, one might use advanced amplification techniques and reach a similar result. This concept is detailed in the following lemma.
 
@@ -355,9 +356,7 @@ Let $c \in (0,\infty), \kappa \geq 2$, and let $A$ be an Hermitian matrix such t
 	$$O\left(\alpha \kappa(a+T_U)(1+c)\log^2(\frac{k^{1+c}}{\epsilon})\right)$$
 ```
 
-
-
-Nevertheless, the algorithm that emerges by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2012variable]. Hence, we can restate the theorem  \@ref(thm:matrix-algebra-sve), with the improved runtimes, as follows.
+Nevertheless, the algorithm that we can obtain by using the previous lemma has a quadratic dependence on $\kappa$. To decrease it to an algorithm linear in $\kappa$ the authors used variable time amplitude amplifications[@ambainis2012variable]. Hence, we can restate the theorem  \@ref(thm:matrix-algebra-sve), with the improved runtimes, as follows.
 
 
 ```{theorem, qla, name="Quantum linear algebra (ref:CGJ18),(ref:gilyen2019quantum)"}
@@ -387,6 +386,20 @@ One can also get estimates of the norms with multiplicative error $\eta$ by incr
 
 More generally, applying a matrix $M$ which is the product of $k$ matrices, i.e. $M=M_1\dots M_k$ will result in a runtime of $\kappa(M)(\sum_i^k \mu(M_i) )\log(1/\epsilon)$ factors in the runtime.
 
+### Matrix inversion after HHL {#sub-linearsystems}
+In this section we briefly recap the progress that we had in the last decade for solving the quantum linear system problem (QLSP). First, we stress the fact that the problem solved by this algorithm is fundamentally different than solving a linear system of equation on a classical computer (i.e. when we obtain $x=A^{-1}b$), as with a classical computer, once we finish the computation we obtain a classical description of the vector $x$. Instead, on a quantum computer we obtain a quantum state $\ket{x}$. 
+
+After Ambainis used variable-time amplitude amplification to reduce the dependence on the condition number from quadratic do linear, Childs et al.  [@Childs2015] used the LCU framework, variable-time amplitude amplification, and the polynomial approximation of $1/x$ to solve the QLSP with a runtime dependece on the condition number of $O(\kappa(A)\log(\kappa))$, but also with an exponential improvement in the precision, i.e. now the error dependence appear as $O(\log(1/\epsilon))$ in the runtime. The authors used quantum walks to represent $x$ as linear combination of polynomials $\sum_{i=1}^n \alpha_n T_n(x/d)$ where $T_n$ is the Chebychev polynomial of the first kind, $d$ is the sparsity of the matrix $A$, and $\alpha_i$ the coefficients of the polynomial expansions. For this, they had to give the first efficient polynomial approximation of $1/x$ (Lemma 17,18,19 of [@Childs2015] ) that you can find explained in greater deatails in the Appendix \@ref(polyapprox-1overx). 
+Interestingly, the QLSP has been also studied in the adiabatic setting, first in [@subacsi2019quantum], and later improved in [@an2022quantum], and with eigenstate filtering [@lin2020optimal] to an optimal scaling of $O(\kappa(A))$ (i.e. without a $O(\log(\kappa(A)))$ factor in the runtime, which to our knowledge remains unbeated by other gate based quantum algorithms) [@costa2021optimal].
+
+Last but not least, matrix inversion can be seen as the problem of implementing the singular value transformation of $x \mapsto 1/x$. For this, one needs to get a polynomial approximation of the function $1/x$. While this might seem a simple task, there are small complications. First, one usually does not consider the whole interval $[-1, 1]$. In practice, one excludes the subset of the domain where the function has singularities (i.e. for $1/x$ is around zero). It is preferable to pick a polynomial of a small degree, as the depth of the circuit depends linearly on the degree of the polynomial. In short with both LCU and QSVT we can use polynomial approximations to solve the QLSP problem. With LCU we have an additional multiplicative factor in the depth of the circuit compared to the QSVT framework, and some more ancillary qubits [@gribling2021improving].
+
+A review of the progress made in the first 9 years after HHL can be found in [@dervovic2018quantum] and [@gribling2021improving], from which we take this exercise. More recently, [@gribling2021improving] shows the latest techniques for the polynomial approximation of $1/x$ (and other functions), which improves the polynomial approximation of [@Childs2015].
+
+:::{.exercise}
+Can you prove that
+$$\|Ax -b \| \leq \|x - A^{-1}b\| \leq \kappa\|Ax-b \| $$ 
+:::
 
 ## Distances, inner products, norms, and quadratic forms {#sub:distances}
 
