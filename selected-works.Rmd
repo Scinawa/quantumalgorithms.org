@@ -19,6 +19,8 @@ This is a work in progress, as the vast majority of works are not present here, 
 - [Exact and efficient Lanczos method on a quantum computer](https://arxiv.org/pdf/2208.00567.pdf)
 - [On establishing learning separations between classical and quantum machine learning with classical data](https://arxiv.org/pdf/2208.06339.pdf)
 - [Matching Triangles and Triangle Collection: Hardness based on a Weak Quantum Conjecture](https://arxiv.org/pdf/2207.11068.pdf)
+- [Partition Function Estimation: Quantum and Quantum-Inspired Algorithms](https://arxiv.org/pdf/2208.00930.pdf)
+- [A Faster Quantum Algorithm for Semidefinite Programming via Robust IPM Framework](https://arxiv.org/pdf/2207.11154.pdf)
 
 
 #### 2021 {-}
