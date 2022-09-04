@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{braket}
+\usepackage{amsmath, amsfonts, amssymb}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
+\begin{document}
+\pagestyle{empty}
+
+
+\begin{algorithm}[ht]
+	\caption{Quantum top-k singular vectors extraction.}
+	\begin{algorithmic}[1]
+		\State Prepare the state $\frac{1}{\|A\|_F}\sum_{i}^{n}\sum_{j}^{m}a_{ij}\ket{i}\ket{j}$. 
+		
+	    \State Apply SVE 
+	    to get $\frac{1}{\sqrt{\sum_{j}^{r}\sigma_j^2}}\sum_{i}^{r} \sigma_i \ket{u_i}\ket{v_i}\ket{\overline{\sigma}_i}$. 
+
+		\State Append a quantum register $\ket{0}$ to the state and set it to $\ket{1}$ if $\ket{\overline{\sigma}_i} < \theta$.
+
+		\State Perform amplitude amplification for $\ket{0}$, to get the state
+       $\frac{1}{\sqrt{\sum_j^k \sigma_j^2}}\sum_i^k \sigma_i\ket{u_i}\ket{v_i}\ket{\overline{\sigma}}$.
+
+        \State Append a second ancillary register $\ket{0}$ and perform the controlled rotation
+        $\frac{C}{\|A^{(k)}\|_F}\sum_i^k \frac{\sigma_i}{\overline{\sigma}_i} \ket{u_i}\ket{v_i}\ket{\overline{\sigma}_i}\ket{0} +\frac{1}{\|A^{(k)}\|_F}\sum_i^k \sqrt{1-\frac{C^2}{\overline{\sigma}_i^2}}\ket{u_i}\ket{v_i}\ket{\overline{\sigma}_i}\ket{1}$ 
+        where $C$ is a normalization constant.
+        
+		\State Perform again amplitude amplification for $\ket{0}$ to get
+        $\frac{1}{\sqrt{k}}\sum_i^k \ket{u_i}\ket{v_i}\ket{\overline{\sigma}_i}.$ 
+
+		\State Measure the last register and, according to the measured $\ket{\overline{\sigma}_i}$, apply state-vector tomography on $\ket{u_i}$ for the $i^{th}$ left singular vector or on $\ket{v_i}$ for the right one.
+		
+		\State Repeat 1-7 until the tomography requirements are met.
+		\State Output the $k$ singular vectors $u_i$ or $v_i$ and, optionally, the singular values $\overline{\sigma}_i$.
+    \end{algorithmic}
+\end{algorithm} 
+
+\end{document}

@@ -11,7 +11,7 @@ We devote this chapter to the study of quantum algorithms for dimensionality red
 
 
 ## Unsupervised algorithms
-In this section we describe three algorithms: the QPCA, QCA and QLSA. These algorithms are mainly from [@bellante2021quantum], which solves in a single framework many of these eigenvalue problems that appears in fitting some simple machine learning models. 
+In this section we describe three algorithms: the QPCA, QCA and QLSA. These algorithms are mainly from [@bellante2022quantum], which solves in a single framework many of these eigenvalue problems that appears in fitting some simple machine learning models. 
 
 
 ### Quantum PCA {#sec:qpca}
@@ -96,7 +96,7 @@ Given a vector $a_i$, its projection onto the k-dimensional PCA space of $A$ is 
 Note that $\|y_i\| = \|V^Ta_i\|$.
 It is possible to use Lemma \@ref(lem:applicationBE) to multiply the quantum state $\ket{a_i}$ by $V^T$, appropriately padded with 0s to be a square $\R^{m\times m}$ matrix.
 Lemma  \@ref(lem:applicationBE) states that it is possible to create an approximation $\ket{\overline{y}_i}$ of the state $\ket{y_i} = \ket{V^Ta_i}$ in time $\widetilde{O}\left(\frac{\mu(V^T)\log(1/\epsilon)}{\gamma}\right)$ with probability $1-1/\text{poly}(m)$, such that $\|\ket{y_i} - \ket{\overline{y}_i}\| \leq \epsilon$.
-Since $V^T$ has rows with unit $\ell_2$ norm, we can use a result from Theorem IV.1 of [@KP17] to prepare efficient quantum access to it with $\mu(V^T)=1$.
+Since $V^T$ has rows with unit $\ell_2$ norm, we can use a result from Theorem IV.1 of [@kerenidis2017quantumsquares] to prepare efficient quantum access to it with $\mu(V^T)=1$.
 Choosing the parameter as $\gamma = \|V^Ta_i\|/\|a_i\|$, we get a run-time of $\widetilde{O}(\frac{\|a_i\|}{\|y_i\|}\log(1/\epsilon))$.
 We can consider the term $\log(1/\epsilon)$ to be negligible, as, for instance, an error $\epsilon = 10^{-17}$ would not be relevant in practice, while accounting for a factor $17$ in the run-time.
 We conclude that the state $\ket{y_i}$ can be created in time $\widetilde{O}\left(\frac{\|a_i\|}{\|y_i\|}\right)$ with probability $1-1/\text{poly}(m)$ and that its norm can be estimated to relative error $\eta$ in time $\widetilde{O}\left(\frac{\|a_i\|}{\|y_i\|}\frac{1}{\eta}\right)$.

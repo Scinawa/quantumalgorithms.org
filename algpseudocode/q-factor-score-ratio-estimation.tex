@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{braket}
+\usepackage{amsmath, amsfonts, amssymb}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
+\begin{document}
+\pagestyle{empty}
+
+\begin{algorithm}[H]
+	\caption{Quantum factor score ratio estimation.}
+	\begin{algorithmic}[1]
+		\State $S=0$
+	    \While{$S < \widetilde{O}\left(\frac{1}{\gamma^2}\right)$}
+	    \State Prepare the state
+    	$\frac{1}{\|A\|_F}\sum_{i}^{n}\sum_{j}^{m}a_{ij}\ket{i}\ket{j}$.
+	    \State Apply SVE to get $\frac{1}{\sqrt{\sum_{j}^{r}\sigma_j^2}}\sum_{i}^{r} \sigma_i \ket{u_i}\ket{v_i}\ket{\overline{\sigma}_i}$.
+	    \State Measure the last register and store a counter of how many times each distinct value $\ket{\overline{\sigma}_i}$ is measured. 
+	    \State $S = S + 1$
+	    \EndWhile
+	    \State For each distinct $\overline{\sigma}_i$ measured, output $\overline{\sigma}_i$ and its factor score $\overline{\lambda}_i = \overline{\sigma}^2_i$.
+		\State For each distinct $\overline{\sigma}_i$ measured, output its factor score ratio 
+		$\overline{\lambda}^{(i)} = \frac{\zeta_{\overline{\sigma}_i}}{S}$,
+		where $\zeta_{\overline{\sigma}_i}$ is the number of times $\ket{\overline{\sigma}_i}$ has been observed among the measurements.
+		Each estimate comes with confidence level $z$.
+	\end{algorithmic}
+\end{algorithm} 
+
+\end{document}
