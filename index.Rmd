@@ -54,7 +54,7 @@ github-repo: "scinawa/quantumalgorithms.org"
 
 This is an [open source project accessible on GitHub](https://github.com/Scinawa/quantumalgorithms.org/) - only possible thanks to its many [contributors.](contributions-and-acknowledgements.html) The website is licensed under CC BY-NC-SA 4.0. We are searching for talented people and researchers to contribute: you can find a list of issues and enhancements that would improve this book further on the [issues list](https://github.com/Scinawa/quantumalgorithms.org/issues) for the GitHub repo, making recent material that keeps popping up in quantum information accessible to a larger audience.
 
-
+**MEMO: we have some funding for motivated contributors**
 
 The aim of this book is twofold:
 
@@ -132,18 +132,19 @@ https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter
 
 ## Changelog
 
-- August 2020: Migrated the old blog on bookdown
-- December 2020: Moved thesis in bookdown
-- January 2021: First system for typesetting algorithms, more appendix on linear algebra
-- February 2021: New subroutines for estimating $\ell_1$ norms.
-- March 2021: quantumalgorithms.org is proudly supported by the [Unitary Fund](https://unitary.fund/), and quantumalgorithms.org is a project of the [QOSF](https://qosf.org) mentorship program: 5 students started creating new content!
-- April 2021: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation.
-- June 2021: Quantum Monte Carlo algorithms, lower bounds techniques for query complexity of quantum algorithms, quantum algorithms for graph problems. The output of the mentorship program of the QOSF foundation!
-- January 2022: In the past months we improved the overall quality of the website (graphics, typos) and added some content (Deutsch-Josza, Bernstein-Vazirani, swap and Hadamard tests)
-- February 2022: We are happy to bring our swag (t-shirts, stickers, lanyards) to QIP. We added a whole chapter on perceptron algorithms and we doubled the chapter on quantum monte carlo algorithms with applications to finance and trace distance!
-- June 2022: We are partecipating to the UnitaryHack! We also presented this work at QNLP2022 where we distributed our swag! Now the website can be compiled also with the latest version of RStudio,pandoc,bookdown.
-- August 2022: Added in the appendix: polynomial approximation of 1/x, more on concentration inequalities (these were work started by contributors that discovered the project during the unitary.hack! ). Improved css as a bounty to the unitary.hack. Working (on a separate project) to improve chapter 3. 
+- **August 2020**: Migrated the old blog on bookdown
+- **December 2020**: Moved thesis in bookdown
+- **January 2021**: First system for typesetting algorithms, more appendix on linear algebra
+- **February 2021**: New subroutines for estimating $\ell_1$ norms.
+- **March 2021**: quantumalgorithms.org is proudly supported by the [Unitary Fund](https://unitary.fund/), and quantumalgorithms.org is a project of the [QOSF](https://qosf.org) mentorship program: 5 students started creating new content!
+- **April 2021**: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation.
+- **June 2021**: Quantum Monte Carlo algorithms, lower bounds techniques for query complexity of quantum algorithms, quantum algorithms for graph problems. The output of the mentorship program of the QOSF foundation!
+- **January 2022**: In the past months we improved the overall quality of the website (graphics, typos) and added some content (Deutsch-Josza, Bernstein-Vazirani, swap and Hadamard tests)
+- **February 2022**: We are happy to bring our swag (t-shirts, stickers, lanyards) to QIP. We added a whole chapter on perceptron algorithms and we doubled the chapter on quantum monte carlo algorithms with applications to finance and trace distance!
+- **June 2022**: We are partecipating to the UnitaryHack! We also presented this work at QNLP2022 where we distributed our swag! Now the website can be compiled also with the latest version of RStudio,pandoc,bookdown.
+- **August 2022**: Added in the appendix: polynomial approximation of 1/x, more on concentration inequalities (these were work started by contributors that discovered the project during the unitary.hack! ). Improved css as a bounty to the unitary.hack. Working (on a separate project) to improve chapter 3. 
 
+**NEW** Submit your solution of the exercises as PR on [GitHub](https://github.com/scinawa/quantumalgorithms.org) and get it published in the chapter on [Solutions](https://quantumalgorithms.org/solutions-to-exercises.html).
 
 
 
