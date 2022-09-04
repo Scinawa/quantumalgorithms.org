@@ -389,6 +389,8 @@ More generally, applying a matrix $M$ which is the product of $k$ matrices, i.e.
 ### Matrix inversion after HHL {#sub-linearsystems}
 In this section we briefly recap the progress that we had in the last decade for solving the quantum linear system problem (QLSP). First, we stress the fact that the problem solved by this algorithm is fundamentally different than solving a linear system of equation on a classical computer (i.e. when we obtain $x=A^{-1}b$), as with a classical computer, once we finish the computation we obtain a classical description of the vector $x$. Instead, on a quantum computer we obtain a quantum state $\ket{x}$. 
 
+For a few years the techniques developed in [@KP16] and [@kerenidis2017quantumsquares] were the state of the art 
+
 After Ambainis used variable-time amplitude amplification to reduce the dependence on the condition number from quadratic do linear, Childs et al.  [@Childs2015] used the LCU framework, variable-time amplitude amplification, and the polynomial approximation of $1/x$ to solve the QLSP with a runtime dependece on the condition number of $O(\kappa(A)\log(\kappa))$, but also with an exponential improvement in the precision, i.e. now the error dependence appear as $O(\log(1/\epsilon))$ in the runtime. The authors used quantum walks to represent $x$ as linear combination of polynomials $\sum_{i=1}^n \alpha_n T_n(x/d)$ where $T_n$ is the Chebychev polynomial of the first kind, $d$ is the sparsity of the matrix $A$, and $\alpha_i$ the coefficients of the polynomial expansions. For this, they had to give the first efficient polynomial approximation of $1/x$ (Lemma 17,18,19 of [@Childs2015] ) that you can find explained in greater deatails in the Appendix \@ref(polyapprox-1overx). 
 Interestingly, the QLSP has been also studied in the adiabatic setting, first in [@subacsi2019quantum], and later improved in [@an2022quantum], and with eigenstate filtering [@lin2020optimal] to an optimal scaling of $O(\kappa(A))$ (i.e. without a $O(\log(\kappa(A)))$ factor in the runtime, which to our knowledge remains unbeated by other gate based quantum algorithms) [@costa2021optimal].
 
@@ -409,7 +411,7 @@ In this section, we report two lemmas that can be used to estimate the inner pro
 
 ### Inner products and quadratic forms with KP-trees
 
-We can rephrase this theorem saying that we have quantum access to the matrices, but for simplicity we keep the original formulation.
+We can rephrase this theorem saying that we have quantum access to the matrices, but for simplicity we keep the original formulation. Also, in the remark following the proof of this lemma, we give the runtime of the same algorithm, but when we compute all the distances in superposition. Thanks to the union bound, we incour only in a logarithmic cost. 
 
 (ref:kerenidis2019qmeans) [@kerenidis2019qmeans]
 
@@ -470,6 +472,27 @@ The running time of the procedure is thus
 $O( T_{\mathcal{U}} \ln(1/\Delta)) = O( \frac{T }{\epsilon}\log (1/\Delta)  )$.
 The last step is to show how to estimate the square distance or the inner product of the unnormalized vectors. Since we know the norms of the vectors, we can simply multiply the estimator of the normalized inner product with the product of the two norms to get an estimate for the inner product of the unnormalized vectors and a similar calculation works for the distance. Note that the absolute error $\epsilon$ now becomes $\epsilon \norm{v_i}\norm{c_j}$ and hence if we want to have in the end an absolute error $\epsilon$ this will incur a factor of $\norm{v_i}\norm{c_j}$ in the running time. This concludes the proof of the lemma.
 ```
+
+:::{.remark #innerproductestimation-boosted}
+Lemma \@ref(lem:innerproductestimation) can be used to compute $\sum_{i,j=1}^{n,d} \ket{i}\ket{\overline {\langle v_i,c_j \rangle} }$  where every $\overline {\langle v_i,c_j \rangle}$ has error $\epsilon$ with an additional multiplicative cost of $O(\log(nd))$.
+:::
+
+:::{.exercise}
+Can you use the Union bound (i.e. Theorem \@ref(thm:unionbound) ) to prove the following remark? The solution can be found in [@bellante2022quantum].
+:::
+
+
+
+<!-- ```{lemma, innerproductestimation, name="Distance and Inner Products Estimation (ref:kerenidis2019qmeans)"} -->
+<!-- Assume for a matrix $V \in \mathbb{R}^{n \times d}$ and a matrix $C \in \mathbb{R}^{k \times d}$ that the following unitaries -->
+<!-- $\ket{i}\ket{0} \mapsto \ket{i}\ket{v_i}$, and $\ket{j}\ket{0} \mapsto \ket{j}\ket{c_j}$ -->
+<!-- can be performed in time $T$ and the norms of the vectors are known. For any $\Delta > 0$ and $\epsilon>0$, there exists a quantum algorithm that  computes -->
+
+<!-- - $\ket{i}\ket{j}\ket{0}  \mapsto   \ket{i}\ket{j}\ket{\overline{d^2(v_i,c_j)}}$ where $|\overline{d^{2}(v_i,c_j)}-d^{2}(v_i,c_j)| \leqslant  \epsilon$ w.p. $\geq 1-2\Delta$ -->
+<!-- - $\ket{i}\ket{j}\ket{0}  \mapsto   \ket{i}\ket{j}\ket{\overline{(v_i,c_j)}}$ where  $|\overline{(v_i,c_j)}-(v_i,c_j)| \leqslant  \epsilon$ w.p. $\geq  1-2\Delta$ -->
+
+<!-- in time $\widetilde{O}\left(\frac{ \norm{v_i}\norm{c_j} T \log(1/\Delta)}{ \epsilon}\right)$. -->
+<!-- ``` -->
 
 
 
