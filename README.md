@@ -59,3 +59,6 @@ There are countless examples of algorithms included in the book, so you can copy
 - Use the bash comand `grep "\`{lemma" * to have the list of all lemmas (or theorems) so after we can check if they are used correctly with \@ref() and there are no wrong \ref{}. 
 - If you need a fast way for translating citation from latex \cite{ciao} to markdown [@ciao], you can use \\cite{(.*?)} -----> [@$1]
 - If you need to cite a reference in the name of a theorem environment, use [Text references](https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html#text-references)
+- Let's avoid "it's" "don't", and favour "it is" "do not". 
+
+

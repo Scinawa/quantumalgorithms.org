@@ -632,7 +632,7 @@ Remember [that](https://www.johnmyleswhite.com/notebook/2013/03/22/modes-medians
 
 #### Union bound
 
-The union bound is used to show that the probability of union fo some finte or countable set of events is less than some value.
+The union bound is used to show that the probability of union (i.e. at least one of them happens) of a finite or countable set of events is less than or equal to the sum of the probabilities of the events.
 
 <span id="unionbound"> </span>
 
@@ -789,7 +789,7 @@ In terms of random walks, irreducibility means that: if the graph is undirected,
 
 ## Concentration inequalities
 
-Take a look at [this](https://www.youtube.com/watch?v=Rd8LQbXhWvM) and [this](http://www.stat.rice.edu/~jrojo/PASI/lectures/TyronCMarticle.pdf). 
+Take a look at [this](https://www.youtube.com/watch?v=Rd8LQbXhWvM) and [this](http://www.stat.rice.edu/~jrojo/PASI/lectures/TyronCMarticle.pdf). Also recall that the Union bound was presented in the section dedicated for probability theory, i.e. Theorem \@ref(thm:unionbound).
 
 
 ### Markov inequality

@@ -116,45 +116,34 @@ This is a very nice review of some of the most known qml algorithms.
 Here the authors used previous technique to perform anomaly detection. Basically they project the data on the 1-dimensional subspace of the covariance matrix of the data. In this way anomalies are supposed to lie furhter away from the rest of the dataset.
 - [ Quantum machine learning: a classical perspective](https://arxiv.org/pdf/1707.08561.pdf): `#review` `#quantum learning theory`
 - [Quantum Neuron: an elementary building block for machine learning on quantum computers](https://arxiv.org/pdf/1711.11240.pdf)
-In the paper the authors were able to implement a neuron based on a thing called RUC-circuit (repeat until success), which allowed them to capture the nonlinearity of the sigmoid used often in the classical neuron as activation function. It is not very clear to me how to use this model to solve a problem in a data analysis.
 - [Quantum speedup of Monte Carlo methods](https://arxiv.org/abs/1504.06987) `#algo`
 - [Improved quantum backtracking algorithms using effective resistance estimates](https://arxiv.org/abs/1711.05295) `#algo`
 
 
 #### 2016 {-}
 - [Quantum Discriminant Analysis for Dimensionality Reduction and Classification](https://iopscience.iop.org/article/10.1088/1367-2630/18/7/073011)  `#algo`
-Here the authors wrote two different algorithm, one for dimensionality reduction and the second for classification, with the same capabilities
 - [An efficient quantum algorithm for spectral estimation](https://arxiv.org/abs/1609.08170) `#algo`
 - [Quantum Recommendation Systems](https://arxiv.org/pdf/1603.08675.pdf) `#algo`
-It is where you can learn about QRAM and quantum singular value estimation.
 
 #### 2015 {-}
 
 - [Advances in quantum machine learning]( https://arxiv.org/pdf/1512.02900.pdf ) `#implementations`,  `#review`
 It cover things up to 2015, so here you can find descriptions of Neural Networks, Bayesian Networks, HHL, PCA, Quantum Nearest Centroid, Quantum k-Nearest Neighbour, and others.
 -[Quantum walk speedup of backtracking algorithms](https://arxiv.org/abs/1509.02374) `#algo`
-
-
 - [Quantum algorithms for topological and geometric analysis of data]() `#algo`
 
 #### 2014 {-}
 
 - [Quantum Algorithms for Nearest-Neighbor Methods for Supervised and Unsupervised Learning]() `#algo`
-This paper offer two approaches for calculating distances between vectors.
-The idea for k-NN is to calculate distances between the test point and the training set in superposition and then use amplitude amplification tecniques to find the minimum, thus getting a quadratic speedup.
 - [Quantum support vector machine for big data classification](https://arxiv.org/abs/1307.0471) `#algo`
 This was one of the first example on how to use HHL-like algorithms in order to get something useful out of them.
 - [Improved Quantum Algorithm for Triangle Finding via Combinatorial Arguments](https://arxiv.org/abs/1407.0085) `#algo`
-
-
+- [Fixed-point quantum search with an optimal number of queries](https://arxiv.org/abs/1409.3305) `#algo`
 - [Quantum Principal Component Analysis](https://arxiv.org/abs/1307.0401)  `#algo`
-The authors discovered how partial application of the swap test are sufficient to transform a quantum state $\sigma$ into $U\sigma U^\dagger$ where $U=e^{-i\rho}$ given the ability to create multiples copies of $\rho$.
-This work uses a particular access model of the data (sample complexity), which can be obtained from a QRAM
 
 
 #### 2013 {-}
 - [Quantum algorithms for supervised and unsupervised machine learning](https://arxiv.org/pdf/1307.0411.pdf) `#algo`
-This explain how to use swap test in order to calculate distances. Then it shows how this swap-test-for-distances can be used to do NearestCentroid and k-Means with adiabatic quantum computation
 - [Exponential improvement in precision for simulating sparse Hamiltonians](https://arxiv.org/abs/1312.1414) `#algo`
 
 
