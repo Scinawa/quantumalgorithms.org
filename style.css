@@ -62,24 +62,20 @@
   font-style: normal;
 }
 
+.color-theme-2 .date em,
+.color-theme-2 .author em {
+  color: #bdcadb!important;
+  /* ed */
+  font-style: normal;
+}
+
 /* main */
 
-.book {
-  background-color: #f2f2f1;
-  /* ed */
 
-}
-
-.section {
-  background-color: #f2f2f1;
-  /* ed */
-}
-
-
-
-.book .book-body .page-wrapper .page-inner section.normal {
+.book .book-body .page-wrapper .page-inner section {
   display: block;
-  background-color: #f2f2f1;
+  /*background-color: #f2f2f1;*/
+  background-color: transparent;
   /* ed */
   color: #585858;
   padding: 5px 15px;
@@ -94,7 +90,7 @@
 }
 
 .book .book-body {
-  background: #f2f2f1;
+  background: transparent;
   /* ed */
   -webkit-transition: left 250ms ease;
   -moz-transition: left 250ms ease;
@@ -143,7 +139,7 @@
 
 
 .body-inner {
-  background-color: #f2f2f1;
+  background-color: transparent;
   /* ed */
   text-align: justify;
 
@@ -152,7 +148,7 @@
 .book .book-body .page-wrapper {
   position: relative;
   outline: 0;
-  background-color: #f2f2f1;
+  background-color: transparent;
   /* ed */
 }
 
@@ -794,4 +790,31 @@ i.fa {
   border: 1px solid #ccc !important;
   border-radius: 5px;
   z-index: 9999;
+}
+
+/* Style For Buttons */
+.book .book-header .btn {
+  color: #2c424a;
+}
+
+.book .book-header .btn:hover {
+  color: #a5c9ca;
+}
+
+.book.color-theme-1 .book-header .btn {
+  color: #2c424a;
+}
+
+.book.color-theme-2 .book-header .btn {
+  color: #A5C9CA;
+}
+
+.btn>i{
+  background-color: transparent;
+}
+
+.color-theme-2>i.fa{
+  border-color: #395b64;
+}
+}
 }
