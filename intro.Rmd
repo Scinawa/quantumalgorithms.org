@@ -33,9 +33,9 @@ there.
 
 When, at the beginning of the 20th century, physicists started to model
 quantum phenomena, they observed that the dynamic of the systems had two
-properties: they observed that the time and space evolution of quantum
-systems is continuous (as in classical mechanics) and reversible (unlike
-the classical world). They decided to formalize this concept as follows.
+properties: the time and space evolution of quantum
+systems is continuous and reversible (as in classical mechanics).
+They decided to formalize this concept as follows.
 First, they decided to model the state of a quantum system at time $p$
 as a function $\psi(p)$, and they decided to model the evolution of
 $\psi(p)$ for time $t$ as an operator $U(t)$ acting on $\psi(p)$s.

@@ -40,7 +40,7 @@ knitr::include_graphics("algpseudocode/q-factor-score-ratio-estimation.png")
 
 
 
-:::{.theorem #factor_score_estimation, name="Quantum factor score ratio estimation"}
+:::{.theorem #factor_score_estimation name="Quantum factor score ratio estimation"}
  Assume to have quantum access to a matrix $A \in \R^{n \times m}$ and $\sigma_{max} \leq 1$. 
 Let $\gamma, \epsilon$ be precision parameters. There exists a quantum algorithm that, in time $\widetilde{O}\left(\frac{1}{\gamma^2}\frac{\mu(A)}{\epsilon}\right)$, estimates:
 
@@ -60,14 +60,14 @@ Often in data representations, the cumulative sum of the factor score ratios is 
 
 However, a slight variation of the algorithm of Theorem \@ref(thm:spectral-norm-estimation) provides a more accurate estimation in less time, given a threshold $\theta$ for the smallest singular value to retain.
 
-:::{.theorem #check_explained_variance, name="Quantum check on the factor score ratios' sum"}
+:::{.theorem #check_explained_variance name="Quantum check on the factor score ratios' sum"}
 Assume to have efficient quantum access to the matrix $A \in \R^{n \times m}$, with singular value decomposition $A = \sum_i\sigma_i u_i v_i^T$. Let $\eta, \epsilon$ be precision parameters and $\theta$ be a threshold for the smallest singular value to consider.
     There exists a quantum algorithm that estimates $p = \frac{\sum_{i: \overline{\sigma}_i \geq \theta} \sigma_i^2}{\sum_j^r \sigma_j^2}$, where $\|\sigma_i - \overline{\sigma}_i\| \leq \epsilon$, to relative error $\eta$ in time $\widetilde{O}\left(\frac{\mu(A)}{\epsilon}\frac{1}{\eta \sqrt{p}}\right)$.
 :::
 
 Moreover, we borrow an observation from  [@kerenidis2017quantumsquares] on Theorem  \@ref(thm:spectral-norm-estimation), to perform a binary search of $\theta$ given the desired sum of factor score ratios.
 
-:::{. theorem #binarysearch-for-threshold name="Quantum binary search for the singular value threshold"}
+:::{.theorem #binarysearch-for-threshold name="Quantum binary search for the singular value threshold"}
 Assume to have quantum access to the matrix $A \in \R^{n \times m}$. Let $p$ be the factor ratios sum to retain. The threshold $\theta$ for the smallest singular value to retain can be estimated to absolute error $\epsilon$ in time $\widetilde{O}\left(\frac{\log(1/\epsilon)\mu(A)}{\epsilon\sqrt{p}}\right)$.
 :::
 
