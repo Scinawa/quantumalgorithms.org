@@ -59,10 +59,12 @@ using $O_x$ only $O(\sqrt{N})$ times.
 This problem can be generalized to the case where there are multiple elements "marked" as good solutions. If we know the number of solutions in advance, the algorithm can be modified such that it fails with probability 0.
 
 
+### Amplitude estimation
+
 Amplitude amplification and amplitude estimation are two of the workhorses of quantum algorithms.
 
 
-(ref:brassard2002quantum) [@nannicini2019fast]
+(ref:brassard2002quantum) [@brassard2002quantum]
 
 ```{theorem, thm-ampest-orig, name="Amplitude estimation, (ref:brassard2002quantum)"}
 Given a quantum algorithm $$A:\ket{0} \to \sqrt{p}\ket{y,1} + \sqrt{1-p}\ket{G,0}$$ where $\ket{G}$ is some garbage state, then the amplitude estimation algorithm, using exactly $P$ iterations of the algorithm $A$ for any positive integer $P$, outputs $\tilde{p}$ $(0 \le \tilde p \le 1)$ such that
@@ -81,9 +83,34 @@ There is a quantum algorithm called amplitude estimation which takes as input on
 with probability at least $8/\pi^2$, using $U$ and $V$ $t$ times each. If $a=0$ then $\tilde{a}=0$ with certainty, and if $a=1$ and $t$ is even, then $\tilde{a}=1$ with certainty.
 ```
 
-In the original version of the Grover's algorithm we assume to know the number of marked elements, and therefore we can derive the correct number of iterations. Later on, a fixed-point version of amplitude amplification was proposed [@brassard2002quantum]  [@grover2005fixed], which was then optimized in [@yoder2014fixed]. These versions do not require to know the number of iterations in advance. These results foundamentally leverage the observation reprted in Proposition \@ref(prp:qesa-observation).
+In the original version of the Grover's algorithm we assume to know the number of marked elements, and therefore we can derive the correct number of iterations. Later on, a fixed-point version of amplitude amplification was proposed [@brassard2002quantum]  [@grover2005fixed], which was then optimized in [@yoder2014fixed]. These versions do not require to know the number of iterations in advance. These results fundamentally leverage the trick that we reported in Proposition \@ref(prp:qesa-observation).
 
-Recently, various researches worked on improvements of amplitude estimation by getting rid of the part of the original algorithm that performed the phase estimation (i.e. the Quantum Fourier Transform [@NC02]) [@grinko2019iterative], [@aaronson2020quantum]. As the QFT is not a NISQ subroutine, these results bring more hope to apply these algorithms in useful scenarios in the first quantum computers.
+
+Let's see in practice how to use Theorem \@ref(thm:thm-ampest-orig). Suppose that we want to estimate $a$ with relative error $\epsilon$. What is the number of times that we have to use the two unitaries? Let's check that it suffices to take $t=\frac{2 \pi }{\epsilon \sqrt{a}}$, as 
+
+\begin{align}
+\left| a - \widetilde{a} \right| \leq &  \frac{2 \pi\sqrt{a} \sqrt{a(1-a)}\epsilon}{2\pi} + \frac{\pi^2 \epsilon^2a}{4 \pi^2} = \epsilon a \sqrt{1-a} + \frac{\epsilon^2 a}{4} \nonumber \\
+ \leq & \epsilon a (1 - \frac{a}{2}) + \frac{\epsilon^2 a}{4} = \epsilon a\left( 1- \frac{a}{2}+ \frac{\epsilon}{4}\right) \leq \epsilon a. 
+\end{align}
+
+In the previous equation we used the Taylor expansion of $\sqrt{1-x}$ to the second order, i.e. $\sqrt{1-x} \leq 1 - x/2$, and the fact that $\epsilon,a < 1$ in the last inequality. The asymptotic runtime of the algorithm is thus $O(\frac{1}{\epsilon \sqrt{a}})$.
+
+What if we want to have an absolute error now? We have some of options. The simplest one is to note that a relative error of a quantity between $0$ and $1$ automatically translates in an absolute error. But this might not be the most elegant thing to do: since an absolute error for a quantity between $0$ and $1$ is "worse" than the relative error on the same quantity, we might want to save some resources, i.e. decrease the number of calls to the oracles. Let's set $t=\frac{2\pi}{\epsilon}$ and observe that
+
+\begin{align}
+\left| a - \widetilde{a} \right| \leq &  \frac{2 \pi \sqrt{a(1-a)}\epsilon}{2\pi} + \frac{\pi^2 \epsilon^2}{4 \pi^2} = \epsilon \sqrt{a}\sqrt{1-a} + \frac{\epsilon^2}{4} \nonumber \\
+ \leq & \epsilon \sqrt{a}(1 - \frac{a}{2}) + \frac{\epsilon^2}{4} = \epsilon\left(\sqrt{a}(1- \frac{a}{2})+ \frac{\epsilon}{4}\right) \leq \epsilon. 
+\end{align}
+
+Here, in addition to the tricks used in the relative error, we also used that $\sqrt{a}\leq 1$.
+
+
+
+```{exercise name="(Hard)"}
+Another idea is to realize that we could run the algorithm returning the relative error as a black box, and set the error to $\epsilon'=\epsilon/a$. In this way we might estimate a relative error $\epsilon'a=\epsilon$, with the hope to save some resources. What is the impact of this operation in the runtime of the algorithm? It's simple to see that the runtime becomes $O(\frac{1}{\frac{\epsilon}{a}\sqrt{a}}) = O(\frac{\sqrt{a}}{\epsilon})$. 
+Can we check if setting $t=\frac{2\pi \sqrt{a}}{\epsilon}$ can give an absolute error in $O(\frac{\sqrt{a}}{\epsilon})$ runtime? What is difficult about it?
+```
+
 
 Perhaps a simpler formulation, which hides the complexity of the low-level implementation of the algorithm, and is thus more suitable to be used in quantum algorithms for machine learning is the following:
 
@@ -92,6 +119,25 @@ Perhaps a simpler formulation, which hides the complexity of the low-level imple
 ```{lemma, amp-amp-est-simple, name="Amplitude amplification and estimation (ref:kerenidis2017quantumsquares) " }
 If there is a unitary operator $U$ such that $U\ket{0}^{l}= \ket{\phi} = \sin(\theta) \ket{x, 0} + \cos(\theta) \ket{G, 0^\bot}$ then  $\sin^{2}(\theta)$ can be estimated to multiplicative error $\eta$ in time $O(\frac{T(U)}{\eta \sin(\theta)})$ and $\ket{x}$ can be generated in expected time $O(\frac{T(U)}{\sin (\theta)})$ where $T(U)$ is the time to implement $U$.
 ```
+
+
+
+
+
+<!-- TODO add Fixed-point quantum search with an optimal number of queries
+exact amplitude amplification -->
+<!-- TODO add oblivious amplitude amplification -->
+
+
+
+
+
+
+
+
+Recently, various researches worked on improvements of amplitude estimation by getting rid of the part of the original algorithm that performed the phase estimation (i.e. the Quantum Fourier Transform [@NC02]) [@grinko2019iterative], [@aaronson2020quantum]. As the QFT is not considered to be a NISQ subroutine, these results bring more hope to apply these algorithms in useful scenarios in the first quantum computers.
+
+
 
 (ref:ambainis2012variable) [@ambainis2012variable]
 
@@ -102,11 +148,10 @@ Then there exists a quantum algorithm with success probability at least $2/3$ th
 $$\widetilde O\left(\sqrt{T_1^2+\ldots+T_n^2}\right).$$
 ```
 
+### Amplitude amplification
 
 
-<!-- TODO add Fixed-point quantum search with an optimal number of queries
-exact amplitude amplification -->
-<!-- TODO add oblivious amplitude amplification -->
+
 
 
 ### Example: estimating average and variance of a function
