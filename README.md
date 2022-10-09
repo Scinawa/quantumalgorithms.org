@@ -13,7 +13,7 @@
 This is the repository for [QuantumAlgorithms.org](https://quantumalgorithms.org). 
 
 This webiste is meant to be a set of lecture notes for students in quantum algorithms and quantum machine learning. 
-It will be updated regularly with new research material. The scope is to bridge the gap between introductory material in quantum computing and research-grade papers, standardize notation, and be an overfiew on the state of useful algorithms for quantum machine learning and information processing.
+It will be updated regularly with new research material. The scope is to bridge the gap between introductory material in quantum computing and research-grade papers, standardize notation, and be an overview on the state of useful algorithms for quantum machine learning and information processing.
 
 
 
