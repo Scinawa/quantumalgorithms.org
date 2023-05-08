@@ -450,7 +450,7 @@ A function $f :\{0,1\}^n \mapsto \{0,1\}$ is balanced if $f(x)=0$ for half of th
 (ref:deutsch1992rapid) [@deutsch1992rapid]
 
 ::: {.theorem name="Deutsch-Josza (ref:deutsch1992rapid)"}
-Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) ) to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which we are promised to be either constant or balanced. There is a quantum algorithm that decides which is the case with probabiliy $1$, using $U_f$ only once and using $O(\log(n))$ other gates.
+Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) ) to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which we are promised to be either constant or balanced. There is a quantum algorithm that decides which is the case with probabiliy $1$, using $U_f$ only once and using $O(n)$ other gates.
 :::
 
 ::: {.proof}
@@ -498,7 +498,7 @@ as a learning algorithm.
 ### Bernstein-Vazirani
 
 ::: {.theorem name="Bernstein-Vazirani"}
-Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) )  to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f_a(x) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$.  There is a quantum algorithm that learns $a$ with probability $1$, using $U_f$ only once and $O(\log(n))$ other gates.
+Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) )  to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f_a(x) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$.  There is a quantum algorithm that learns $a$ with probability $1$, using $U_f$ only once and $O(n)$ other gates.
 :::
 
 ::: {.proof}
