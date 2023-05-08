@@ -506,7 +506,7 @@ The algorithm follows exactly the same steps as the Deutsch-Josza algorithm. The
 
 
 \begin{equation}
-\left(\frac{1}{\sqrt{2^n}} \sum_{x\in\{0,1\}^n}(-1)^{f(x)}  \ket{x} \right) \ket{-} = \left(\frac{1}{\sqrt{2^n}} \sum_{x\in\{0,1\}^n} (-1)^{a^T x}\ket{x} \right)\ket{-}
+\left(\frac{1}{\sqrt{2^n}} \sum_{x\in\{0,1\}^n}(-1)^{f(x)}  \ket{x} \right) \ket{-} = \left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n} (-1)^{a^T x}\ket{x} \right)\ket{-}
 \end{equation}
 
 Now we resort again to Lemma \@ref(lem:hadamard-on-bitstring), and we use the fact that the Hadamard it is also a self-adjoint operator (i.e. it is the inverse of itself: $H^2 = I$). Thus applying $n$ Hadamard gates to the first register leads to the state $\ket{a}$ deterministically.
