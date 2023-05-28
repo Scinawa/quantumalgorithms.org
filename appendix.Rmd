@@ -1310,6 +1310,53 @@ For $n \in \mathbb{N}_{0}$, the Chebyshev polynomial $T_{n}$ of degree $n$ is th
 $$T_{n}(x) := \cos (n \arccos(x)).$$
 ```
 
+
+
+## Polynomial approximation of $\log(x)$ {#polyapprox-log}
+
+
+```{theorem, polyapprox-log}
+Let $\beta\in(0,1]$, $\epsilon\in(0,{1}/{6}]$. Then there exists a polynomial $\tilde{S}$
+of degree $O({\frac{1}{\beta}\log (\frac{1}{\epsilon} )})$ such that $|\tilde{S}(x)-\frac{\log_b(x)}{3\log_b(2/\beta)}|\leq\epsilon$ for all $ x\in [\beta,1]$ and base $b \in \mathbb{N}$, and for all $ x\in [-1,1]$ $1/2
+\leq \tilde{S}(x) = \tilde{S}(-x) \leq 1/2$.
+```
+
+
+```{proof}
+Recall lemma~\ref{lemma:serieslog}. 
+We follow the same steps of the proof of \cite[Lemma 11]{distributional}. 
+We consider the standard Taylor expansion of $\frac{\log(x)}{3\log(2/\beta)}$. centered in $x_0=1$, which is $f(x)=\frac{1}{3 \log(2/\beta)}\sum_{l \geq 1} \frac{(-1)^{1+n}(-1+x)^n}{n}$. We use this polynomial in \cite[Corollary 16]{distributional} with the choice of $\epsilon=\eta/2$, $x_0=1$, $r=1-\beta$, $\nu = \frac{\beta}{2}$. This Corollary gives us another polynomial $S \in \mathbb{C}[x]$ of degree $O(\frac{1}{\beta}\log(\frac{1}{\eta}))$ with the following properties: 
+\begin{align}
+    \|f(x) - S(s)\|_{[\beta, 2-\beta]} \leq \eta/2 \\
+    \|S(x)\|_{[-1, 1]} \leq B+\eta/2 \leq \frac{1}{3}+\frac{\eta}{2} \\
+    \|S(x)\|_{[-1, \beta/2]} \leq \eta/2
+\end{align}
+Now we show that indeed $B=1/3$ in Lemma~\ref{lemma:cor66} (following the steps of the original proof). We have to consider $f(x_0 +x) = \frac{1}{3 \log(2/\beta)}\sum_{l=0}^{\infty} = \frac{a_l (-1+x+x_0)^l}{l}$, and find a bound for $\sum_{l=0}^\infty (r+\nu)^l|a_l|$, which in our case (as $a_l = (-1)^{1+l}$) is $\frac{1}{3\log(2/\beta)}\sum_{l=0}^\infty (1-\beta/2)^l$. 
+
+To make the polynomial even we define $\widetilde{S} = S(x) + S(-x)$.
+Now we show that the error is bounded in the interval $[\beta, 1]$, and the value of the polynomial is bounded in the interval $[-1,1]$.
+
+Using the properties of Corollary 16, along with the triangle inequality, we can see that 
+\begin{align}
+\| f(x) - \widetilde{S}(x)\|_{[\beta, 1]} & = \|f(x) - S(x)\|_{[\beta, 1]} + \norm{S(-x)}_{[\beta, 1]} \\
+& = \|f(x) - S(x)\|_{[\beta, 1]} + \norm{S(x)}_{[-1, -\beta]}
+\leq \frac{\eta}{2} + \frac{\eta}{2} = \eta.
+\end{align}
+
+
+Now we show that $\widetilde{S}(x)$ is bounded by $1/2$ in the interval $[-1, 1]$. \begin{align}
+\norm{\widetilde{S}(x)}_{[-1, 1]} & = \norm{\widetilde{S}(x)}_{[0,1]} \leq \norm{S(x)}_{[0,1]} + \norm{S(x)}_{[-1,0]} \nonumber \\
+& \leq  \frac{1}{3}+\frac{\eta}{2} + \frac{\eta}{2} = \frac{1}{3} + \eta \leq  \frac{1}{2}.
+\end{align}
+Where we used respectively the fact that the function is even (first equality), and that $\widetilde{S}$ can be bounded in function of $S(x)$ using triangle inequality (second inequality) and the properties of the polynomial expansion derived before.
+If the polynomial expansion has complex parts, we can discard them. 
+```
+
+
+
+
+
+
 ## Polynomial approximation of $1/x$ {#polyapprox-1overx}
 We are going to approximate $1/x$ using Chebychev polynomial, with some additional tricks, which will be used to decrease the degree of the polynomial approximation. As 
 
@@ -1611,7 +1658,7 @@ $\forall x\in [\beta,1]$, $|\tilde{S}(x)-\frac{\ln(1/x)}{2\ln(2/\beta)}|\leq\eta
 
 # Contributions and  acknowledgements {#appendix-contributors}
 
-These are my first lecture notes in Quantum Machine Learning (QML) and quantum algorithms. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. thesis (which I made at [IRIF](https://irif.fr) with the support of [Atos](https://atos.net), which I thank), and now are in this extended form with the hope to serve the future researchers in QML. I am not an expert in the broad field of "quantum computing", and these lecture notes are an attempt (while quite prolonged over time) of collecting useful knowledge for new researcher in quantum computing. While I strive to be as precise as the lecture notes of [Ronald de Wolf](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf) and [Andrew Childs](https://www.cs.umd.edu/~amchilds/qa/qa.pdf), I know this work is still far from them. Please be indulgent, and help! For instance by signaling imprecisions, errors, and things that can be made more clear.
+These are my first lecture notes in quantum algorithms for machine learning. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. thesis (which I made at [IRIF](https://irif.fr) with the support of [Atos](https://atos.net), which I thank), and now are in this extended form with the hope to serve the future researchers in QML. I am not (yet!) an expert in the broad field of "quantum computing", and these lecture notes are an attempt of collecting useful knowledge for new researcher in quantum computing. While I strive to be as precise as the lecture notes of [Ronald de Wolf](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf) and [Andrew Childs](https://www.cs.umd.edu/~amchilds/qa/qa.pdf), I know this work is still far from them. Please be indulgent, and help! For instance by signaling imprecisions, errors, and things that can be made more clear.
 
 
 If you want to give me any feedback, feel free to write me at "scinawa - at - luongo - dot - pro". Or contact me on [Twitter](https://twitter.com/scinawa).
@@ -1620,10 +1667,24 @@ In sparse order, I would like to thank [Dong Ping Zhang](www.dongpingzhang.com),
 
 
 
-**Core team**
+**Team**
 
-- Alessandro ['Scinawa'](https://twitter.com/scinawa) Luongo
-- Armando ['ikiga1'](https://twitter.com/ikiga1) Bellante
+- Alessandro ['Scinawa'](https://twitter.com/scinawa) Luongo 
+
+```{r, out.width='50%'}
+knitr::include_graphics('images/scinawa.jpg')
+```
+
+
+- Armando ['ikiga1'](https://twitter.com/ikiga1) Bellante 
+
+
+```{r, out.width='50%'}
+knitr::include_graphics('images/armando.jpg')
+```
+
+- Hue Jun Hao Alexander 
+
 
 **Contributors**
 
@@ -1636,6 +1697,7 @@ The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contr
 - Filippo Miatto
 - Jinge Bao
 - Michele Vischi
+- Samantha Buck
 - Adrian Lee
 - Ethan Hansen
 - Lei Fan
@@ -1643,6 +1705,7 @@ The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contr
 - Pablo Rotondo
 - João Doriguello
 - Avhijit_Nair
+- Marco Caselli
 
 **Funding**
 
