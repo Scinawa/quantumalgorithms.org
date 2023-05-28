@@ -80,7 +80,7 @@ The central limit theorem can be used to construct confidence intervals for our 
       (\#eq:cltconfidence)
 \end{align}
 where $Z$ is a standard normal random variable.
-We can find values of $N$ such that the probability to have a good estimate $\widetilde{\mu}_N$ up to fixed additive error $\epsilon$ is almost 1. Usual values for this probability are $95\%$ or $99\%$. So for example if we want $P(-z_c\le Z \le z_c) = 0.99$ where $z_c = \epsilon\sqrt{N}/\sigma$ then $z_c =\epsilon\sqrt{N}/\sigma= 2.58$ because of the properties of the normal distribution. Estimating $\mu$ with additive error $\epsilon$ would require $N = 6.66\, \sigma^2/\epsilon^2$ samples.
+We can find values of $N$ such that the probability to have a good estimate $\widetilde{\mu}_N$ up to fixed additive error $\epsilon$ is almost 1. Usual values for this probability are $95\%$ or $99\%$. So for example if we want $P(-z_c\le Z \le z_c) = 0.99$ where $z_c = \epsilon\sqrt{N}/\sigma$ then $z_c =\epsilon\sqrt{N}/\sigma= 2.58$ because of the properties of the normal distribution. Estimating $\mu$ with additive error $\epsilon$ would require $N = 6.6564\, \sigma^2/\epsilon^2$ samples.
 
 You can feel the power of Monte Carlo!! All of the above does not depend on the dimension of the sample space of the random variables $X_i$, but just on the number of repetitions $N$ and on the variance $\sigma^2$.
 
