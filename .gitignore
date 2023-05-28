@@ -11,6 +11,8 @@ algpseudocode/TEMPLATE.png
 .RData
 .Ruserdata
 quantumalgos.Rproj
+quantumalgorithms.log
+quantumalgorithms.Rmd
 quantumalgorithms.org.Rproj
 quantumalgos.log
 compile.R
