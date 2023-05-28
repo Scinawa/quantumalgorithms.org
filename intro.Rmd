@@ -2,11 +2,10 @@
 
 # Quantum computing and quantum algorithms {#chapter-intro}
 
-In this chapter we will introduce the notation used throughout the rest
-of the lecture notes. We will extensively use linear algebra (norm of
+In this chapter we will introduce the preliminaries needed for in this book. 
+We will extensively use linear algebra (norm of
 matrices, SVD, properties of particular matrices, and so on), so the
-reader is highly encouraged to skim the appendix on his/her own, so to
-know the notation adopted here.
+reader is highly encouraged to refer to the appendix regarding the notations adopted.
 
 ## Getting rid of physics in quantum computing
 
@@ -14,59 +13,45 @@ Following one of the [lectures of
 Susskind](https://www.youtube.com/watch?v=8mi0PoPvLvs), we are going to
 start from a "handwavy" introduction of quantum mechanics, that starts
 from few considerations and lead straight to the Schrödinger equation.
-With a few mathematical tricks, we are going to give an intuitive
-justification of all the 4 axioms of quantum mechanics that are stated
-in the next sections. The hope is that thanks to this introduction, the
+With a few mathematical tricks, we are going to justify the 4 axioms of quantum mechanics stated in the next sections intuitively. The hope is that the
 reader can be gently guided from a tiny physical intuition to a greater
-understanding of the **axioms of quantum mechanics**. Despite the name
-"axioms of quantum mechanics" might seems (obviously) related to
-physics, thanks to this formulation (which comes from [@NC02]), we could
-eventually think of them as "axioms of quantum computing". As [Scott
+understanding of the **axioms of quantum mechanics**. While “axioms of quantum mechanics” implies that physics is involved, thanks to some of their formulation (see for instance in [@NC02], which we adopt), we can ignore the physics and think of them as “axioms of quantum computing”. As [Scott
 Aaronson](https://www.youtube.com/watch?v=SJkbe4Rkv9c) rightly said, if
 you are not a physicist, you need to remove physics from quantum
 mechanics to understanding it!
 
 The objective is that the reader should *not* feel the need to dig into
-quantum mechanical details of quantum computers, but can comfortably sit
-on top of the 4 axioms of quantum mechanics, and build (a lot) from
-there.
+quantum mechanical details of quantum computers, but can start solely from the 4 axioms of quantum mechanics and build (a lot) from there.
 
-When, at the beginning of the 20th century, physicists started to model
-quantum phenomena, they observed that the dynamic of the systems had two
-properties: the time and space evolution of quantum
-systems is continuous and reversible (as in classical mechanics).
-They decided to formalize this concept as follows.
+At the beginning of the 20th century, when physicists started to model
+quantum phenomena, they observed that the time and space evolution of quantum systems had two
+properties: it was continuous and reversible (as in classical mechanics).
+They decided to formalize these properties as follows.
 First, they decided to model the state of a quantum system at time $p$
 as a function $\psi(p)$, and they decided to model the evolution of
 $\psi(p)$ for time $t$ as an operator $U(t)$ acting on $\psi(p)$s.
-Formally, the two requirements can be written as:
+Let $I$ be the identity operator. Formally, the two requirements can be written as:
 
 -   $U(\epsilon)=I-i\epsilon H$ (continuity)
 -   $U^\dagger(t)U(t)=I$ (reversibility)
 
 The first requirement reads that if we were to apply an evolution for a
 small amount of time $\epsilon$, then $U$ would behave almost as the
-identity, and then it will apply for a "small" amount another operator
-$H$. The second requirement reads that if we "undo" the operator $U$, by
-applying the transpose conjugate, we would obtain the identity, i.e. we
-haven't change the state of the system. From these two requirements, we
-can already derive the following observation.
+identity $I$, differing by a small amount of another operator
+$H$. The second requirement reads that the operation $U$ can be undone by applying a conjugate transpose of $U$. By doing this we obtain the identity operator. This means that we return to the initial state of the system before it evolved. From these two requirements, we can observe that:
 
 $$I = U^\dagger(\epsilon)U(\epsilon)= (I+i\epsilon H)(I-i\epsilon H) = I -i \epsilon H + i \epsilon H^\dagger + O(\epsilon^2).$$
-The only way for this equation to hold is for $H=H^\dagger$.
-
-I.e. the operator $H$ should be equal to its transpose conjugate. In
-mathematics, we have a name for such operators, and they are called
-Hermitian operators! (More about those in the appendix!). Now we can ask
+The only way for this equation to hold is for $H=H^\dagger$, i.e. the operator $H$ should be equal to its transpose conjugate. In mathematics, we call them Hermitian operators! (More about these in the appendix!). Now we can ask
 ourselves what happens when we apply $U(\epsilon)$ to a quantum state
 $\psi(t)$? Well it's simple to see now:
 $$U(\epsilon)\psi(t) = \psi(t+\epsilon) = \psi(t) -i \epsilon H\psi(t).$$
 With a little algebra we can rewrite the previous equation as:
 
 $$ \frac{\psi(t+\epsilon) -  \psi(t)}{\epsilon} = -i  H\psi(t).$$ Note
-that the left-hand side part of this equation can be rewritten as a
-derivative: $$\frac{d}{dt}\psi(t) = -i H \psi(t).$$ But this is the
-well-known Schrödinger equation! Note that, as computer scientists, we
+that the left-hand side part of this equation can be rewritten, under the limit that $\epsilon \mapsto 0$ 
+as a derivative: 
+$$\frac{d}{dt}\psi(t) = -i H \psi(t).$$ 
+But this is the well-known Schrödinger equation! Note that, as computer scientists, we
 take the right to remove some physical constant ($\hbar$) out of the
 equation. What should be the takeaway of these observations? Well, first
 we know that the Schrödinger equation is a differential equation whose
@@ -90,11 +75,11 @@ give you a "justification" for the axioms of quantum mechanics.
 
 ## Axioms of quantum mechanics {#section-axioms}
 
-The standard formalism used in Quantum Information is the Dirac's
+The standard formalism used in quantum information is the Dirac's
 "bra-ket" notation, which we will introduce in this section. We also
 recall here the postulates of quantum mechanics, and take this
 opportunity to settle the rest of the notation and preliminaries used in
-this thesis. For the postulates, we follow the standard formulation in
+this book. For the postulates, we follow the standard formulation in
 [@NC02].
 
 ::: {.proposition name="Postulate 1"}
@@ -102,18 +87,18 @@ Associated to any isolated physical system is a complex vector space with inner 
 :::
 
 As quantum states are described by unit vectors, we write $\ket{\psi}$
-for a unit vector $\psi \in \mathcal{H}^n$. So for a non-normalized
-vector $x \in \R^n$, the normalized quantum state is represented as
-$\ket{x} = \norm{x}^{-1}x = \frac{1}{\norm{x}}\sum_{i=0}^n x_i\ket{i}$.
+for a unit vector $\psi \in \mathcal{H}^d$, where $\mathcal{H}^d$ is a $d$ dimensional Hilbert space. 
+So for a non-normalized
+vector $x \in \R^d$, the normalized quantum state is represented as
+$\ket{x} = \norm{x}^{-1}x = \frac{1}{\norm{x}}\sum_{i=0}^n x_i\ket{i}$, where $\norm{x}$ is the $\ell_2$ norm of the vector $x$..
 We denote as $\{\ket{i}\}_{i\in[d]}$ the canonical (also called
-computational) basis for the $d$ dimensional Hilbert space
-$\mathcal{H}$. The transpose-conjugate of $\ket{x}$ is defined as
+computational) basis for the Hilbert space. The transpose-conjugate of $\ket{x}$ is defined as
 $\bra{x}$. We can think of $\ket{x}$ as a column vector, while $\bra{x}$
-is a row vector, whose entries have been conjugated. In Dirac's
+as a row vector, whose entries have been conjugated. In Dirac's
 notation, we denote the inner product between two vector as
 $\braket{x|y}$. Their outer product is denoted as
 $\ket{x}\bra{y} = \sum_{i,j \in [d]}x_i y_j \ket{i}\bra{j} \in \mathcal{H}^d\otimes \mathcal{H}^d$.
-The smallest quantum system is called a qubit, and is a 2 dimensional
+The smallest (non-trivial) quantum system is called a qubit, and is a 2 dimensional
 unit vector in $\mathbb{C}^2$. A base for this vector space in quantum
 notation is denoted as $\ket{0}$ and $\ket{1}$. In this case, the vector
 $\ket{\varphi} = \alpha\ket{0}+\beta\ket{1}$ for
@@ -136,9 +121,8 @@ see that the following are all equivalent definition of unitary matrices
 -   $\norm{Av} = \norm{v}$ for all $v$
 -   $\norm{Av} = 1$ if $\norm{v}=1$.
 -   $U$ is a normal matrix with eigenvalues lying on the unit circle
--   $|\det(U)|=1$
--   The columns and the rows of $U$ form an orthonormal basis of
-    $\mathcal{C}^d$
+<!-- # -   $|\det(U)|=1$ shame on me!  -->
+-   The columns and the rows of $U$ form an orthonormal basis of $\mathcal{C}^d$
 -   $U$ can be written as $e^{iH}$ for some Hermitian operator $H$.
 
 ::: {.example name="Determinant=1 is a necessary but not sufficient condition for being unitary."}
@@ -285,20 +269,20 @@ vector $\ket{z} \in \mathbb{R}^{d_1 \times d_2}$. We can use the tensor
 operation to describe the joint evolution of separate quantum system.
 <!-- TODO FIXME -->
 
-Even if it's not explicitly used much in quantum algorithms, it's useful
+Even if it is not explicitly used much in quantum algorithms, it is useful
 to recall the definition of entangled pure state.
 
 ::: {.definition name="Entangled state"}
-A quantum state that cannot be expressed as tensor product of two quantum state is said to be entangled.
+A quantum state that cannot be expressed as a tensor product of two quantum state is said to be entangled.
 :::
 
 The same thing can be done for operators. Let $U_1$ be the unitary
 describing the evolution of a quantum state $\ket{x}$ and $U_2$ the
 unitary describing the evolution of a quantum state $\ket{y}$. Then
 $U_1 \otimes U_2$ describes the evolution of the quantum system
-$\ket{x}\otimes \ket{y}$. Note that to build a state in
-$\ket{v} \in \mathcal{H}^n$ we need $\lceil \log n\rceil$ qubits, and
-this fact will be extensively leveraged in our quantum algorithms.
+$\ket{x}\otimes \ket{y}$. 
+
+From the definition of tensor product, we see that the tensor product of $n$ qubits (i.e.$n$ different $2$-dimensional vectors) is a vector of size $2^n$. Thus, to build a quantum state that stores $d$ numbers in its amplitudes we need $\lceil \log d\rceil$ qubits. More precisely, observe that for a vector $\vec{v} \in \mathcal{H}^d$ if we want to build $\ket{\vec{v]}} = \|\vec{v}\| \vec{v}$ we need only  $\lceil \log d \rceil$  numbers. If $d$ is not a power of $2$, we consider the vector padded with $0$ to the nearest power of $2$ bigger than $d$. This will allow us to build states in the form of $\frac{1}{\|\vec{v}\|}\sum_{i=0}^{\lceil \log d \rceil} v_i \ket{i}$. This fact will used a lot in our quantum algorithms, especially in quantum machine learning. We will discuss in chapter \@ref(#chap-classical-data-quantum-computers) how to create these kind of quantum states.
 
 ### Review of important statements in quantum computation
 
@@ -310,26 +294,32 @@ state here a few important lemmas.
 ::: {.lemma #hadamard-on-bitstring name="Hadamard on a bitstring (ref:NC02)"}
 Let $x \in \{0,1\}^n$ be a bitstring, and $H$ be an Hadamard gate. Then:
 
-$$H^{\otimes n}\ket{x} = \frac{1}{\sqrt{2^n}}\sum_{z_1, \dots z_n \in \{0,1\}^n} (-1)^{x_1z_1 + x_2z_2 + \dots + x_nz_n} \ket{z_1, \dots, z_n} = \frac{1}{\sqrt{2^n}}\sum_{z\in \{0,1\}^n} (-1)^{x^Tz} \ket{z}$$
-  Where $x^Tz$ is the bitwise inner product of strings in $Z_2^n$ modulo $2$.
+\begin{equation}
+H^{\otimes n}\ket{x} = \frac{1}{\sqrt{2^n}}\sum_{z_1, \dots z_n \in \{0,1\}^n} (-1)^{x_1z_1 + x_2z_2 + \dots + x_nz_n} \ket{z_1, \dots, z_n} = \frac{1}{\sqrt{2^n}}\sum_{z\in \{0,1\}^n} (-1)^{x^Tz} \ket{z},
+\end{equation}
+
+where $x^Tz$ is the bitwise inner product of strings in $Z_2^n$ modulo $2$.
 :::
 
 ## Measuring complexity of quantum algorithms {#measuring-complexity}
 
 This section is an attempt to organize in a coherent way some
 fundamental concepts in quantum computer science. Some refereces for this section 
-are [@dorn2008quantum], [@DeWolf], and [@kuperberg2011another]. 
+are [@dorn2008quantum], [@DeWolf], and [@kuperberg2011another]. In this section we assume the read is comfortable with the big O notation. 
 
-Le't s suppose that we have a quantum circuit of $n$ qubits, and for each qubit we have one Hadamard gate.
-What is the time complexity for running this circuit? Is it $O(n)$ or $O(1)$?. To answer this question we have to introduce discuss different ways for measuring the complexity of a quantum algorithm: the number of gates, the depth, and the number of queries to an oracle.
-The first two are a direct generalization of the measure of complexity of boolean circuits, where we measure the number of gates (serial time) or the depth of the circuit (parallel time). The third measure of complexity is the query complexity, which is the number of times we use (or query) an oracle: a circuit or a data structure that we can use as a black box. In this section we will define more formally the query complexity of a quantum algorithm, and in the next chapter we will explain possible implementations of different kind of oracles. The *time* complexity, which is ultimately the most interesting measure of complexity of an algorithm for most practical purposes, is more tricky to define properly. If we assume that our hardware is capable of executing all the gates at the same depth in parallel, than the measure of time complexity becomes the depth of the quantum algorithm. We denote with $T(U)$ the time complexity needed to implement a quantum circuit implementing a unitary $U$, and this is measured in terms of **number of gates**, i.e. the size of the circuit (this is quite standard see for example the section the introduction in [@ambainis2022matching]). This is a concept that bears some similarity with the clock rate of classical CPUs. If our hardware is not capable of executing all the gates at the same depth in one clock, we might have to consider the time complexity as the number of gates (eventually divided by the number of gates that can be executed at the same time). As an important exception to this rule we have the query complexity, where we consider the cost of a single query of an oracle as $O(1)$, i.e. as any other gate. This is somehow justified because for certain oracles we have efficient (i.e. with depth polylogarithmic in the size of the oracle) implementations. For this, the (often non said) assumption is that the part of the quantum computer dedicated to run the main part of the circuit has to be evaluated with serial time (i.e. the number of gates), while the part of the circuit dedicated to executing the oracle has to be evaluated for its parallel time complexity. An example of this, which we will treat in more details in the next chapter is the QRAM and the QRAG gate. This assumption allows to justifiably conflate the query complexity of an algorithm as its time complexity.
+Intuitively, the time complexity of an algorithm is the number of operations the computer has to perform from the beginning to the end of the execution of the algorithm. This model is easy to understand when we think about a personal computer (more precisely, a von Neumann architecture). What is the right way of measuring the complexity of (quantum) circuits? For example, suppose to have a quantum circuit of $n$ qubits, and for each qubit we apply one Hadamard gate: what is the time complexity for running this circuit? Is it $O(n)$ or $O(1)$?. We will discuss here different ways for measuring the complexity of a quantum algorithm: the number of gates, the depth of the circuit, and the number of queries to an oracle. 
+The first two are a direct generalization of the measure of complexity of boolean circuits, where we measure the number of gates (serial time) or the depth of the circuit (parallel time). The third measure of complexity is the query complexity, which is the number of times we use (or query) an oracle: a circuit or a data structure that we can use as a black box. In this section we will define more formally the query complexity of a quantum algorithm, and in the next chapter we will explain possible implementations of different kinds of oracles. The *time* complexity, which is ultimately the most relevant measure of complexity of an algorithm for most practical purposes, is more tricky to define properly. If we assume that our hardware is capable of executing all the gates at the same depth in parallel, than the measure of time complexity becomes the depth of the quantum algorithm. We denote $T(U)$ as the time complexity needed to implement a quantum circuit implementing a unitary $U$, and this is measured in terms of **number of gates**, i.e. the size of the circuit (this is quite standard see for example the section the introduction in [@ambainis2022matching]). This is a concept that bears some similarity with the clock rate of classical CPUs. If our hardware is not capable of executing all the gates at the same depth in one clock, we might have to consider the time complexity as the number of gates (eventually divided by the number of gates that can be executed at the same time). As an important exception to this rule we have the query complexity, where we consider the cost of a single query of an oracle as $O(1)$, i.e. as any other gate. This is somehow justified because for certain oracles we have efficient (i.e. with depth polylogarithmic in the size of the oracle) implementations. For this, the (often non said) assumption is that the part of the quantum computer dedicated to run the main part of the circuit has to be evaluated with serial time (i.e. the number of gates), while the part of the circuit dedicated to executing the oracle has to be evaluated for its parallel time complexity. An example of this, which we will treat in more details in the next chapter is the QRAM and the QRAG gate. This assumption allows to justifiably conflate the query complexity of an algorithm as its time complexity.
 
 Last but not least, everything is made even more complicated by error correction. In fact, in some architecture and some error correction codes, the time complexity of the algorithm is well approximated by the number of $T$ gates of the circuit.
 
 
-In the whole book, we use a standard notation of $\widetilde{O}$ for hiding polylogarithmic
+In this book, we use the standard notation of $\widetilde{O}$ to hide the polylogarithmic
 factors in the big-O notation of the algorithms:
-$O(\log(n))=\widetilde{O}(1)$.
+$O(n\log(n))=\widetilde{O}(n)$. The meticulous reader may notice that in this way we might make the notation ambiguous, as it might not be clear what is hidden in the $\widetilde{O}$ notation. The correct way of using this notation is to hide only factors that appear with a dependency bigger than the logarithm (i.e. $O(n\log(n))=\widetilde{O}(n)$ but $O(n\log(n)\log(1/\epsilon))=\widetilde{O}(n\log(1/\epsilon))$). Another possibility, to make our runtimes more precise, is to use a subscript to specify the factors that we choose to hide:
+\begin{equation} 
+\widetilde{O}_{\epsilon,\delta}\left(\frac{1}{\epsilon}\right) = O\left(\frac{1}{\epsilon}\log(1/\epsilon)\log(1/\delta)\right)
+\end{equation}
+
 
 ::: {.definition #quantum-oracle-access name="Quantum query or oracle access to a function"}
 Let $\mathcal{H}$ be a finite-dimensional Hilbert space with basis $\{0,1\}^{n}$. Given $f:\{0,1\}^n\to\{0,1\}^m$, we say that we have quantum query access to $f$ if we have access to a unitary operator $U_f$ on $\mathcal{H}\otimes\mathbb{C}^{2^n}$ such that $U\ket{x}\ket{b} = \ket{x}\ket{b \oplus f(x)}$ for any bit string $b\in\{0,1\}^m$. One application of $U_f$ costs $T_f$ operations.
@@ -355,7 +345,7 @@ examples of oracles as definition \@ref(def:qram),
 \@ref(def:oracle-access-adjacencylist), and \@ref(def:KP-trees).
 
 This is the so-called query model, or oracle model of (quantum) computation. An important thing here is the last statement of Definition
-\@ref(def:quantum-oracle-access), on the cost of applying $U_f$, which is
+\@ref(def:quantum-oracle-access), on the cost of applying $U_f$, which is 
 $O(1)$. There are multiple reasons for working in this model, which might appear unrealistic at this time.
 First, it is often the case that queries to these oracles are actually efficient
 (as we will see in many example), so the query complexity is actually
@@ -365,11 +355,11 @@ that in the oracle model is relatively simple to prove lower bounds and
 results about the complexity of an algorithm in terms of the number of
 queries to an oracle that encodes the input of the problem. It is
 customary, for complex results in quantum algorithms to separate the
-study of the query complexity of the problem and the depth of the
+study of the query complexity of the problem and the depth or gate complexity of the
 quantum circuit which is executed on the real hardware. We formalize
-more this difference in the following definitions.
+more this difference in the following definition.
 
-::: {.definition #query-complexity name="Query complexity"}
+::: {.definition #query-complexity name="Query complexity of an algorithm"} 
 The quantum query complexity of a quantum algorithm $\mathcal{A}$ is the number of queries to a black-box made by $\mathcal{A}$ in order to compute $f$.
 :::
 
@@ -412,7 +402,7 @@ few specializations of the problem.
 We will clarify better some definitions that are used to describe the
 probabilistic behavior of an algorithm:
 
-::: {.definition #error-behavior name="Kind of randomized algorithms"}
+::: {.definition #error-behavior name="Randomized algorithms"}
 Let $f : \{0,1\}^N \mapsto \{0,1\}$ be a Boolean function. An algorithm computes $f$:
 
 -  **exactly** if the outputs equals $f(x)$ with probability 1 for all $x \in\{0,1\}^N$
@@ -443,11 +433,8 @@ $\geq 1-\frac{1}{k}$ we will have the output of the algorithm.
 ## Review of famous quantum algorithms {#review-famous-quantum-algos}
 
 In this Chapter we will explore some introductory quantum algorithms.
-Some of them are not particularly related to data analysis or machine
-learning, but given their potential to help us better understand the
-model of quantum computation that we adopt, we decided it was important
-to report them here. Others will prove to be really useful subroutines
-for the quantum machine learning practitioner.
+While some of them are not directly related to data analysis nor machine learning, it is important to report them here because they help us better understand the model of quantum computation we adopt.
+Others will prove to be really useful for the quantum machine learning practitioner.
 
 ### Deutsch-Josza
 
@@ -471,11 +458,11 @@ We start our quantum computer initializing $n$ qubit as $\ket{0}$ state follwed 
 \begin{equation}
 \ket{0}^{\otimes n}\ket{1} \mapsto \left(\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x} \right)\ket{-}
 \end{equation}
-Now we apply $U_f$ using the first register as input and the ancilla register as output. Our quantum computer is now in the state
+Now we apply $U_f$ using the first register (i.e. the first $n$ qubits) as input and the ancilla register (the last qubit) as output. Our quantum computer is now in the state
 $$\left(\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n}(-1)^{f(x)}\ket{x} \right)\ket{-}$$
 Now we apply $n$ Hadamard gates to the $n$ qubits in the first registers. Recalling lemma \@ref(lem:hadamard-on-bitstring), this gives the state
 
-$$\left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n}(-1)^{f(x)} \sum_{j \in \{0,1\}^n }(-1)^{xj} \ket{j} \right) \ket{+} = \left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n}\sum_{j \in \{0,1\}^n} (-1)^{f(x)+ xj} \ket{j} \right)\ket{+}$$
+$$\left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n}(-1)^{f(x)} \sum_{j \in \{0,1\}^n }(-1)^{xj} \ket{j} \right) \ket{-} = \left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n}\sum_{j \in \{0,1\}^n} (-1)^{f(x)+ xj} \ket{j} \right)\ket{-}$$
 
 In this state, note that the normalization factor has changed from $\frac{1}{\sqrt{2^n}}$ to $\frac{1}{2^n}$, and recall that $(-1)^{xj}$ is read as $(-1)^{ \sum_{p} x_pj_p \text{mod}2 }$.
 The key idea of the proof of this algorithm lies in asking the right question to the previous state: what is the probability of measuring the state $\ket{0}^n$ in the first register? The answer to this question will conclude the proof of this theorem. Before looking at the probability, observe that the amplitude of the state $\ket{j=0}$ we will see that it is just $\frac{1}{2^n}\sum_{x}(-1)^{f(x)}$, as $x^Tj=0$ if $j=0_1\dots 0_n$, for all $x$. Then,
@@ -518,10 +505,10 @@ The algorithm follows exactly the same steps as the Deutsch-Josza algorithm. The
 
 
 \begin{equation}
-\left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n}(-1)^{f(x)}  \ket{x} \right) \ket{+} = \left(\frac{1}{2^n} \sum_{x\in\{0,1\}^n} (-1)^{a^T x}\ket{x} \right)\ket{+}
+\left(\frac{1}{\sqrt{2^n}} \sum_{x\in\{0,1\}^n}(-1)^{f(x)}  \ket{x} \right) \ket{-} = \left(\frac{1}{\sqrt{2^n}} \sum_{x\in\{0,1\}^n} (-1)^{a^T x}\ket{x} \right)\ket{-}
 \end{equation}
 
-Now we resort again to Lemma \ref(lem:hadamard-on-bitstring), and we use the fact that the Hadamard it is also a self-adjoint operator (i.e. it is the inverse of itself: $H^2 = I$). Thus applying $n$ Hadamard gates to the first register leads to the state $\ket{a}$ deterministically.
+Now we resort again to Lemma \@ref(lem:hadamard-on-bitstring), and we use the fact that the Hadamard it is also a self-adjoint operator (i.e. it is the inverse of itself: $H^2 = I$). Thus applying $n$ Hadamard gates to the first register leads to the state $\ket{a}$ deterministically.
 
 :::
 
