@@ -307,8 +307,9 @@ This section is an attempt to organize in a coherent way some
 fundamental concepts in quantum computer science. Some refereces for this section 
 are [@dorn2008quantum], [@DeWolf], and [@kuperberg2011another]. In this section we assume the read is comfortable with the big O notation. 
 
-Intuitively, the time complexity of an algorithm is the number of operations the computer has to perform from the beginning to the end of the execution of the algorithm. This model is easy to understand when we think about a personal computer (more precisely, a von Neumann architecture). What is the right way of measuring the complexity of (quantum) circuits? For example, suppose to have a quantum circuit of $n$ qubits, and for each qubit we apply one Hadamard gate: what is the time complexity for running this circuit? Is it $O(n)$ or $O(1)$?. We will discuss here different ways for measuring the complexity of a quantum algorithm: the number of gates, the depth of the circuit, and the number of queries to an oracle. 
-The first two are a direct generalization of the measure of complexity of boolean circuits, where we measure the number of gates (serial time) or the depth of the circuit (parallel time). The third measure of complexity is the query complexity, which is the number of times we use (or query) an oracle: a circuit or a data structure that we can use as a black box. In this section we will define more formally the query complexity of a quantum algorithm, and in the next chapter we will explain possible implementations of different kinds of oracles. The *time* complexity, which is ultimately the most relevant measure of complexity of an algorithm for most practical purposes, is more tricky to define properly. If we assume that our hardware is capable of executing all the gates at the same depth in parallel, than the measure of time complexity becomes the depth of the quantum algorithm. We denote $T(U)$ as the time complexity needed to implement a quantum circuit implementing a unitary $U$, and this is measured in terms of **number of gates**, i.e. the size of the circuit (this is quite standard see for example the section the introduction in [@ambainis2022matching]). This is a concept that bears some similarity with the clock rate of classical CPUs. If our hardware is not capable of executing all the gates at the same depth in one clock, we might have to consider the time complexity as the number of gates (eventually divided by the number of gates that can be executed at the same time). As an important exception to this rule we have the query complexity, where we consider the cost of a single query of an oracle as $O(1)$, i.e. as any other gate. This is somehow justified because for certain oracles we have efficient (i.e. with depth polylogarithmic in the size of the oracle) implementations. For this, the (often non said) assumption is that the part of the quantum computer dedicated to run the main part of the circuit has to be evaluated with serial time (i.e. the number of gates), while the part of the circuit dedicated to executing the oracle has to be evaluated for its parallel time complexity. An example of this, which we will treat in more details in the next chapter is the QRAM and the QRAG gate. This assumption allows to justifiably conflate the query complexity of an algorithm as its time complexity.
+Intuitively, the time complexity of an algorithm is the number of operations the computer has to perform from the beginning to the end of the execution of the algorithm. This model is easy to understand when we think about a personal computer with one CPU (more precisely, a von Neumann architecture). What is the right way of measuring the complexity of (quantum) circuits? For example, suppose to have a quantum circuit of $n$ qubits, and for each qubit we apply one Hadamard gate: what is the time complexity for running this circuit? Is it $O(n)$ or $O(1)$?. We will discuss here different ways for measuring the complexity of a quantum algorithm: the number of gates, the depth of the circuit, and the number of queries to an oracle. 
+The first two are a direct generalization of the measure of complexity of boolean circuits, where we measure the number of gates (serial time) or the depth of the circuit (parallel time). The third measure of complexity is the query complexity, which is the number of times we use (or query) an oracle: a circuit or a data structure that we can use as a black box. In this section we will define more formally the query complexity of a quantum algorithm, and in the next chapter we will explain possible implementations of different kinds of oracles. The *time* complexity, which is ultimately the most relevant measure of complexity of an algorithm for most practical purposes, is more tricky to define properly. If we assume that our hardware is capable of executing all the gates at the same depth in parallel, than the measure of time complexity becomes the depth of the quantum algorithm. We denote with $T(U)$ as the time complexity needed to implement a quantum circuit implementing a unitary $U$, and this is measured in terms of **number of gates**, i.e. the size of the circuit (this is quite standard see for example the section the introduction in [@ambainis2022matching]). This is a concept that bears some similarity with the clock rate of classical CPUs. If our hardware is not capable of executing all the gates at the same depth in one clock, we might have to consider the time complexity as the number of gates (eventually divided by the number of gates that can be executed at the same time). As an important exception to this rule we have the query complexity, where we consider the cost of a single query of an oracle as $O(1)$, i.e. as any other gate. This is somehow justified because for certain oracles we have efficient (i.e. with depth polylogarithmic in the size of the oracle) implementations. For this, the (often non said) assumption is that the part of the quantum computer dedicated to run the main part of the circuit has to be evaluated with serial time (i.e. the number of gates), while the part of the circuit dedicated to executing the oracle has to be evaluated for its parallel time complexity. An example of this, which we will treat in more details in the next chapter is the QRAM and the QRAG gate. This assumption allows to justifiably conflate the query complexity of an algorithm as its time complexity.
+
 
 Last but not least, everything is made even more complicated by error correction. In fact, in some architecture and some error correction codes, the time complexity of the algorithm is well approximated by the number of $T$ gates of the circuit.
 
@@ -322,7 +323,7 @@ $O(n\log(n))=\widetilde{O}(n)$. The meticulous reader may notice that in this wa
 
 
 ::: {.definition #quantum-oracle-access name="Quantum query or oracle access to a function"}
-Let $\mathcal{H}$ be a finite-dimensional Hilbert space with basis $\{0,1\}^{n}$. Given $f:\{0,1\}^n\to\{0,1\}^m$, we say that we have quantum query access to $f$ if we have access to a unitary operator $U_f$ on $\mathcal{H}\otimes\mathbb{C}^{2^n}$ such that $U\ket{x}\ket{b} = \ket{x}\ket{b \oplus f(x)}$ for any bit string $b\in\{0,1\}^m$. One application of $U_f$ costs $T_f$ operations.
+Let $\mathcal{H}$ be a finite-dimensional Hilbert space with basis $\{0,1\}^{n}$. Given $f:\{0,1\}^n\to\{0,1\}^m$, we say that we have quantum query access to $f$ if we have access to a unitary operator $U_f$ on $\mathcal{H}\otimes\mathbb{C}^{2^m}$ such that $U\ket{x}\ket{b} = \ket{x}\ket{b \oplus f(x)}$ for any bit string $b\in\{0,1\}^m$. One application of $U_f$ costs $T_f$ operations.
 :::
 
 ::: {.definition #quantum-computation name="Quantum computation in the query model"}
@@ -535,7 +536,7 @@ Let $U$ be a unitary acting on $n$ qubits, and $\ket{\psi}$ a quantum
 state on $n$ qubit (generated by another unitary $V$). We also require
 to be able to apply the controlled version of the unitary $U$. Then, the
 Hadamard test is a quantum circuit that we can use to estimate the value
-of $\braket{\psi| U \psi}$. The circuit is very simple, it consists in a
+of $\braket{\psi| U | \psi}$. The circuit is very simple, it consists in a
 Hadamard gate applied on an ancilla qubit, the controlled application of
 the unitary $U$ and another Hadamard gate.
 
@@ -568,7 +569,7 @@ p(0)= & \norm{\frac{1}{2}(I+U)\ket{\psi} }_2^2 = \frac{1}{4} \left(\bra{\psi} + 
 <!-- EXPLAIN WHY REAL PART! -->
 
 Where we used Postulate \@ref(prp:postulate3) with the observable
-$\ket{0}\bra{0}\otimes I$.The probability of measuring $1$ in the first
+$\ket{0}\bra{0}\otimes I$. The probability of measuring $1$ in the first
 register follows trivially.
 
 ::: {.exercise}
@@ -578,9 +579,9 @@ Can you tell what is the expected value of the observable $Z$ of the ancilla qub
 <!-- Solution: it's just $\braket{\psi U \psi}$ -->
 
 However, we might be interested in the imaginary part of
-$\braket{\psi|U\psi}$. To estimate that, we need to slightly change the
+$\braket{\psi|U|\psi}$. To estimate that, we need to slightly change the
 circuit. After the first Hadamard gate, we apply on the ancilla qubit a
-Phase gate, which gives to the state $\ket{1}$ a phase of $-i$. To get
+phase gate $S$, which gives to the state $\ket{1}$ a phase of $-i$. To get
 the intuition behind this, let's recall that the imaginary part of a
 complex number $z=(a+ib)$ is defined as:
 $\text{Im}(z)= \frac{z-z^\ast}{2i}=\frac{i(z-z^\ast)}{-2}= \frac{-2b}{-2} =b$,
@@ -606,7 +607,7 @@ p(0)=\frac{1}{4}\left(\bra{\psi}+iU\bra{\psi} \right)\left(\ket{\psi}-iU\ket{\ps
 
 Note that when taking the conjugate of our state, we changed the sign of
 $i$. We now have only to convince ourselves that
-$-i\braket{\psi|U|\psi} + i \braket{\psi|U^\dagger|\psi} = i\braket{\psi(U^\dagger -U)\psi}$
+$-i\braket{\psi|U|\psi} + i \braket{\psi|U^\dagger|\psi} = i\braket{\psi|U^\dagger -U|\psi}$
 is indeed the real number corresponding to
 $2\text{Im}(\braket{\psi| U|\psi})$, and thus the whole equation can be a
 probability.
@@ -624,11 +625,11 @@ of interested with a certain level of accuracy and with a certain
 probability.
 
 ::: {.theorem #modified-hadamard-test-no-amplification name="Modified Hadamard test (no amplitude amplification)"}
-Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \ket{\psi_1}$ and a unitary $U_2$ that produces a state $\ket{\psi_2}$, where $\ket{\psi_1},\ket{\psi_2} \in \mathbb{R}^N$ for $N=2^n, n\in\mathbb{N}$. There is a quantum algorithm that allows to estimate the quantity $\braket{\psi_1|\psi_2}$ with additive precision $\epsilon$ using controlled applications of $U_1$ and $U_2$ $O(\frac{\log(1/\delta)}{\epsilon^2})$ times, with probability $1-\delta$
+Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \ket{\psi_1}$ and a unitary $U_2$ that produces a state $\ket{\psi_2}$, where $\ket{\psi_1},\ket{\psi_2} \in \mathbb{C}^N$ for $N=2^n, n\in\mathbb{N}$. There is a quantum algorithm that allows to estimate the quantity $\braket{\psi_1|\psi_2}$ with additive precision $\epsilon$ using controlled applications of $U_1$ and $U_2$ $O(\frac{\log(1/\delta)}{\epsilon^2})$ times, with probability $1-\delta$
 :::
 
 ::: {.proof}
-Create a state $\ket{0}\ket{0}$ where the first register is just an ancilla qubit, and the second register has $n$ qubits. Then, apply an Hadamard gate to the first qubit, so to obtain $\ket{+}\ket{0}\ket{0}$. Then, controlled on the first register being $0$, we apply the unitary $U_1$, and controlled on the register being $1$, we apply the unitary $U_2$. Then, we apply again the Hadamard gate on the ancilla qubit. The state that we obtain is the following:
+Create a state $\ket{0}\ket{0}$ where the first register is just an ancilla qubit, and the second register has $n$ qubits. Then, apply an Hadamard gate to the first qubit, so to obtain $\ket{+}\ket{0}$. Then, controlled on the first register being $0$, we apply the unitary $U_1$, and controlled on the register being $1$, we apply the unitary $U_2$. Then, we apply again the Hadamard gate on the ancilla qubit. The state that we obtain is the following:
 
 \begin{align}
 (H\otimes I ) \frac{1}{\sqrt{2}}\left( \ket{0}\ket{\psi_1} + \ket{1}\ket{\psi_2} \right) \\
@@ -649,11 +650,11 @@ We conclude the proof by recalling the Chernoff bound in theorem \@ref(thm:chern
 <!-- TODO add circuit for complex part of inner product.-->
 
 Can you think of the reasons that might lead one to prefer the swap test
-over the Hadamard test, or vice versa? At the end of the day, they are
+over the Hadamard test, or vice versa? At the end of the day, aren't they
 both computing the same thing? For instance, note that for the Hadamard
 test, we are requiring the ability to call the *controlled* version of
 the unitaries $U_1$, and $U_2$, while for the swap test, we can just
-trat them as black-box: these can be quantum states that we obtain from
+treat them as black-boxes: these can be quantum states that we obtain from
 a quantum process, or that we obtain from a quantum communication
 channel.
 
@@ -664,32 +665,32 @@ context of quantum fingerprinting, but it has been quickly extended to
 many other context. For us, the swap test is a way to obtain an estimate
 of an inner product between two quantum states. The difference between
 the swap test and the Hadamard test is that in this case we don't assume
-to have access to the unitary creating the states, hance we cannot
-perform controlled operations on this unitary. You can think that we
+to have access to the unitary creating the states, hence we cannot
+perform controlled operations with this unitary. You can think that we
 receive the states from a third-party, i.e. via a communication
 protocol.
 
 ::: {.theorem #swap-test-no-amplification name="Swap test (no amplitude amplification)"}
-Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \ket{\psi_1}$ and a unitary $U_2$ that produces a state $\ket{\psi_2}$, where $\ket{\psi_1},\ket{\psi_2} \in \mathbb{R}^N$ for $N=2^n, n\in\mathbb{N}$. There is a quantum algorithm that allows to estimate the quantity $|\braket{\psi_1|\psi_2}|^2$ with additive precision $\epsilon$ using $U_1$ and $U_2$ $O(\frac{\log(1/\delta)}{\epsilon^2})$ times with probability $1-\delta$
+Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \ket{\psi_1}$ and a unitary $U_2$ that produces a state $\ket{\psi_2}$, where $\ket{\psi_1},\ket{\psi_2} \in \mathbb{C}^N$ for $N=2^n, n\in\mathbb{N}$. There is a quantum algorithm that allows to estimate the quantity $|\braket{\psi_1|\psi_2}|^2$ with additive precision $\epsilon$ using $U_1$ and $U_2$ $O(\frac{\log(1/\delta)}{\epsilon^2})$ times with probability $1-\delta$
 :::
 
 ::: {.proof}
-Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancilla qubit, and the second and third register have $n$ qubits. Then, apply an Hadamard gate to the first qubit, so to obtain $\ket{+}\ket{0}\ket{0}$. Then, apply $U_1$ and $U_2$ to the second and third register, and then apply a controlled swap gate controlled on the ancilla qubit, targeting the two registers. More precisely, we apply $n$ controlled swap gates, each controlling a single qubit of the second and third register. Thus, we obtain the state:
+Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancilla qubit, and the second and third register have $n$ qubits each. Then, apply an Hadamard gate to the first qubit, so to obtain $\ket{+}\ket{0}\ket{0}$. Then, apply $U_1$ and $U_2$ to the second and third register, and then apply a controlled swap gate controlled on the ancilla qubit, targeting the two registers. More precisely, we apply $n$ controlled swap gates, each controlling a single qubit of the second and third register. Thus, we obtain the state:
   
   \begin{equation}
 \frac{1}{\sqrt{2}}\left[\ket{0}(\ket{\psi_1}\ket{\psi_2}) + \ket{1}(\ket{\psi_2}\ket{\psi_1})  \right] 
 \end{equation}
 
-  we now apply another Hadamard gate on the ancilla qubit, so to obtain the following state:
+  we now apply another Hadamard gate on the ancilla qubit, in order to obtain the following state:
 
 \begin{align}
-\ket{\phi}=& \frac{1}{\sqrt{2}}\left[\frac{1}{\sqrt{2}}\left(\ket{0}(\ket{\psi_1}\ket{\psi_2}) + \ket{1}(\ket{\psi_1}\ket{\psi_2})\right) + \frac{1}{\sqrt{2}}\left(\ket{1}(\ket{\psi_2}\ket{\psi_1}) - \ket{0}(\ket{\psi_2}\ket{\psi_1}) \right)  \right] \\
+\ket{\phi}=& \frac{1}{\sqrt{2}}\left[\frac{1}{\sqrt{2}}\left(\ket{0}(\ket{\psi_1}\ket{\psi_2}) + \ket{1}(\ket{\psi_1}\ket{\psi_2})\right) + \frac{1}{\sqrt{2}}\left(\ket{0}(\ket{\psi_2}\ket{\psi_1}) - \ket{1}(\ket{\psi_2}\ket{\psi_1}) \right)  \right] \\
  =& \frac{1}{2}\left[\ket{0}\left(\ket{\psi_1}\ket{\psi_2}) + \ket{\psi_2}\ket{\psi_1} \right) +                          \ket{1}\left(\ket{\psi_1}\ket{\psi_2}) - \ket{\psi_2}\ket{\psi_1}\right)\right]
 \end{align}
 
 Now we consider the probability of measuring $0$ and $1$ in the ancilla qubit. More in detail, we want to estimate $p(0)=\bra{\phi}M_0\ket{\phi}$. For this, we recall our Postulate \@ref(prp:postulate3), and more precisely equation \@ref(eq:simple-measurement-probability), with $M_0=\ket{0}\bra{0}\otimes I$, where $I$ is the identiy operator over $n$ qubits. It is simple to see that $p(0)=\frac{2-2|\braket{\psi_1|\psi_2}|^2}{4}$.
 
-By repeating this measurement $O(\log(1/\delta)/\epsilon^2)$ times, duly following the statement of the Chernoff bound in theorem \@ref(thm:chernoff-bound2), we have that the number of samples needed to obtain an error $\epsilon$ with probability $1-\delta$ is $t=\frac{\log(1/\delta)}{2\epsilon^2}$. Once we have obtained an estimate of $p(0)$, we can estiamte the sought-after quantity of interest as $|\braket{\psi_1|\psi_2}|^2 = 1-2p(0)$.
+By repeating this measurement $O(\log(1/\delta)/\epsilon^2)$ times, duly following the statement of the Chernoff bound in theorem \@ref(thm:chernoff-bound2), we have that the number of samples needed to obtain an error $\epsilon$ with probability $1-\delta$ is $t=\frac{\log(1/\delta)}{2\epsilon^2}$. Once we have obtained an estimate of $p(0)$, we can estimate the sought-after quantity of interest as $|\braket{\psi_1|\psi_2}|^2 = 1-2p(0)$.
 :::
 
 ::: {.exercise name="Obtain the absolute value of the inner product"}
