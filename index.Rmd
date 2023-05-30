@@ -97,7 +97,7 @@ improved our understanding of physics, and ultimately of the world itself.
 <!-- also contribution from physics, perhaps going towards the direction of a -->
 <!-- "Physical Computer Science". -->
 One last reason for studying quantum algorithms --- which a computer scientist can surely appreciate --- is that quantum computers are posing a significant challenge to the [*extended* Church-Turing thesis](https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis), which states that any "reasonable"
-model of computation can be *efficiently* simulated on a probabilistic Turing machine. 
+model of computation can be *efficiently* simulated on a probabilistic Turing machine.
 However, there are many physical processes that we do not know how to simulate efficiently on classical computers, but for which we have efficient quantum algorithms! This is strong evidence that the strong Church-Turing thesis might be false!
 
 <!-- Algorithms are often overlooked when thinking about speed of calculations. But they deserve more credit for the performance gains than the well known Moore's Law. As we can read [here](https://www.nitrd.gov/pubs/PCAST-NITRD-report-2010.pdf), some researcher tried to quantify the performance gains for some specific problem (linear programming and mixed integer programming), and they found that in 15 years we had an improvement of a factor of 43millions: a factor of roughly 1000 was due to increased processor speed, and a factor of 43.000 was due to algorithmic improvements for the problem.  -->
@@ -110,7 +110,7 @@ We will see that, for a new QML algorithm, one often needs to make sure that the
 
 These lecture notes should prepare the future quantum data analyst to understand the potential and limitations of quantum computers, so as to unlock new capabilities in information processing and machine learning. The hope is that this kind of technology can foster further technological advancements that benefit society and humankind, as soon as the hardware that supports this kind of computation becomes ready.
 
-Last but not least, we will also cover important algorithms that are not necessarily related to machine learning, but are the quantum counterpart of important classical algorithms. Don't get swayed by the "lack" of exponential speedups. Remember: the square root of 365 days is a little less than 3 weeks. Besides this, big polynomial speedups, small polynomial speedups in important problems, or polynomial speedups proposing new algorithmic techniques are all much welcome in quantum computer science. All in all, quantum algorithms can be seen as a way for making **impossible things possible**. 
+Last but not least, we will also cover important algorithms that are not necessarily related to machine learning, but are the quantum counterpart of important classical algorithms. Don't get swayed by the "lack" of exponential speedups. Remember: the square root of 365 days is a little less than 3 weeks. Besides this, big polynomial speedups, small polynomial speedups in important problems, or polynomial speedups proposing new algorithmic techniques are all much welcome in quantum computer science. All in all, quantum algorithms can be seen as a way for making **impossible things possible**.
 
 While reading these lecture notes you should always remember a quote from the good Simon Martiel:
 <p style="text-align:center">
@@ -136,9 +136,11 @@ https://stackoverflow.com/questions/41084020/add-a-html-block-above-each-chapter
 - **April 2021**: Mobile version working, search functionality added, q-means, finding the minimum, new algo for dimensionality reduction, and factor score ratio estimation estimation.
 - **June 2021**: Quantum Monte Carlo algorithms, lower bounds techniques for query complexity of quantum algorithms, quantum algorithms for graph problems. The output of the mentorship program of the QOSF foundation!
 - **January 2022**: In the past months we improved the overall quality of the website (graphics, typos) and added some content (Deutsch-Josza, Bernstein-Vazirani, swap and Hadamard tests)
-- **February 2022**: We are happy to bring our swag (t-shirts, stickers, lanyards) to QIP. We added a whole chapter on perceptron algorithms and we doubled the chapter on quantum monte carlo algorithms with applications to finance and trace distance!
-- **June 2022**: We are partecipating to the UnitaryHack! We also presented this work at QNLP2022 where we distributed our swag! Now the website can be compiled also with the latest version of RStudio,pandoc,bookdown.
-- **August 2022**: Added in the appendix: polynomial approximation of 1/x, more on concentration inequalities (these were work started by contributors that discovered the project during the unitary.hack! ). Improved css as a bounty to the unitary.hack. Working (on a separate project) to improve chapter 3. 
+- **February 2022**: We are happy to bring our swag (t-shirts, stickers, lanyards) to QIP. We added a whole chapter on perceptron algorithms and we doubled the chapter on quantum Monte Carlo algorithms with applications to finance and trace distance!
+- **June 2022**: We are participating to the UnitaryHack! We also presented this work at QNLP2022 where we distributed our swag! Now the website can be compiled also with the latest version of RStudio,pandoc,bookdown.
+- **August 2022**: Added in the appendix: polynomial approximation of 1/x, more on concentration inequalities (these were work started by contributors that discovered the project during the unitary.hack! ). Improved css as a bounty to the unitary.hack. Working (on a separate project) to improve chapter 3.
+- **May 2023**: We are improving the overall book with the precious help from the editor (Hue Jun Hao Alexander) and other contributors.
+
 
 **NEW** Submit your solution of the exercises as PR on [GitHub](https://github.com/scinawa/quantumalgorithms.org) and get it published in the chapter on [Solutions](https://quantumalgorithms.org/solutions-to-exercises.html).
 

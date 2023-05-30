@@ -48,9 +48,9 @@ $$U(\epsilon)\psi(t) = \psi(t+\epsilon) = \psi(t) -i \epsilon H\psi(t).$$
 With a little algebra we can rewrite the previous equation as:
 
 $$ \frac{\psi(t+\epsilon) -  \psi(t)}{\epsilon} = -i  H\psi(t).$$ Note
-that the left-hand side part of this equation can be rewritten, under the limit that $\epsilon \mapsto 0$ 
-as a derivative: 
-$$\frac{d}{dt}\psi(t) = -i H \psi(t).$$ 
+that the left-hand side part of this equation can be rewritten, under the limit that $\epsilon \mapsto 0$
+as a derivative:
+$$\frac{d}{dt}\psi(t) = -i H \psi(t).$$
 But this is the well-known Schrödinger equation! Note that, as computer scientists, we
 take the right to remove some physical constant ($\hbar$) out of the
 equation. What should be the takeaway of these observations? Well, first
@@ -87,7 +87,7 @@ Associated to any isolated physical system is a complex vector space with inner 
 :::
 
 As quantum states are described by unit vectors, we write $\ket{\psi}$
-for a unit vector $\psi \in \mathcal{H}^d$, where $\mathcal{H}^d$ is a $d$ dimensional Hilbert space. 
+for a unit vector $\psi \in \mathcal{H}^d$, where $\mathcal{H}^d$ is a $d$ dimensional Hilbert space.
 So for a non-normalized
 vector $x \in \R^d$, the normalized quantum state is represented as
 $\ket{x} = \norm{x}^{-1}x = \frac{1}{\norm{x}}\sum_{i=0}^n x_i\ket{i}$, where $\norm{x}$ is the $\ell_2$ norm of the vector $x$..
@@ -119,14 +119,14 @@ see that the following are all equivalent definition of unitary matrices
 
 -   $\braket{Av, Aw} = \braket{v,w}$ for all $v,w$.
 -   $\norm{Av} = \norm{v}$ for all $v$
--   $\norm{Av} = 1$ if $\norm{v}=1$.
--   $U$ is a normal matrix with eigenvalues lying on the unit circle
-<!-- # -   $|\det(U)|=1$ shame on me!  -->
--   The columns and the rows of $U$ form an orthonormal basis of $\mathcal{C}^d$
--   $U$ can be written as $e^{iH}$ for some Hermitian operator $H$.
+-   $\norm{Av} = 1$ if and only if $\norm{v}=1$.
+-   $A$ is a normal matrix with eigenvalues lying on the unit circle
+-   The columns and the rows of $A$ form an orthonormal basis of $\mathcal{C}^d$
+-   $A$ can be written as $e^{iH}$ for some Hermitian operator $H$.
 
-::: {.example name="Determinant=1 is a necessary but not sufficient condition for being unitary."}
-It is simple to see that any 2x2 diagonal matrix $A$ with entries $10$ and $1/10$ has determinant is 1, but it's not a unitary matrix: $A^\dagger A = AA^\dagger \neq I$.
+
+::: {.example name="Determinant=1 is a necessary but not sufficient condition for being unitary"}
+It is simple to see that any $2\times 2$ diagonal matrix $A$ with entries $10$ and $1/10$ has determinant is $1$, but it is not a unitary matrix.
 :::
 
 It will be useful to recall that if we have a unitary that performs the
@@ -239,7 +239,7 @@ outcome $m$ is given by:
 \begin{equation}
 p(m) = \bra{\psi}P_m\ket{\psi}.
 (\#eq:simple-measurement-probability)
-\end{equation} 
+\end{equation}
 
 If we were to measure outcome $m$, then the state of the quantum system after the measurement would be:
 $$\frac{P_m\ket{\psi}}{\sqrt{p(m)}}.$$
@@ -251,7 +251,7 @@ a projective measurement in a state $\ket{\psi}$ is defined as:
 & = \sum_m m \bra{\psi}P_m\ket{\psi}\\
 & \bra{\psi}(\sum_m mP_m)\ket{\psi}\\
 & \bra{\psi}M\ket{\psi}
-\end{align} 
+\end{align}
 In practice, our projective operators will be projectors in
 the computational basis, i.e. $P_m = \sum_{m \in [d]} \ket{m}\bra{m}$.
 From these rules, it is simple to see that the probability that a
@@ -280,7 +280,7 @@ The same thing can be done for operators. Let $U_1$ be the unitary
 describing the evolution of a quantum state $\ket{x}$ and $U_2$ the
 unitary describing the evolution of a quantum state $\ket{y}$. Then
 $U_1 \otimes U_2$ describes the evolution of the quantum system
-$\ket{x}\otimes \ket{y}$. 
+$\ket{x}\otimes \ket{y}$.
 
 From the definition of tensor product, we see that the tensor product of $n$ qubits (i.e.$n$ different $2$-dimensional vectors) is a vector of size $2^n$. Thus, to build a quantum state that stores $d$ numbers in its amplitudes we need $\lceil \log d\rceil$ qubits. More precisely, observe that for a vector $\vec{v} \in \mathcal{H}^d$ if we want to build $\ket{\vec{v]}} = \|\vec{v}\| \vec{v}$ we need only  $\lceil \log d \rceil$  numbers. If $d$ is not a power of $2$, we consider the vector padded with $0$ to the nearest power of $2$ bigger than $d$. This will allow us to build states in the form of $\frac{1}{\|\vec{v}\|}\sum_{i=0}^{\lceil \log d \rceil} v_i \ket{i}$. This fact will used a lot in our quantum algorithms, especially in quantum machine learning. We will discuss in chapter \@ref(#chap-classical-data-quantum-computers) how to create these kind of quantum states.
 
@@ -304,10 +304,10 @@ where $x^Tz$ is the bitwise inner product of strings in $Z_2^n$ modulo $2$.
 ## Measuring complexity of quantum algorithms {#measuring-complexity}
 
 This section is an attempt to organize in a coherent way some
-fundamental concepts in quantum computer science. Some refereces for this section 
-are [@dorn2008quantum], [@DeWolf], and [@kuperberg2011another]. In this section we assume the read is comfortable with the big O notation. 
+fundamental concepts in quantum computer science. Some refereces for this section
+are [@dorn2008quantum], [@DeWolf], and [@kuperberg2011another]. In this section we assume the read is comfortable with the big O notation.
 
-Intuitively, the time complexity of an algorithm is the number of operations the computer has to perform from the beginning to the end of the execution of the algorithm. This model is easy to understand when we think about a personal computer with one CPU (more precisely, a von Neumann architecture). What is the right way of measuring the complexity of (quantum) circuits? For example, suppose to have a quantum circuit of $n$ qubits, and for each qubit we apply one Hadamard gate: what is the time complexity for running this circuit? Is it $O(n)$ or $O(1)$?. We will discuss here different ways for measuring the complexity of a quantum algorithm: the number of gates, the depth of the circuit, and the number of queries to an oracle. 
+Intuitively, the time complexity of an algorithm is the number of operations the computer has to perform from the beginning to the end of the execution of the algorithm. This model is easy to understand when we think about a personal computer with one CPU (more precisely, a von Neumann architecture). What is the right way of measuring the complexity of (quantum) circuits? For example, suppose to have a quantum circuit of $n$ qubits, and for each qubit we apply one Hadamard gate: what is the time complexity for running this circuit? Is it $O(n)$ or $O(1)$?. We will discuss here different ways for measuring the complexity of a quantum algorithm: the number of gates, the depth of the circuit, and the number of queries to an oracle.
 The first two are a direct generalization of the measure of complexity of boolean circuits, where we measure the number of gates (serial time) or the depth of the circuit (parallel time). The third measure of complexity is the query complexity, which is the number of times we use (or query) an oracle: a circuit or a data structure that we can use as a black box. In this section we will define more formally the query complexity of a quantum algorithm, and in the next chapter we will explain possible implementations of different kinds of oracles. The *time* complexity, which is ultimately the most relevant measure of complexity of an algorithm for most practical purposes, is more tricky to define properly. If we assume that our hardware is capable of executing all the gates at the same depth in parallel, than the measure of time complexity becomes the depth of the quantum algorithm. We denote with $T(U)$ as the time complexity needed to implement a quantum circuit implementing a unitary $U$, and this is measured in terms of **number of gates**, i.e. the size of the circuit (this is quite standard see for example the section the introduction in [@ambainis2022matching]). This is a concept that bears some similarity with the clock rate of classical CPUs. If our hardware is not capable of executing all the gates at the same depth in one clock, we might have to consider the time complexity as the number of gates (eventually divided by the number of gates that can be executed at the same time). As an important exception to this rule we have the query complexity, where we consider the cost of a single query of an oracle as $O(1)$, i.e. as any other gate. This is somehow justified because for certain oracles we have efficient (i.e. with depth polylogarithmic in the size of the oracle) implementations. For this, the (often non said) assumption is that the part of the quantum computer dedicated to run the main part of the circuit has to be evaluated with serial time (i.e. the number of gates), while the part of the circuit dedicated to executing the oracle has to be evaluated for its parallel time complexity. An example of this, which we will treat in more details in the next chapter is the QRAM and the QRAG gate. This assumption allows to justifiably conflate the query complexity of an algorithm as its time complexity.
 
 
@@ -317,7 +317,7 @@ Last but not least, everything is made even more complicated by error correction
 In this book, we use the standard notation of $\widetilde{O}$ to hide the polylogarithmic
 factors in the big-O notation of the algorithms:
 $O(n\log(n))=\widetilde{O}(n)$. The meticulous reader may notice that in this way we might make the notation ambiguous, as it might not be clear what is hidden in the $\widetilde{O}$ notation. The correct way of using this notation is to hide only factors that appear with a dependency bigger than the logarithm (i.e. $O(n\log(n))=\widetilde{O}(n)$ but $O(n\log(n)\log(1/\epsilon))=\widetilde{O}(n\log(1/\epsilon))$). Another possibility, to make our runtimes more precise, is to use a subscript to specify the factors that we choose to hide:
-\begin{equation} 
+\begin{equation}
 \widetilde{O}_{\epsilon,\delta}\left(\frac{1}{\epsilon}\right) = O\left(\frac{1}{\epsilon}\log(1/\epsilon)\log(1/\delta)\right)
 \end{equation}
 
@@ -331,7 +331,7 @@ Let $O_x$ be a unitary operator that encodes the input of our computation, and a
 A quantum computation with $T$ queries to an oracle $O_x : \ket{i,b,z} \mapsto \ket{i,b \oplus x_i, z}$ is a sequence of unitary transformations:
 
 $$U_TO_xU_{T-1}O_x \dots U_1O_xU_0$$
- 
+
   Where each $U_t$ is a unitary that does not depend on the input of the algorithm. The output of the computation is obtained by measuring the rightmost register (by convention).
 :::
 
@@ -346,7 +346,7 @@ examples of oracles as definition \@ref(def:qram),
 \@ref(def:oracle-access-adjacencylist), and \@ref(def:KP-trees).
 
 This is the so-called query model, or oracle model of (quantum) computation. An important thing here is the last statement of Definition
-\@ref(def:quantum-oracle-access), on the cost of applying $U_f$, which is 
+\@ref(def:quantum-oracle-access), on the cost of applying $U_f$, which is
 $O(1)$. There are multiple reasons for working in this model, which might appear unrealistic at this time.
 First, it is often the case that queries to these oracles are actually efficient
 (as we will see in many example), so the query complexity is actually
@@ -360,7 +360,7 @@ study of the query complexity of the problem and the depth or gate complexity of
 quantum circuit which is executed on the real hardware. We formalize
 more this difference in the following definition.
 
-::: {.definition #query-complexity name="Query complexity of an algorithm"} 
+::: {.definition #query-complexity name="Query complexity of an algorithm"}
 The quantum query complexity of a quantum algorithm $\mathcal{A}$ is the number of queries to a black-box made by $\mathcal{A}$ in order to compute $f$.
 :::
 
@@ -430,6 +430,18 @@ $$Pr\left[X > kT \right] \leq \frac{1}{k} $$ So with probability
 $\geq 1-\frac{1}{k}$ we will have the output of the algorithm.
 
 <!-- TODO: ONE SIDE BOUNDED ERROR IS MISSING -->
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Review of famous quantum algorithms {#review-famous-quantum-algos}
 
@@ -559,7 +571,7 @@ $$
 Note that the last state could be written equivalently, by just
 factoring out the $\ket{\psi}$ state as
 $\ket{\psi_{\text{final}}}=\frac{1}{2}\left(\ket{0}(I+U)\ket{\psi} + \ket{1}(I-U)\ket{\psi} \right)$.
-The probability of measuring $0$ in the first qubit is: 
+The probability of measuring $0$ in the first qubit is:
 
 \begin{align}
 p(0)= & \norm{\frac{1}{2}(I+U)\ket{\psi} }_2^2 = \frac{1}{4} \left(\bra{\psi} + \bra{\psi}U^\dagger \right)\left(\ket{\psi} + U\ket{\psi} \right) \\
@@ -573,7 +585,7 @@ $\ket{0}\bra{0}\otimes I$. The probability of measuring $1$ in the first
 register follows trivially.
 
 ::: {.exercise}
-Can you tell what is the expected value of the observable $Z$ of the ancilla qubit? Remember that the possible outcome of the observable $Z$ are $\{+1, -1\}$. 
+Can you tell what is the expected value of the observable $Z$ of the ancilla qubit? Remember that the possible outcome of the observable $Z$ are $\{+1, -1\}$.
 :::
 
 <!-- Solution: it's just $\braket{\psi U \psi}$ -->
@@ -676,9 +688,9 @@ Assume to have access to a unitary $U_1$ that produces a state $U_1 \ket{0} = \k
 
 ::: {.proof}
 Create a state $\ket{0}\ket{0}\ket{0}$ where the first register is just an ancilla qubit, and the second and third register have $n$ qubits each. Then, apply an Hadamard gate to the first qubit, so to obtain $\ket{+}\ket{0}\ket{0}$. Then, apply $U_1$ and $U_2$ to the second and third register, and then apply a controlled swap gate controlled on the ancilla qubit, targeting the two registers. More precisely, we apply $n$ controlled swap gates, each controlling a single qubit of the second and third register. Thus, we obtain the state:
-  
+
   \begin{equation}
-\frac{1}{\sqrt{2}}\left[\ket{0}(\ket{\psi_1}\ket{\psi_2}) + \ket{1}(\ket{\psi_2}\ket{\psi_1})  \right] 
+\frac{1}{\sqrt{2}}\left[\ket{0}(\ket{\psi_1}\ket{\psi_2}) + \ket{1}(\ket{\psi_2}\ket{\psi_1})  \right]
 \end{equation}
 
   we now apply another Hadamard gate on the ancilla qubit, in order to obtain the following state:
@@ -697,12 +709,13 @@ By repeating this measurement $O(\log(1/\delta)/\epsilon^2)$ times, duly followi
 In the previous theorem we obtain an estimate of $|\braket{\psi_1|\psi_2}|^2$ with a certain error $\epsilon$. If we just take the square root of that number, what is the error in the estimation of $|\braket{\psi_1|\psi_2}|$? You are encouraged to read the section in the appendix \@ref(error-prop) on error propagation.
 :::
 
-<!-- ## Exercises -->
 
-```{=html}
-<!--
-# TODO Add exercise on rewriting the swap test
-# It's done in the draft/distances.Rmd but the images needs to be worked out properly.
-# labels: good first issue, help wanted
--->
-```
+<!-- <!-- ## Exercises --> -->
+
+<!-- ```{=html} -->
+<!-- <!-- -->
+<!-- # TODO Add exercise on rewriting the swap test -->
+<!-- # It's done in the draft/distances.Rmd but the images needs to be worked out properly. -->
+<!-- # labels: good first issue, help wanted -->
+<!-- --> -->
+<!-- ``` -->
