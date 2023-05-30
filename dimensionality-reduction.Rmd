@@ -30,7 +30,7 @@ Therefore, the data points in the new subspace can be computed using the left si
 When performing dimensionality reduction it suffice to use only the top $k$ singular values and vectors $Y^{(k)} = AV^{(k)} = U\Sigma V^TV^{(k)} = U^{(k)}\Sigma^{(k)}  \in \mathbb{R}^{n \times m}$.
 
 ##### Quantum algorithms for PCA
-Using the procedures from section \@ref(sec:explainedvariance) it is possible to extract the model for principal component analysis.
+Using the procedures from section \@ref(sec-explainedvariance) it is possible to extract the model for principal component analysis.
 Theorems \@ref(thm:factor-score-estimation), \@ref(thm:check-explained-variance), \@ref(thm:explained-variance-binarysearch) allow to retrieve information on the factor scores and on the factor score ratios, while Theorem \@ref(thm:top-k-sv-extraction) allows extracting the principal components.
 The run-time of the model extraction is the sum of the run-times of the theorems: $\widetilde{O}\left(\left( \frac{1}{\gamma^2} + \frac{km}{\theta\delta^2}\right)\frac{\mu(A)}{\epsilon}\right)$.
 The model comes with the following guarantees:

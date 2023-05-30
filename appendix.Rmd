@@ -229,7 +229,7 @@ For instance,
 $$A^3 = (Q\Lambda Q^{-1})(Q\Lambda Q^{-1})(Q\Lambda Q^{-1}) = Q\Lambda(Q^{-1}Q)\Lambda(Q^{-1}Q)\Lambda Q^{-1} = Q\Lambda\Lambda\Lambda Q^{-1} = Q\Lambda^3Q^{-1}.$$
 Computing big matrix powers such as $A^{100}$, with its eigendecomposed representation, only takes two matrix multiplications instead of a hundred.
 
-Traditionally, the computational effort of performing the eigendecomposition of a $\mathbb{R}^{n \times n}$ matrix is in the order of $O(n^3)$ and may become prohibitive for large matrices \cite{partridge1997fastpca}.
+Traditionally, the computational effort of performing the eigendecomposition of a $\mathbb{R}^{n \times n}$ matrix is in the order of $O(n^3)$ and may become prohibitive for large matrices [@partridge1997fast].
 
 
 ### Singular value decomposition
@@ -359,7 +359,7 @@ From the cyclic property of the trace $Tr[A B ] = Tr[B A ]$ it follows that $Tr[
 
 Another interesting result about the SVD of a matrix is known as the Eckart–Young–Mirsky theorem.
 ```{theorem, eckart-young-mirsky, name="Best F-Norm Low Rank Approximation"}
- \cite{eckart1936approximation}\cite{mirsky1960symmetric} \label{Theo:eckart-young-mirsky}
+ \cite{eckart1936approximation}\cite{mirsky1960symmetric}
 Let $A  \in \mathbb{R}^{n \times m}$ be a matrix of rank $r$ and singular value decomposition $A  = U \Sigma V ^T$. The matrix $A ^{(k)} = U ^{(k)}\Sigma ^{(k)}V ^{(k)T}$ of rank $k \leq r$, obtained by zeroing the smallest $r-k$ singular values of $A$, is the best rank-k approximation of $A$.
  Equivalently, $A _k = argmin_{B :rank(B )=k}(\|A  - B  \|_F)$.
  Furthermore, $min_{B :rank(B )=k}(\|A  - B  \|_F) = \sqrt{\sum_{i=k+1}^r{\sigma_i}}$.
@@ -373,7 +373,7 @@ When the smallest singular values are set to 0, we still reconstruct a big part 
 
 
 Unfortunately though, calculating the singular vectors and singular values of a matrix is a computationally intensive task. Indeed, for a matrix $A  \in \mathbb{R}^{n\times m}$ the cost of the exact SVD is $O\left( min(n^2m, nm^2) \right)$. Recently, there have been developed approximate methods that compute the Eckart-Young-Mirsky approximations of matrices in
-time $O(knm)$, where k is the rank of the output matrix \cite{partridge1997fastpca}, or in times that scale super-linearly on the desired rank and one dimension of the input matrix \cite{bhojanapalli2014tighter}.
+time $O(knm)$, where k is the rank of the output matrix [@partridge1997fast], or in times that scale super-linearly on the desired rank and one dimension of the input matrix \@ref(bhojanapalli2014tighter).
 
 ## Useful theorems around linear algebra
 
@@ -1230,32 +1230,34 @@ Check [this](https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Supple
 
 <!-- ``` -->
 
+(ref:hamoudi2020quantum) [@hamoudi2020quantum]
+
 
 <!-- We can have a more general version of the bound. -->
-<!-- ```{lemma, ratio-relative-general, name="[@hamoudi2020quantum]"} -->
-<!-- Let $\tilde a$ be an estimate of $a>0$ such that $\vert \tilde a- a \vert \leq \epsilon_a a$. -->
-<!-- with $\epsilon_a \in (0,1)$. -->
-<!-- Similarly, let $\tilde b$ be an estimate of $b>0$ and $\epsilon_b \in (0,1)$ such that -->
-<!-- $\vert \tilde b - b \vert \leq \epsilon_b b$. -->
-<!-- Then the ratio $a/b$ is estimated to relative error -->
-<!-- $\left \vert \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right\vert \leq \left ( \frac{\epsilon_a + \epsilon_b}{1-\epsilon_b} \right) \frac{a}{b}$. -->
-<!-- ``` -->
+::: {.lemma #ratio-relative-general name="(ref:hamoudi2020quantum)"}
+Let $\tilde a$ be an estimate of $a>0$ such that $\vert \tilde a- a \vert \leq \epsilon_a a$.
+with $\epsilon_a \in (0,1)$.
+Similarly, let $\tilde b$ be an estimate of $b>0$ and $\epsilon_b \in (0,1)$ such that
+$\vert \tilde b - b \vert \leq \epsilon_b b$.
+Then the ratio $a/b$ is estimated to relative error
+$\left \vert \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right\vert \leq \left ( \frac{\epsilon_a + \epsilon_b}{1-\epsilon_b} \right) \frac{a}{b}$.
+:::
 
-<!-- The proof comes directly from their work -->
-<!-- ```{proof} -->
-<!-- Note that -->
-<!-- $b -  \tilde{b} \leq \vert \tilde{b} - b\vert \leq \epsilon_b b$, so as we said before, -->
-<!-- deduce $\frac{1}{ \tilde b} \leq \frac{1}{ b (1-\epsilon_b)}$. -->
+The proof comes directly from their work
+```{proof}
+Note that
+$b -  \tilde{b} \leq \vert \tilde{b} - b\vert \leq \epsilon_b b$, so as we said before,
+deduce $\frac{1}{ \tilde b} \leq \frac{1}{ b (1-\epsilon_b)}$.
 
-<!-- Now we can combine the previous observation: -->
-<!-- \begin{align} -->
-<!-- \left| \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right| = & -->
-<!--   \left \vert \frac{\tilde a b - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a b - ab + ab - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a  - a}{\tilde b} + \frac{a}{\tilde b} \frac{b - \tilde b}{ b}  \right\vert   \\ -->
-<!-- \leq & \left \vert \frac{\tilde a  - a}{\tilde b} \right\vert+  \frac{a}{\tilde b}  \left \vert \frac{b - \tilde b}{ b}  \right\vert \leq \frac{\epsilon_a a + \epsilon_b a }{\tilde b}   \leq  \frac{a}{b}\frac{\epsilon_a +\epsilon_b}{ (1-\epsilon_b)}. -->
-<!-- \end{align} -->
+Now we can combine the previous observation:
+\begin{align}
+\left| \frac{\tilde a}{\tilde b} -  \frac{a}{b}  \right| = &
+  \left \vert \frac{\tilde a b - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a b - ab + ab - a \tilde b}{\tilde b b}  \right\vert = \left \vert \frac{\tilde a  - a}{\tilde b} + \frac{a}{\tilde b} \frac{b - \tilde b}{ b}  \right\vert   \\
+\leq & \left \vert \frac{\tilde a  - a}{\tilde b} \right\vert+  \frac{a}{\tilde b}  \left \vert \frac{b - \tilde b}{ b}  \right\vert \leq \frac{\epsilon_a a + \epsilon_b a }{\tilde b}   \leq  \frac{a}{b}\frac{\epsilon_a +\epsilon_b}{ (1-\epsilon_b)}.
+\end{align}
 
 
-<!-- ``` -->
+```
 
 
 
@@ -1314,43 +1316,43 @@ $$T_{n}(x) := \cos (n \arccos(x)).$$
 
 ## Polynomial approximation of $\log(x)$ {#polyapprox-log}
 
+(ref:distributional) [@distributional]
 
-```{theorem, polyapprox-log}
+```{lemma, poly-approx-ln, name="Polynomial approximations of logarithm (ref:distributional)"}
 Let $\beta\in(0,1]$, $\epsilon\in(0,{1}/{6}]$. Then there exists a polynomial $\tilde{S}$
-of degree $O({\frac{1}{\beta}\log (\frac{1}{\epsilon} )})$ such that $|\tilde{S}(x)-\frac{\log_b(x)}{3\log_b(2/\beta)}|\leq\epsilon$ for all $ x\in [\beta,1]$ and base $b \in \mathbb{N}$, and for all $ x\in [-1,1]$ $1/2
-\leq \tilde{S}(x) = \tilde{S}(-x) \leq 1/2$.
+of degree $O({\frac{1}{\beta}\log (\frac{1}{\epsilon} )})$ such that $|\tilde{S}(x)-\frac{\log_b(x)}{3\log_b(2/\beta)}|\leq\epsilon$ for all $x \in [\beta,1]$ and base $b \in \mathbb{N}$, and for all $x\in [-1,1]$ $1/2\leq \tilde{S}(x) = \tilde{S}(-x) \leq 1/2$.
 ```
 
 
-```{proof}
-Recall lemma~\ref{lemma:serieslog}. 
-We follow the same steps of the proof of \cite[Lemma 11]{distributional}. 
-We consider the standard Taylor expansion of $\frac{\log(x)}{3\log(2/\beta)}$. centered in $x_0=1$, which is $f(x)=\frac{1}{3 \log(2/\beta)}\sum_{l \geq 1} \frac{(-1)^{1+n}(-1+x)^n}{n}$. We use this polynomial in \cite[Corollary 16]{distributional} with the choice of $\epsilon=\eta/2$, $x_0=1$, $r=1-\beta$, $\nu = \frac{\beta}{2}$. This Corollary gives us another polynomial $S \in \mathbb{C}[x]$ of degree $O(\frac{1}{\beta}\log(\frac{1}{\eta}))$ with the following properties: 
-\begin{align}
-    \|f(x) - S(s)\|_{[\beta, 2-\beta]} \leq \eta/2 \\
-    \|S(x)\|_{[-1, 1]} \leq B+\eta/2 \leq \frac{1}{3}+\frac{\eta}{2} \\
-    \|S(x)\|_{[-1, \beta/2]} \leq \eta/2
-\end{align}
-Now we show that indeed $B=1/3$ in Lemma~\ref{lemma:cor66} (following the steps of the original proof). We have to consider $f(x_0 +x) = \frac{1}{3 \log(2/\beta)}\sum_{l=0}^{\infty} = \frac{a_l (-1+x+x_0)^l}{l}$, and find a bound for $\sum_{l=0}^\infty (r+\nu)^l|a_l|$, which in our case (as $a_l = (-1)^{1+l}$) is $\frac{1}{3\log(2/\beta)}\sum_{l=0}^\infty (1-\beta/2)^l$. 
+<!-- ```{proof} -->
+<!-- Recall Lemma \@ref(lemma:serieslog).  -->
+<!-- We follow the same steps of the proof of \cite[Lemma 11]{distributional}.  -->
+<!-- We consider the standard Taylor expansion of $\frac{\log(x)}{3\log(2/\beta)}$. centered in $x_0=1$, which is $f(x)=\frac{1}{3 \log(2/\beta)}\sum_{l \geq 1} \frac{(-1)^{1+n}(-1+x)^n}{n}$. We use this polynomial in \cite[Corollary 16]{distributional} with the choice of $\epsilon=\eta/2$, $x_0=1$, $r=1-\beta$, $\nu = \frac{\beta}{2}$. This Corollary gives us another polynomial $S \in \mathbb{C}[x]$ of degree $O(\frac{1}{\beta}\log(\frac{1}{\eta}))$ with the following properties:  -->
+<!-- \begin{align} -->
+<!--     \|f(x) - S(s)\|_{[\beta, 2-\beta]} \leq \eta/2 \\ -->
+<!--     \|S(x)\|_{[-1, 1]} \leq B+\eta/2 \leq \frac{1}{3}+\frac{\eta}{2} \\ -->
+<!--     \|S(x)\|_{[-1, \beta/2]} \leq \eta/2 -->
+<!-- \end{align} -->
+<!-- Now we show that indeed $B=1/3$ in Lemma \@ref(lemma:cor66) (following the steps of the original proof). We have to consider $f(x_0 +x) = \frac{1}{3 \log(2/\beta)}\sum_{l=0}^{\infty} = \frac{a_l (-1+x+x_0)^l}{l}$, and find a bound for $\sum_{l=0}^\infty (r+\nu)^l|a_l|$, which in our case (as $a_l = (-1)^{1+l}$) is $\frac{1}{3\log(2/\beta)}\sum_{l=0}^\infty (1-\beta/2)^l$.  -->
 
-To make the polynomial even we define $\widetilde{S} = S(x) + S(-x)$.
-Now we show that the error is bounded in the interval $[\beta, 1]$, and the value of the polynomial is bounded in the interval $[-1,1]$.
+<!-- To make the polynomial even we define $\widetilde{S} = S(x) + S(-x)$. -->
+<!-- Now we show that the error is bounded in the interval $[\beta, 1]$, and the value of the polynomial is bounded in the interval $[-1,1]$. -->
 
-Using the properties of Corollary 16, along with the triangle inequality, we can see that 
-\begin{align}
-\| f(x) - \widetilde{S}(x)\|_{[\beta, 1]} & = \|f(x) - S(x)\|_{[\beta, 1]} + \norm{S(-x)}_{[\beta, 1]} \\
-& = \|f(x) - S(x)\|_{[\beta, 1]} + \norm{S(x)}_{[-1, -\beta]}
-\leq \frac{\eta}{2} + \frac{\eta}{2} = \eta.
-\end{align}
+<!-- Using the properties of Corollary 16, along with the triangle inequality, we can see that  -->
+<!-- \begin{align} -->
+<!-- \| f(x) - \widetilde{S}(x)\|_{[\beta, 1]} & = \|f(x) - S(x)\|_{[\beta, 1]} + \norm{S(-x)}_{[\beta, 1]} \\ -->
+<!-- & = \|f(x) - S(x)\|_{[\beta, 1]} + \norm{S(x)}_{[-1, -\beta]} -->
+<!-- \leq \frac{\eta}{2} + \frac{\eta}{2} = \eta. -->
+<!-- \end{align} -->
 
 
-Now we show that $\widetilde{S}(x)$ is bounded by $1/2$ in the interval $[-1, 1]$. \begin{align}
-\norm{\widetilde{S}(x)}_{[-1, 1]} & = \norm{\widetilde{S}(x)}_{[0,1]} \leq \norm{S(x)}_{[0,1]} + \norm{S(x)}_{[-1,0]} \nonumber \\
-& \leq  \frac{1}{3}+\frac{\eta}{2} + \frac{\eta}{2} = \frac{1}{3} + \eta \leq  \frac{1}{2}.
-\end{align}
-Where we used respectively the fact that the function is even (first equality), and that $\widetilde{S}$ can be bounded in function of $S(x)$ using triangle inequality (second inequality) and the properties of the polynomial expansion derived before.
-If the polynomial expansion has complex parts, we can discard them. 
-```
+<!-- Now we show that $\widetilde{S}(x)$ is bounded by $1/2$ in the interval $[-1, 1]$. \begin{align} -->
+<!-- \norm{\widetilde{S}(x)}_{[-1, 1]} & = \norm{\widetilde{S}(x)}_{[0,1]} \leq \norm{S(x)}_{[0,1]} + \norm{S(x)}_{[-1,0]} \nonumber \\ -->
+<!-- & \leq  \frac{1}{3}+\frac{\eta}{2} + \frac{\eta}{2} = \frac{1}{3} + \eta \leq  \frac{1}{2}. -->
+<!-- \end{align} -->
+<!-- Where we used respectively the fact that the function is even (first equality), and that $\widetilde{S}$ can be bounded in function of $S(x)$ using triangle inequality (second inequality) and the properties of the polynomial expansion derived before. -->
+<!-- If the polynomial expansion has complex parts, we can discard them.  -->
+<!-- ``` -->
 
 
 
@@ -1644,12 +1646,7 @@ The task now is to compute the integral on the l.h.s..
 
 ## Polynomial approximation of other functions
 
-(ref:distributional) [@distributional]
 
-:::{.lemma #poly-approx-ln name="Polynomial approximations of logarithm (ref:distributional)"}
-Let $\beta\in(0,1]$, $\eta\in(0,\frac{1}{2}]$ and $t\geq 1$. There exists a polynomial $\tilde{S}$ such that
-$\forall x\in [\beta,1]$, $|\tilde{S}(x)-\frac{\ln(1/x)}{2\ln(2/\beta)}|\leq\eta$,	and $\,\forall x\in[-1,1]\colon -1\leq\tilde{S}(x)=\tilde{S}(-x)\leq 1$. Moreover $\text{deg}(\tilde{S})=O({\frac{1}{\beta}\log (\frac{1}{\eta} )})$.
-:::
 
 
 
@@ -1658,37 +1655,37 @@ $\forall x\in [\beta,1]$, $|\tilde{S}(x)-\frac{\ln(1/x)}{2\ln(2/\beta)}|\leq\eta
 
 # Contributions and  acknowledgements {#appendix-contributors}
 
-These are my first lecture notes in quantum algorithms for machine learning. They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. thesis (which I made at [IRIF](https://irif.fr) with the support of [Atos](https://atos.net), which I thank), and now are in this extended form with the hope to serve the future researchers in QML. I am not (yet!) an expert in the broad field of "quantum computing", and these lecture notes are an attempt of collecting useful knowledge for new researcher in quantum computing. While I strive to be as precise as the lecture notes of [Ronald de Wolf](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf) and [Andrew Childs](https://www.cs.umd.edu/~amchilds/qa/qa.pdf), I know this work is still far from them. Please be indulgent, and help! For instance by signaling imprecisions, errors, and things that can be made more clear.
+Hello! I am [Alessandro Luongo](https://luongo.pro), and these are my first lecture notes in quantum algorithms! They spurred out from my old blog, back in 2016/2017. Then, they took a more concrete form out of my Ph.D. thesis (which I made at [IRIF](https://irif.fr) with the support of [Atos](https://atos.net), which I thank), and now are in this extended form with the hope to serve the future researchers in QML. While I strive to be as precise as the lecture notes of [Ronald de Wolf](https://homepages.cwi.nl/~rdewolf/qcnotes.pdf) and [Andrew Childs](https://www.cs.umd.edu/~amchilds/qa/qa.pdf), I know this work is still far from the level of quality I aspire to. If you want to give me any feedback, feel free to write me at "scinawa - at - luongo - dot - pro". Or contact me on [Twitter](https://twitter.com/scinawa).
 
 
-If you want to give me any feedback, feel free to write me at "scinawa - at - luongo - dot - pro". Or contact me on [Twitter](https://twitter.com/scinawa).
-
-In sparse order, I would like to thank [Dong Ping Zhang](www.dongpingzhang.com), [Mehdi Mhalla](http://membres-lig.imag.fr/mhalla/) , [Simon Perdrix](https://members.loria.fr/SPerdrix/), [Tommaso Fontana](https://twitter.com/zommiommy), and [Nicola](https://www.linkedin.com/in/nvitucci/) [Vitucci](https://twitter.com/nvitucci) for the initial help with the previous version of this project, and the helpful words of encouragement.
-
-
-
-**Team**
-
-- Alessandro ['Scinawa'](https://twitter.com/scinawa) Luongo 
-
-```{r, out.width='50%'}
+```{r, out.width='20%', echo = FALSE}
 knitr::include_graphics('images/scinawa.jpg')
 ```
 
+Ciao,
+Ale.
 
-- Armando ['ikiga1'](https://twitter.com/ikiga1) Bellante 
+
+**Core team**
+
+This work has been made possible only thanks to the help of the team of the Open-Source project of [quantumalgorithms.org](https://quantumalgorithms.org):
 
 
-```{r, out.width='50%'}
-knitr::include_graphics('images/armando.jpg')
+- Armando ['ikiga1'](https://twitter.com/ikiga1) Bellante
+
+```{r, out.width='20%', echo = FALSE}
+knitr::include_graphics('images/armando.jpeg')
 ```
 
-- Hue Jun Hao Alexander 
+- Hue Jun Hao Alexander
+```{r, out.width='20%', echo = FALSE}
+knitr::include_graphics('images/alexhue.jpeg')
+```
 
 
 **Contributors**
 
-The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contributors) to this open-source project are:
+The [contributors](https://github.com/Scinawa/quantumalgorithms.org/graphs/contributors) to the project are:
 
 - Patrick Rebentrost
 - Yassine Hamoudi
@@ -1721,6 +1718,10 @@ A big thanks to:
 
 - [42LF](https://42lf.it) for the legal support,
 - [Lorenzo Gecchelin](https://www.linkedin.com/in/gecchelinlorenzo/) for the graphics.
+
+
+In sparse order, I would like to thank [Dong Ping Zhang](www.dongpingzhang.com), [Mehdi Mhalla](http://membres-lig.imag.fr/mhalla/) , [Simon Perdrix](https://members.loria.fr/SPerdrix/), [Tommaso Fontana](https://twitter.com/zommiommy), and [Nicola](https://www.linkedin.com/in/nvitucci/) [Vitucci](https://twitter.com/nvitucci) for the initial help with the previous version of this project, and the helpful words of encouragement.
+
 
 ## License and citation
 

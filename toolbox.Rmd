@@ -111,6 +111,8 @@ Another idea is to realize that we could run the algorithm returning the relativ
 Can we check if setting $t=\frac{2\pi \sqrt{a}}{\epsilon}$ can give an absolute error in $O(\frac{\sqrt{a}}{\epsilon})$ runtime? What is difficult about it?
 ```
 
+The solution to the previous exercise consist in adding a term $\frac{1}{\sqrt{\epsilon}}$ in the number of iterations $t$. If we set $t = \lceil 2\pi\left(\frac{2\sqrt{a}}{\epsilon}\right) + \frac{1}{\sqrt{\epsilon}} \rceil$ we can get an absolute error. 
+
 
 Perhaps a simpler formulation, which hides the complexity of the low-level implementation of the algorithm, and is thus more suitable to be used in quantum algorithms for machine learning is the following:
 
@@ -134,12 +136,37 @@ exact amplitude amplification -->
 
 
 
-
 Recently, various researches worked on improvements of amplitude estimation by getting rid of the part of the original algorithm that performed the phase estimation (i.e. the Quantum Fourier Transform [@NC02]) [@grinko2019iterative], [@aaronson2020quantum]. As the QFT is not considered to be a NISQ subroutine, these results bring more hope to apply these algorithms in useful scenarios in the first quantum computers.
 
 
 
+
+
+<!-- Improved maximum-likelihood quantum amplitude estimation   -->
+<!-- Amplitude estimation via maximum likelihood on noisy quantum computer 2021 -->
+<!-- Modified Grover operator for quantum amplitude estimation 2021 -->
+
+<!-- Amplitude estimation without phase estimation jan 2020 --> FIrst proposed MLQAE. 
+
+
+
+<!-- Quantum Amplitude Estimation in the Presence of Noise [@brown2020quantum] -->
+
+<!-- Alberto Manzano, Daniele Musso, and  ́Alvaro Leitao. Real quantum amplitude estimation, 2022. -->
+<!-- URL https://arxiv.org/abs/2204.13641. arXiv preprint arXiv:2204.13641 -->
+
+
+<!-- [@giurgica2022low] -->
+<!-- Low-depth amplitude estimation on a trapped-ion quantum computer 2021 -->
+
+QIP2023
+with a particular choice of probability, while before we had results "on average". 
+
+
+
 (ref:ambainis2012variable) [@ambainis2012variable]
+(ref:chakraborty2022regularized) [@chakraborty2022regularized]
+
 
 ```{theorem, variable-time-search, name="Variable Time Search (ref:ambainis2012variable)"}
 Let $\mathcal A_1, \ldots, \mathcal A_n$ be quantum algorithms that return true or false and run in unknown times $T_1, \ldots, T_n$, respectively.
@@ -148,9 +175,19 @@ Then there exists a quantum algorithm with success probability at least $2/3$ th
 $$\widetilde O\left(\sqrt{T_1^2+\ldots+T_n^2}\right).$$
 ```
 
+
+
+
+```{definition, variable-topptime-time-algorithm, name="Variabile-stopping-time algorithm (ref:ambainis2012variable) (ref:chakraborty2022regularized)"}
+A quantum algorithms $\mathcal{A}$ acting on $\mathcal{H}$ that can be written as $m$ quantum sub-algorithms $\mathcal{A} = \mathcal{A}_m\mathcal{A}_{m-1}\dots \mathcal{A}_1$ is called a variable stopping time algorithm if $\mathcal{H}=\mathcal{H}_C \otimes \mathcal{H}_{A}$, where $\mathcal{H}_C \otimes_{i=1}^m \mathcal{H}_{C_i}$ with $\mathcal{H}_{C_i} = Span(\ket{0}, \ket{1})$ and each unitary $\mathcal{A}_j$ acts on $\mathcal{H}_{C_i} \otimes \mathcal{H}_A$ controlled on the first $j-1$ qubits $\ket{0}^{\otimes j-1} \in \otimes_{i=1}^{j-1} \mathcal{H}_{C_i}$ being in the all zero state.
+```
+
+
+<!-- something more is in the chakraborty2022regularized paper after definition 5-->
+
+
+
 ### Amplitude amplification
-
-
 
 
 
@@ -355,7 +392,7 @@ for all states $\ket{\psi}$, where $U := \sum_i \ket{i}\bra{i} \otimes U_i$ and 
 
 ### Singular value transformation {#subsec:svt}
 
-The research in quantum linear algebra culminated with the work of [@CGJ18], [@gilyen2019quantum] with some improvements in [@chakraborty2022quantum]. We now briefly go through the machinery behind these results, as it will be used extensively this work. Before that, we recall the definition of block-encoding from Chapter \@ref(chap-classical-data-quantum-computers).
+The research in quantum linear algebra culminated with the work of [@CGJ18], [@gilyen2019quantum] with some improvements in [@chakraborty2022regularized]. We now briefly go through the machinery behind these results, as it will be used extensively this work. Before that, we recall the definition of block-encoding from Chapter \@ref(chap-classical-data-quantum-computers).
 
 ```{definition, def-block-encoding, name="Block encoding of a matrix"}
 Let $A\in \mathbb{C}^{2^s \times 2^s}$. We say that a unitary $U \in \mathbb{C}^{(s+a)\times(s+a)}$ is a ($\alpha, a, \epsilon)$ block encoding of $A$ if:
