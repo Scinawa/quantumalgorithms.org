@@ -18,8 +18,6 @@ rmd_files: ["index.Rmd",
 "graphs.Rmd",
 "lower-bounds.Rmd",
 "selected-works.Rmd",
-#"between.Rmd",
-#"glossary.Rmd",
 "exercises.Rmd",
 "appendix.Rmd"
 ]
