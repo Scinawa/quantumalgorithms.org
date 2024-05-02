@@ -46,6 +46,7 @@ There are countless examples of algorithms included in the book, so you can copy
 ## Style guide, tips&tricks. 
 
 - Use \ket{} and \bra{} instead of |x\rangle
+- We use American english.
 - \begin{equation} and \end{equation} should be used throughout the whole book, as math books have all equation numbered. 
 - Always put a citation with [@citationname] to theorems you are citing from papers. 
 - Labels for equation equations in bookdown are documented in the bookdown documentation https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html ( tldr; the way to number equation is the following: (\#eq:raylight) )
