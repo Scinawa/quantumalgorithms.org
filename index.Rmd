@@ -33,6 +33,8 @@ github-repo: "scinawa/quantumalgorithms.org"
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\E}{\mathbb{E}}
+\newcommand{\C}{\mathbb{C}}
+
 
 \newcommand{\ket}[1]{|#1\rangle}
 \newcommand{\bra}[1]{\langle#1|}
