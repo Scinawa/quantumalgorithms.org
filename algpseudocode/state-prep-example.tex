@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage[braket, qm]{qcircuit}
+\usepackage{tikz}
+\usepackage[landscape, a2paper]{geometry}
+
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
+\begin{document}
+\pagestyle{empty}
+
+\Qcircuit @C=0.6em @R=2.5em {
+%Index register
+\lstick{\ket{0}} & \qw & \multigate{4}{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \multigate{4}{QMD^{\dagger}} & \qw & \multigate{5}{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \multigate{5}{QMD^{\dagger}} & \qw  & \multigate{6}{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \qw & \multigate{6}{QMD^{\dagger}} & \qw\\
+%Angle register
+\lstick{} & \qw & \ghost{QMD} & \qw & \ctrl{4} & \qw & \qw & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw & \ghost{QMD} & \qw & \ctrl{5} & \qw & \qw & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw & \ghost{QMD} & \qw & \ctrl{5} & \qw & \qw & \qw && \hdots &&& \qw & \qw & \ctrl{5} & \qw & \qw & \qw && \hdots &&& \qw & \qw & \ghost{QMD^{\dagger}} & \qw\\
+\lstick{} & \qw & \ghost{QMD} & \qw & \qw & \qw & \ctrl{3} & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw & \ghost{QMD} & \qw & \qw & \qw & \ctrl{4} & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw & \ghost{QMD} & \qw & \qw & \qw & \ctrl{4} & \qw && \hdots &&& \qw & \qw & \qw & \qw & \ctrl{4} & \qw && \hdots &&& \qw & \qw & \ghost{QMD^{\dagger}} & \qw\\
+&& \nghost{QMD} &&&&&&& \vdots &&&& \nghost{QMD^{\dagger}}  && \nghost{QMD} &&&&&&& \vdots &&&& \nghost{QMD^{\dagger}} && \nghost{QMD} &&&&&&& \vdots &&&& &&&&&& \vdots &&&& \nghost{QMD^{\dagger}}\\
+\lstick{} & \qw & \ghost{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \ctrl{1} & \ghost{QMD^{\dagger}} & \qw  & \ghost{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \ctrl{2} & \ghost{QMD^{\dagger}} & \qw & \ghost{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \ctrl{2} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \ctrl{2} & \qw & \ghost{QMD^{\dagger}} & \qw
+    \inputgroupv{2}{5}{0.5em}{3.75em}{\ket{0}^{\otimes t'}}\\
+%Main register
+\lstick{\ket{0}} & \qw & \qw & \qw & \gate{R_{y}(2^{1})} & \qw & \gate{R_{y}(2^{0})} & \qw && \hdots &&& \gate{R_{y}(2^{-t})} & \qw & \qw & \ghost{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw & \ghost{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \qw & \ghost{QMD^{\dagger}} & \qw\\
+\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \qw & \qw & \qw & \qw & \gate{R_{y}(2^{1})} & \qw & \gate{R_{y}(2^{0})} & \qw && \hdots &&& \gate{R_{y}(2^{-t})} & \qw & \qw & \ghost{QMD} & \qw & \gate{P(2^{2})} & \qw & \gate{P(2^{1})} & \qw && \hdots &&& \gate{P(2^{1-t})} & \gate{X} & \gate{P(2^{2})} & \qw & \gate{P(2^{1})} & \qw && \hdots &&& \gate{P(2^{1-t})} & \gate{X} & \ghost{QMD^{\dagger}} & \qw\\
+}
+
+
+\end{document}
