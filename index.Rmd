@@ -46,6 +46,7 @@ github-repo: "scinawa/quantumalgorithms.org"
 \newcommand{\tOrd}[1]{\widetilde{\mathcal{O}}\left( #1 \right)}
 
 
+\newcommand{\poly}{\text{poly}}
 
 
 
