@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage[braket, qm]{qcircuit}
+
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
+\begin{document}
+\pagestyle{empty}
+
+\Qcircuit @C=0.6em @R=1em {
+%Index register
+\lstick{} & \qw & \multigate{11}{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \multigate{11}{QMD^{\dagger}} & \qw \\
+\lstick{} & \qw & \ghost{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw\\ 
+&& \nghost{QMD} &&&&&&& \vdots &&& \nghost{QMD^{\dagger}}\\ 
+\lstick{} & \qw & \ghost{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw
+    \inputgroupv{1}{4}{0.5em}{2.75em}{\ket{i}} \\
+%Angle register
+\lstick{} & \qw & \ghost{QMD} & \qw & \ctrl{8} & \qw & \qw & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw\\
+\lstick{} & \qw & \ghost{QMD} & \qw & \qw & \qw & \ctrl{7} & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw\\
+&& \nghost{QMD} &&&&&&& \vdots &&& \nghost{QMD^{\dagger}}\\ 
+\lstick{} & \qw & \ghost{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \ctrl{5} & \ghost{QMD^{\dagger}} & \qw
+    \inputgroupv{5}{8}{0.5em}{2.75em}{\ket{0}^{\otimes t'}}\\
+%Main register
+\lstick{} & \qw & \ghost{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw & \rstick{}\\
+\lstick{} & \qw & \ghost{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw & \rstick{}\\
+&& \nghost{QMD} &&&&&&& \vdots &&& \nghost{QMD^{\dagger}} && \rstick{\ket{\Psi_{k+1}}} \\
+\lstick{} & \qw & \ghost{QMD} & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \ghost{QMD^{\dagger}} & \qw & \rstick{}\\
+\lstick{\ket{0}} & \qw & \qw & \qw & \gate{R_y(2^1)} & \qw & \gate{R_y(2^0)} & \qw && \hdots &&& \gate{R_y(2^{-t})} & \qw & \qw & \rstick{}\\
+&&&&&&&&& \vdots \\ 
+\\
+\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw && \hdots &&& \qw & \qw & \qw & \qw 
+    \inputgroupv{9}{12}{0.5em}{2.75em}{\ket{\Psi_k}}
+    \gategroup{9}{15}{13}{15}{.8em}{\}} 
+}
+
+\end{document}
