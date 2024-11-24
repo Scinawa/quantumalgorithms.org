@@ -1,26 +1,15 @@
 
-# Classical data on quantum computers {#chap-classical-data-quantum-computers}
+# Classical data and quantum computers {#chap-classical-data-quantum-computers}
 
 <div style="text-align: right"> Contributors: Alessandro Luongo, Jun Hao Hue, Francesco Ghisoni, João F. Doriguello</div>
+
+<div style="text-align: right"> Version: 0.7.1</div>
+
+
+<div style="text-align: right"> [Pending updates](https://github.com/Scinawa/quantumalgorithms.org/issues/92) </div>
 <br>
 
-<div style="text-align: right"> Version: 0.5.1</div>
-<br>
 
-<!-- -TOP1 check that the proof of Ghisoni is correct (meaning the proof itself is correct but also the statement fits chapter 3 log depth and number of queries to QRAM...) -->
-<!-- -TOP1 Make Ghisoni proof into a markdown -->
-<!-- -TOP2 captions of bucket-brigade with swaps and control swaps -->
-
-<!-- -TOP3 2.3.2.1.2 The solution: Pre-computation for GR -->
-<!-- -TOP4 2.3.2.2 KP-Trees write some introduction to KP-trees section -->
-
-<!-- - compile the image of QROM/multiplexer with fanout gates properly  -->
-<!-- - table -->
-<!-- - fix arrow orientation of figure 2.2 (should be horizontal) -->
-<!-- - read another paper for state preparation (2-3 wees ago) and write something -->
-<!-- - read the harry burthamn paper on state preparation and write something.  -->
-
-<!-- - PUBLISH!  -->
 
 
 In this chapter discuss how to represent and load classically available data on a quantum computer. 
@@ -508,8 +497,8 @@ What if we want to use a quantum circuit to have quantum access to a vector of d
 knitr::include_graphics("images/multiplexer.png")
 ```
 
-```{r, multiplexer-babbush, echo=FALSE, fig.width=10, fig.cap="The implementation of the multiplexer of [@babbush2018encoding]"}
-knitr::include_graphics("images/decomposed-lookup.pdf")
+```{r, multiplexer-babbush, echo=FALSE, fig.width=10, fig.cap="The implementation of the multiplexer of [@babbush2018encoding]. Importantly, only one $T$ gate is required to write in the target register a single memory entry. The memory entry is written using a Fan-Out gate (which can be decomposed into CNOT gates. Note that the depth of the circuit is linear in the number of memory entries."}
+knitr::include_graphics("algpseudocode/decomposedlookups.png")
 ```
 
 The idea of the circuit is the following: controlled on the index register being in the state $\ket{0}$, we write (using CNOTS) in the output register the value of our vector in position $x_0$, controlled in the index register being $\ket{1}$, we write on the output register the value of our vector in position $x_1$, etc.. This will result in a circuit with a depth that is linear in the length of the vector that we are accessing, however this circuit won't require any ancilla qubit. We will discuss more some hybrid architecture that allows a trade off between depth and ancilla qubits in Section \@ref(sec:qramarchitectures). The Toffoli count of this circuit can be improved in various ways [@babbush2018encoding;@zhu2024unified]. Importantly, the depth of this circuit depends on the number of oracle entries $N$, and in simple implementations depends also linearly in $m$. 
@@ -562,10 +551,11 @@ Calculate $\sum_{l=1}^{\log N} l$
 
 The time required to perform a query, owing to the tree structure of the BB, is $T=O(\log N)$. This can be seen trivially from the fact that $T \approx \sum_{l=0}^{\log N -1 } l = \frac{1}{2}(\log N)(\log N +1)$, but can be decreased to $O(\log N)$ (Appendix A of [@hann2021resilience]). This leaves us with the sought-after scaling of the infidelity of $\widetilde{O}(\epsilon)$ where we are hiding in the asymptotic notation the terms that are polylogarithmic in $N$. The error that happen with probability $\epsilon$ can be modeled with Kraus operators makes this error analysis general and realistic (Appendix C [@hann2021resilience]), and is confirmed by simulations. For a proof of Equation \@ref(eq:qramfidelity) see Section 3 and Appendix D of [@hann2021resilience].   
 
+(ref:hann2021resilience) [@hann2021resilience]
 
 
 
-```{r, bb-qram-image, echo=FALSE, fig.width=5, fig.cap="A possible implementation of the bucket-brigade QRAM in the circuit model."}
+```{r, bb-qram-image, echo=FALSE, fig.width=5, fig.cap="A possible implementation of the bucket-brigade QRAM in the circuit model, from [@hann2021resilience]"}
 knitr::include_graphics("algpseudocode/circuit_bb.png")
 ```
 
@@ -600,18 +590,9 @@ We can also study the complexity of the problem in the oracle model. For example
 
 Alternatively, we can assume a direct oracle access to the amplitudes [@sanders2019black]. Under this assumption, we have access to an oracle storing the $i$th amplitude $\alpha_i$ with $n$ bits, (actually, they use a slightly different model, where the oracle for the amplitude $\alpha_i$ is $\ket{i}\ket{z}\mapsto \ket{i}\ket{z \oplus \alpha_i^{(n)}}$ where $\alpha_i^{(n)}=\lfloor 2^n\alpha_i \rfloor$). Ordinarily, the circuit involves the mapping $\ket{i}\ket{\alpha_i^{(n)}}\ket{0} \mapsto \ket{i}\ket{\alpha_i} \left(\sin(\theta_i)\ket{0} + \cos(\theta_i)\ket{1}\right)$, which requires control rotations and arithmetic circuits to compute the angles $\theta_i = \arcsin(\alpha_i/2^n)$. However, by substituting the arithmetic circuit by a comparator operator [@gidney2018halving;@cuccaro2004new;@luongo2024measurement], the circuit can be implemented either with $2n$ non-Clifford gates or $n$ non-Clifford gates and $n$ ancilla qubits. This scheme can even be extended to encode complex amplitudes in both Cartesian and polar forms, or apply to the root coefficient problem of real amplitudes, where we have an oracle access to the square of the amplitude $\alpha_i^2$ instead of $\alpha_i$. For positive or complex amplitudes, this algorithm involves $\frac{\pi}{4}\frac{\sqrt{N}}{\|\alpha\|_2}$ exact amplitude amplifications, so it has a runtime of $\frac{\pi}{4}\frac{t\sqrt{N}}{\|\alpha\|_2} + O(1)$ non-Clifford gates, where $t$ is the number of bits of precision used to specify an amplitude (the authors preferred to count the number of non-Clifford gates, as they are the most expesive one to implement in (most of) the error corrected architectures, and serves as a lower bound for the size complexity of a circuit. For the root coefficient problem, the runtime becomes $\frac{\pi}{4} \frac{n\sqrt{N}}{\|\alpha\|_1} + O\left(n \log \left(\frac{1}{\epsilon}\right)\right)$ non-Clifford gates. For certain sets of coefficients, this model can further be improved  to reduce the number of ancilla qubits needed per bits of precision from a linear dependence [@sanders2019black] to a log dependence (Table 2 of  [@bausch2022fast]). Also the work of [@mcardle2022quantum] works assuming an oracle returning the amplitudes of the state we want to build $\frac{1}{\mathcal{N}_f}\sum_{x=0}^{N-1}f(x)\ket{x}$ (where $\mathcal{N}_f$ is the usual normalization factor), and does not use arithmetic, and uses $O(\frac{n  d_\epsilon}{\mathcal{F}_{\widetilde{f}^{[N]}} })$ (where $\widetilde{f}^{[N]}$ is called "discretized $\ell_2$-norm filling-fraction", and $d_\epsilon$ is the degree of a polynomial approximation that depends on $\epsilon$, the approximation error in the quantum state ) and uses only $4$ ancilla qubits. 
 
-<!-- Always in the model where we have query access to the amplitudes, we find the work of [@sanders2019black].  -->
-<!-- In this model it is assumed to have access to an oracle storing the $i$-th amplitude $\alpha_i$ with $n$ bits as $\alpha_i^{(n)} = \lfloor 2^n\alpha_i \rfloor$  -->
-<!-- The idea is to substitute the mapping $\ket{i}\ket{\xi_i} \mapsto \ket{i}\ket{\xi_i} \left(\sin(\theta_i)\ket{0} + \cos(\theta_i)\ket{1}\right)$ (which requires arithmetic circuits to compute $\theta_i = \arcsin(\alpha_i/2^n)$ and control rotation gates) with a comparator operator( which is described in [@gidney2018halving;@cuccaro2004new;@luongo2024measurement] ), and can be implemented either with $2n$ non-Clifford gates or $n$ non-Clifford gates and $n$ ancilla qubits.  -->
-<!-- <span style='color: green;'>EXPLAIN ALGORITHM.</span> -->
-<!-- The authors explain how to generalize this to complex amplitudes (with amplitudes obtained in Cartesian and in polar form) and to the state where we have $\sqrt{\alpha_i}$ but the oracle returns $\alpha_i$ (root coefficient problem). The number of rounds of (exact) amplitude amplification is $\frac{\pi}{4}\sqrt{N}/\|\alpha\|_2)$ for (positive or complex) amplitudes, giving a total runtime of $\frac{\pi}{4}n\sqrt{N}/\|\alpha\|_2)+O(1)$ non-Clifford gates. For the root-coefficient problem the runtime becomes $\frac{\pi}{4}n\sqrt{N}/\|\alpha\|_1)+O(n \log (1/\epsilon))$. In a similar model of computation we find that [@bausch2022fast] improved upon [@sanders2019black] in the number of ancilla qubits used per bits of precision used to specify a coefficient (from linear to log dependence). This procedure is exponentially better than [@sanders2019black] for certain sets of coefficient (Table 2 of [@bausch2022fast]).  -->
-<!-- Also [@mcardle2022quantum] doesn't use arithmetic, and uses $O(\frac{n d_\epsilon}{\mathcal{F}_{\widetilde{f}^{[N]}} })$ (where $\widetilde{f}^{[N]}}$ is called ``discretized L2-norm filling-fraction'', and $d_\epsilon$ is the degree of a polynomial approximation that depends on $\epsilon$, the approximation error in the quantum state ) and uses only $4$ ancilla qubits.  -->
-
 
 Instead of treating the problem as a state preparation problem, we can also perform amplitude encoding using multivariable quantum signal processing (M-QSP) (See Chapter \@ref(chap:5)). The principle behind this method is to interpret the amplitude of a quantum state as a function of a multivariable polynomial [@mcardle2022quantum;@mori2024efficient;@rosenkranz2024quantum]. Particularly, using Linear Combination of Unitaries techniques, we can approximate the quantum state as a multivariable function by a truncated Fourier or Chebyshev series [@rosenkranz2024quantum]. The truncated Fourier series approximation requires $O(d^D + Dn \log d)$ two-qubit gates, while the truncated Chebyshev series approximation requires $O(d^D + Ddn \log n)$ two-qubit gates, where $D$ is the number of dimensions and $d$ is the degree of the polynomial used in the approximation. The number of qubits in both techniques scales as $O(Dn + D \log d)$. The exponential dependence in $D$ can further be improved by the following theorems.
 
-<!-- Another technique is based on multi-variate-quantum signal processing (See Chapter \@ref(chap:5) ). For example, in the work of [@mori2024efficient;@rosenkranz2024quantum], which is extending the original work of [@mcardle2022quantum], the intuition is to interpret the amplitude of a quantum state as function of a multivariate polynomial. In [@rosenkranz2024quantum] they use multivariate function approximation using truncated Fourier and Checyshev series, combined using Linear Combination of Unitaries techniques. They require $O(d^D + Dn \log d)$ two qubit gates using Fourier series approximation and $O(d^D + Ddn \log n)$ using Chebyshev approximation, where $D$ is the number of dimensions, $d$ is the degree of the polynomial approximation and $n$ the number of qubits. For both techniques the number of qubits scales as $O(Dn + D \log d)$. -->
-<!-- The dependency on $D$ can be decreased using The dependency on $D$ can be decreased to linear. In the following theorems, which can be used for state preparation of bivariate and multivariate functions, we define $\mathcal{F}_f = \mathcal{N}_f/( \sqrt{N_1N_2}|f|_{max})$, $\mathcal{N}_f = \sqrt{\sum_{i,j} (f(x_1^{(i)}), f(x_2^{(j)}) )}$, and $n_1$ and $n_2$ to be the bits used to specify the value of the variable $x_1$ and $x_2$. -->
 
 (ref:mori2024efficient) [@mori2024efficient]
 
@@ -624,11 +605,8 @@ Given a Fourier series $f$ of degree $(d_1, \dots, d_D)$ that can be constructed
 ```
 
 
-<!-- Lower bounds for quantum state preparation are known. We have [@shende2004minimal] a lower bound of $\Omega\left(4^n\right)$ for the size, which has been refined to $\Omega\left(2^n\right)$ [@citationmissing]. For the depth, we have [@STY-asymptotically;@zhang2024parallel] a lower bound of  $\Omega\left( \max \{n ,\frac{4^n}{n+m} \} \right )$. The bound on the depth with ancilla qubits has been refined to a $\Omega(n)$, but only when having arbitrarily many ancilla qubits [@STY-asymptotically;@zhang2021lowdepth]. The the work of [@yuan] saturates the bounds.  -->
 
-<span style='color: blue;'>check asymptotics in following paragraph</span>
-
-Meanwhile, if trade-offs are allowed for state preparation, we can further improve the complexity of the algorithm. For example, we can build a state over $n$ qubits with depth $\widetilde{O}\left(\frac{2^n}{m+n} +n\right)$ and size $\widetilde{O}\left(2^n \right)$ if we have $m$ available ancillas [@STY-asymptotically]. On the other hand, we can reduce the number of $T$-gates to $O(\frac{N}{\lambda} + \lambda \log \frac{N}{\epsilon}\log \frac{\log N}{\epsilon})$ if we allow a tunable number of $\lambda \frac{\log N}{\epsilon}$ dirty qubits [@low2018trading]. A dirty qubit is an auxiliary qubit that is left entangled with another register at the end of computation. It cannot be reused by subsequent computations without being disentangled. 
+Meanwhile, if trade-offs are allowed for state preparation, we can further improve the complexity of the algorithm. For example, we can build a state over $n$ qubits with depth $\widetilde{O}\left(\frac{2^n}{m+n} +n\right)$ and size $\widetilde{O}\left(2^n \right)$ if we have $m$ available ancillas [@STY-asymptotically]. On the other hand, we can reduce the number of $T$-gates to $O(\frac{N}{\lambda} + \lambda \log \frac{N}{\epsilon}\log \frac{\log N}{\epsilon})$ if we allow a tunable number of $\lambda \frac{\log N}{\epsilon}$ dirty qubits [@low2018trading]. A dirty qubit is an auxiliary qubit that is left entangled with another register at the end of computation. It cannot be reused by subsequent computations without being disentangled, but can be uncomputed using measurement-based uncomputation tricks. 
 
 <!-- Other works explored trade-offs for state preparation [@STY-asymptotically]. In particular in [@STY-asymptotically] they show how with $m$ available ancillas a state over $n$ qubits can be built using $\widetilde{m}\left(\frac{2^n}{m+n} +n\right)$ depth and size $\widetilde{m}\left(2^n \right)$. -->
 
@@ -636,8 +614,6 @@ Meanwhile, if trade-offs are allowed for state preparation, we can further impro
 <!--     * Discussed while talking -->
 
 
-
-<!-- Trade-offs between space and $T$-gates are known [@low2018trading]. In this work, there is a trade-off between the number of ancilla qubits and the number of $T$-gates. In particular, they have a tunable number of $\lambda \frac{\log N}{\epsilon}$ dirty qubits to reduce the number of $T$-gates to $O(\frac{N}{\lambda} + \lambda \log \frac{N}{\epsilon}\log \frac{\log N}{\epsilon})$. A dirty qubit is an auxiliary qubits which is used by a certain computation and which is left entangled with another register at the end of the computation (and therefore cannot be reused by subsequent computations unless it is ``cleaned''). -->
 
 In addition to the algorithms [@STY-asymptotically;@rosenthal2021query], trade-offs can introduce additional circuits that can achieve the lower bound of the depth complexity. For example, using $O \left(2^n\right)$ ancilla qubits, we can perform amplitude encoding with circuit depth $\Theta \left( n \right)$, which further relaxes the connectivity requirements for M-QSP [@zhang2022quantum]. This technique also improves upon sparse state preparation, with a circuit depth $\Theta \left( \log k N \right)$, where $k$ is the sparsity. This represents an exponential improvement in circuit depth over previous works [@gleinig2021efficient;@de2022double]. This leads to a deterministic algorithm that achieves the lower bounds in circuit depth if we allow $m$ ancilla qubits, which is summarized in the following theorem.
 
@@ -656,7 +632,6 @@ $$ \ket{i}\ket{0} \mapsto \ket{i}\ket{\psi_i},  \forall i \in \{0,1\}^k, $$
 For any $m > 0$, any $n$-qubit quantum state $\ket{\psi_v}$ can be generated by a quantum circuit using single qubit gates and CNOT gates, of depth $O(n+ \frac{2^n}{n+m}$) and size $O(2^n)$ with $m$ ancillary qubits. These bounds are optimal for any $m \geq 0$. 
 ```
 
-<!-- <span style='color: blue;'>(Have we introduced the idea of QRAM yet at this point? I guess we do not assume what QRAMs are? Therefore, I did not make the reference of QRAM query as controlled quantum state preparation here. Perhaps we can allude to this later?)</span><span style='color: green;'>Of course we have, no? We are in the section for implementations so it is after Quantum memory (Section 2.2).</span>. As a consequence, these theorems offer an alternative circuit implementation for building a QRAM, which we discussed in the previous section. -->
 
 There are also other trade-off techniques that can be used, like probabilistic state preparation via measurements [@zhang2021lowdepth] or approximate state preparation problem [@zhang2024parallel]. However, these techniques are beyond the scope of this chapter and will not be discussed. Interested readers can refer to the respective articles.
 
@@ -674,20 +649,23 @@ In summary, there are many methods to perform amplitude encoding, each with diff
 <!-- * A. Holmes and A. Matsuura, Efficient quantum circuits for accurate state preparation of smooth, differentiable functions, in 2020 IEEE International Conference on Quantum Computing and Engineering (QCE) (IEEE, 2020) pp. 169–179 -->
 
 
-: Table of different methods to implement amplitude encoding, together with the their gate count and ancilla complexity, along with the function type needed. This table is adapted from [@mori2024efficient],
-<span style='color: blue;'>  to integrate with Table 1 of (https://arxiv.org/pdf/1812.00954.. first 3 rows). </span> 1 [@mori2024efficient], 2 [@Grover2002], 3  [@rattew2022preparing-arbitrary] 4 [@sanders2019black;@bausch2022fast] 5 [@moosa2023linear] 6 [@rosenkranz2024quantum] 7 [@shende2006synthesis] 8 [@STY-asymptotically].
+: Recap for the different methods proposed to implement amplitude encoding, together with the their gate count and ancilla complexity, along with the function type needed. This table is adapted from [@mori2024efficient],
+ 1 [@mori2024efficient], 2 [@Grover2002], 3  [@rattew2022preparing-arbitrary] 4 [@sanders2019black;@bausch2022fast] 5 [@moosa2023linear] 6 [@rosenkranz2024quantum] 7 [@shende2006synthesis] 8 [@STY-asymptotically]. Gate count or depth with * is expressed in number of $T$ gates. 
  
   
-|   |    Method   |               Gate count               |     Ancilla     |  Depth              | Function type    |
-|:-:|:-----------:|:--------------------------------------:|:---------------:|:-------------------:|:---:|
-| 1 | M-SQP       | $O(\frac{ndD}{\mathcal{F}})$           | 1               |                     |           |
-| 2 | GR          | $O(nT_{oracle})$                       | $O(t_{oracle})$ |  log                | Eff. int.    |
-| 3 | Adiabatic   | $O(\frac{T_{oracle}}{\mathcal{F}^4})$  | $O(t_{oracle})$ |  -                  | Arb.    |
-| 4 | Black-box   | $O(\frac{T_{oracle}}{\mathcal{F}})$    | $O(t_{oracle})$ |  -                  | Arb.    |
-| 5 | FSL         | $O(d^D + Dn^2)$                        | 0               |  -                  | Arb.    |
-| 6 | LCU-based   | $O(d^D + Dn\log d)$                    | $O(D \log d)$   |  -                  | Arb.    |
-| 7 | Circuit     | $N\log\left(\frac{N}{\epsilon}\right)$ | $O(n)$          |  -                  | Arb.    |
-| 8 | Circuit     | $O\left(...\right)$                    | $O(m)$          | -                   |         |  
+|   |    Method   |               Size                |     Ancilla     |  Depth              | Function type    |
+|:-:|:-----------:|:---------------------------------------:|:---------------:|:-------------------:|:---:|
+| 1 | M-SQP       | $O(\frac{ndD}{\mathcal{F}})$            | 1               |                     |           |
+| 2 | GR          | $O(nT_{oracle})$                        | $O(t_{oracle})$ |  log                | Eff. int.    |
+| 3 | Adiabatic   | $O(\frac{T_{oracle}}{\mathcal{F}^4})$   | $O(t_{oracle})$ |  -                  | Arb.    |
+| 4 | Black-box   | $O(\frac{T_{oracle}}{\mathcal{F}})$     | $O(t_{oracle})$ |  -                  | Arb.    |
+| 5 | FSL         | $O(d^D + Dn^2)$                         | 0               |  -                  | Arb.    |
+| 6 | LCU-based   | $O(d^D + Dn\log d)$                     | $O(D \log d)$   |  -                  | Arb.    |
+| 7 | Circuit     | $N\log\left(\frac{N}{\epsilon}\right)$* | $O(n)$          | $N\log\left(\frac{N}{\epsilon}\right)$*           | Arb.    |
+| 8 | Circuit     |$N\log\left(\frac{N}{\epsilon}\right)$   |$O\left(n+\lambda \right)$     | $\frac{N}{n + \lambda}\log \left(\frac{N}{\epsilon}\right) + n\log\left(\frac{N}{\epsilon}\right)$ *       | Arb.      |
+
+
+
 
 
 By looking at different models of quantum computation, we find that state preparation can be performed in constant depth assuming unbounded Fan-Out circuits (Corollary 4.2) [@rosenthal2021query]. The key idea behind this work was to link state preparation to a DNF (disjunctive normal form) boolean formula, which is evaluated in the quantum algorithm. Compiling Fan-Out gates using CNOT gates, this leads to a circuit of depth $O(n)$ and $O(n2^n)$ ancillas. State preparation can also be studied under a different lens in complexity theory, leading to new interesting insights.
@@ -750,20 +728,6 @@ Often in quantum algorithms we want to estimate expected values of integrals of 
 Let's define $\mu$ as the mean of a probability distribution $p(x)$ and $\widehat{\mu}=\mathbb{E(x)}$ be an estimate of $\mu$. The error of choice for this kind of problem (which comes from applications that we will see in Section \@ref(chap-montecarlo) ) is called the Root Mean Square Error (RMSE), i.e. $\widehat{\epsilon} = \sqrt{\mathbb{E}((\widehat{\mu}- \mu)^2)}$.
 The proof shows that an error of $\epsilon$ in the first rotation of the GR algorithm, due to an error in the computation of the first $f(i)$, would propagate in the final error of the expected value of $\mu$. To avoid this error, we should compute $f(i)$ with accuracy at least $\epsilon$. The best classical algorithms allows us to perform this step at a cost of $O(\frac{1}{\epsilon^2})$, thus canceling the benefits of a quadratic speedup. Mitigating this problem is currently active area of research.
 
-<!-- The proof works as follows:  -->
-
-<!-- - Assuming that the error in the state preparation appears only in the first iteration, i.e. when the angle $\theta$ in $\ket{\psi^1}=\cos(\theta)\ket{0} + \sin(\theta)\ket{1})$ is obtained as $\theta = \arccos \left( \sum_{i=0}^{2^{n-1}-1}p_i)$ -->
-<!-- -  -->
-<!-- -  -->
-
-<!-- ##### TODO Possible mitigations. -->
-
-
-<!-- If we restrict ourselves to considering loading probabilities from a Gaussian distributions, then we can use the following approaches. -->
-
-<!-- ##### The solution: Pre-computation -->
-
-<!-- TODO SAY THAT WE DO GAUSSIAN THINGS.  -->
 
 However, if we restrict ourselves to considering loading probabilities from a Gaussian distributions, then we can retain the quadratic speedup of the GR algorithm. This is because when we create quantum sample access to the Gaussian distribution, we must compute integrals of the form
 
@@ -785,7 +749,7 @@ where the second equality is obtained through the substitution $x \mapsto \frac{
 <!-- % -->
 <!-- which could be used for small $\delta$, i.e., for large $m$. -->
 
-<!-- \subsection*{Method 2: Numerical Integration}\textbf{I don't know if this section is that useful, but anyways} -->
+<!-- \subsection*{Method 2: Numerical Integration} -->
 
 <!-- The integrals $\int_{x}^{x + \delta/2}e^{-u^2}\text{d}u$ and $\int_{x}^{x + \delta}e^{-u^2}\text{d}u$ can be computed using, e.g.\ Simpson's rule. If one uses $N$ equally spaced points to discretize the interval $[x,x+\delta]$, then the estimation error $\varepsilon_\delta$ of $\int_{x}^{x + \delta}e^{-u^2}\text{d}u$ is bounded by~\cite[Eq.~(2.2.6)]{davis2007methods} -->
 <!-- % -->
@@ -814,39 +778,8 @@ where the second equality is obtained through the substitution $x \mapsto \frac{
 
 
 #### KP-Trees{#sec:implementation-KPtrees}
-TODO need some introduction
 
-Let's recall that for a matrix $X \in \mathbb{R}^{n \times d}$ (where we assume that $n$ and $d$ are powers of $2$, otherwise we can just pad the matrix with zeros) with rows $x_i$, an amplitude encoding is the state:
-
-\begin{equation}
-\ket{X} = \frac{1}{\sqrt{\sum_{i=1}^n {\left \lVert x_i \right \rVert}^2 }} \sum_{i=1}^n {\left \lVert x_i \right \rVert}\ket{i}\ket{x_i},
-  (\#eq:matrix-state)
-\end{equation}
-
-Where $\sqrt{\sum_{i=1}^n \left \lVert x_i \right \rVert^2} = \left \lVert X \right \rVert$.
-
-<!--
-\begin{equation}
-\ket{i}\ket{0}\mapsto \ket{i}\ket{x_i},
-\end{equation}
-
-\begin{equation}
-\ket{0}\mapsto \ket{X}\mapsto \sum_{i=1}^n \left \lVert x_i \right \rVert \ket{i},
-\end{equation}
--->
-<!--where $N_X$ is the vector of $\ell_2$ norms of the rows of the matrix $X$, i.e. $\ket{N_X}=\frac{1}{\|X\|_F} \sum_{i=0}^n \|x_i\| \ket{i}$. -->
-
-<!--Note that these two quantum states are just amplitude encodings of vectors of size $d$ and a vector of size $n$. It is very simple to see that if we are given two unitaries performing these two mappings, we can obtain equation \@ref(eq:matrix-state) by applying the two unitaries sequentially:
-
-\begin{equation}
-\ket{0}\ket{0}\mapsto\ket{X}\ket{0}\mapsto \frac{1}{\|X\|_F} \sum_{i=1}^n {\left \lVert x_i \right \rVert}\ket{i}\ket{x_i},
-\end{equation}
--->
-Note that equation \@ref(eq:matrix-state) is just an amplitude encodings of vectors of size $d$ and a vector of size $n$, which reduces the problem of creating an amplitude encoding of a matrix to creating the amplitude encoding of a series of vectors. The PhD thesis by Prakash [@PrakashPhD] introduced the first procedure to efficiently perform the amplitude encoding of a matrix using a tree like classical data structure. Given an incoming matrix $V \in \mathbb{R}^{n \times d}$ the procedure, which was named KP-trees by Rebentrost in [@rebentrost2018quantum] after the authors Kerenidis and Prakash, creates a data structure with size scaling $\widetilde{O}(|V|_0)$ and where the time to update the tree with a new entry scales as $O(\text{poly} \log(nd))$. In addition, an algorithm to perform the amplitude encoding of a vector is given and scales as $O(\log(nd))$. The proof will make use of the following lemma on cascades of rotations:
-
-<!--Confusingly, in some papers both are called QRAM, and both rely on two (different) tree data structure for their construction. One is a hardware circuit arranged as a tree that allows to perform the mapping in \@ref(def:qram), the other is a classical data structure arranged as a tree that stores the partial norms of the rows of the matrix. 
-<!-- We will use the following as definition, but this is actually a theorem. For the original proof, we refer to [@PrakashPhD], the appendix A of [@KP16], and the proof of Theorem 1 of [@CGJ18]. -->
-
+We now move to discussing the most used technique to load classical data into a quantum computer using ampitude encoding. This technique is the same as the one in the previous section, with the difference that the oracle returning the angles for the controlled rotations are retrived by a quantum memory. In their PhD thesis, Prakash [@PrakashPhD] introduced the first procedure to efficiently perform the amplitude encoding of a matrix using a tree-like classical data structure. Given a matrix $V \in \mathbb{R}^{n \times d}$ the procedure precomputes a data structure with size scaling $\widetilde{O}(|V|_0)$ and where the time to update the tree with a new entry scales as $O(\text{poly} \log(nd))$. This technique was called "KP-trees" in [@rebentrost2018quantum], after the authors (Kerenidis and Prakash) used it in a quantum recommendation system [@KP16]. The proof will make use of the following lemma
 
 
 ```{lemma, cascade-controlled-rotations, name="Implementing Rotations with Cascades of Controlled Unitary Gates"}
@@ -984,11 +917,11 @@ The final tree is for the implementation of $\tilde{V}: \ket{0}\ket{j} \rightarr
 ```
 
 ```{r, KP-trees-ry, echo=FALSE, fig.width=10, fig.cap="A section of the circuit for state preparation with pruned KP-trees. For a vector $V_i \\in \\mathbb{C}^{n}$ we require 3 register: an index register $\\ket{i}$; a $t$-qubit address register which will load the angles up to a precision $t$; and the main register composed of $\\log(n)$ qubits. At a intermediate step of the procedure the main register will hold a state which represents the $k$-th layer of the KP-tree $\\Psi_k$ and the aim of the circuit will be to prepare the $k+1$ layer of the tree, $\\Psi_{k+1}$. This starts with a quantum query to the data structure which loads the angles to the address register. This is followed by a cascade of controlled rotations and finally an inverse call to the data structure. Repeating this circuit $\\log(n)$ times produces the state $\\Psi_{\\log(n)}$ which is a vector which hold the moduli of the components of $V_i$. In total the circuit will have a depth of $t\\log(n)$ and will require $2\\log(n)$ queries to the data structure."}
-knitr::include_graphics("images/KP_Trees_RY.png")
+knitr::include_graphics("algpseudocode/KP-trees_RY.png")
 ```
 
 ```{r, KP-trees-phase, echo=FALSE, fig.width=10, fig.cap="The circuit that adds the phase in state preparation with pruned KP-trees. This starts with a quantum query to the data structure which loads the angles to the address register, which is followed by a cascade of phase rotation, a NOT gate and another cascade. The requirmenet of 2 cascades is that the controlled phase rotations only acts on the quantum states with a $1$ as the last bit. The application of this circuit produces the desired vector $V_i$."}
-knitr::include_graphics("images/KP_Trees_RPhase.png")
+knitr::include_graphics("algpseudocode/KP-trees_RPhase.png")
 ```
 
 We now show an example of the state preparation with pruned KP-trees of a vector of size 4. Figure \@ref(fig:KP-trees-example) shows the difference between an original KP-tree and a pruned version, whilst \@ref(fig:example-circuit) shows the full circuit implementation to load the vector.
@@ -1052,11 +985,11 @@ The full circuit for this can be seen in the figure \@ref(fig:example-circuit).
 -->
 
 ```{r, KP-trees-example, echo=FALSE, fig.width=10, fig.cap="The original and pruned tree used for the example. The difference between the two is that the initial tree stores the partial norms of the vector entries, whilst the pruned tree only stores the angles required to implement the required $\\sigma_y$ and phase rotations."}
-knitr::include_graphics("images/KP-trees-example.png")
+knitr::include_graphics("algpseudocode/KP-trees-example.png")
 ```
 
 ```{r, example-circuit, echo=FALSE, fig.width=10, fig.cap="The circuit to perform state preparation of the vector reported in the worked example. An initial call to the $\\mathsf{QMD}$ loads the angle on the address register, which is followed by a cascade of $\\sigma_y$ rotations on the first qubit and an inverse call to the $\\mathsf{QMD}$ to remove the angle from the address register. A similar process is done for the second step where the call to the $\\mathsf{QMD}$ is made using the index register and the first qubit and will access the first layer of the pruned KP-tree. This will be followed by a similar cascade of $\\sigma_y$ rotations on the second qubit of the main register and inverse call to the $\\mathsf{QMD}$. The final step requires adding the phases. This will be done with a query to the $\\mathsf{QMD}$ to access the final row of the pruned KP-tree, then a cascade of phase rotation $P$. Because the nature of the phase gate, a $\\sigma_x$ gate followed by another cascade of phase rotations is required to load the remaining phases. Finally, a $\\sigma_x$ gate and a inverse query to the $\\mathsf{QMD}$ will produce the amplitude encoding."}
-knitr::include_graphics("images/Example_circuit.png")
+knitr::include_graphics("algpseudocode/state-prep-example.png")
 ```
 
 The following exercise might be helpful to clarify the relation between quantum query access to a vector and quantum sampling access.
@@ -1124,7 +1057,7 @@ $U_R^\dagger U_L$ is a $(\mu_p(A),\lceil\log (N+M+1)\rceil,\epsilon)$-block enco
 
 ```
 
-The second point of the previous theorem is equivalent to what we saw in \@ref(sec:implementation-KPtrees).
+The second point of the previous theorem is equivalent to what we saw in Section \@ref(sec:implementation-KPtrees).
 
 
 #### Block encoding from sparse access
