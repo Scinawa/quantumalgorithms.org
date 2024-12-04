@@ -40,6 +40,8 @@ github-repo: "scinawa/quantumalgorithms.org"
 \newcommand{\bra}[1]{\langle#1|}
 \newcommand{\braket}[1]{\langle#1\rangle}
 
+\newcommand{\QRAM}{\mathsf{QRAM}}
+
 \newcommand{\be}{\begin{equation}}
 \newcommand{\ee}{\end{equation}}
 \newcommand{\argmax}{\arg\max}

@@ -18,12 +18,6 @@ First, we describe how to represent data, which reduces to understanding the pos
 
 ## Representing data in quantum computers{#sec:representing-data}
 
-<!--In the image below you can find [all the possible combinations](https://indico.desy.de/event/26672/contributions/60982/attachments/39512/49045/qml_maria.pdf) of data and algorithms. This chapter will cover the QC(quantum algorithms with classical data) and QQ(quantum algorithms with quantum data) areas.
-
-```{r, echo=FALSE, fig.width=10, fig.cap="We can have four combinations between classical and quantum data, and classical and quantum algorithms. As you can imagine, in these pages we will focus on quantum algorithms on classical data, with some detours on quantum algorithms on quantum data. "}
-knitr::include_graphics("algpseudocode/typesofdata-1.png")
-```
--->
 We'll begin our journey into quantum algorithms by understanding how we can represent and store data as a quantum state. Data plays a key role and is at the heart of most modern algorithms and knowing the best way to encode it on a quantum computer might pave the way for intuitions in solving problems, an essential step towards quantum advantage (as noted also in [@schuld2015introduction]).
 
 There are various ways to achieve this task. Some are borrowed from classical computation, such as the *binary* encoding, which consist in representing encoding boolean strings of length $n$ using $n$ qubits, while some leverage quantum properties, such as the *amplitude* encoding, which consits in representing vectors as linear combination of computational basis. We note that some of the presented schemes depend heavily on the accuracy of the available quantum computers in manipulating quantum states (i.e. developments in metrology and sensing). For example, techniques that rely on precise amplitudes of a state will be hindered by the current noisy hardware, or incour in high overhead of the quantum error correction. Considerations on the practical feasibility of an encoding technique are out of scope for this book.
@@ -176,11 +170,11 @@ where, for some integer $i$, the states $e_i$ take the form $e_i = 0^{i-1}10^{n-
 
 Having seen possible ways to represent data on a quantum computer, we will now take the first step toward understanding how to create quantum states that are representing numbers using these encodings. The first step involves understanding quantum memory, which plays a key role in various quantum algorithms/problems such as: Grover’s search, solving the dihedral hidden subgroup problem, collision finding, phase estimation for quantum chemistry, pattern recognition, machine learning algorithms, cryptanalysis, and state preparation. 
 
-To work with quantum memory we need to define a quantum memory model of computation, which enables us to accurately calculate the complexity of quantum algorithms. In this framework we divide a quantum computation into a data pre-processing step and a computational step. Quantum memory allows us to assume that the pre-processed data can be easily accessed (as in classical computers). In this model, since the pre-processing is negligible, and has to be performed only once, the complexity of a quantum algorithm is fully characterized by the computational step. This understanding formalizes a quantum computation in two distinct components: a quantum processing unit and a quantum memory device. Two notable examples of quantum memory devices are the quantum random access memory ($\mathsf{QRAM}$) and the quantum random access gates ($\mathsf{QRAG}$). It is important to note that having access to a quantum memory device is associated with fault tolerant quantum computers.
+To work with quantum memory we need to define a quantum memory model of computation, which enables us to accurately calculate the complexity of quantum algorithms. In this framework we divide a quantum computation into a data pre-processing step and a computational step. Quantum memory allows us to assume that the pre-processed data can be easily accessed (as in classical computers). In this model, since the pre-processing is negligible, and has to be performed only once, the complexity of a quantum algorithm is fully characterized by the computational step. This understanding formalizes a quantum computation in two distinct components: a quantum processing unit and a quantum memory device. Two notable examples of quantum memory devices are the quantum random access memory ($\QRAM$) and the quantum random access gates ($\mathsf{QRAG}$). It is important to note that having access to a quantum memory device is associated with fault tolerant quantum computers.
 
-This section will first introduce the quantum memory model of computation (\@ref(sec:quantum-memory-model)). This will be followed by the formalization of a quantum computation in the memory model via a quantum processing unit ($\mathsf{QPU}$) and a quantum memory device ($\mathsf{QMD}$) (\@ref(sec:QPU-QMD)), where the $\mathsf{QRAM}$ and $\mathsf{QRAG}$ will be presented as possible implementation of the $\mathsf{QMD}$. 
+This section will first introduce the quantum memory model of computation (\@ref(sec:quantum-memory-model)). This will be followed by the formalization of a quantum computation in the memory model via a quantum processing unit ($\mathsf{QPU}$) and a quantum memory device ($\mathsf{QMD}$) (\@ref(sec:QPU-QMD)), where the $\QRAM$ and $\mathsf{QRAG}$ will be presented as possible implementation of the $\mathsf{QMD}$. 
 
-<!--Finally the quantum random access memory($\mathsf{QRAM}$)(\@ref(sec:qram)) and the quantum random access to gates($\mathsf{QRAG}$)(\@ref(sec:qrag)) will be discussed.-->
+<!--Finally the quantum random access memory($\QRAM$)(\@ref(sec:qram)) and the quantum random access to gates($\mathsf{QRAG}$)(\@ref(sec:qrag)) will be discussed.-->
 
 <!--Before looking at quantum memory we'll give a quick recap of a (simplified) model of a classical computer. 
 
@@ -195,7 +189,7 @@ A RAM is made of a memory array, an address/input register, and a target/bus/out
 The aim of this section is to understand how this process occurs on a quantum computer. In particular we will start by introducing the access model of computation which will help in understanding the importance of quantum memory models. Then we will look at the mathematical formalism required to define the different components of a quantum computer: the quantum processing unit(QPU), quantum memory device(QMD), the quantum random access to memory(QRAM) and the quantum random access to gates(QRAG).
 -->
 
-### The quantum memory model of computation{#sec:quantum-memory-model}
+### The quantum model of computation with and without memory {#sec:quantum-memory-model}
 
 As discussed in the Section \@ref(measuring-complexity) of the previous chapter, in quantum computing we often work in a oracle model, also called black-box model of quantum computation. This section is devoted to the formalization of this model of computation. The word “oracle”, (a word referencing concepts in complexity theory), is used to imply that an application of the oracle has $\mathcal{O}(1)$ cost, i.e. we do not care about the cost of implementing the oracle in our algorithm. A synonym of quantum oracle model is quantum query model, which stresses the fact that we can only use the oracle to perform queries. 
 
@@ -215,7 +209,8 @@ The complexity of the algorithm in this model is measured by the cost for step 2
 Let's consider an example. We will see that many of the quantum algorithms considered in this book have a computational complexity expressed (in number of operations of a certain kind) as some functions of the matrix and the problem. Consider a classical algorithm with a runtime of  $\widetilde{O} \left( \frac{\norm{A}_0\kappa(A)}{\epsilon^2}\log(1/\delta) \right)$ calls to the classical memory (and coincidentally, CPU operations).  Here $\epsilon$ is some approximation error in the quantity we are considering, $\kappa(A)$ is the condition number of the matrix, $\delta$ the failure probability. The quantum counterpart of this algorithm has a runtime of $O(\norm{A}_0)$ classical operation for pre-processing and 
 
 \begin{equation}
-\widetilde{O}(poly(f(A)), poly(\kappa(A), poly(1/\epsilon), poly(\log(nd), poly(\log(1/\delta)) )
+\widetilde{O}(\text{poly}(f(A)), \text{poly}(\kappa(A)), \text{poly}(1/\epsilon), \text{poly}(\log(nd)), \text{poly}(\log(1/\delta)) )
+(\#eq:example-of-runtime)
 \end{equation}
 
 queries to the quantum memory (and coincidentally, number of operations). Here,  $f(A)$ represents some size-independent function of the matrix that depends on the properties of $A$ which can be chosen to be $\|A\|_F$: the Frobenius norm of the matrix.  Importantly, note that in the runtime of the quantum algorithm there is no dependence on $\|A\|_0$. 
@@ -234,7 +229,7 @@ The qubits which comprise the $\mathsf{QPU}$ are assigned to either an input reg
 
 (ref:allcock2023quantum) [@allcock2023quantum]
 
-```{definition, QPU, name="Quantum Processing Unit (ref:allcock2023quantum)"}
+```{definition, def-QPU, name="Quantum Processing Unit (ref:allcock2023quantum)"}
 A Quantum Processing Unit($\mathsf{QPU}$) of size $m$ is defined as a tuple $(\mathtt{I}, \mathtt{W},\mathcal{G})$ consisting of
 
 - an $m_{\mathtt{I}}$-qubit Hilbert space called \emph{input register} $\mathtt{I}$;
@@ -288,51 +283,77 @@ Starting from $|\psi_0\rangle|0\rangle^{\otimes \poly{n}}_{\mathtt{Aux}}$, where
 knitr::include_graphics("algpseudocode/quantum_architecture.png")
 ```
 
-This model can be seen as a refined version of the one described in [@buhrman2022memory], where the authors divide the qubits of a quantum computer into work and memory qubits. Given $M$ memory qubits, their workspace consists of $O(\log M)$ qubits, of which the address and target qubits are always the first $\lceil\log M\rceil + 1$ qubits. However, address and target qubits are not considered to be shared by the $\mathsf{QMD}$, and there is no mention of ancillary qubits mediating a call to the $\mathsf{QMD}$. The inner structure of the $\mathsf{QMD}$ is abstracted away by assuming access to the unitary of a $\mathsf{QRAG}$ (see Definition \@ref(def:qrag) later). This model, in contrast, "opens" the quantum memory device, and allows for general fixed unitaries, including $\mathsf{QRAM}$ and $\mathsf{QRAG}$.
+This model can be seen as a refined version of the one described in [@buhrman2022memory], where the authors divide the qubits of a quantum computer into work and memory qubits. Given $M$ memory qubits, their workspace consists of $O(\log M)$ qubits, of which the address and target qubits are always the first $\lceil\log M\rceil + 1$ qubits. However, address and target qubits are not considered to be shared by the $\mathsf{QMD}$, and there is no mention of ancillary qubits mediating a call to the $\mathsf{QMD}$. The inner structure of the $\mathsf{QMD}$ is abstracted away by assuming access to the unitary of a $\mathsf{QRAG}$ (see Definition \@ref(def:qrag) later). This model, in contrast, "opens" the quantum memory device, and allows for general fixed unitaries, including $\QRAM$ and $\mathsf{QRAG}$.
 
 In addition, this model does not include measurements. These can easily be performed on the output state $\ket{\psi_T}$ if need be. Furthermore the position of the qubits is not fixed within the architecture, allowing for long-range interactions through, for example, multi-qubit entangling
 gates. This feature is not always possible in physical the real world since some quantum devices, such as superconducting quantum computers, don't allow for long-range interactions between qubits. For a model of computation which take in consideration physically realistic device interactions we suggest the work by [@Beals_2013]. 
 
-We stress the idea that call to the $\mathsf{QMD}$ is defined by the function $\mathsf{V}$ and quantum memory device is defined by the unitary that it implements. In many applications, one is interested in some form of reading a specific entry from the memory, which corresponds to the special cases where the $\mathsf{V}(i)$ unitaries are made of controlled single-qubit gates, and to which the traditional $\mathsf{QRAM}$ belongs.
+We stress the idea that call to the $\mathsf{QMD}$ is defined by the function $\mathsf{V}$ and quantum memory device is defined by the unitary that it implements. In many applications, one is interested in some form of reading a specific entry from the memory, which corresponds to the special cases where the $\mathsf{V}(i)$ unitaries are made of controlled single-qubit gates, and to which the traditional $\QRAM$ belongs.
+
+
+
+
+#### The LAQCC model of quantum computation
+
+We can also consider an alternative model of quantum computation to the one in Definition \@ref(def-QPU): the LAQCC model, which stands for Local Alternating Quantum Classical Computations. LAQCC is a hybrid quantum-classical computational framework [@buhrman2023state]. This model assumes quantum hardware with specific topology and connectivity, enabling the measurement of certain (but not necessarily all) qubits. The measurement results are then used to perform intermediate classical computations, which, in turn, control subsequent quantum circuits. This process can alternate between quantum and classical layers multiple times, allowing for iterative computation. The authors did not consider an explicit formulation of the quantum memory device. However, it is possible to perform amplitude encoding of a certain class of states in constant depth. Formally, it is defined as follows.
+
+(ref:buhrman2023state) [@buhrman2023state]
+
+```{definition, def-laqcc, name="Local Alternating Quantum Classical Computations (ref:buhrman2023state)"}
+Let $\text{LAQCC}(\mathcal{Q}, \mathcal{C}, d)$ be the class of circuits such that:
+
+- Every quantum layer implements a quantum circuit $Q \in \mathcal{Q}$ constrained to a grid topology;
+- Every classical layer implements a classical circuit $C \in \mathcal{C}$;
+- There are $d$ alternating layers of quantum and classical circuits;
+- After every quantum circuit $Q$, a subset of the qubits is measured;
+- The classical circuit receives input from the measurement outcomes of previous quantum layers;
+- The classical circuit can control quantum operations in future layers.
+
+The allowed gates in the quantum and classical layers are given by $\mathcal{Q}$ and $\mathcal{C}$, respectively. Furthermore, we require a circuit in $\text{LAQCC}(\mathcal{Q}, \mathcal{C}, d)$ to deterministically prepare a pure state on the all-zeroes initial state.
+```
+
+
+
+
 
 #### The QRAM{#sec:qram}
 <!--Along with a fully fledged quantum computer, it is often common to assume that we have access to a quantum memory, i.e. a classical data structure that store classical information, but that is able to answer queries in quantum superposition. This model is commonly called the **QRAM model** (and is a kind of query model).
-The name $\mathsf{QRAM}$ is meant to evoke the way classical RAM works, by addressing the data in memory using a tree structure. 
-Note that sometimes, $\mathsf{QRAM}$ goes under the name of QROM, as actually it is not something that can be written during the runtime of the quantum algorithm, but just queried, i.e. read. 
-Furthermore, a $\mathsf{QRAM}$ is said to be *efficient* if can be updated by adding, deleting, or modifying an entry in polylogarithmic time w.r.t the size of the data it is storing. 
-Remember that assuming to have access to a large $\mathsf{QRAM}$ in your algorithms is something that is often associated with more long-term quantum algorithms, so it is a good idea to limit as much as possible the dependence on $\mathsf{QRAM}$ on your quantum algorithms.
+The name $\QRAM$ is meant to evoke the way classical RAM works, by addressing the data in memory using a tree structure. 
+Note that sometimes, $\QRAM$ goes under the name of QROM, as actually it is not something that can be written during the runtime of the quantum algorithm, but just queried, i.e. read. 
+Furthermore, a $\QRAM$ is said to be *efficient* if can be updated by adding, deleting, or modifying an entry in polylogarithmic time w.r.t the size of the data it is storing. 
+Remember that assuming to have access to a large $\QRAM$ in your algorithms is something that is often associated with more long-term quantum algorithms, so it is a good idea to limit as much as possible the dependence on $\QRAM$ on your quantum algorithms.
 There is a catch. As we will see in greater details soon, the task of building the data structure classically requires time that is linear (up to polylogarithmic factors) in the dimension of the data (this observation is better detailed in definition \@ref(def:QRAM-model) ). 
 Using the following definition, we can better define the computational model we are working with.
 -->
 <!--```{definition, qram-informal, name="Quantum Random Access Memory - informal (ref:qram-informal)"}
 A quantum random access memory is a device that stores indexed data $(i,x_i)$ for $i \in [n]$ and $x_i \in \R$ (eventually truncated with some bits of precision). It allows query in the form $\ket{i}\ket{0}\mapsto \ket{i}\ket{x_i}$, and has circuit depth $O(polylog(n))$.
 ```-->
-A type of $\mathsf{QMD}$ of particular interest is the $\mathsf{QRAM}$, which is the quantum equivalent of a classical Random Access Memory (RAM), that stores classical or quantum data and allows for superposition-based queries. More specifically, a $\mathsf{QRAM}$ is a device comprising a memory register that stores data, an address register that points to the memory cells to be addressed, and a target register into which the content of the addressed memory cells is copied. If necessary, it also includes an auxiliary register supporting the overall operation, which is reset to its initial state at the end of the computation. Formally, we define it as:
+A type of $\mathsf{QMD}$ of particular interest is the $\QRAM$, which is the quantum equivalent of a classical Random Access Memory (RAM), that stores classical or quantum data and allows for superposition-based queries. More specifically, a $\QRAM$ is a device comprising a memory register that stores data, an address register that points to the memory cells to be addressed, and a target register into which the content of the addressed memory cells is copied. If necessary, it also includes an auxiliary register supporting the overall operation, which is reset to its initial state at the end of the computation. Formally, we define it as:
 
 ```{definition, qram, name="Quantum Random Access Memory"}
-Let $n\in\mathbb{N}$ be a power of $2$ and $f(i) = \mathsf{X}$ for all $i\in[n]$. A \emph{quantum random access memory} $\mathsf{QRAM}$ of memory size $n$ is a $\mathsf{QMD}$ with $\mathsf{V}(i) = \mathsf{C}_{\mathtt{M}_i}$-$\mathsf{X}_{\to\mathtt{T}}$. Equivalently, it is a $\mathsf{QMD}$ that maps
+Let $n\in\mathbb{N}$ be a power of $2$ and $f(i) = \mathsf{X}$ for all $i\in[n]$. A \emph{quantum random access memory} $\QRAM$ of memory size $n$ is a $\mathsf{QMD}$ with $\mathsf{V}(i) = \mathsf{C}_{\mathtt{M}_i}$-$\mathsf{X}_{\to\mathtt{T}}$. Equivalently, it is a $\mathsf{QMD}$ that maps
 
 \begin{equation}
 \ket{i}_{\mathtt{A}}\ket{b}_{\mathtt{T}}\ket{x_0,\dots,x_{n-1}}_{\mathtt{M}} \mapsto \ket{i}_{\mathtt{A}}(f(i)^{x_i}\ket{b}_{\mathtt{T}}) \ket{x_0,\dots,x_{n-1}}_{\mathtt{M}} \quad\quad \forall i\in[n], b,x_0,\dots,x_{n-1}\in\{0,1\}.
 \end{equation}
 ```
 
-A unitary performing a similar mapping often goes under the name of quantum read-only memory ($\mathsf{QROM}$) The difference with $\mathsf{QRAM}$ is that that this term stresses that they don't allow data to be added or modified. Oftentimes, the authors using this term are considering a circuit, as described in section \@ref(sec:multiplexer).
+A unitary performing a similar mapping often goes under the name of quantum read-only memory ($\mathsf{QROM}$) The difference with $\QRAM$ is that that this term stresses that they don't allow data to be added or modified. Oftentimes, the authors using this term are considering a circuit, as described in section \@ref(sec:multiplexer).
 
 
-Instead assuming to have access to a $\mathsf{QRAM}$ requires a protocol for the pre-processing of the data and creation of a data structure in time which is asymptotically linear in the data size (as indicated by definition \@ref(def:quantum-memory-model)).
+Instead assuming to have access to a $\QRAM$ requires a protocol for the pre-processing of the data and creation of a data structure in time which is asymptotically linear in the data size (as indicated by definition \@ref(def:quantum-memory-model)).
 
-Equipped with definition \@ref(def:qram)) we can formalize what it means to have quantum query access, which is also referred to as $\mathsf{QRAM}$ access or as having "$x$ is in the $\mathsf{QRAM}$". We will formalize the case of having a vector $x \in (\{0,1\}^m)^N$ stored in the $\mathsf{QRAM}$.
+Equipped with definition \@ref(def:qram)) we can formalize what it means to have quantum query access, which is also referred to as $\QRAM$ access or as having "$x$ is in the $\QRAM$". We will formalize the case of having a vector $x \in (\{0,1\}^m)^N$ stored in the $\QRAM$.
 
 ```{definition, quantum-query-access-vector, name="Quantum query access to a vector stored in the QRAM"}
-Given $x \in (\{0,1\}^m)^N$, we say that we have quantum query access to $x$ stored in the $\mathsf{QRAM}$ if we have access to a unitary operator $U_x$ such that $U_x\ket{i}\ket{b} = \ket{i}\ket{b \oplus x_i}$ for any bit string $b\in\{0,1\}^m$.
+Given $x \in (\{0,1\}^m)^N$, we say that we have quantum query access to $x$ stored in the $\QRAM$ if we have access to a unitary operator $U_x$ such that $U_x\ket{i}\ket{b} = \ket{i}\ket{b \oplus x_i}$ for any bit string $b\in\{0,1\}^m$.
 ```
 
-In practical terms when analyzing the complexity of a quantum algorithm with a $\mathsf{QRAM}$ we need to take in consideration three factors: the circuit size of the quantum algorithm as introduced in definition \@ref(def:QPU), the number of queries to the $\mathsf{QRAM}$ and the complexity each $\mathsf{QRAM}$ query. We emphasize that the complexity that arises due to a query to the $\mathsf{QRAM}$ is still an open question. Details of some possible implementations will be discussed in section \@ref(sec:implementations).
+In practical terms when analyzing the complexity of a quantum algorithm with a $\QRAM$ we need to take in consideration three factors: the circuit size of the quantum algorithm as introduced in definition \@ref(def:QPU), the number of queries to the $\QRAM$ and the complexity each $\QRAM$ query. We emphasize that the complexity that arises due to a query to the $\QRAM$ is still an open question. Details of some possible implementations will be discussed in section \@ref(sec:implementations).
 
 <!--and will thislast step is important since, in reality, understanding the complexity of an implementation of the QRAM is still an open field of research.
 
-the implementation of a call to the $\mathsf{QRAM}$ requires, for a data structure of size $N$, a circuit depth of $O(polylog(N))$. Details of the implementation will be discussed in section \@ref(sec:implementations).-->
+the implementation of a call to the $\QRAM$ requires, for a data structure of size $N$, a circuit depth of $O(polylog(N))$. Details of the implementation will be discussed in section \@ref(sec:implementations).-->
 
 <!--
 Note that this definition is very similar to Definition  \@ref(def:quantum-memory-model).
@@ -343,6 +364,29 @@ If we have just a list of numbers, we need to resort to a particular hardware de
 
 Most importantly, when using this oracle in our algorithm, we consider the cost of a query to a data structure of size $N$ to be $O(polylog(N))$. We will see in Section  \@ref(sec:implementations) how, even if the number of quantum gates is $N$, they can be arranged and managed in a way such that the depth and the execution time still remains polylogarithmic.
 -->
+
+
+
+
+
+: Table for QRAM for $N=2^n$ memory elements of size $m$. 2 is [@giovannetti2008architectures], 4 is [@low2018trading], 5 and 6 are form [@allcock2023quantum], 8 is Lemma 10 from [@yuan2023optimal]. Gate count or depth with * is expressed in number of $T$ gates. Results expressed with + are in terms of FanOut gates of arity $O(n)$. TODO number 4 should have a parameter lambda for number of ancilla qubits?
+ 
+|   | Method                  | Size                                 | Ancilla                              | Depth  | Comment           |
+|---|-------------------------|--------------------------------------|--------------------------------------|--------|-------------------|
+| 1 | Multiplexer             | O(nm)                                |                                      | O(nm)  |                   |
+| 2 | Bucket Brigade          |                                      |                                      |        |                   |
+| 3 | FanOut BB               |                                      |                                      |        | Uses FanOut gates |
+| 4 | Trading                 | $O(n)$                               | $2n + 2$                             | $O(n)$ |                   |
+| 5 | One-hot encoding FanOut | $6n\log{n} + O(n\log\log{n})$ $\:^+$ | $2n\log{n}\log\log{n} + O(n\log{n})$ | $O(1)$ |                   |
+| 6 | One-hot encoding GT-gate| $6n\log{n} + O(n\log\log{n})$ $\:^+$ | $2n\log{n}\log\log{n} + O(n\log{n})$ | $O(1)$ |                   |
+| 7 | Fourier                 |                                      |                                      |        |                   |
+| 8 | Circuit                 | $O(N2^m)$                            | $\lambda$                            |        | $\lambda > Nm$    |
+
+
+
+
+
+
 
 #### The QRAG{#sec:qrag}
 
@@ -356,10 +400,10 @@ Let $n\in\mathbb{N}$ be a power of $2$. A \emph{quantum random access gate} $\ma
 \end{equation}
 ```
 
-It turns out that the $\mathsf{QRAG}$ can be simulated with a $\mathsf{QRAM}$, but the $\mathsf{QRAM}$ can be simulated with the $\mathsf{QRAG}$ by requiring single qubit operations (which are not present in the model of computation of definition \@ref(def:QPUQMD)). We will present the proof for the simulation of the $\mathsf{QRAM}$ with a $\mathsf{QRAG}$ and leave the opposite proof as exercise. 
+It turns out that the $\mathsf{QRAG}$ can be simulated with a $\QRAM$, but the $\QRAM$ can be simulated with the $\mathsf{QRAG}$ by requiring single qubit operations (which are not present in the model of computation of definition \@ref(def:QPUQMD)). We will present the proof for the simulation of the $\QRAM$ with a $\mathsf{QRAG}$ and leave the opposite proof as exercise. 
 
 ```{theorem, sim-qram-with-qrag, name="Simulating QRAM with QRAG."}
-A query to a $\mathsf{QRAM}$ of memory size $n$ can be simualted using 2 queries to a $\mathsf{QRAG}$ of memory size $n$, 3 two-qubit gates, and $1$ workspace qubit. 
+A query to a $\QRAM$ of memory size $n$ can be simualted using 2 queries to a $\mathsf{QRAG}$ of memory size $n$, 3 two-qubit gates, and $1$ workspace qubit. 
 ```
 
 ```{proof}
@@ -367,29 +411,30 @@ Start with the input $\ket{i}_{\mathtt{A}}\ket{0}_{\mathtt{Tmp}}\ket{b}_{\mathtt
 ```
 
 ```{exercise}
-Assuming that single-qubit gates can be freely applied onto the memory register $\mathtt{M}$ of any $\mathsf{QRAM}$, then show that a $\mathsf{QRAG}$ of memory size $n$ can be simulated using $3$ queries to a $\mathsf{QRAM}$ of memory size $n$ and $2(n+1)$ Hadamard gates.
+Assuming that single-qubit gates can be freely applied onto the memory register $\mathtt{M}$ of any $\QRAM$, then show that a $\mathsf{QRAG}$ of memory size $n$ can be simulated using $3$ queries to a $\QRAM$ of memory size $n$ and $2(n+1)$ Hadamard gates.
 ```
 
-<!--
-\begin{exercise}[Simulating $\mathsf{QRAG}$ with $\mathsf{QRAM}$]: 
-Assuming that single-qubit gates can be freely applied onto the memory register $\mathtt{M}$ of any $QRAM$, then  show that a $\mathsf{QRAG}$ of memory size $n$ can be simulated using $3$ queries to a $QRAM$ of memory size $n$ and $2(n+1)$ Hadamard gates.
-\end{exercise} 
--->
 
-<!--It turns out that with a $\mathsf{QRAG}$ you can have a $\mathsf{QRAM}$. This is the sketch of the proof. Set $b=0$ in the second quantum register, and adding another ancillary register, we have:
+TODO make teheorem of the collowing comment.
 
-$$U_x \ket{i}\ket{0}\ket{b}\ket{x}= \ket{i}\ket{0}\ket{x_i}\ket{x_0,x_1,\dots,x_{i-1},b,x_{i+1}, \dots x_M}$$ now we copy with a CNOT the register $x_i$ in an ancilla register, i.e. we perform this mapping: $$\ket{i}\ket{0}\ket{x_i}\ket{x_0,x_1,\dots,x_{i-1},b,x_{i+1}, \dots x_M} \mapsto \ket{i}\ket{x_i}\ket{ x_i}\ket{x_0,x_1,\dots,x_{i-1},b,x_{i+1}, \dots x_M}$$
+<!-- \begin{theorem}[One-hot-encoding implementation of $\QRAG$] -->
+<!--     \label{thr:qrag in qac0f} -->
+<!--      For every $n \in \mathbb{N}$ a power of $2$, a $\mathsf{QRAG}$ of memory size $n$ can be implemented in $O(1)$-depth using -->
+<!--      \begin{itemize} -->
+<!--          \item either $2n\log{n}\log\log{n} + O(n\log{n})$ ancillae and $6n\log{n} + O(n\log\log{n})$ Fan-Out gates with arity $\leq n+1$, -->
+<!--          \item or $3n\log{n} + O(n\log\log{n})$ ancillae and $9$ $\mathsf{GT}$ gates with arity $\leq n\log{n} + O(n\log\log{n})$. -->
+<!--      \end{itemize} -->
+<!-- \end{theorem} -->
 
-and lastly we undo the query to the $\mathsf{QRAG}$ gate to obtain $\ket{i}\ket{x_i}\ket{ b}\ket{x}$ This shows that with access to a gate that performs $\mathsf{QRAG}$ queries, we can simulate a $\mathsf{QRAM}$ query. We will see in Section  \@ref(sec:qramarchitectures) how the hardware architectures for performing a $\mathsf{QRAG}$ gate do not differ much from the architectures required to implement a $\mathsf{QRAM}$ gate -->
 
-<!--(Thanks to Patrick Rebentrosts and our group meetings at CQT for useful discussions).-->
+
 
 #### Memory compression in sparse QRAG models{#sec:memory-compression}
 Assuming that the data is sparse is a common assumption when developing quantum algorithms since it significantly simplifies computations. Applying it to compress quantum algorithms with access to a $\mathsf{QRAG}$ was first proposed by [@ambainis2007quantumdistinctness], elaborated further in [@jeffery2014frameworks], [@bernstein2013quantum], and finally formalized in [@buhrman2022memory]. 
 
 Informally, a quantum algorithm is considered sparse if the number of queries to a $\mathsf{QRAG}$ of size $M$ are made with a small number of quantum states. More formally, we start by recalling that in a quantum computational model of definition \@ref(def:QPUQMD) we split the qubits in several registers including a $M$ qubit memory register and a $W$ qubit working register. If throughout the computation the queries to the $\mathsf{QRAG}$ are made using only a constant set of quantum states which have a maximum [Hamming weight](https://en.wikipedia.org/wiki/Hamming_weight)(which is the number of $1$'s in the bit string) of $m \lll M$, then the algorithm is said to be $m$-sparse. The trick to making this definition work is realizing that the $\mathtt{SWAP}$ gate can be used to exchange states between the working register and the states with low hamming weight of the target register. 
 
-Confusingly, the authors of [@buhrman2022memory] decided to call a machine that works under this model as $\mathsf{QRAM}$: quantum random-access machine. The formal definition of an $m$-sparse quantum algorithm with a $\mathsf{QRAG}$ is the following:
+Confusingly, the authors of [@buhrman2022memory] decided to call a machine that works under this model as $\QRAM$: quantum random-access machine. The formal definition of an $m$-sparse quantum algorithm with a $\mathsf{QRAG}$ is the following:
 
 (ref:buhrman2022memory) [@buhrman2022memory]
 
@@ -416,14 +461,10 @@ Let $T$, $W$, $m < M = 2^\ell$ be natural numbers, with $M$ and $m$ both powers 
 Then we can construct a $\mathsf{QRAG}$ algorithm which computes $F$ with error $\epsilon' > \epsilon$, and runs in time $O(T \cdot \log(\frac{ T}{\epsilon' - \epsilon}) \cdot \gamma)$, using $W + O(\log M)$ work qubits and $O(m \log M)$ memory qubits. 
 ``` 
 
-<!--Informally, a quantum algorithm is considered sparse if the queries to a $\mathsf{QRAG}$ of size $M$ are made with a small number of quantum states. 
 
-More formally, we consider to have a $M$ qubit memory and $W=O(\log M)$ working qubits. 
 
-with a maximum Hamming weight(number of $1$s) of $m \lll M$. 
-
-an algorithm is considered $m$-sparse -->
 ## Implementations{#sec:implementations}
+
 In this section we'll be creating oracles that can perform the encodings that were presented in section \@ref(sec:representing-data). Of the presented oracles only 3 will make use of the quantum memory device introduced in definition \@ref(def:QPUQMD): the bucket brigade, KP-trees and the block encoding from data structure. It is interesting to note that these oracles actually aid each other. In fact, KP-trees rely on the existence of a $\mathsf{QMD}$ that can perform binary encoding and similarly block encoding from data structures requires the existence of a $\mathsf{QMD}$ that can perform amplitude encoding. The other oracles will either make use of specific properties of the input data, such as sparsity, or will encode a probability distribution as a quantum state. The key insight lies in the fact that all oracles, with or without $\mathsf{QMD}$, have a constant complexity which allows us to work in the quantum memory model of computation of definition \@ref(def:costing-of-quantum-memory-model). All the presented oracles with their interconnection can be seen in figure \@ref(fig:oracle-models), where the oracle which require a $\mathsf{QMD}$ have been indicated with a *.
 
 
@@ -433,11 +474,12 @@ knitr::include_graphics("algpseudocode/oracle_models.png")
 
 ### Binary encoding{#sec:implementation-binary}
 
-<!-- TODO MOVE ome authors are sometimes referred to this oracle as quantum random access classical memory ($\mathsf{C\text{-}QRAM}$ or $\mathsf{QRACM}$). For simplicity, we stick to the more usual $\mathsf{QRAM}$.  -->
+<!-- TODO MOVE ome authors are sometimes referred to this oracle as quantum random access classical memory ($\mathsf{C\text{-}QRAM}$ or $\mathsf{QRACM}$). For simplicity, we stick to the more usual $\QRAM$.  -->
 
 In this section we are discussing implementations a unitary giving query access to a list of $m$-bits values. A possible way of reading this section is throught the lenses of finding the "best" gate decomposition of that unitary, which has the following form: 
 
-\begin{align*}
+
+\begin{equation}
     U = \sum_{i=0}^{N-1} \ket{i}\bra{i} \otimes U_i  = 
     \begin{bmatrix}
     U_0 &      &         & \\
@@ -445,12 +487,15 @@ In this section we are discussing implementations a unitary giving query access 
         &       & \ddots &  \\
         &       &        & U_{N-1}
 \end{bmatrix},
-\end{align*}
+(\#eq:unitary-visualization-binary-encoding)
+\end{equation}
+
+
 where $U_i\ket{0}=\ket{x_i}$ and $x_i \in \{0,1\}^m$.
 
 
 
-#### Circuits: oracle synthesis{#sec:implementation-oracle-synthesis}
+#### Oracle synthesis{#sec:implementation-oracle-synthesis}
 
 As we briefly anticipated in Section \@ref(measuring-complexity), if we know a function that maps $x_i = f(i)$ we can create a circuit for getting query access to $x_i$. If our data is represented by the output of a function, we can consider these techniques for data loading. 
 <!-- TODO does it makes sense this sentence? -->
@@ -490,24 +535,10 @@ If we want to prove the runtime of a quantum algorithm in terms of gate complexi
 For a probabilistic classical circuit with runtime $T(n)$ and space requirement $S(n)$ on an input of length $n$ there exists a quantum algorithm that runs in time $O(T(n)^{\log_2(3)}$ and requires $O(S(n)\log(T(n))$ qubits.
 ```
 
-#### Circuits: the multiplexer{#sec:implementation-multiplexer}
-What if we want to use a quantum circuit to have quantum access to a vector of data? It turns out that we can do that, but the simplest circuit that we can come up with, has a depth that is linear in the length of the vector. This kind of circuit is often used in literature, e.g. for computing functions using space-time trade-offs [@krishnakumar2022aq;@gidney2021factor]. This circuit (which sometimes goes under the name QROM, or circuit for table lookups [@hann2021resilience]) or multiplexer, is as follow:
-
-```{r, multiplexer, echo=FALSE, fig.width=10, fig.cap="This is the example of a multiplexer circuit for the list of values x=[1,1,0,1]. Indeed, if we initialize the first two qubits with zeros, the output of the previous circuit will be a 1 in the third register, and so on."}
-knitr::include_graphics("images/multiplexer.png")
-```
-
-```{r, multiplexer-babbush, echo=FALSE, fig.width=10, fig.cap="The implementation of the multiplexer of [@babbush2018encoding]. Importantly, only one $T$ gate is required to write in the target register a single memory entry. The memory entry is written using a Fan-Out gate (which can be decomposed into CNOT gates. Note that the depth of the circuit is linear in the number of memory entries."}
-knitr::include_graphics("algpseudocode/decomposedlookups.png")
-```
-
-The idea of the circuit is the following: controlled on the index register being in the state $\ket{0}$, we write (using CNOTS) in the output register the value of our vector in position $x_0$, controlled in the index register being $\ket{1}$, we write on the output register the value of our vector in position $x_1$, etc.. This will result in a circuit with a depth that is linear in the length of the vector that we are accessing, however this circuit won't require any ancilla qubit. We will discuss more some hybrid architecture that allows a trade off between depth and ancilla qubits in Section \@ref(sec:qramarchitectures). The Toffoli count of this circuit can be improved in various ways [@babbush2018encoding;@zhu2024unified]. Importantly, the depth of this circuit depends on the number of oracle entries $N$, and in simple implementations depends also linearly in $m$. 
-
-<!-- TODO expand this section with a formal statement. -->
 
 
-#### Circuits: sparse access{#sec:implementation-sparse-access}
-Sparse matrices are very common in quantum computing and quantum physics, so it is important to formalize a quantum access for sparse matrices. This model is sometimes called in literature "sparse access" to a matrix, as sparsity is often the key to obtain an efficient circuit for encoding such structures without a $\mathsf{QRAM}$. Of course, with a vector or a matrix stored in a $\mathsf{QRAM}$, we can also have efficient (i.e. in time $O(\log(n))$ if the matrix is of size $n \times n$) query access to a matrix or a vector, even if they are not sparse. It is simple to see how we can generalize query access to a list or a vector to work with matrices by introducing another index register to the input of our oracle. For this reason, this sparse access is also called quite commonly "query access".
+#### Sparse access{#sec:implementation-sparse-access}
+Sparse matrices are very common in quantum computing and quantum physics, so it is important to formalize a quantum access for sparse matrices. This model is sometimes called in literature "sparse access" to a matrix, as sparsity is often the key to obtain an efficient circuit for encoding such structures without a $\QRAM$. Of course, with a vector or a matrix stored in a $\QRAM$, we can also have efficient (i.e. in time $O(\log(n))$ if the matrix is of size $n \times n$) query access to a matrix or a vector, even if they are not sparse. It is simple to see how we can generalize query access to a list or a vector to work with matrices by introducing another index register to the input of our oracle. For this reason, this sparse access is also called quite commonly "query access".
 
 ```{definition, oracle-access-adjacencymatrix, name="Query access to a matrix"}
 Let $V \in \mathbb{R}^{n \times d}$. There is a data structure to store $V$, (where each entry is stored with some finite bits of precision) such that, a quantum algorithm with access to the data structure can perform $\ket{i}\ket{j}\ket{z} \to \ket{i}\ket{j}\ket{z \oplus v_{ij}}$ for $i \in [n], j \in [d]$.
@@ -524,19 +555,34 @@ Let $V \in \mathbb{R}^{n \times d}$, there is an oracle that allows to perform t
 
 The previous definition is also called *adjacency array* model. The emphasis is on the word *array*, contrary to the adjacency list model in classical algorithms (where we usually need to go through all the list of adjacency nodes for a given node, while here we can query the list as an array, and thus use superposition) [@Durr2004].
 
-It is important to recall that for Definition \@ref(def:oracle-access-adjacencymatrix) and \@ref(def:oracle-access-adjacencylist) we could use a $\mathsf{QRAM}$, but we also expect **not** to use a $\mathsf{QRAM}$, as there might be other efficient circuit for performing those mapping. For instance, when working with graphs (remember that a generic weighted and directed graph $G=(V,E)$ can be seen as its adjacency matrix $A\in \mathbb{R}^{|E| \times |E|}$), many algorithms call Definition \@ref(def:oracle-access-adjacencymatrix) **vertex-pair-query**, and the two mappings in Definition \@ref(def:oracle-access-adjacencylist) as **degree query** and **neighbor query**. When we have access to both queries, we call that **quantum general graph model** [@hamoudi2018quantum]. This is usually the case in all the literature for quantum algorithms for Hamiltonian simulation, graphs, or algorithms on sparse matrices.
+It is important to recall that for Definition \@ref(def:oracle-access-adjacencymatrix) and \@ref(def:oracle-access-adjacencylist) we could use a $\QRAM$, but we also expect **not** to use a $\QRAM$, as there might be other efficient circuit for performing those mapping. For instance, when working with graphs (remember that a generic weighted and directed graph $G=(V,E)$ can be seen as its adjacency matrix $A\in \mathbb{R}^{|E| \times |E|}$), many algorithms call Definition \@ref(def:oracle-access-adjacencymatrix) **vertex-pair-query**, and the two mappings in Definition \@ref(def:oracle-access-adjacencylist) as **degree query** and **neighbor query**. When we have access to both queries, we call that **quantum general graph model** [@hamoudi2018quantum]. This is usually the case in all the literature for quantum algorithms for Hamiltonian simulation, graphs, or algorithms on sparse matrices.
 
 
-#### Bucket brigade circuits {#sec:implementation-bbrigade}
-The Bucket brigade(BB) architecture (Fig 10 [@hann2021resilience]) is another possible implementation of binary encoding which, differently to the other presented methods, requires the $\mathsf{QMD}$ model of computation of definition \@ref(def:QPUQMD). This protocol was originally developed to be implemented with qutrits [@giovannetti2008quantum] but recent work has shown it can be implemented with qubits as well [@hann2021resilience]. We'll focus on the explanation with qutrits since it is more intuitive to understand.
+#### Circuits {#sec:implementation-circuits}
+TODO 
 
-Using the terminology introduced in definition \@ref(def:QPUQMD), we'll have: an address register, a target register (which will be referred to as a bus register) and a memory register. The input will be a vector of binary numbers $X \in (\{0,1\}^m)^n$ and the aim is to load a specific entry $X_i \in \{0,1\}^m$ on the bus register.
+What if we want to use a quantum circuit to have quantum access to a vector of data? In this section we are going to describe few circuits for the task, each showcasing different properties and trade-offs between depth and space. For example the simplest circuit that we can come up with, has a depth that is linear in the length of the vector. This kind of circuit is often used in literature, e.g. for computing functions using space-time trade-offs [@krishnakumar2022aq;@gidney2021factor]. This circuit (which sometimes goes under the name QROM, or circuit for table lookups [@hann2021resilience], or multiplexer, is simply a series of multi-control operations, each of which is writing (using $X$ gates) some binary string on the target register. Controlled on the index register being in the state $\ket{0}$, we write in the output register the value of our vector in position $x_0$, controlled in the index register being $\ket{1}$, we write on the output register the value of our vector in position $x_1$, etc.. This will result in a circuit with a depth that is linear in the length of the vector that we are accessing, however this circuit won't require any ancilla qubit. We will discuss more some hybrid architecture that allows a trade off between depth and ancilla qubits in Section \@ref(sec:qramarchitectures). The Toffoli count of this circuit can be improved in various ways [@babbush2018encoding;@zhu2024unified]. Importantly, the depth of this circuit depends on the number of oracle entries $N$, and in simple implementations depends also linearly in $m$. As an example, consider the following circuit.
+
+```{r, multiplexer, echo=FALSE, fig.width=10, fig.cap="This is the example of a multiplexer circuit for the list of values x=[1,1,0,1]. Indeed, if we initialize the first two qubits with zeros, the output of the previous circuit will be a 1 in the third register, and so on."}
+knitr::include_graphics("images/multiplexer.png")
+```
+
+The most general version of the circuit is the following, which includes some optimization.
+
+```{r, multiplexer-babbush, echo=FALSE, fig.width=10, fig.cap="The implementation of the multiplexer of [@babbush2018encoding]. Importantly, only one $T$ gate is required to write in the target register a single memory entry. The memory entry is written using a Fan-Out gate (which can be decomposed into CNOT gates. Note that the depth of the circuit is linear in the number of memory entries.The angular lines in the gates are representing the so-called 'logical-AND', which is a CCNOT gate targeting an ancilla qubit starting in a state $\ket{0}$ and gets uncomputed using measurament-based uncomputation."}
+knitr::include_graphics("algpseudocode/decomposedlookups.png")
+```
+
+
+<!-- TODO expand this section with a formal statement. -->
+
+The bucket brigade  architecture (in short BB architecture) is another possible architecture. This protocol was originally developed to be implemented with qutrits [@giovannetti2008quantum] but recent work has shown it can be implemented with qubits as well [@hann2021resilience]. First, we will mention the idea with qutrits since it is more intuitive to understand. Again, using the terminology introduced in definition \@ref(def:QPUQMD), we'll have: an address register, a target register (which will be referred to as a bus register) and a memory register. The input will be a vector of binary numbers $X \in (\{0,1\}^m)^n$ and the aim is to load a specific entry $X_i \in \{0,1\}^m$ on the bus register.
 
 The BB protocol will use the memory register in such a way that it has access to tree like structure. The tree saves the entries of $X$ in the leaves, which are referred to as memory cells. Each memory cell is connected to a parent node which form a set of intermediate nodes up until the root of the tree. Each intermediate node (up to the root) is called a quantum router (Figure 1b of [@hann2021resilience]) and is a qutrit (i.e., a three level quantum system), which can be in state $\ket{0}$ (route left), $\ket{1}$ (route right), and $\ket{W}$  (wait).
 
 When we want to perform a query, we prepare the address register with the index of the memory cell that we want to reach and we set all the router registers to the $\ket{W}$ state. Conditioned on the first qubit of the address register, the root of the tree changes from $\ket{W}$ to either $\ket{0}$(left) or $\ket{1}$(right). This is followed by a similar operation which uses as control the second qubit of the address register to change the state of the next node in the tree to either $\ket{0}$ or $\ket{1}$. The process of changing the state of the routers is repeated until the last layers of the tree(i.e. the memory cell) is reached. Now, the memory register will be in the state of the binary number $X_i$. This can be copied to the bus register by simply applying a series of CNOT gates (and thus we do not violate the no-cloning theorem).
 
-Studying an error model of the BB architecture is hard. An attempt was first made in [@arunachalam2015robustness] which gave initial, but rather pessimistic result. More recently, a series of developments in [@hann2021resilience] and [@hann2021practicality] (accessible [here](https://www.proquest.com/openview/c5caf76bb490e4d3abbeca2cea16b450/1?pq-origsite=gscholar&cbl=18750&diss=y)) have shone light on the noise resilience of the BB $\mathsf{QRAM}$. The results presented in these more recent works are much more positive. Some resource estimations can be found in [@di2020fault], which do not take into account the new developements in the study of the error.
+Studying an error model of the BB architecture is hard. An attempt was first made in [@arunachalam2015robustness] which gave initial, but rather pessimistic result. More recently, a series of developments in [@hann2021resilience] and [@hann2021practicality] (accessible [here](https://www.proquest.com/openview/c5caf76bb490e4d3abbeca2cea16b450/1?pq-origsite=gscholar&cbl=18750&diss=y)) have shone light on the noise resilience of the BB $\QRAM$. The results presented in these more recent works are much more positive. Some resource estimations can be found in [@di2020fault], which do not take into account the new developements in the study of the error.
 
 The metric of choice to test whether a quantum procedure has faithfully recreated a desired state is the fidelity $F$, with the infidelity defined as $1-F$. Given a addressable memory of size $N$(i.e. $\log N$ layers in the binary tree) and a bucket brigade which requires $T$ time-steps with a probability of error per time step of $\epsilon$, the infidelity of the bucket brigade scales as:
 
@@ -562,8 +608,8 @@ knitr::include_graphics("algpseudocode/circuit_bb.png")
 (ref:doriguello2024practicality) [@doriguello2024practicality]
 
 
-<!-- \begin{lemma}[Bucket-brigade $\mathsf{QRAM}$]\label{lem:qram_resources} -->
-<!--     One bucket-brigade $\mathsf{QRAM}$ call of size $2^n$ and precision $\kappa$ requires (already including its uncomputation) $2^n - 2$ $\mathsf{Toffoli}$ gates, $2^{n+1} - n - 1$ dirty ancillae (plus $n+\kappa$ input/output qubits), and has $\mathsf{Toffoli}$-width of $2^{n-1}$, reaction depth of $2(n-1)$, and active volume of $(25 + 1.5\kappa + C_{|CCZ\rangle})2^n$. -->
+<!-- \begin{lemma}[Bucket-brigade $\QRAM$]\label{lem:qram_resources} -->
+<!--     One bucket-brigade $\QRAM$ call of size $2^n$ and precision $\kappa$ requires (already including its uncomputation) $2^n - 2$ $\mathsf{Toffoli}$ gates, $2^{n+1} - n - 1$ dirty ancillae (plus $n+\kappa$ input/output qubits), and has $\mathsf{Toffoli}$-width of $2^{n-1}$, reaction depth of $2(n-1)$, and active volume of $(25 + 1.5\kappa + C_{|CCZ\rangle})2^n$. -->
 <!-- \end{lemma} -->
 
 <!-- TODO add the theorems of Joao for circuit complexity of QRAM -->
@@ -571,10 +617,33 @@ knitr::include_graphics("algpseudocode/circuit_bb.png")
 The following statement gives a resource estimation for a QRAM of logarithmic depth using the quantum architecture proposed in [@litinski2022active]. 
 
 ```{lemma, bb-qram-resources, name="Complexity of QRAM using  (ref:doriguello2024practicality)"}
-One bucket-brigade $\mathsf{QRAM}$ call of size $2^n$ and precision $\kappa$ requires (already including its uncomputation) $2^n - 2$ $\mathsf{Toffoli}$ gates, $2^{n+1} - n - 1$ dirty ancillae (plus $n+\kappa$ input/output qubits), and has $\mathsf{Toffoli}$-width of $2^{n-1}$, reaction depth of $2(n-1)$, and active volume of $(25 + 1.5\kappa + C_{|CCZ\rangle})2^n$.
+One bucket-brigade $\QRAM$ call of size $2^n$ and precision $\kappa$ requires (already including its uncomputation) $2^n - 2$ $\mathsf{Toffoli}$ gates, $2^{n+1} - n - 1$ dirty ancillae (plus $n+\kappa$ input/output qubits), and has $\mathsf{Toffoli}$-width of $2^{n-1}$, reaction depth of $2(n-1)$, and active volume of $(25 + 1.5\kappa + C_{|CCZ\rangle})2^n$.
+```
+
+In the following, we report the resource count of some $\QRAM$ constructions using different techniques. 
+
+```{theorem, qram-Fourier, name="Complexity of QRAM using Fourier analysis  (ref:allcock2023quantum)"}
+Let $n\in\mathbb{N}$ be a power of $2$. A $\QRAM$ of memory size $n$ can be implemented in $O(1)$-depth using
+
+  - either $\frac{1}{2}n^2\log{n} + O(n^2)$ ancillae and $2n^2 + O(n\log{n})$ Fan-Out gates with arity $\leq 1+n^2$,
+  - or $2n^2$ ancillae and $2$ $\mathsf{GT}$ gates with arity $\leq \frac{1}{2}n^2\log{n} + O(n^2)$.
 ```
 
 
+```{theorem, qram-one-hot-encoding, name="Complexity of QRAM using one-hot encoding ideas (ref:allcock2023quantum)"}
+For every $n \in \mathbb{N}$ a power of $2$, a $\QRAM$ of memory size $n$ can be implemented in $O(1)$-depth using
+
+ - either $2n\log{n}\log\log{n} + O(n\log{n})$ ancillae and $6n\log{n} + O(n\log\log{n})$ Fan-Out gates with arity $\leq n+1$,
+  - or $3n\log{n} + O(n\log\log{n})$ ancillae and $6$ $\mathsf{GT}$ gates with arity $\leq n\log{n} + O(n\log\log{n})$.
+```
+
+
+```{theorem, qram-recursive-procedure, name="Complexity of QRAM using recursive tricks (ref:allcock2023quantum)"}
+For every $n,d \in \mathbb{N}$, a $\QRAM$ of memory size $n$ can be performed in $O(d)$-depth~using
+
+ -  either $O(n\log^{(d)}{n}\log^{(d+1)}{n})$ ancillae and $O(n\log^{(d)}{n})$ Fan-Out gates,
+ - or $O(n\log^{(d)}{n})$ ancillae and $16d-10$ $\mathsf{GT}$ gates.
+```
 
 
 ### Amplitude encoding{#sec:implementation-amplitude}
@@ -633,7 +702,19 @@ For any $m > 0$, any $n$-qubit quantum state $\ket{\psi_v}$ can be generated by 
 ```
 
 
-There are also other trade-off techniques that can be used, like probabilistic state preparation via measurements [@zhang2021lowdepth] or approximate state preparation problem [@zhang2024parallel]. However, these techniques are beyond the scope of this chapter and will not be discussed. Interested readers can refer to the respective articles.
+There are also other trade-off techniques that can be used, like probabilistic state preparation via measurements [@zhang2021lowdepth] or approximate state preparation problem [@zhang2024parallel]. However, these techniques are beyond the scope of this chapter and will not be discussed. Interested readers can refer to the respective articles. However, even if we allow intermediate measurements we have lower bounds on the T-count, which is reached by the algorithm of [@gosset2024quantum].
+
+(ref:gosset2024quantum) [@gosset2024quantum]
+
+```{theorem, optimal-t-count, name="Quantum state preparation with optimal T-count (ref:gosset2024quantum)"}
+Any $n$-qubit state can be prepared up to error $\epsilon$ by a Clifford+T circuit starting with the all-zeroes state using 
+$$O\left(\sqrt{2^n\log(1/\epsilon)}  + \log(1/\epsilon)\right)$$
+$T$ gates and ancillas. Furthermore, no Clifford+T circuit (even with measurement and adaptivity) can use asymptotically fewer $T$-gates. 
+```
+
+
+
+
 
 In summary, there are many methods to perform amplitude encoding, each with different complexities through various trade-offs. In general, the data set that can be encoded using amplitude encoding lies under two main categories: (i) those discrete data that come from a vector or a matrix, or (ii) those that come from a discretized probability distribution. In literature, amplitude encoding of vectors or matrices is called state preparation via a KP-tree, while amplitude encoding of discretized probability distribution is called Grover-Rudolph (GR) state preparation [@Grover2002]. The main difference between the KP-tree method and the GR state preparation is that the KP-tree method requires a quantum memory to store some precomputed values in a data structure or a tree, while the GR state preparation does not require a quantum memory. In fact, GR state preparation is designed such that there are efficient circuits to implement the oracle in the quantum computer using \@ref(sec:implementation-oracle-synthesis).
 
@@ -650,7 +731,7 @@ In summary, there are many methods to perform amplitude encoding, each with diff
 
 
 : Recap for the different methods proposed to implement amplitude encoding, together with the their gate count and ancilla complexity, along with the function type needed. This table is adapted from [@mori2024efficient],
- 1 [@mori2024efficient], 2 [@Grover2002], 3  [@rattew2022preparing-arbitrary] 4 [@sanders2019black;@bausch2022fast] 5 [@moosa2023linear] 6 [@rosenkranz2024quantum] 7 [@shende2006synthesis] 8 [@STY-asymptotically]. Gate count or depth with * is expressed in number of $T$ gates. 
+ 1 [@mori2024efficient], 2 [@Grover2002], 3  [@rattew2022preparing-arbitrary] 4 [@sanders2019black;@bausch2022fast] 5 [@moosa2023linear] 6 [@rosenkranz2024quantum] 7 [@shende2006synthesis] 8 [@STY-asymptotically] 9 [@gosset2024quantum]. Gate count or depth with * is expressed in number of $T$ gates. 
  
   
 |   |    Method   |               Size                |     Ancilla     |  Depth              | Function type    |
@@ -663,6 +744,7 @@ In summary, there are many methods to perform amplitude encoding, each with diff
 | 6 | LCU-based   | $O(d^D + Dn\log d)$                     | $O(D \log d)$   |  -                  | Arb.    |
 | 7 | Circuit     | $N\log\left(\frac{N}{\epsilon}\right)$* | $O(n)$          | $N\log\left(\frac{N}{\epsilon}\right)$*           | Arb.    |
 | 8 | Circuit     |$N\log\left(\frac{N}{\epsilon}\right)$   |$O\left(n+\lambda \right)$     | $\frac{N}{n + \lambda}\log \left(\frac{N}{\epsilon}\right) + n\log\left(\frac{N}{\epsilon}\right)$ *       | Arb.      |
+| 9 | Circuit     |$O\left(\sqrt{2^n\log(\frac{1}{\epsilon})}  + \log(\frac{1}{\epsilon})\right)$*   |$O\left(\sqrt{2^n\log(\frac{1}{\epsilon})}  + \log(1/\epsilon)\right)$     |?     | Arb.      |
 
 
 
@@ -676,24 +758,24 @@ There are many other works in state preparation, and we refer the interested rea
 
 Finally we note that in [@PrakashPhD] (Section 2.2.1), Prakash shows subroutines for generating $\ket{x}$ for a sparse $x$ in time $O(\sqrt{\|x\|_0})$. 
 
+ In this model is it possible to prepare states with long-range entanglement with only constant quantum-depth and logarithmic classical depth. However, the authors do not generalize their algorithm for state preparation for any quantum state, but only for a restricted class of quantum states with constraints on the Hamming weights. 
 
-<!-- https://scirate.com/arxiv/2411.04790 -->
-<!-- https://scirate.com/arxiv/2411.04790 -->
-<!-- https://scirate.com/arxiv/2411.04790 -->
-<!-- https://scirate.com/arxiv/2411.04790 -->
+
 
 
 #### Grover-Rudolph state preparation, its problems, and the solutions{#sec:implementation-grover-rudolph}
 In [@Grover2002] the authors discussed how to efficiently create quantum states proportional to functions satisfying certain integrability condition, i.e. the function considered must be square-integrable. An example of functions with this properties are [log-concave probability distributions](https://sites.stat.washington.edu/jaw/RESEARCH/TALKS/Toulouse1-Mar-p1-small.pdf). Let $p(x)$ be a probability distribution over $\mathbb{R}$. We denote by $x_i^n$ is the points of the discretization over the domain, i.e $x_i^{(n)} = -w + 2w \frac{i}{2^n}$ for $i=0,\dots,2^n$, and $[-w,w]$ is the window of discretization, for a constant $w\in\mathbb{R}_+$. In this case, $n$ acts as the parameter that controls how coarse or fine is the discretization. Consider referencing the appendix for more informations about measure theory and probability distributions. We want to create the quantum state
 
-\begin{align}
+\begin{equation}
     |\psi_n\rangle = \sum_{i=0}^{2^n-1}\sqrt{p^{(n)}_i}|i\rangle
-\end{align}
+  (\#eq:quantum-state-GR)
+\end{equation}
 with 
 
-\begin{align}
+\begin{equation}
 	p_i^{(n)} = \int_{x_i^{(n)}}^{x_{i+1}^{(n)}}p(x)\text{d}x.
-\end{align}
+(\#eq:definition-of-p)
+\end{equation}
 
 Actually, the probabilities $p_i^{(n)}$ will be normalized by $\int_{-w}^w p(x)\text{d}x$. This is equivalent to discretizing the sample space $\Omega$ in $N=2^n$ intervals with $N+1$ points, so that we can identify the samples $\omega$ of our discretized random variable with the elements of the set $[N]$. To create the state $\ket{\psi_n}$ we proceed recursiveliy in $n$, starting from initial state $\ket{0}$. To go from $\ket{\psi_m} = \sum_{i=0}^{2^m-1} \sqrt{p_i^{(m)}}\ket{i}$ to $\ket{\psi_{m+1}} = \sum_{i=0}^{2^{m+1}-1} \sqrt{p_i^{(m+1)}}\ket{i}$ we proceed by performing a query to an oracle that gives us an angle $\theta_i$, for $i \in [2^m]$, which is used to perform the following rotation:
 
@@ -735,6 +817,7 @@ However, if we restrict ourselves to considering loading probabilities from a Ga
 
 \begin{align*}
 	I_{i,m} \left( \sigma \right) = \int_{x_i^{(m)}}^{x_{i+1}^{(m)}}\frac{1}{\sigma\sqrt{\pi}}e^{-x^2/\sigma^2}\text{d}x = \int_{x_i^{(m)}/\sigma}^{x_{i+1}^{(m)}/\sigma}\frac{1}{\sqrt{\pi}}e^{-x^2}\text{d}x \,,
+	  (\#eq:gaussian-integrals)
 \end{align*}
 
 where the second equality is obtained through the substitution $x \mapsto \frac{x}{\sigma}$ in the integral, $m = 1,\, \dots,\, n$ determines the size of the interval partition $\frac{1}{2^m}$, $i = 0,\, \dots,\, 2^m$ indexes the interval points, $\sigma$ is the standard deviation of the Gaussian distribution, and $w$ determines the end point of the integration, which is chosen such that the interval points $x_i^{(m)} = w\sigma \left( \frac{i}{2^{m-1}}-1\right)$ is linear in $\sigma$. By the choice of the interval points, $I_{i,m} \left(\sigma \right) = I_{i,m} \left( 1 \right)$. Therefore, there is only one set of integrals to be evaluated for all values of $\sigma$, and we can store the integrals classically to high precision. This iterative construction is thus effective, retaining the quadratic speedup benefits of the GR algorithm.
@@ -1094,11 +1177,11 @@ The previous theorems can be read more simply as: "under reasonable assumptions 
 It will become clear in the next sections how the value of $\mu(A)$ will become a factor in the runtime of our quantum algorithm, so having a small value of $\mu$ will directly lead to faster quantum algorithms.
 In [@kerenidis2017quantumsquares], they provided such efficient factorization for various choices of $\mu$. In the following we explicitly define a class of functions $\mu$, parameterized by $p \in [0,1]$, that will prove to be very useful in governing the runtime of the quantum algorithms. -->
 
-<!-- The original definition of $\mathsf{QRAM}$, where $\mu(A)=\|A\|_F$ corresponds to the factorization $A/\|A\|_F = P \circ Q$ where we have $p_{ij} = \frac{a_{ij}}{\norm{a_i}}$ and $q_{ij}=\frac{\norm{a_i}}{\norm{A}_F}$. For the generalized choice of $\mu$ in definition @ref(def:mu), it is necessary to store two quantum accessible data structures, that respectively store the rows and the columns of a function of $A$. Instead of storing $a_{ij}$ (along with the sign, which is stored separately), we store $sgn(a_{ij})a_{ij}^p$ and $a^{1-p}_{ij}$. The different terms in the minimum in the definition of $\mu(A)$ correspond to different choices for the data structure for storing $A$.  Note that in the worst case, $\mu(A) \leq \norm{A}_{F} \leq \sqrt{d}$ as we assume that $\norm{A}=1$. Having a small value for $\mu(A)$ is very important, as this value will appear in the runtime of the quantum algorithms. In this thesis we always assume to have quantum access to matrices which are normalized such that $\norm{A} \leq 1$. -->
+<!-- The original definition of $\QRAM$, where $\mu(A)=\|A\|_F$ corresponds to the factorization $A/\|A\|_F = P \circ Q$ where we have $p_{ij} = \frac{a_{ij}}{\norm{a_i}}$ and $q_{ij}=\frac{\norm{a_i}}{\norm{A}_F}$. For the generalized choice of $\mu$ in definition @ref(def:mu), it is necessary to store two quantum accessible data structures, that respectively store the rows and the columns of a function of $A$. Instead of storing $a_{ij}$ (along with the sign, which is stored separately), we store $sgn(a_{ij})a_{ij}^p$ and $a^{1-p}_{ij}$. The different terms in the minimum in the definition of $\mu(A)$ correspond to different choices for the data structure for storing $A$.  Note that in the worst case, $\mu(A) \leq \norm{A}_{F} \leq \sqrt{d}$ as we assume that $\norm{A}=1$. Having a small value for $\mu(A)$ is very important, as this value will appear in the runtime of the quantum algorithms. In this thesis we always assume to have quantum access to matrices which are normalized such that $\norm{A} \leq 1$. -->
 
 <!-- For details on how to use quantum access to this data structure and proving theorem @ref(def:KP-trees), the reader is referred to [@KP16] (Appendix) for the original proof, and [@kerenidis2017quantumsquares] (theorem 4.4) for details on the choices of $\mu(A)$. More explicit proofs for the creation of quantum states with choices of $\mu$ different than the Frobenius norm can be found in [@CGJ18] (Lemma 25) and  [@gilyen2019quantum]. -->
 
-The interested reader can read [@camps2024explicit] to learn how to create block encodings from sparse access.
+The interested reader can read [@camps2024explicit,@yang2024quantum] to learn how to create block encodings from sparse access.
 
 
 ## Use case: working with classical probability distributions
@@ -1183,7 +1266,7 @@ Different techniques have been recently developed in [@zhang2020efficient]. Ther
 (ref:zhang2020efficient) [@zhang2020efficient]
 
 ```{theorem, tomography-trick, name="Improved quantum tomography (ref:zhang2020efficient)"}
-For the state $\ket{v}$ lies in the row space of a matrix $A \in \R^{n \times d}$ with rank $r$ and condition number $\kappa(A)$, the classical form of $\ket{v}$ can be obtained by using $O(r^3\epsilon^2)$ queries to the state $\ket{v}$, $O(r^{11}\kappa^{5r}\epsilon^{-2}\log(1/\delta))$ queries to $\mathsf{QRAM}$ oracles of $A$ and $O(r^2)$ additional inner product operations between rows, such that the $\ell_2$ norm error is bounded in $\epsilon$ with probability at least $1-\delta$.
+For the state $\ket{v}$ lies in the row space of a matrix $A \in \R^{n \times d}$ with rank $r$ and condition number $\kappa(A)$, the classical form of $\ket{v}$ can be obtained by using $O(r^3\epsilon^2)$ queries to the state $\ket{v}$, $O(r^{11}\kappa^{5r}\epsilon^{-2}\log(1/\delta))$ queries to $\QRAM$ oracles of $A$ and $O(r^2)$ additional inner product operations between rows, such that the $\ell_2$ norm error is bounded in $\epsilon$ with probability at least $1-\delta$.
 ```
 
 
