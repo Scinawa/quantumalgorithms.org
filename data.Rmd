@@ -491,7 +491,7 @@ In this section we are discussing implementations a unitary giving query access 
 \end{equation}
 
 
-where $U_i\ket{0}=\ket{x_i}$ and $x_i \in \{0,1\}^m$.
+where $U_i\ket{0}=\ket{x_i}$ and $x_i \in \{0,1\}^m$. Importantly, when considering gate decompositions of this unitary, we are allowed to act in a larger space, as long as in the subspace of interested our application acts accoring to Eq.\@ref(eq:unitary-visualization-binary-encoding).
 
 
 
@@ -569,7 +569,7 @@ knitr::include_graphics("images/multiplexer.png")
 
 The most general version of the circuit is the following, which includes some optimization.
 
-```{r, multiplexer-babbush, echo=FALSE, fig.width=10, fig.cap="The implementation of the multiplexer of [@babbush2018encoding]. Importantly, only one $T$ gate is required to write in the target register a single memory entry. The memory entry is written using a Fan-Out gate (which can be decomposed into CNOT gates. Note that the depth of the circuit is linear in the number of memory entries.The angular lines in the gates are representing the so-called 'logical-AND', which is a CCNOT gate targeting an ancilla qubit starting in a state $\ket{0}$ and gets uncomputed using measurament-based uncomputation."}
+```{r, multiplexer-babbush, echo=FALSE, fig.width=10, fig.cap="The implementation of the multiplexer of [@babbush2018encoding]. Importantly, only one $T$ gate is required to write in the target register a single memory entry. The memory entry is written using a Fan-Out gate (which can be decomposed into CNOT gates. Note that the depth of the circuit is linear in the number of memory entries.The angular lines in the gates are representing the so-called 'logical-AND', which is a CCNOT gate targeting an ancilla qubit starting in a particular state (ground state on which we apply a $T$ gate) and gets uncomputed using measurament-based uncomputation."}
 knitr::include_graphics("algpseudocode/decomposedlookups.png")
 ```
 
@@ -604,6 +604,18 @@ The time required to perform a query, owing to the tree structure of the BB, is 
 ```{r, bb-qram-image, echo=FALSE, fig.width=5, fig.cap="A possible implementation of the bucket-brigade QRAM in the circuit model, from [@hann2021resilience]"}
 knitr::include_graphics("algpseudocode/circuit_bb.png")
 ```
+
+
+```{r, bb-qram-image-ccnot, echo=FALSE, fig.width=5, fig.cap="A possible implementation of the bucket-brigade QRAM in the circuit model, from [@doriguello2024practicality;@arunachalam2015robustness]. In every layer, before the parallel layer of Toffoli gates, a log-depth linear-size gadget is copying the index register. In this way, the Toffoli gates can be executed in parallel."}
+knitr::include_graphics("algpseudocode/circuit_bb_ccnots.png")
+```
+
+```{exercise}
+The last block of the circuit depicted in Figure \@ref(fig:bb-qram-image-ccnot) has linear depth in the number of memory elements, i.e. has exponential depth in the number of qubits in the index regsiter. Eventually using some ancilla qubits, can you create a gadget that writes to the output register in logarithmic depth?
+```
+
+
+
 
 (ref:doriguello2024practicality) [@doriguello2024practicality]
 
