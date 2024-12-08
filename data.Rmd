@@ -105,11 +105,11 @@ From an algorithms perspective, amplitude encoding is useful because it requires
 ### Block encoding {#sec:block-encoding}
 Block encoding is another type of encoding for working with matrices on a quantum computer. More precisely, we want to encode a matrix into a unitary that has a circuit representation on a quantum computer. As it will become clear in the next chapters, being able to perform such encoding unlocks many possibilities in terms of new quantum algorithms.
 
-```{definition, name="Block encodings"}
+```{definition, name="Block encoding of a matrix"}
 Let $A \in \mathbb{R}^{N \times N}$ be a square matrix for $N = 2^n$ for $n\in\mathbb{N}$, and let $\alpha \geq 1$. For $\epsilon > 0$, we say that a $(n+a)$-qubit unitary $U_A$ is a $(\alpha, a, \epsilon)$-block encoding of $A$ if
 
 \begin{equation}
-  | A - \alpha ( \bra{0}^{\otimes a} \otimes I) U_A (\ket{0}^{\otimes a} \otimes I) | \leq \epsilon
+  \| A - \alpha ( \bra{0}^{\otimes a} \otimes I) U_A (\ket{0}^{\otimes a} \otimes I) \|_2 \leq \epsilon
 \end{equation}
 ```
 
