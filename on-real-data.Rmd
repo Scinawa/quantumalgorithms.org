@@ -338,7 +338,7 @@ knitr::include_graphics("images/experiments/qpca/svdistribution/ResearchPaper_sv
 ```
 
 #### Image classification with quantum PCA
-To provide the reader with a clearer view of the algorithms in Sections \@ref(sec:explainedvariance), \@ref(sec:qpca) and their use in machine learning, we provide experiments on quantum PCA for image classification.
+To provide the reader with a clearer view of the algorithms in Sections \@ref(sec-explainedvariance), \@ref(sec:qpca) and their use in machine learning, we provide experiments on quantum PCA for image classification.
 We perform PCA on the three datasets for image classification (MNIST, Fashion MNIST and CIFAR 10) and classify them with a K-Nearest Neighbors.
 First, we simulate the extraction of the singular values and the percentage of variance explained by the principal components (top $k$ factor score ratios' sum) using the procedure from Theorem \@ref(thm:factor-score-estimation).
 Then, we study the error of the model extraction, using Lemma \@ref(lem:accuracyUSeVS), by introducing errors on the Frobenius norm of the representation to see how this affects the accuracy.

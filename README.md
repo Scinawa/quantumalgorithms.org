@@ -13,7 +13,7 @@
 This is the repository for [QuantumAlgorithms.org](https://quantumalgorithms.org). 
 
 This webiste is meant to be a set of lecture notes for students in quantum algorithms and quantum machine learning. 
-It will be updated regularly with new research material. The scope is to bridge the gap between introductory material in quantum computing and research-grade papers, standardize notation, and be an overfiew on the state of useful algorithms for quantum machine learning and information processing.
+It will be updated regularly with new research material. The scope is to bridge the gap between introductory material in quantum computing and research-grade papers, standardize notation, and be an overview on the state of useful algorithms for quantum machine learning and information processing.
 
 
 
@@ -46,6 +46,7 @@ There are countless examples of algorithms included in the book, so you can copy
 ## Style guide, tips&tricks. 
 
 - Use \ket{} and \bra{} instead of |x\rangle
+- We use American english.
 - \begin{equation} and \end{equation} should be used throughout the whole book, as math books have all equation numbered. 
 - Always put a citation with [@citationname] to theorems you are citing from papers. 
 - Labels for equation equations in bookdown are documented in the bookdown documentation https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html ( tldr; the way to number equation is the following: (\#eq:raylight) )

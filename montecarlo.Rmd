@@ -80,7 +80,7 @@ The central limit theorem can be used to construct confidence intervals for our 
       (\#eq:cltconfidence)
 \end{align}
 where $Z$ is a standard normal random variable.
-We can find values of $N$ such that the probability to have a good estimate $\widetilde{\mu}_N$ up to fixed additive error $\epsilon$ is almost 1. Usual values for this probability are $95\%$ or $99\%$. So for example if we want $P(-z_c\le Z \le z_c) = 0.99$ where $z_c = \epsilon\sqrt{N}/\sigma$ then $z_c =\epsilon\sqrt{N}/\sigma= 2.58$ because of the properties of the normal distribution. Estimating $\mu$ with additive error $\epsilon$ would require $N = 2.58\, \sigma^2/\epsilon^2$ samples.
+We can find values of $N$ such that the probability to have a good estimate $\widetilde{\mu}_N$ up to fixed additive error $\epsilon$ is almost 1. Usual values for this probability are $95\%$ or $99\%$. So for example if we want $P(-z_c\le Z \le z_c) = 0.99$ where $z_c = \epsilon\sqrt{N}/\sigma$ then $z_c =\epsilon\sqrt{N}/\sigma= 2.58$ because of the properties of the normal distribution. Estimating $\mu$ with additive error $\epsilon$ would require $N = 6.6564\, \sigma^2/\epsilon^2$ samples.
 
 You can feel the power of Monte Carlo!! All of the above does not depend on the dimension of the sample space of the random variables $X_i$, but just on the number of repetitions $N$ and on the variance $\sigma^2$.
 
@@ -198,10 +198,10 @@ knitr::include_graphics("algpseudocode/quantum-montecarlo-01.png")
 ```
 
 
-Applying amplitude estimation together with the powering lemma \@ref(lem:powering-lemma), one can prove the following theorem valid for algorithm \@ref(fig:quantum-montecarlo-01).
+Applying amplitude estimation together with the powering lemma \@ref(lem:powering-lemma), one can prove the following theorem valid for algorithm \@ref(quantum-montecarlo-01).
 
 ```{theorem, quantumbounded01, name="Quantum Monte Carlo with bounded output"}
-Let $|\psi\rangle$ as in Eq.\@ref(eq:psistate) and set $U=2|\psi\rangle\langle\psi|-I$. Algorithm in figure \@ref(fig:quantum-montecarlo-01) uses $O(\log(1/\delta))$ copies of $|\psi\rangle = A|0^n\rangle$, uses $U$ $O(t\log(1/\delta))$ times, and outputs an estimate $\widetilde{\mu}$ such that 
+Let $|\psi\rangle$ as in Eq.\@ref(eq:psistate) and set $U=2|\psi\rangle\langle\psi|-I$. Algorithm in figure \@ref(quantum-montecarlo-01) uses $O(\log(1/\delta))$ copies of $|\psi\rangle = A|0^n\rangle$, uses $U$ $O(t\log(1/\delta))$ times, and outputs an estimate $\widetilde{\mu}$ such that 
 \begin{equation*}
 |\widetilde{\mu}-\mathbb{E}[\nu(A)]|\leq C\bigg(\frac{\sqrt{\mathbb{E}[\nu(A)]}}{t}+\frac{1}{t^2}\bigg)
 \end{equation*}
@@ -301,7 +301,7 @@ knitr::include_graphics("algpseudocode/quantum-montecarlo-bounded-var.png")
 This algorithm has a quadratic speedup over the classical Monte Carlo method.
 
 ```{theorem, quantum-monte-carlo-variance1, name="Quantum Monte Carlo with bounded variance - additive error"}
-Let $|\psi\rangle$ as in Eq.\@ref(eq:psistate), $U=2|\psi\rangle\langle\psi|-I$. Algorithm \@ref(fig:quantum-montecarlo-bounded-var) uses $O(\log(\sigma/\epsilon)\log\log(\sigma/\epsilon))$ copies of $\ket{\psi}$, uses $U$ $O((\sigma/\epsilon)\log^{3/2}(\sigma/\epsilon)\log\log(\sigma/\epsilon))$ times and estimates $\mathbb{E}[\nu(A)]$ up to additive error $\epsilon$ with success probability at least $2/3$.
+Let $|\psi\rangle$ as in Eq.\@ref(eq:psistate), $U=2|\psi\rangle\langle\psi|-I$. Algorithm \@ref(quantum-montecarlo-bounded-var) uses $O(\log(\sigma/\epsilon)\log\log(\sigma/\epsilon))$ copies of $\ket{\psi}$, uses $U$ $O((\sigma/\epsilon)\log^{3/2}(\sigma/\epsilon)\log\log(\sigma/\epsilon))$ times and estimates $\mathbb{E}[\nu(A)]$ up to additive error $\epsilon$ with success probability at least $2/3$.
 ```
 
 The additive error for this theorem is $\epsilon$ because we required accuracy $\epsilon/32\sigma$ for both uses of algorithm \@ref(fig:quantum-montecarlo-bounded-norm). Indeed, this implies that both the estimates we would get are accurate up to $(\epsilon/32\sigma)(||\nu(B_{\geq 0}/4)||_2+1)^2 \leq (\epsilon/32\sigma)(1+1)^2 = \epsilon/8\sigma$. Now we just multiply by a $4$ factor the estimates of $\mathbb{E}[\nu(B_{\geq 0})/4]$ and $\mathbb{E}[\nu(B_{< 0})/4]$ to get the estimates of $\mathbb{E}[\nu(B_{\geq 0})]$ and $\mathbb{E}[\nu(B_{< 0})]$. The error then gets $4\epsilon/8\sigma =\epsilon/2\sigma$. Combining these two errors, one has a total additive error for the estimate of $A'$ given by $\epsilon/\sigma$. Since $A=\sigma A'$ the error for $A$ is exactly $\epsilon = \sigma (\epsilon/\sigma)$.

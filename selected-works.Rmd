@@ -21,6 +21,11 @@ This is a work in progress, as the vast majority of works are not present here, 
 - [Matching Triangles and Triangle Collection: Hardness based on a Weak Quantum Conjecture](https://arxiv.org/pdf/2207.11068.pdf)
 - [Partition Function Estimation: Quantum and Quantum-Inspired Algorithms](https://arxiv.org/pdf/2208.00930.pdf)
 - [A Faster Quantum Algorithm for Semidefinite Programming via Robust IPM Framework](https://arxiv.org/pdf/2207.11154.pdf)
+- [Quantum Subroutine Composition](https://arxiv.org/abs/2209.14146) `#algo`
+- [Complexity-Theoretic Limitations on Quantum Algorithms for Topological Data Analysis](https://arxiv.org/abs/2209.14286) `#theory`
+- [Quantum Algorithms for Sampling Log-Concave Distributions and Estimating Normalizing Constants](https://arxiv.org/pdf/2210.06539.pdf) `#algo`
+- [Quantum divide and conquer](https://arxiv.org/pdf/2210.06419.pdf)
+
 
 
 #### 2021 {-}
@@ -54,6 +59,8 @@ A massive review on the state-of-the-art quantum algorithms for NISQ architectur
 - [Quantum algorithms for anomaly detection using amplitude estimation](https://arxiv.org/pdf/2109.13820.pdf) `#algo`
 - [Two-level Quantum Walkers on Directed Graphs I: Universal Quantum Computing](https://arxiv.org/abs/2112.08119) `#algo`
 - [Quantum algorithms for learning a hidden graph and beyond](https://arxiv.org/abs/2011.08611) `#algo`
+- [Asymptotically Optimal Circuit Depth for Quantum State
+Preparation and General Unitary Synthesis](https://arxiv.org/pdf/2108.06150.pdf)
 
 #### 2020 {-}
 
@@ -100,7 +107,7 @@ This is a very nice review of some of the most known qml algorithms.
 - [The power of block-encoded matrix powers: improved regression techniques via faster Hamiltonian simulation](https://arxiv.org/abs/1804.01973) `#algo`
 - [Applying quantum algorithms to constraint satisfaction problems](https://arxiv.org/abs/1810.05582) `#resource-estimation`
 - [Quantum Chebyshev's Inequality and Applications](https://arxiv.org/abs/1807.06456) `#qmc`
-
+- [From linear combination of quantum states to Grover’s searching algorithm](https://arxiv.org/pdf/1807.09693.pdf)
 
 
 <!-- - [Quantum Algorithms for Classification](http://www.youtube.com/watch?v=KTVtMKo3g80) `#video`  -->
@@ -149,12 +156,15 @@ This was one of the first example on how to use HHL-like algorithms in order to 
 
 #### 2010 {-}
 - [Variable time amplitude amplification and a faster quantum algorithm for solving systems of linear equations](https://arxiv.org/abs/1010.4458) `#algo`
-
+- [Any and-or formula of size $n$ can be evaluated in time $n^{1/2 + o(1)}$ on a quantum computer](http://www.ucw.cz/~robert/papers/andor-siamjc.pdf)
 
 
 #### 2009 {-}
 - [Quantum algorithms for linear systems of equations](https://arxiv.org/abs/0811.3171) `#algo`
 
+#### 2007 {-}
+
+- [A Quantum Algorithm for the Hamiltonian NAND Tree](https://arxiv.org/pdf/quant-ph/0702144.pdf)
 
 
 #### 2005 {-}

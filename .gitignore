@@ -1,3 +1,4 @@
+.DS_Store
 drafts/exercies.Rmd
 drafts/
 algpseudocode/*.aux
@@ -11,6 +12,8 @@ algpseudocode/TEMPLATE.png
 .RData
 .Ruserdata
 quantumalgos.Rproj
+quantumalgorithms.log
+quantumalgorithms.Rmd
 quantumalgorithms.org.Rproj
 quantumalgos.log
 compile.R
