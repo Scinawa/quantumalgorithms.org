@@ -369,15 +369,15 @@ Most importantly, when using this oracle in our algorithm, we consider the cost 
 
 
 
-: Table for QRAM for $N=2^n$ memory elements of size $m$. 2 is [@giovannetti2008architectures], 4 is [@low2018trading], 5 and 6 are form [@allcock2023quantum], 8 is Lemma 10 from [@yuan2023optimal]. Gate count or depth with * is expressed in number of $T$ gates. Results expressed with + are in terms of FanOut gates of arity $O(n)$. TODO number 4 should have a parameter lambda for number of ancilla qubits?
+: Table for QRAM for $N=2^n$ memory elements of size $m$. 2 is [@giovannetti2008architectures], 4 is [@low2018trading], 5 and 6 are form [@allcock2023quantum], 8 is Lemma 10 from [@yuan2023optimal]. Gate count or depth with * is expressed in number of $T$ gates. Results expressed with + are in terms of Fan-Out gates of arity $O(n)$. TODO number 4 should have a parameter lambda for number of ancilla qubits?
  
 |   | Method                  | Size                                 | Ancilla                              | Depth  | Comment           |
 |---|-------------------------|--------------------------------------|--------------------------------------|--------|-------------------|
 | 1 | Multiplexer             | O(nm)                                |                                      | O(nm)  |                   |
 | 2 | Bucket Brigade          |                                      |                                      |        |                   |
-| 3 | FanOut BB               |                                      |                                      |        | Uses FanOut gates |
+| 3 | Fan-Out BB               |                                      |                                      |        | Uses Fan-Out gates |
 | 4 | Trading                 | $O(n)$                               | $2n + 2$                             | $O(n)$ |                   |
-| 5 | One-hot encoding FanOut | $6n\log{n} + O(n\log\log{n})$ $\:^+$ | $2n\log{n}\log\log{n} + O(n\log{n})$ | $O(1)$ |                   |
+| 5 | One-hot encoding Fan-Out | $6n\log{n} + O(n\log\log{n})$ $\:^+$ | $2n\log{n}\log\log{n} + O(n\log{n})$ | $O(1)$ |                   |
 | 6 | One-hot encoding GT-gate| $6n\log{n} + O(n\log\log{n})$ $\:^+$ | $2n\log{n}\log\log{n} + O(n\log{n})$ | $O(1)$ |                   |
 | 7 | Fourier                 |                                      |                                      |        |                   |
 | 8 | Circuit                 | $O(N2^m)$                            | $\lambda$                            |        | $\lambda > Nm$    |
