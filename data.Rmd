@@ -569,7 +569,7 @@ knitr::include_graphics("images/multiplexer.png")
 
 The most general version of the circuit is the following, which includes some optimization.
 
-```{r, multiplexer-babbush, echo=FALSE, fig.width=10, fig.cap="The implementation of the multiplexer of [@babbush2018encoding]. Importantly, only one $T$ gate is required to write in the target register a single memory entry. The memory entry is written using a Fan-Out gate (which can be decomposed into CNOT gates. Note that the depth of the circuit is linear in the number of memory entries.The angular lines in the gates are representing the so-called 'logical-AND', which is a CCNOT gate targeting an ancilla qubit starting in a particular state (ground state on which we apply a $T$ gate) and gets uncomputed using measurament-based uncomputation."}
+```{r, multiplexer-babbush, echo=FALSE, fig.width=10, fig.cap="The implementation of the multiplexer of [@babbush2018encoding]. Importantly, only one $T$ gate is required to write in the target register a single memory entry. The memory entry is written using a Fan-Out gate (which can be decomposed into CNOT gates. Note that the depth of the circuit is linear in the number of memory entries.The angular lines in the gates are representing the so-called 'logical-AND', which is a CCNOT gate targeting an ancilla qubit starting in a particular state (ground state on which we apply a $T$ gate) and gets uncomputed using measurement-based uncomputation."}
 knitr::include_graphics("algpseudocode/decomposedlookups.png")
 ```
 
