@@ -33,10 +33,14 @@ github-repo: "scinawa/quantumalgorithms.org"
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\E}{\mathbb{E}}
+\newcommand{\C}{\mathbb{C}}
+
 
 \newcommand{\ket}[1]{|#1\rangle}
 \newcommand{\bra}[1]{\langle#1|}
 \newcommand{\braket}[1]{\langle#1\rangle}
+
+\newcommand{\QRAM}{\mathsf{QRAM}}
 
 \newcommand{\be}{\begin{equation}}
 \newcommand{\ee}{\end{equation}}
@@ -46,6 +50,7 @@ github-repo: "scinawa/quantumalgorithms.org"
 \newcommand{\tOrd}[1]{\widetilde{\mathcal{O}}\left( #1 \right)}
 
 
+\newcommand{\poly}{\text{poly}}
 
 
 
