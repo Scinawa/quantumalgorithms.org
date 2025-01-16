@@ -95,9 +95,35 @@ Check that Equation \@ref(eq:matrix-state1) is equivalent to
 
 
 
+From an algorithms perspective, amplitude encoding is useful because it requires a logarithmic number of qubits with respect to the vector size, which might seem to lead to an exponential saving in physical resources when compared to classical encoding techniques. However, a major drawback of amplitude encoding is that, in the worst case, for the majority of states, it requires a circuit of size $\Omega(N)$.
 
+<!-- From an algorithms perspective, amplitude encoding is useful because it requires a logarithmic number of qubits with respect to the vector size, which might seem to lead to an exponential saving in physical resources when compared to classical encoding techniques. In addition, using amplitude encoding, it is easy to define a reshape function by shifting the qubits from the column index to the row index register. For example, consider reshaping a $2 \times 4$ matrix into a $4 \times 2$ matrix -->
 
-From an algorithms perspective, amplitude encoding is useful because it requires a logarithmic number of qubits with respect to the vector size, which might seem to lead to an exponential saving in physical resources when compared to classical encoding techniques. A major drawback of amplitude encoding is that, in the worst case, for the majority of states, it requires a circuit of size $\Omega(N)$.
+<!-- \begin{equation} -->
+<!--   \begin{pmatrix} -->
+<!--     a & b & c & d\\ -->
+<!--     e & f & g & h -->
+<!--   \end{pmatrix}\rightarrow \begin{pmatrix} -->
+<!--     a & b\\ -->
+<!--     c & d\\ -->
+<!--     e & f\\ -->
+<!--     g & h -->
+<!--   \end{pmatrix}\,. -->
+<!-- \end{equation} -->
+<!-- This can be done by shifting the qubit indices from the column indices to the row indices, i.e. -->
+<!-- \begin{equation} -->
+<!-- \begin{aligned} -->
+<!--   {}& \ket{0} \left( a \ket{00} + b \ket{01} + c \ket{10} + d \ket{11} \right) + \ket{1} \left( e \ket{00} + f \ket{01} + g \ket{10} + h \ket{11} \right)\\ -->
+<!--   \rightarrow{}& \ket{00} \left(a \ket{0} + b \ket{1}\right) + \ket{01} \left(c \ket{0} + d \ket{1}\right) + \ket{10} \left(e \ket{0} + f \ket{1}\right) + \ket{11} \left(g \ket{0} + h \ket{1} \right) \,. -->
+<!-- \end{aligned} -->
+<!-- \end{equation} -->
+<!-- In general, we can reshape a matrix from size $2^m \times 2^n$ to $2^{m\pm j} \times 2^{n \mp j}$ by shifting $j$ qubits between the row and column indices. A reshape function is useful because it changes the singular values of the matrices while keeping the same matrix entries, which is useful for some applications. -->
+
+<!-- Furthermore, amplitude encoding can also retain the Euclidean distance of the classical vector. For example, for two vectors $x = [x_0\, x_1]$ and $y = [y_0\, y_1]$, the distance between the vectors is $d(x,y) = (x_0 - y_0)^2 + (x_1 - y_1)^2$. Under amplitude encoding, we can have the same distance measure by defining -->
+<!-- \begin{equation} -->
+<!--   d_{\mathrm{amp}}(\ket{x}, \ket{y}) = (\bra{x} - \bra{y}) (\ket{x} - \ket{y}) \,, -->
+<!-- \end{equation} -->
+<!-- where $\ket{x} = x_0 \ket{0} + x_1 \ket{1}$ and $\ket{y} = y_0 \ket{0} + y_1 \ket{1}$. Therefore, amplitude encoding can have the same distance measure as the classical vectors. However, a major drawback of amplitude encoding is that, in the worst case, for the majority of states, it requires a circuit of size $\Omega(N)$. -->
 
 <!-- TODO say about padding if the vector is not a power of two. What about complex numbers? There is a problem with a global phase, no? -->
 
@@ -126,14 +152,34 @@ A & . \\
 <!-- TODO we also said to remove other and just list other things, right? -->
 
 ### Angle encoding {#sec:angle-encoding}
-Another way to encode vectors, as defined by [@schuld2021machine], is with angle encoding. This technique encodes information as angles of the Pauli rotations $\sigma_x(\theta)$, $\sigma_y(\theta)$, $\sigma_z(\theta)$. Given a vector $x \in \mathbb{R}^n$, with all elements in the interval $[0,2\pi]$; the technique seeks to apply $\sigma_{\alpha}^i(x_i)$, where $\alpha \in \{x,y,z \}$ and $i$ refers to the target qubit. The resulting state is said to be an angle encoding of $x$ and has a form given by
+Another way to encode vectors, as defined by [@schuld2021machine;@grant2018hierarchical;@cao2020cost], is with angle encoding, also known as qubit encoding [@larose2020robust]. This technique encodes information as angles of the Pauli rotations $R_x(\theta)$, $R_y(\theta)$, $R_z(\theta)$. Given a vector $x \in \mathbb{R}^n$, with all elements in the interval $[0,2\pi)$, the technique seeks to apply $R_{\alpha}^i(x_i)$, where $\alpha \in \{x,y,z \}$ and $i$ refers to the target qubit. The resulting state is said to be an angle encoding of $x$ and has a form given by
 
 \begin{equation}
-  \ket{x} = \prod_{i=1}^{n} \sigma_{\alpha}^{i}(x_i)\ket{0}^{\otimes n}
+  \ket{x} = \prod_{i=1}^{n} R_{\alpha}^{i}(x_i)\ket{0}^{\otimes n} \,.
   (\#eq:angle-encoding)
 \end{equation}
 
-This technique's advantages lies in its efficient resource utilization, which scales linearly for number of qubits. One major drawback is that it is difficult to perform arithmetic operations on the resulting state, making it difficult to apply to quantum algorithms.
+A more efficient form of angle encoding, called dense angle encoding [@larose2020robust], encodes odd entries as the rotation angle, and even entries as the phase difference between $\ket{0}$ and $\ket{1}$, i.e.,
+
+\begin{equation}
+  \ket{x} = \prod_{i=1}^{\lceil n/2 \rceil} R_{z}^{i}(x_{2i}) R_{y}^{i}(x_{2i-1})\ket{0}^{\otimes \lceil n/2 \rceil} \,.
+\end{equation}
+
+This shows that one can encode 2 vector entries in 1 qubit under angle encoding. This leads to the most general form of angle encoding [@larose2020robust;@perez2020data]
+
+\begin{equation}
+  \ket{x} = \prod_{i=1}^{\lceil n/2 \rceil} U^i(x_{2i-1}, x_{2i}) \ket{0}^{\otimes \lceil n/2 \rceil} \,,
+\end{equation}
+where $U^i$ is a general unitary operation, that depends on $x_{2i-1}$ and $x_{2i}$, acting on qubit $i$.
+
+These techniques are useful because it uses resource efficiently specifically for NISQ architectures, which scales linearly with the number of qubits and the depth. One major drawback is that it is difficult to perform arithmetic operations on the resulting state, and to our knowledge there is no non-variational algorithms using this encoding yet.
+
+An equivalent encoding scheme is the exponential encoding with the form [@shin2023exponential]
+
+\begin{equation}
+  \ket{x} = \prod_{i=0}^{n-1} \prod_{j=0}^{m-1} R_z^{mi+j+1}(\beta_{ij} x_i) \ket{0}^{\otimes mn} \,,
+\end{equation}
+where we repeat the angle encoding $m$ times for each $x_i$ with different weights $\beta_{ij}$. This might be useful in some applications, for example for quantum supervised learning.
 
 <!--With respect to the binary encoding it utilizes less qubits but deeper circuits; whilst with respect to amplitude encoding angle encoding's linear qubit number scaling is worse than amplitude encoding's logarithmic scaling, but angle encoding requires less operations. On the other hand it is difficult to perform arithmetic operations on the resulting state, which is a major drawback of angle encoding.-->
 

@@ -51,6 +51,8 @@ github-repo: "scinawa/quantumalgorithms.org"
 
 
 \newcommand{\poly}{\text{poly}}
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\Exp}[1]{\mathrm{e}^{#1}}
 
 
 
