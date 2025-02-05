@@ -462,7 +462,7 @@ A function $f :\{0,1\}^n \mapsto \{0,1\}$ is balanced if $f(x)=0$ for half of th
 (ref:deutsch1992rapid) [@deutsch1992rapid]
 
 ::: {.theorem name="Deutsch-Josza (ref:deutsch1992rapid)"}
-Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) ) to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which we are promised to be either constant or balanced. There is a quantum algorithm that decides which is the case with probabiliy $1$, using $U_f$ only once and using $O(\log(n))$ other gates.
+Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) ) to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which we are promised to be either constant or balanced. There is a quantum algorithm that decides which is the case with probabiliy $1$, using $U_f$ only once and using $O(n)$ other gates.
 :::
 
 ::: {.proof}
@@ -510,7 +510,7 @@ as a learning algorithm.
 ### Bernstein-Vazirani
 
 ::: {.theorem name="Bernstein-Vazirani"}
-Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) )  to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f_a(x) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$.  There is a quantum algorithm that learns $a$ with probability $1$, using $U_f$ only once and $O(\log(n))$ other gates.
+Assume to have quantum access (as definition \@ref(def:quantum-oracle-access) )  to a unitary $U_f$ that computes the function $f :\{0,1\}^n \mapsto \{0,1\}$, which computes $f_a(x) = (x,a) = ( \sum_i^n x_i a_i )\mod 2$ for a secret string $a \in \{0,1\}^n$.  There is a quantum algorithm that learns $a$ with probability $1$, using $U_f$ only once and $O(n)$ other gates.
 :::
 
 ::: {.proof}
@@ -590,10 +590,9 @@ Can you tell what is the expected value of the observable $Z$ of the ancilla qub
 
 <!-- Solution: it's just $\braket{\psi U \psi}$ -->
 
-However, we might be interested in the imaginary part of
-$\braket{\psi|U|\psi}$. To estimate that, we need to slightly change the
+With the method described we can estimate the real part of $\braket{\psi|U|\psi}$ however, being it a complex number, in order to fully describe it we need a procedure to estimate also its imaginary part. To estimate that, we need to slightly change the
 circuit. After the first Hadamard gate, we apply on the ancilla qubit a
-phase gate $S$, which gives to the state $\ket{1}$ a phase of $-i$. To get
+phase gate $S$, which gives to the state $\ket{1}$ a phase of $-i$. This operation may be interpreted as a 90 degrees rotation, enabling us to swap the real and imaginary axis to then make a measurement on the imaginary one. To get
 the intuition behind this, let's recall that the imaginary part of a
 complex number $z=(a+ib)$ is defined as:
 $\text{Im}(z)= \frac{z-z^\ast}{2i}=\frac{i(z-z^\ast)}{-2}= \frac{-2b}{-2} =b$,
@@ -621,8 +620,7 @@ Note that when taking the conjugate of our state, we changed the sign of
 $i$. We now have only to convince ourselves that
 $-i\braket{\psi|U|\psi} + i \braket{\psi|U^\dagger|\psi} = i\braket{\psi|U^\dagger -U|\psi}$
 is indeed the real number corresponding to
-$2\text{Im}(\braket{\psi| U|\psi})$, and thus the whole equation can be a
-probability.
+$2\text{Im}(\braket{\psi| U|\psi})$, and thus the probability of state 0 is expressed in function of the imaginary part of $\braket{\psi| U|\psi}$.
 
 ::: {.exercise}
 Can you check if the $S$ gate that we do after the first Hadamard can be performed before the last Hadamard gate instead?
