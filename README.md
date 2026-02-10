@@ -4,7 +4,7 @@
 
 # README
 
-[![Unitary Fund](https://img.shields.io/badge/Supported%20By-UNITARY%20FUND-brightgreen.svg?style=for-the-badge)](http://unitary.fund)
+[![Unitary Foundation](https://img.shields.io/badge/Supported%20By-UNITARY%20FOUNDATION-brightgreen.svg?style=for-the-badge)](https://unitary.foundation)
 
 > Program is an embodiment of an algorithm. Algorithms works on information, programs works on data. - Donald Knuth.
 
