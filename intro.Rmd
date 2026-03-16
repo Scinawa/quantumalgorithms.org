@@ -53,9 +53,8 @@ as a derivative:
 $$\frac{d}{dt}\psi(t) = -i H \psi(t).$$
 But this is the well-known Schrödinger equation! Note that, as computer scientists, we
 take the right to remove some physical constant ($\hbar$) out of the
-equation. What should be the takeaway of these observations? Well, first
-we know that the Schrödinger equation is a differential equation whose
-solution is fully determined if we were to know the initial state of our
+equation. What should be the takeaway of these observations? We know that the Schrödinger equation is a differential equation whose
+solution is fully determined if we know the initial state of our
 system $\psi(p)$. Formally the solution can be written as:
 
 $$\psi(p+t)=e^{-iHt}\psi(p).$$ From this last equation we can observe
@@ -63,7 +62,7 @@ further (more on this in the appendix) that the exponential of an
 Hermitian matrix $e^{-iHt}$ is *defined* through its Taylor expansion is
 just a *unitary* matrix: $U(t)=e^{-itH}$. Unitary matrices are exactly
 those matrices that describe isometries: applying a unitary matrix to a
-vector won't change its length. From this, we see that the two quantum
+vector do not change its length. From this, we see that the two quantum
 states $\psi(p+t)$ and $\psi(p)$ could be taken just to be vectors of a
 fixed length, which - for practicality - we take to be unit vectors.
 Notation-wise, we denote unit vectors describing quantum states as
@@ -77,12 +76,12 @@ give you a "justification" for the axioms of quantum mechanics.
 
 The standard formalism used in quantum information is the Dirac's
 "bra-ket" notation, which we will introduce in this section. We also
-recall here the postulates of quantum mechanics, and take this
-opportunity to settle the rest of the notation and preliminaries used in
+state here the postulates of quantum mechanics, and take this
+opportunity to settle the quantum notation and quantum preliminaries used in
 this book. For the postulates, we follow the standard formulation in
 [@NC02].
 
-::: {.proposition name="Postulate 1"}
+::: {.proposition name="Description of a quantum system"}
 Associated to any isolated physical system is a complex vector space with inner product (that is, a Hilbert space) known as the state space of the system. The system is completely described by its state vector, which is a unit vector in the system's state space.
 :::
 
@@ -126,7 +125,7 @@ see that the following are all equivalent definition of unitary matrices
 
 
 ::: {.example name="Determinant=1 is a necessary but not sufficient condition for being unitary"}
-It is simple to see that any $2\times 2$ diagonal matrix $A$ with entries $10$ and $1/10$ has determinant is $1$, but it is not a unitary matrix.
+Any $2\times 2$ diagonal matrix $A$ with entries $10$ and $1/10$ has determinant is $1$, but it is not a unitary matrix.
 :::
 
 It will be useful to recall that if we have a unitary that performs the
@@ -216,7 +215,7 @@ In practice, we will mostly perform projective measurements (also called
 von Neumann measurements). A projective measurement is described by an
 *observable*: an Hermitian operator $M$ on the state space of the system
 being observed. The observable has a spectral decomposition:
-$$ M = \sum_m mP_m  $$ Where $P_m$ is a projector into the eigenspace of
+$$ M = \sum_m mP_m  $$ where $P_m$ is a projector into the eigenspace of
 $M$ associated with the eigenvalue $m$. This means that the measurement
 operator will satisfy the following properties:
 
@@ -244,17 +243,17 @@ p(m) = \bra{\psi}P_m\ket{\psi}.
 If we were to measure outcome $m$, then the state of the quantum system after the measurement would be:
 $$\frac{P_m\ket{\psi}}{\sqrt{p(m)}}.$$
 
-They have some useful properties. Just to cite one, the average value of
+They have some useful properties. For example, the average value of
 a projective measurement in a state $\ket{\psi}$ is defined as:
 \begin{align}
-    E(M)&  = \sum_m p(m)\\
-& = \sum_m m \bra{\psi}P_m\ket{\psi}\\
-& \bra{\psi}(\sum_m mP_m)\ket{\psi}\\
-& \bra{\psi}M\ket{\psi}
+    E(M)&  = \sum_m p(m)m \nonumber \\
+& = \sum_m m \bra{\psi}P_m\ket{\psi}\nonumber \\
+& =\bra{\psi}(\sum_m mP_m)\ket{\psi}\nonumber \\
+& = \bra{\psi}M\ket{\psi}
 \end{align}
 In practice, our projective operators will be projectors in
 the computational basis, i.e. $P_m = \sum_{m \in [d]} \ket{m}\bra{m}$.
-From these rules, it is simple to see that the probability that a
+As a conseguence of these rules, the probability that a
 measurement on a state $\ket{x} = \frac{1}{\norm{x}}\sum_i x_i\ket{i}$
 gives outcome $i$ is $|x_i|^2/\norm{x}^2$.
 
@@ -262,8 +261,7 @@ gives outcome $i$ is $|x_i|^2/\norm{x}^2$.
 The state space of a composite physical system is the tensor product of the state spaces of the component physical systems. Moreover, if we have systems numbered from 1 through $n$, and each state is described as $\ket{\psi_i}$, the join state of the total system is $\bigotimes_{j=1}^n \ket{\psi_i}=\ket{\psi_1}\ket{\psi_2}\dots \ket{\psi_n}$.
 :::
 
-To describe together two different quantum system we use the tensor
-product. The tensor product between two vectors
+The tensor product between two vectors
 $\ket{y} \in \mathbb{R}^{d_1}$ and $\ket{y} \in \mathbb{R}^{d_2}$ is a
 vector $\ket{z} \in \mathbb{R}^{d_1 \times d_2}$. We can use the tensor
 operation to describe the joint evolution of separate quantum system.

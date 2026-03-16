@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage[braket, qm]{qcircuit}
+
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
+\begin{document}
+\pagestyle{empty}
+
+\Qcircuit @C=0.6em @R=1em {
+%Index register
+\lstick{} & \multigate{12}{QMD} & \qw & \qw & \qw & \hdots && \qw & \qw & \qw & \qw & \qw & \hdots && \qw & \qw & \multigate{12}{QMD^{\dagger}} & \qw \\
+\lstick{} & \ghost{QMD} & \qw & \qw & \qw & \hdots && \qw & \qw & \qw & \qw & \qw & \hdots && \qw & \qw & \ghost{QMD^{\dagger}} & \qw \\
+& \nghost{QMD} &&&& \vdots &&&&&&& \vdots \\ 
+\lstick{} & \ghost{QMD} & \qw & \qw & \qw & \hdots && \qw & \qw & \qw & \qw & \qw & \hdots && \qw & \qw & \ghost{QMD^{\dagger}} & \qw 
+    \inputgroupv{1}{4}{0.5em}{2.5em}{\ket{i}} \\
+%Angle register
+\lstick{} & \ghost{QMD} & \ctrl{8} & \qw & \qw & \hdots && \qw & \qw & \ctrl{8} & \qw & \qw & \hdots && \qw & \qw & \ghost{QMD^{\dagger}} & \qw\\
+\lstick{} & \ghost{QMD} & \qw & \ctrl{7} & \qw & \hdots && \qw & \qw & \qw & \ctrl{7} & \qw & \hdots && \qw & \qw & \ghost{QMD^{\dagger}} & \qw\\
+& \nghost{QMD} &&&& \vdots &&&&&&& \vdots\\
+\lstick{} & \ghost{QMD} & \qw & \qw & \qw & \hdots && \ctrl{5} & \qw & \qw & \qw & \qw & \hdots && \ctrl{5} & \qw & \ghost{QMD^{\dagger}} & \qw
+    \inputgroupv{5}{8}{0.5em}{2.5em}{\ket{0}^{\otimes t'}}\\
+%Main register
+\lstick{} & \ghost{QMD} & \qw & \qw & \qw & \hdots && \qw & \qw & \qw & \qw & \qw & \hdots && \qw & \qw & \ghost{QMD^{\dagger}} & \qw \\
+\lstick{} & \ghost{QMD} & \qw & \qw & \qw & \hdots && \qw & \qw & \qw & \qw & \qw & \hdots && \qw & \qw & \ghost{QMD^{\dagger}} & \qw \\
+\lstick{\ket{\Psi_{\log(n)}}} &&&&& \vdots &&&&&&& \vdots &&&&&&& \ket{V_i}\\
+\lstick{} & \ghost{QMD} & \qw & \qw & \qw & \hdots && \qw & \qw & \qw & \qw & \qw & \hdots && \qw & \qw & \ghost{QMD^{\dagger}} & \qw \\
+\lstick{} & \ghost{QMD} & \gate{P(2^2)} & \gate{P(2^1)} & \qw & \hdots && \gate{P(2^{1-t})} & \gate{X} & \gate{P(2^2)} & \gate{P(2^1)} & \qw & \hdots && \gate{P(2^{1-t})} & \gate{X} & \ghost{QMD^{\dagger}} & \qw
+    %\inputgroup{9}{13}{3.5em}{\ket{\Psi_{\log(n)}}} 
+    \gategroup{9}{1}{13}{1}{0.5em}{\{}
+    \gategroup{9}{17}{13}{17}{1em}{\}} 
+}
+
+\end{document}
