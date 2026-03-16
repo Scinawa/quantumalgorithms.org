@@ -207,7 +207,7 @@ i {
   width: 300px;
   color: #364149;
   /**/
-  background: #f5f5f540;
+  background-color: #f2f2f1;
   /* #eaf5fb;  #d9edf7#bdcadb #3572D9 #fafafa*/
   border-right: 1px solid rgba(0, 0, 0, .07);
   -webkit-transition: left 250ms ease;
@@ -815,6 +815,4 @@ i.fa {
 
 .color-theme-2>i.fa{
   border-color: #395b64;
-}
-}
 }
