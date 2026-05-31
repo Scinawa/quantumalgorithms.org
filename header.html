@@ -9,6 +9,73 @@
 </script>
 <link rel="shortcut icon" href="favicon/favicon.ico" />
 
+<script>
+  (function () {
+    if (!("history" in window) || !("sessionStorage" in window)) {
+      return;
+    }
+
+    var scrollKey = "qa:last-scroll:" + location.pathname;
+    var restoring = false;
+
+    function rememberScroll() {
+      if (restoring) {
+        return;
+      }
+      sessionStorage.setItem(scrollKey, String(window.scrollY || window.pageYOffset || 0));
+    }
+
+    function restoreScroll() {
+      var savedY = Number(sessionStorage.getItem(scrollKey));
+      if (!Number.isFinite(savedY)) {
+        return;
+      }
+
+      restoring = true;
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+
+      var attempts = 0;
+      function retryAfterLayoutSettles() {
+        window.scrollTo(0, savedY);
+        attempts += 1;
+        if (attempts < 8 && Math.abs((window.scrollY || window.pageYOffset || 0) - savedY) > 4) {
+          window.setTimeout(retryAfterLayoutSettles, 100);
+          return;
+        }
+        restoring = false;
+      }
+
+      window.setTimeout(retryAfterLayoutSettles, 0);
+      window.setTimeout(retryAfterLayoutSettles, 250);
+    }
+
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest && event.target.closest("a[href]");
+      if (!link) {
+        return;
+      }
+
+      var target = new URL(link.href, location.href);
+      if (target.pathname === location.pathname && target.hash && target.hash !== location.hash) {
+        rememberScroll();
+      }
+    });
+
+    window.addEventListener("popstate", restoreScroll);
+    window.addEventListener("pageshow", function (event) {
+      if (event.persisted) {
+        restoreScroll();
+      }
+    });
+
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "auto";
+    }
+  })();
+</script>
+
 
 
 <!-- Google Tag Manager -->
